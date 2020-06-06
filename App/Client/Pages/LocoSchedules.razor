@@ -1,0 +1,30 @@
+﻿@layout PrintLayout
+@page "/locoschedules"
+@inject HttpClient Http
+
+@using Tellurian.Trains.Planning.App.Client.Components
+
+@if (Items != null)
+{
+    @foreach (var itemsOnPage in Items.ItemsPerPage(10))
+    {
+    <div class="pagebreak">
+        @foreach (var item in itemsOnPage)
+        {
+            <PrintedVehicleSchedule Item="@item"></PrintedVehicleSchedule>
+        }
+    </div>
+    }
+}
+
+@code {
+    private IEnumerable<LocoSchedule>? Items { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await GetItemsAsync("test");
+    }
+
+    private async Task<IEnumerable<LocoSchedule>> GetItemsAsync(string timetableName) =>
+        await Http.GetFromJsonAsync<IEnumerable<LocoSchedule>>($"api/locoschedules?name={timetableName}");
+}

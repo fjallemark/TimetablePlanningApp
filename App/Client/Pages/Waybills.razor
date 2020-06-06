@@ -1,0 +1,34 @@
+﻿@layout PrintLayout
+@page "/waybills"
+@inject HttpClient Http
+
+@using Tellurian.Trains.Planning.App.Client.Components
+
+@if (Items != null)
+{
+    @foreach (var itemsPerPage in Items.ItemsPerPage(10))
+    {
+        <div class="pagebreak">
+            @foreach (var item in itemsPerPage)
+            {
+                <div class="pocket frame">
+                    <PrintedWaybill Item="@item"></PrintedWaybill>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+
+    private IEnumerable<Waybill>? Items { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await GetWaybillsAsync("test");
+    }
+
+    private async Task<IEnumerable<Waybill>> GetWaybillsAsync(string timetableName) =>
+        await Http.GetFromJsonAsync<IEnumerable<Waybill>>($"api/waybills?name={timetableName}");
+
+}

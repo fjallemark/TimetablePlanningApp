@@ -1,0 +1,74 @@
+﻿@if (Item != null)
+{
+    <div class="pocket frame">
+        <div class="waybill">
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td colspan="3" style="border: 2px solid red; color: @Item.Destination?.Region.TextColor; background-color: @Item.Destination?.Region.BackColor">
+                            <div class="waybill label">Destination</div>
+                            <div class="waybill name">@Item.Destination?.Station</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="waybill destination">
+                            <div class="waybill label">Consignee</div>
+                            <div class="waybill item">@Item.Destination?.Name</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="waybill destination">
+                            <div class="waybill label">Cargo</div>
+                            <div class="waybill item">@Item.Cargo</div>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="3" class="waybill destination">
+                            <div class="waybill label">Unloading instructions</div>
+                            <div class="waybill instruction">@Item.Destination?.Instruction</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3" style="border: 2px solid @Item.Origin?.Region.BackColor; color: black; background-color: white">
+                            <div class="waybill label">Origin</div>
+                            <div class="waybill name">@Item.Origin?.Station</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="waybill label">Shipper</div>
+                            <div class="waybill item">@Item.Origin?.Name</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="waybill label">Carrier</div>
+                            <div class="waybill item">@Item.Operator</div>
+                        </td>
+                        <td>
+                            <div class="waybill label">Class</div>
+                            <div class="waybill item">@Item.Class</div>
+                        </td>
+                        <td>
+                            <div class="waybill label">Epoch</div>
+                            <div class="waybill item">@Item.Epoch</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div class="waybill label">Loading instructions</div>
+                            <div class="waybill instruction">@Item.Origin?.Instruction</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Waybill? Item { get; set; }
+}

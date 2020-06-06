@@ -1,0 +1,63 @@
+﻿@if (Item != null)
+{
+    <div class="pocket frame">
+
+        <svg>
+            <line style="stroke:@CrossLineColor;stroke-width:5" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
+        </svg>
+        <div>
+            <div class="schedule header">
+                <div>@Item.Type:&nbsp;<strong>@Item.Number&nbsp;@Item.Days</strong></div>
+                @if (!string.IsNullOrWhiteSpace(Item.Operator) && Item.Class != null && Item.Class.Length > 4)
+                {
+                    <div>Operator:&nbsp;<strong>@Item.Operator</strong></div>
+                }
+                else if (!string.IsNullOrWhiteSpace(Item.Operator) && Item.Class != null)
+                {
+                    <div>Class:&nbsp;<strong>@Item.Operator&nbsp;@Item.Class</strong></div>
+                }
+                @if (!string.IsNullOrWhiteSpace(Item.Class) && Item.Class.Length > 4)
+                {
+                    <div>Wagons:&nbsp;<strong>@Item.Class</strong></div>
+                }
+            </div>
+            <div class="schedule item">
+                <table width="100%" style="border-collapse: collapse">
+                    <thead>
+                        <tr style="border-bottom: 1px solid gray">
+                            <th>Train</th>
+                            <th colspan="2">From</th>
+                            <th colspan="2">To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Item.TrainParts != null) foreach (var part in Item.TrainParts)
+                            {
+                                <tr style="border-bottom: 1px solid gray">
+                                    <td>@part.TrainNumber</td>
+                                    <td>@part?.FromDeparture?.StationSignature</td>
+                                    <td>@part?.FromDeparture?.Time</td>
+                                    <td>@part?.ToArrival?.StationSignature</td>
+                                    <td>@part?.ToArrival?.Time</td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+            <div class="pocket alert">
+                <span>@Item.Note</span>
+                @if (Item.TurnForNextDay)
+                {
+                    <span>Turn for next day!</span>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public VehicleSchedule? Item { get; set; }
+    [Parameter]
+    public string CrossLineColor { get; set; } = "pink";
+}

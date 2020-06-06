@@ -1,0 +1,108 @@
+﻿
+.print {
+    margin: 0cm 0cm 0cm 0cm;
+}
+
+.pocket {
+    font-weight: 500;
+    font-size: 11pt;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+    .pocket.frame {
+        width: 52mm;
+        height: 92mm;
+        padding: 0pt;
+        margin: 0pt;
+        border-color: gainsboro;
+        border-width: 1px;
+        border-style: solid;
+        padding: 2pt;
+        display: inline-block;
+    }
+
+        .schedule {
+            font-weight: 500;
+        }
+            .schedule.header {
+                line-height: 17pt;
+                font-size: 13pt;
+            }
+            .schedule.item {
+                line-height: 14pt;
+                font-size: 11pt;
+            }
+
+.waybill {
+    line-height: 14pt;
+    font-weight: 600;
+}
+
+    .waybill.label {
+        font-size: 7pt;
+    }
+
+    .waybill.destination {
+        background-color: lightyellow;
+    }
+    .waybill.name {
+        font-weight: bold;
+        font-size: 14pt;
+    }
+
+    .waybill.item {
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    .waybill.instruction {
+        font-weight: normal;
+        font-size: 11pt;
+    }
+
+.pocket.header {
+    font-size: 11pt;
+    line-height: 13pt;
+    font-weight: 600;
+}
+
+.pocket th {
+    font-style: italic;
+    font-size: 11pt;
+    font-weight: 500;
+}
+
+.pocket tr {
+    height: 16pt;
+}
+
+.pocket.alert {
+    margin: 0px;
+    padding: 0px;
+    font-size: 11pt;
+    line-height: 12pt;
+    color: red;
+}
+
+.pocket svg {
+    z-index: -2;
+    position: absolute;
+    height: 92mm;
+    width: 52mm;
+}
+
+.pagebreak {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+@media print {
+    @page {
+        size: landscape
+    }
+
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    }
+}
