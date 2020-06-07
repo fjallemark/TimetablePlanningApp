@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Tellurian.Trains.Planning.App.Shared
 {
@@ -25,20 +24,6 @@ namespace Tellurian.Trains.Planning.App.Shared
         public override string Type => "Trainset";
     }
 
-    public class TrainPart
-    {
-        public string? TrainNumber { get; set; }
-        public CallAction FromDeparture { get; set; } = CallAction.Empty;
-        public CallAction ToArrival { get; set; } = CallAction.Empty;
-    }
-
-    public class CallAction
-    {
-        public string? StationSignature { get; set; }
-        public string? Time { get; set; }
-        public static CallAction Empty => new CallAction();
-    }
-
     public static class VehicleScheduleExtensions
     {
         public static IEnumerable<(string label, string? value)> HeaderItems(this VehicleSchedule? me)
@@ -52,3 +37,4 @@ namespace Tellurian.Trains.Planning.App.Shared
         }
     }
 }
+

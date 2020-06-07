@@ -1,0 +1,71 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+@if (Item != null && Item.Train != null)
+{
+    <h1>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInOperatorTrain"], Item.Train.Operator, Item.Train.Number)</h1>
+
+    <div>
+        <div>
+            <div>@Localizer["Loco"]</div>
+            <div>@Item.Loco</div>
+        </div>
+        <div>
+            <div>@Localizer["StartsAt"]</div>
+            <div>@Item.Loco</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Station</th>
+                <th>Track</th>
+                <th>Arrival</th>
+                <th>Departure</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var call in Item.Train.Calls)
+            {
+                <tr>
+                    <td>@call.Station.Name</td>
+                    <td>@call.Track</td>
+                    <td>
+                        @if (call.Arrival is null || call.Arrival.IsHidden)
+                        {
+                            <span>-</span>
+                        }
+                        else
+                        {
+                            @call.Arrival.Time
+                        }
+                    </td>
+                    <td>
+                        @if (call.Departure is null || call.Departure.IsHidden)
+                        {
+                            <span>-</span>
+                        }
+                        else
+                        {
+                            @call.Departure.Time
+                        }
+                    </td>
+                    <td>
+                        @if (!call.IsStop)
+                        {
+                            <span>No stop.</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    [Parameter]
+    public DutyPart? Item { get; set; }
+
+}

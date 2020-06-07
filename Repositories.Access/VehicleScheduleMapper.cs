@@ -33,12 +33,20 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 TrainNumber = me.GetInt32("TrainNumber").ToString(CultureInfo.InvariantCulture),
                 FromDeparture = new CallAction
                 {
-                    StationSignature = me.GetString("DepartureStationSignature"),
+                    Station = new Station
+                    {
+                        Signature = me.GetString("DepartureStationSignature"),
+                        Name = me.GetString("DepartureStationName")
+                    },
                     Time = me.GetTime("DepartureTime")
                 },
                 ToArrival = new CallAction
                 {
-                    StationSignature = me.GetString("ArrivalStationSignature"),
+                    Station = new Station
+                    {
+                        Signature = me.GetString("ArrivalStationSignature"),
+                        Name = me.GetString("ArrivalStationName")
+                    },
                     Time = me.GetTime("ArrivalTime")
                 }
             };

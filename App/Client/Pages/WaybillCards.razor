@@ -11,9 +11,7 @@
         <div class="pagebreak">
             @foreach (var item in itemsPerPage)
             {
-                <div class="pocket frame">
-                    <PrintedWaybill Item="@item"></PrintedWaybill>
-                </div>
+                <WaybillCard Item="@item"></WaybillCard>
             }
         </div>
     }

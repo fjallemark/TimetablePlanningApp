@@ -1,0 +1,40 @@
+﻿@page "/driverdutiesbooklet"
+@using Tellurian.Trains.Planning.App.Client.Components
+
+@inject HttpClient Http
+@if (Items != null)
+{
+    @foreach (var page in Items.GetAllDriverDutyPagesInBookletOrder())
+    {
+        <div class="pagebreak">
+            @if (page.IsBlank)
+            {
+                <BlankDutyPage></BlankDutyPage>
+            }
+            else if (page.IsFront)
+            {
+                <DutyFrontPage Item="page.Duty"></DutyFrontPage>
+            }
+            else if (page.IsPart)
+            {
+                <DutyPartPage Item="page.DutyPart"></DutyPartPage>
+            }
+        </div>
+    }
+}
+
+
+@code
+{
+    IEnumerable<DriverDuty>? Items;
+
+    override protected async Task OnInitializedAsync()
+    {
+        Items = await GetDuties("default");
+    }
+
+
+    private async Task<IEnumerable<DriverDuty>> GetDuties(string scheduleName) =>
+        await Http.GetFromJsonAsync<IEnumerable<DriverDuty>>("api/xxx");
+
+}

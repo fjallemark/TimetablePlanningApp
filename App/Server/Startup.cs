@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
 using Tellurian.Trains.Planning.Repositories.Access;
 using Tellurian.Trains.Planning.Repositories;
 
@@ -26,6 +23,7 @@ namespace Tellurian.Trains.Planning.App.Server
         {
             services.Configure<RepositoryOptions>(Configuration.GetSection(nameof(RepositoryOptions)));
             services.AddSingleton<IRepository, AccessRepository>();
+            services.AddLocalization();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -45,6 +43,7 @@ namespace Tellurian.Trains.Planning.App.Server
                 app.UseHsts();
             }
 
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
@@ -56,6 +55,7 @@ namespace Tellurian.Trains.Planning.App.Server
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
+                //endpoints.MapFallbackToController("/api/*", "", "Error");
             });
         }
     }

@@ -40,9 +40,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 if (currentUnique != lastUnique)
                 {
                     if (locoSchedule != null) yield return locoSchedule;
-                    locoSchedule = VehicleScheduleMapper.AsLocoSchedule(reader);
+                    locoSchedule = reader.AsLocoSchedule();
                 }
-                if (locoSchedule != null) VehicleScheduleMapper.AddTrainPart(reader, locoSchedule);
+                if (locoSchedule != null) reader.AddTrainPart(locoSchedule);
                 lastUnique = currentUnique;
             }
             if (locoSchedule != null) yield return locoSchedule;
@@ -60,14 +60,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 if (currentUnique != lastUnique)
                 {
                     if (schedule != null) yield return schedule;
-                    schedule = VehicleScheduleMapper.AsTrainsetSchedule(reader);
+                    schedule = reader.AsTrainsetSchedule();
                 }
-                if (schedule != null) VehicleScheduleMapper.AddTrainPart(reader, schedule);
+                if (schedule != null) reader.AddTrainPart(schedule);
                 lastUnique = currentUnique;
             }
             if (schedule != null) yield return schedule;
         }
-
 
         private IDataReader ExecuteReader(OdbcConnection connection, string sql)
         {
@@ -76,6 +75,4 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return command.ExecuteReader(CommandBehavior.CloseConnection);
         }
     }
-
-
 }
