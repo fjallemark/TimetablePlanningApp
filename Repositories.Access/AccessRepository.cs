@@ -159,6 +159,16 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         }
 
+        public IEnumerable<TrainContinuationNumberCallNote> GetTrainContinuationNumberCallNotes(string? scheduleName)
+        {
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainNumberChangeNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId");
+            while (reader.Read())
+            {
+                yield return reader.AsTrainContinuationNumberCallNote();
+            }
+        }
+
         private IDataReader ExecuteReader(OdbcConnection connection, string sql)
         {
             var command = new OdbcCommand(sql, connection);

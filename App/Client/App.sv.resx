@@ -171,8 +171,8 @@
   <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
     <value>OBS! Tjänsten fortsätter på nästa sida.</value>
   </data>
-  <data name="DutyEndsHere" xml:space="preserve">
-    <value>OBS! Tjänsten slutar här.</value>
+  <data name="NoMorePagesInDuty" xml:space="preserve">
+    <value>OBS! Inga fler sidor i tjänsten.</value>
   </data>
   <data name="MaxSpeed" xml:space="preserve">
     <value>Max hastighet</value>

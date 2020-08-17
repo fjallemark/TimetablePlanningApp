@@ -50,23 +50,6 @@ namespace Tellurian.Trains.Planning.App.Shared
             }
         }
 
-        private static void ApplyToCalls(this IEnumerable<TrainCallNote> me, IDictionary<int, StationCall> calls)
-        {
-            foreach (var trainCallNote in me)
-            {
-                var key = trainCallNote.CallId;
-                if (trainCallNote.IsDriverNote && calls.ContainsKey(key))
-                {
-                    var call = calls[key];
-                    foreach (var note in trainCallNote.ToNotes())
-                    {
-                        if (trainCallNote.IsForArrival) call.AddArrivalNote(note);
-                        if (trainCallNote.IsForDeparture) call.AddDepartureNote(note);
-                    }
-                }
-            }
-        }
-
         private static IDictionary<int, IList<TrainCallNote>> ToDictionary(this IEnumerable<TrainCallNote> me)
         {
             var result = new Dictionary<int, IList<TrainCallNote>>(1000);
@@ -81,22 +64,6 @@ namespace Tellurian.Trains.Planning.App.Shared
 
         private static IList<TrainCallNote> Item(this IDictionary<int, IList<TrainCallNote>> me, int callId) =>
             me.ContainsKey(callId) ? me[callId] : Array.Empty<TrainCallNote>();
-
-
-        private static IDictionary<int, StationCall> AllStationCalls(this DriverDutyBooklet booklet)
-        {
-            Dictionary<int, StationCall> result = new Dictionary<int, StationCall>(1000);
-            foreach (var call in from duty in booklet.Duties
-                                 from part in duty.Parts
-                                 from call in part.Train.Calls
-                                 select call)
-            {
-                var key = call.Id;
-                if (result.ContainsKey(key)) continue;
-                result.Add(key, call);
-            }
-            return result;
-        }
 
         public static Train Train51 => new Train
         {

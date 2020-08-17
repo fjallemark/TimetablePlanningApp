@@ -168,8 +168,8 @@
   <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
     <value>NOTE: Duty continues on next page.</value>
   </data>
-  <data name="DutyEndsHere" xml:space="preserve">
-    <value>NOTE: Duty ends here.</value>
+  <data name="NoMorePagesInDuty" xml:space="preserve">
+    <value>NOTE: No more pages in duty.</value>
   </data>
   <data name="MaxSpeed" xml:space="preserve">
     <value>Max speed</value>

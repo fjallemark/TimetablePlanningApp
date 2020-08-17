@@ -12,6 +12,7 @@ namespace Tellurian.Trains.Planning.Repositories
         IEnumerable<ManualTrainCallNote> GetManualTrainStationCallNotes(string? scheduleName);
         IEnumerable<TrainsetsCallNote> GetDepartureTrainsetsCallNotes(string? scheduleName);
         IEnumerable<TrainsetsCallNote> GetArrivalTrainsetsCallNotes(string? scheduleName);
+        IEnumerable<TrainContinuationNumberCallNote> GetTrainContinuationNumberCallNotes(string? scheduleName);
     }
 
     public class RepositoryOptions

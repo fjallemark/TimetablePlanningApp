@@ -22,12 +22,25 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static TrainsetsCallNote AsTrainsetsCallNote(this IDataRecord me, bool isForDeparture, bool isForArrival) =>
-            isForDeparture ? (TrainsetsCallNote)new TrainsetsDepartureCallNote(me.GetInt32("CallId")) : 
-            isForArrival ? new TrainsetsArrivalCallNote(me.GetInt32("CallId")) : 
+            isForDeparture ? (TrainsetsCallNote)new TrainsetsDepartureCallNote(me.GetInt32("CallId")) :
+            isForArrival ? new TrainsetsArrivalCallNote(me.GetInt32("CallId")) :
             throw new InvalidOperationException();
 
+        public static TrainContinuationNumberCallNote AsTrainContinuationNumberCallNote(this IDataRecord me) =>
+            new TrainContinuationNumberCallNote(me.GetInt32("CallId"))
+            {
+                LocoOperationDaysFlag = me.GetByte("LocoOperatingDaysFlag"),
+                ContinuingTrain = new ContinuingTrain
+                {
+                    DestinationName = me.GetString("DestinationName"),
+                    OperationDayFlag = me.GetByte("DepartingTrainOperationDaysFlag"),
+                    TrainNumber = me.GetInt16("DepartingTrainNumber"),
+                    CategoryPrefix = me.GetString("DepartingTrainPrefix")
+                }
+            };
 
-        public static Trainset AsTrainset(this IDataRecord me) =>
+
+        internal static Trainset AsTrainset(this IDataRecord me) =>
             new Trainset
             {
                 Class = me.GetString("Class"),

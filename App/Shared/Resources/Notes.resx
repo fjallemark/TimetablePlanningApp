@@ -276,4 +276,10 @@
   <data name="DisconnectTrainset" xml:space="preserve">
     <value>Disconnect {0}.</value>
   </data>
+  <data name="ContinuesAsTrainToDestination" xml:space="preserve">
+    <value>Continues as train {0} to {1}.</value>
+  </data>
+  <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
+    <value>Continues {2} as train {0} to {1}.</value>
+  </data>
 </root>

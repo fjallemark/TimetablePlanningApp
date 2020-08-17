@@ -55,8 +55,8 @@ namespace Tellurian.Trains.Planning.App.Shared
             }
             if (part.IsLastDutyCall(me))
             {
-                if (part.TurnLoco) me.AddArrivalNote(new Note { DisplayOrder = 30001, Text = Resources.Notes.TurnLoco });
-                if (part.ReverseLoco) me.AddArrivalNote(new Note { DisplayOrder = 30002, Text = Resources.Notes.ReverseLoco });
+                if (part.TurnLoco) me.AddArrivalNote(new Note { DisplayOrder = 3001, Text = Resources.Notes.TurnLoco });
+                if (part.ReverseLoco) me.AddArrivalNote(new Note { DisplayOrder = 3002, Text = Resources.Notes.ReverseLoco });
                 if (part.PutLocoAtParking) me.AddArrivalNote(new Note { DisplayOrder = 30003, Text = Resources.Notes.PutLocoAtPArking });
             }
         }

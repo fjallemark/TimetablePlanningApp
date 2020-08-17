@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using Tellurian.Trains.Planning.App.Shared.Resources;
 
@@ -75,7 +76,7 @@ namespace Tellurian.Trains.Planning.App.Shared
                 .GroupBy(t => t.OperationDaysFlag)
                 .Select(t => new Note
                 {
-                    DisplayOrder = 20000 + t.Key.DisplayOrder(),
+                    DisplayOrder = 10000 + t.Key.DisplayOrder(),
                     Text = FormatText(t)
                 });
         }
@@ -112,6 +113,38 @@ namespace Tellurian.Trains.Planning.App.Shared
         private string FormatText(IGrouping<byte, Trainset> t) => TrainInfo != null && TrainInfo.OperationDays.Equals(t.Key.OperationDays())
                 ? string.Format(CultureInfo.CurrentUICulture, Notes.DisconnectTrainset, string.Join(",", t))
                 : t.Key.OperationDays().ShortName + ": " + string.Format(CultureInfo.CurrentUICulture, Notes.DisconnectTrainset, string.Join(",", t));
+    }
+
+    public class TrainContinuationNumberCallNote : TrainCallNote
+    {
+        public TrainContinuationNumberCallNote(int callId) : base(callId)
+        {
+            IsStationNote = true;
+            IsDriverNote = true;
+            IsForArrival = true;
+        }
+        public ContinuingTrain ContinuingTrain { get; set; } = new ContinuingTrain();
+
+        public byte LocoOperationDaysFlag { get; set; }
+        public override IEnumerable<Note> ToNotes() =>
+            ContinuingTrain is null ?
+            Array.Empty<Note>() :
+            new[] { new Note { DisplayOrder = 32000, Text = FormatText } };
+
+        private string FormatText =>
+            ContinuingTrain.OperationDayFlag == LocoOperationDaysFlag ?
+            ContinuingTrain.TrainAndDestination :
+            ContinuingTrain.DayTrainAndDestination;
+    }
+
+    public class ContinuingTrain
+    {
+        public string? CategoryPrefix { get; set; }
+        public int TrainNumber { get; set; }
+        public byte OperationDayFlag { get; set; }
+        public string DestinationName { get; set; } = string.Empty;
+        public string TrainAndDestination => string.Format(CultureInfo.CurrentUICulture, Notes.ContinuesAsTrainToDestination, $"{CategoryPrefix} {TrainNumber}", DestinationName);
+        public string DayTrainAndDestination => string.Format(CultureInfo.CurrentUICulture, Notes.ContinuesDaysAsTrainToDestination, $"{CategoryPrefix} {TrainNumber}", DestinationName, OperationDayFlag.OperationDays().ShortName);
     }
 
     public class Trainset

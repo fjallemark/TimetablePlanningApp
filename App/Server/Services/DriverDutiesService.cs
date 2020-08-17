@@ -33,6 +33,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             result.AddRange(Repository.GetManualTrainStationCallNotes(scheduleName));
             result.AddRange(Repository.GetDepartureTrainsetsCallNotes(scheduleName));
             result.AddRange(Repository.GetArrivalTrainsetsCallNotes(scheduleName));
+            result.AddRange(Repository.GetTrainContinuationNumberCallNotes(scheduleName));
             return result;
         }
 

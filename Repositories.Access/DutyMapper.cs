@@ -28,7 +28,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new Train
             {
                 OperatorName = me.GetString("TrainOperator"),
-                Number = $"{me.GetString("TrainNumberPrefix")} {me.GetInt32("TrainNumber")}",
+                Number = $"{me.GetString("TrainNumberPrefix")} {me.GetInt16("TrainNumber")}",
                 OperationDays = me.GetByte("TrainDays").OperationDays(),
                 CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                 Instruction = me.GetString("TrainInstruction"),

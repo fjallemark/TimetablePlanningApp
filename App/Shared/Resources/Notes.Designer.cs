@@ -115,6 +115,24 @@ namespace Tellurian.Trains.Planning.App.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continues as train {0} to {1}..
+        /// </summary>
+        public static string ContinuesAsTrainToDestination {
+            get {
+                return ResourceManager.GetString("ContinuesAsTrainToDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continues {2} as train {0} to {1}..
+        /// </summary>
+        public static string ContinuesDaysAsTrainToDestination {
+            get {
+                return ResourceManager.GetString("ContinuesDaysAsTrainToDestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Daily.
         /// </summary>
         public static string Daily {
