@@ -1,8 +1,16 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
+<div class="duty frame">
 
-<div>Blank</div>
+    <div style="text-align: center" class="duty content">@Localizer["BlankPage"]</div>
+
+    <div class="duty pagenumber">
+        - @PageNumber -
+    </div>
+</div>
 
 @code {
+    [Parameter]
+    public int PageNumber { get; set; }
 
 }

@@ -1,0 +1,32 @@
+AddressLoco UNION
+- AddressLineLoco
+- AddressOtherLoco
+- AddressShuntingLoco
+
+CargoFlowConsumer UNION
+- CargoFlowConsumerInternal
+  - CargoConsumer + StationCustomer + Station
+- CargoFlowConsumerExternal
+  - CargoConsumer + ExternalStationCustomer + ExternalStation
+
+CargoFlowSupplier UNION
+- CargoFlowSupplierInternal
+  - CargoSupplier + StationCustomer + Station
+- CargoFlowSupplierExternal
+  - CargoSupplier + ExternalStationCustomer + ExternalStation
+
+CargoWaggonConsumer UNION
+- CargoWaggonConsumerForward
+- CargoWaggonConsumerReturn
+
+CargoWaggonSupplier UNION
+- CargoWaggonSupplierForward
+- CargoWaggonSupplierReturn
+
+CargoWaggonOrigin UNION
+- CargoWaggonInternalOrigin
+- CargoWaggonExternalOrigin
+
+CargoWaggonDestination UNION
+- CargoWaggonInternalDestination
+- CargoWaggonExternalDestination

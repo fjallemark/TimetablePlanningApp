@@ -1,23 +1,36 @@
-﻿@page "/driverdutiesbooklet"
+﻿@layout PrintLayout
+@page "/driverdutiesbooklet"
 @using Tellurian.Trains.Planning.App.Client.Components
 
 @inject HttpClient Http
-@if (Items != null)
+@if (Booklet != null && Pages != null)
 {
-    @foreach (var page in Items.GetAllDriverDutyPagesInBookletOrder())
+    @for (var i = 0; i < Pages.Length; i += 2)
     {
         <div class="pagebreak">
-            @if (page.IsBlank)
+            @if (PageLeft(i).IsBlank)
             {
-                <BlankDutyPage></BlankDutyPage>
+                <BlankDutyPage PageNumber="PageLeft(i).Number"></BlankDutyPage>
             }
-            else if (page.IsFront)
+            else if (PageLeft(i).IsFront)
             {
-                <DutyFrontPage Item="page.Duty"></DutyFrontPage>
+                <DutyFrontPage PageNumber="PageLeft(i).Number" Item="PageLeft(i).Duty"></DutyFrontPage>
             }
-            else if (page.IsPart)
+            else if (PageLeft(i).IsPart)
             {
-                <DutyPartPage Item="page.DutyPart"></DutyPartPage>
+                <DutyPartPage PageNumber="PageLeft(i).Number" Item="PageLeft(i).DutyPart" Duty="PageLeft(i).Duty"></DutyPartPage>
+            }
+            @if (PageRight(i).IsBlank)
+            {
+                <BlankDutyPage PageNumber="PageRight(i).Number"></BlankDutyPage>
+            }
+            else if (PageRight(i).IsFront)
+            {
+                <DutyFrontPage PageNumber="PageRight(i).Number" ScheduleName="@Booklet.ScheduleName" Item="PageRight(i).Duty"></DutyFrontPage>
+            }
+            else if (PageRight(i).IsPart)
+            {
+                <DutyPartPage PageNumber="PageRight(i).Number" Item="PageRight(i).DutyPart" Duty="PageRight(i).Duty"></DutyPartPage>
             }
         </div>
     }
@@ -26,15 +39,28 @@
 
 @code
 {
-    IEnumerable<DriverDuty>? Items;
+    private DriverDutyBooklet? Booklet;
+    private DutyPage[] Pages = Array.Empty<DutyPage>();
+    private int pageNumber;
 
     override protected async Task OnInitializedAsync()
     {
-        Items = await GetDuties("default");
+        Booklet = await GetDuties("Geflemodul");
+        Pages = Booklet.Duties.GetAllDriverDutyPagesInBookletOrder().ToArray();
     }
 
+    private string PagebreakCss()
+    {
+        pageNumber++;
+        return pageNumber % 2 == 0 ? "pagebreak" : "";
+    }
 
-    private async Task<IEnumerable<DriverDuty>> GetDuties(string scheduleName) =>
-        await Http.GetFromJsonAsync<IEnumerable<DriverDuty>>("api/xxx");
+    private DutyPage PageLeft(int i) => Pages[i];
+    private DutyPage PageRight(int i) => Pages[i + 1];
+
+
+
+    private async Task<DriverDutyBooklet> GetDuties(string scheduleName) =>
+     await Http.GetFromJsonAsync<DriverDutyBooklet>($"api/driverduties?scheduleName={scheduleName}");
 
 }

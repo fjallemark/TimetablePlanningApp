@@ -117,67 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Arr" xml:space="preserve">
-    <value>Arr</value>
+  <data name="Duty" xml:space="preserve">
+    <value>Tjänst</value>
   </data>
   <data name="BlankPage" xml:space="preserve">
-    <value>This page is intentionally left blank.</value>
-  </data>
-  <data name="Dep" xml:space="preserve">
-    <value>Dep</value>
+    <value>Denna sida har lämnats tom.</value>
   </data>
   <data name="Difficulty" xml:space="preserve">
-    <value>Difficulty</value>
-  </data>
-  <data name="Duty" xml:space="preserve">
-    <value>Duty</value>
-  </data>
-  <data name="Ends" xml:space="preserve">
-    <value>Ends</value>
-  </data>
-  <data name="EndsAt" xml:space="preserve">
-    <value>Ends at</value>
+    <value>Svårighet</value>
   </data>
   <data name="Loco" xml:space="preserve">
-    <value>Loco</value>
-  </data>
-  <data name="Notes" xml:space="preserve">
-    <value>Notes</value>
+    <value>Lokomlopp</value>
   </data>
   <data name="Operator" xml:space="preserve">
-    <value>Operator</value>
+    <value>Operatör</value>
   </data>
   <data name="ServiceInTrain" xml:space="preserve">
-    <value>Service in train {0}</value>
-  </data>
-  <data name="Starts" xml:space="preserve">
-    <value>Starts</value>
+    <value>Tjänst i tåg {0}</value>
   </data>
   <data name="StartsAt" xml:space="preserve">
-    <value>Starts at</value>
+    <value>Börjar vid</value>
+  </data>
+  <data name="Arr" xml:space="preserve">
+    <value>Ank</value>
+  </data>
+  <data name="Dep" xml:space="preserve">
+    <value>Avg</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Observera</value>
   </data>
   <data name="Station" xml:space="preserve">
     <value>Station</value>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Time</value>
+    <value>Tid</value>
   </data>
   <data name="Track" xml:space="preserve">
-    <value>Track</value>
-  </data>
-  <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
-    <value>NOTE: Duty continues on next page.</value>
-  </data>
-  <data name="DutyEndsHere" xml:space="preserve">
-    <value>NOTE: Duty ends here.</value>
-  </data>
-  <data name="MaxSpeed" xml:space="preserve">
-    <value>Max speed</value>
-  </data>
-  <data name="MaxNumberOfWagons" xml:space="preserve">
-    <value>Max number of wagons</value>
+    <value>Spår</value>
   </data>
   <data name="Saturday" xml:space="preserve">
-    <value>Saturday</value>
+    <value>Lördag</value>
+  </data>
+  <data name="Ends" xml:space="preserve">
+    <value>Slutar</value>
+  </data>
+  <data name="Starts" xml:space="preserve">
+    <value>Startar</value>
+  </data>
+  <data name="EndsAt" xml:space="preserve">
+    <value>Slutar vid</value>
+  </data>
+  <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
+    <value>OBS! Tjänsten fortsätter på nästa sida.</value>
+  </data>
+  <data name="DutyEndsHere" xml:space="preserve">
+    <value>OBS! Tjänsten slutar här.</value>
+  </data>
+  <data name="MaxSpeed" xml:space="preserve">
+    <value>Max hastighet</value>
+  </data>
+  <data name="MaxNumberOfWagons" xml:space="preserve">
+    <value>Max antal vagnar</value>
   </data>
 </root>

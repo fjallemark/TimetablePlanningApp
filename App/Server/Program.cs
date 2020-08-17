@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Tellurian.Trains.Planning.App.Server
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

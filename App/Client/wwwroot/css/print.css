@@ -21,17 +21,19 @@
         display: inline-block;
     }
 
-        .schedule {
-            font-weight: 500;
-        }
-            .schedule.header {
-                line-height: 17pt;
-                font-size: 13pt;
-            }
-            .schedule.item {
-                line-height: 14pt;
-                font-size: 11pt;
-            }
+.schedule {
+    font-weight: 500;
+}
+
+    .schedule.header {
+        line-height: 17pt;
+        font-size: 13pt;
+    }
+
+    .schedule.item {
+        line-height: 14pt;
+        font-size: 11pt;
+    }
 
 .waybill {
     line-height: 14pt;
@@ -45,6 +47,7 @@
     .waybill.destination {
         background-color: lightyellow;
     }
+
     .waybill.name {
         font-weight: bold;
         font-size: 14pt;
@@ -54,6 +57,7 @@
         font-weight: bold;
         font-size: 12pt;
     }
+
     .waybill.instruction {
         font-weight: normal;
         font-size: 11pt;
@@ -89,6 +93,83 @@
     height: 92mm;
     width: 52mm;
 }
+
+.duty {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+    .duty.frame {
+        width: 148.1mm;
+        height: 209.5mm;
+        padding: 0pt;
+        margin: 0pt;
+        border-color: gainsboro;
+        border-width: 1px;
+        border-style: solid;
+        padding: 2pt;
+        display: inline-block;
+    }
+
+    .duty.content {
+        padding: 0.5cm;
+        margin: 0cm;
+        height: 198mm;
+    }
+
+        .duty.content.frontpage {
+            text-align: center;
+            font-size: 28pt;
+        }
+
+    .duty.schedulename {
+        font-weight: 900;
+        color: darkolivegreen;
+    }
+
+    .duty.number {
+        line-height: 4cm;
+        font-weight: 900;
+        color: cadetblue;
+        text-align: center;
+        font-size: 144pt;
+    }
+
+    .duty.pagenumber {
+        padding: 0pt;
+        margin: 0pt;
+        height: 8mm;
+        vertical-align: text-bottom;
+        text-align: center
+    }
+
+    .duty.continuenextpage {
+        text-align: center;
+        font-size: 16pt;
+        font-weight: bold;
+        color: red;
+    }
+    .duty.ends {
+        text-align: center;
+        font-size: 16pt;
+        font-weight: bold;
+    }
+
+    .duty.call {
+        vertical-align: text-top;
+        font-family:'Times New Roman', Times, serif;
+        font-size: 12pt;
+    }
+
+        .duty.call.part {
+        color: black;
+        border-bottom: solid 1px black;
+        }
+
+        .duty.call.notpart {
+            color: darkgray;
+            border-bottom: solid 1px darkgray ;
+            text-decoration: line-through;
+        }
 
 .pagebreak {
     display: flex;

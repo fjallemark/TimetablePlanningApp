@@ -21,4 +21,10 @@
     <ProjectReference Include="..\App\Shared\App.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Testdata\response.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,29 +1,45 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
+<div class="duty frame">
 
-@if (Item != null)
-{
-    <div class="duty meetingname">@Item.MeetingName</div>
-    <div class="duty label">@Localizer["Operator"]</div>
-    <div class="duty operator"></div>
-    <div class="duty label">@Localizer["Duty"]</div>
-    <div class="duty number">@Item.Number</div>
-    <div class="duty days">@Item.Days</div>
-    <div class="duty text">@Item.Name</div>
-    <div class="duty text">@string.Format(CultureInfo.CurrentCulture, Localizer["Difficulty"], Item.Difficulty)</div>
-    <div>
-        <div>
-            <div class="duty label">@Localizer["Start"]</div>
-            <div class="duty time">@Item.StartTime</div>
-        </div>
-        <div>
-            <div class="duty label">@Localizer["End"]</div>
-            <div class="duty time">@Item.EndTime</div>
-        </div>
+    <div class="duty content frontpage">
+        <div class="duty schedulename">@ScheduleName</div>
+        @if (Item != null)
+        {
+
+            <div>
+                <div>@Localizer["Duty"]</div>
+                <div class="duty number">@Item.Number</div>
+
+            </div>
+            <div><strong>@Item.OperationDays.FullName</strong></div>
+            @if (Item.Operator.HasValue())
+            {
+                <div>
+                    <span>@Localizer["Operator"]</span>:
+                    <span><strong>@Item.Operator</strong></span>
+
+                </div>
+            }
+            <div class="duty text">@Item.Name</div>
+            <div class="duty text">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
+            <div>
+                <span>@Localizer["Starts"]</span>:
+                <span><strong>@Item.StartTime()</strong></span>
+                
+                <span>@Localizer["Ends"]</span>:
+                <span><strong>@Item.EndTime()</strong></span>
+            </div>
+        }
     </div>
-}
+    <div class="duty pagenumber">- @PageNumber -</div>
+</div>
 
 @code {
+    [Parameter]
+    public string? ScheduleName { get; set; }
+    [Parameter]
+    public int PageNumber { get; set; }
     [Parameter]
     public DriverDuty? Item { get; set; }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using Tellurian.Trains.Planning.App.Shared;
 
-namespace Tellurian.Trains.Planning.App.Client
+namespace Tellurian.Trains.Planning.App.Shared
 {
     public static class PaginationExtensions
     {
@@ -22,16 +21,18 @@ namespace Tellurian.Trains.Planning.App.Client
         }
 
         public static IEnumerable<DutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me) =>
-            me.SelectMany(GetDriverDutyPagesInBookletOrder);
+            me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder()).ToList();
 
         public static IEnumerable<DutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me)
         {
+            //if (me.Number == "13") Debugger.Break();
             var pages = me.GetDriverDutyPages().ToArray();
+            //if (pages.Length > 4) Debugger.Break();
             var bookletPageOrder = BookletPageOrder(pages.Length);
             var result = new List<DutyPage>();
-            for (int i =0; i < bookletPageOrder.Length; i++)
+            for (int i = 0; i < bookletPageOrder.Length; i++)
             {
-                result.Add(pages[bookletPageOrder[i]]);
+                result.Add(pages[bookletPageOrder[i] - 1]);
             }
             return result;
         }
@@ -42,9 +43,11 @@ namespace Tellurian.Trains.Planning.App.Client
             {
                 DutyPage.Front(1, me)
             };
+            var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
+            dutyParts.Last().IsLastPart = true;
             for (int i = 0; i < me.Parts.Count; i++)
             {
-                result.Add(DutyPage.Part(i + 2, me, me.Parts[i]));
+                result.Add(DutyPage.Part(i + 2, me, dutyParts[i]));
             }
             result.AddRange(BlankPagesToAppend(result.Count));
             return result;
@@ -52,7 +55,8 @@ namespace Tellurian.Trains.Planning.App.Client
 
         private static IEnumerable<DutyPage> BlankPagesToAppend(int afterPageNumber)
         {
-            var blankPagesToAppend = afterPageNumber % 4;
+            var totalPages = afterPageNumber <= 4 ? 4 : afterPageNumber <= 8 ? 8 : 12;
+            var blankPagesToAppend = totalPages - afterPageNumber;
             if (blankPagesToAppend == 0) return Array.Empty<DutyPage>();
             return Enumerable.Range(1, blankPagesToAppend).Select(i => DutyPage.Blank(afterPageNumber + i));
         }
@@ -66,8 +70,8 @@ namespace Tellurian.Trains.Planning.App.Client
                 _ => throw new ArgumentOutOfRangeException()
             };
         private static int[] FourPageOrder => new[] { 4, 1, 2, 3 };
-        private static int[] EightPageOrder => new[] { 8, 1, 6, 3, 4, 5, 2, 7 };
-        private static int[] TwelvePageOrder => new[] { 12, 1, 10, 3, 8, 5, 6, 7, 4, 9, 2, 11 };
+        private static int[] EightPageOrder => new[] { 8, 1, 2, 7, 6, 3, 4, 5 };
+        private static int[] TwelvePageOrder => new[] { 12, 1, 2, 11, 10, 3, 4, 9, 8, 5, 6, 7 };
     }
 
     public abstract class Page

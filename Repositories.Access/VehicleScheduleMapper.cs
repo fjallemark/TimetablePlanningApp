@@ -9,7 +9,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static LocoSchedule AsLocoSchedule(this IDataRecord me) =>
             new LocoSchedule
             {
-                Days = me.GetString("OperatingDayShortName"),
+                Days = me.GetString("LocoDays"),
                 Number = me.GetInt16("LocoNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("LocoOperator"),
                 Class = me.GetString("LocoClass"),
@@ -19,10 +19,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static TrainsetSchedule AsTrainsetSchedule(this IDataRecord me) =>
             new TrainsetSchedule
             {
-                Days = me.GetString("OperatingDayShortName"),
-                Number = me.GetInt32("Number").ToString(CultureInfo.InvariantCulture),
+                Days = me.GetString("TrainsetDays"),
+                Number = me.GetInt16("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("TrainsetOperator"),
-                Class = me.GetString("Class"),
+                Class = me.GetString("TrainsetClass"),
                 TurnForNextDay = me.GetBoolean(me.GetOrdinal("TurnForNextDay"))
             };
 
@@ -38,7 +38,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                         Signature = me.GetString("DepartureStationSignature"),
                         Name = me.GetString("DepartureStationName")
                     },
-                    Time = me.GetTime("DepartureTime")
+                    Time = CallTime.Create( me.GetTime("DepartureTime"))
                 },
                 ToArrival = new CallAction
                 {
@@ -47,7 +47,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                         Signature = me.GetString("ArrivalStationSignature"),
                         Name = me.GetString("ArrivalStationName")
                     },
-                    Time = me.GetTime("ArrivalTime")
+                    Time = CallTime.Create( me.GetTime("ArrivalTime"))
                 }
             };
             schedule.TrainParts.Add(trainPart);

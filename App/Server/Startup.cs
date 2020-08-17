@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tellurian.Trains.Planning.Repositories.Access;
 using Tellurian.Trains.Planning.Repositories;
+using Microsoft.AspNetCore.Localization;
+using Tellurian.Trains.Planning.App.Server.Services;
 
 namespace Tellurian.Trains.Planning.App.Server
 {
@@ -23,6 +25,7 @@ namespace Tellurian.Trains.Planning.App.Server
         {
             services.Configure<RepositoryOptions>(Configuration.GetSection(nameof(RepositoryOptions)));
             services.AddSingleton<IRepository, AccessRepository>();
+            services.AddSingleton<DriverDutiesService>();
             services.AddLocalization();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -42,8 +45,17 @@ namespace Tellurian.Trains.Planning.App.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            var supportedCultures = new[] { "en", "sv" };
 
-            app.UseRequestLocalization();
+            app.UseRequestLocalization(options =>
+            {
+                options.AddSupportedCultures(supportedCultures);
+                options.AddSupportedUICultures(supportedCultures);
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.FallBackToParentCultures = true;
+                options.FallBackToParentUICultures = true;
+                }
+            );
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();

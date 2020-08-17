@@ -1,11 +1,14 @@
-﻿namespace Tellurian.Trains.Planning.App.Shared
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Tellurian.Trains.Planning.App.Shared
 {
     public class CallAction
     {
-        public Station Station { get; set; } = new Station();
-        public string? Time { get; set; }
-        public bool IsHidden { get; set; }
-        public bool IsStop { get; set; }
-        public static CallAction Empty => new CallAction();
+        public Station? Station { get; set; }
+        public string Track { get; set; } = string.Empty;
+        public CallTime? Time { get; set; }
+        public override string ToString() => $"{Station} {Track} {Time}";
     }
 }
