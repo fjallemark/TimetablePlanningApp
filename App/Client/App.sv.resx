@@ -156,9 +156,6 @@
   <data name="Track" xml:space="preserve">
     <value>Spår</value>
   </data>
-  <data name="Saturday" xml:space="preserve">
-    <value>Lördag</value>
-  </data>
   <data name="Ends" xml:space="preserve">
     <value>Slutar</value>
   </data>

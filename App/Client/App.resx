@@ -177,7 +177,4 @@
   <data name="MaxNumberOfWagons" xml:space="preserve">
     <value>Max number of wagons</value>
   </data>
-  <data name="Saturday" xml:space="preserve">
-    <value>Saturday</value>
-  </data>
 </root>
