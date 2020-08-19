@@ -18,6 +18,7 @@ namespace Tellurian.Trains.Planning.App.Shared
             if (loco != null) { Locos = new List<Loco> { loco }; }
         }
         public Train Train { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Required for deserialization.")]
         public ICollection<Loco> Locos { get; set; } = Array.Empty<Loco>();
         public bool IsLastPart { get; set; }
         public int FromCallId { get; set; }
@@ -49,12 +50,13 @@ namespace Tellurian.Trains.Planning.App.Shared
         }
         internal static int ToCallIndex(this DutyPart me)
         {
-            if (me.ToCallIndex == -1) me.ToCallIndex = me.ToCallId == 0 ? me.Train.Calls.Count-1 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.ToCallId));
+            if (me.ToCallIndex == -1) me.ToCallIndex = me.ToCallId == 0 ? me.Train.Calls.Count - 1 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.ToCallId));
             return me.ToCallIndex;
         }
 
         public static IEnumerable<DutyStationCall> Calls(this DutyPart me) => me.Train.Calls.Select((c, i) => new DutyStationCall
         {
+            Id = c.Id,
             IsArrivalInDuty = i > me.FromCallIndex() && i <= me.ToCallIndex(),
             IsDepartureInDuty = i >= me.FromCallIndex() && i < me.ToCallIndex(),
             Arrival = c.Arrival,

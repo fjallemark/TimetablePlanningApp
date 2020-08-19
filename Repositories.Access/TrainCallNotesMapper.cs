@@ -4,6 +4,7 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Tellurian.Trains.Planning.App.Shared;
+using Tellurian.Trains.Planning.App.Shared.Resources;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
@@ -39,6 +40,75 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 }
             };
 
+        public static LocoExchangeCallNote AsLocoExchangeCallNote(this IDataRecord me) =>
+            new LocoExchangeCallNote(me.GetInt32("CallId"))
+            {
+                ArrivingLoco = new Loco
+                {
+                    Number = me.GetInt16("ArrivingLocoScheduleNumber"),
+                    OperatorName = me.GetString("ArrivingLocoOperator")
+                },
+                DepartingLoco = new Loco
+                {
+                    Number = me.GetInt16("DepartingLocoScheduleNumber"),
+                    OperatorName = me.GetString("DepartingLocoOperator")
+                },
+                TrainInfo = new TrainInfo
+                {
+                    CategoryName = me.GetStringResource("TrainCategory", Notes.ResourceManager),
+                    Number = $"{me.GetString("TrainNumberPrefix")} { me.GetInt16("TrainNumber")}",
+                    OperationDays = me.GetByte("TrainOperationDaysFlag").OperationDays(),
+                    OperatorName = me.GetString("TrainOperator")
+                }
+            };
+
+        public static LocoDepartureCallNote AsLocoDepartureCallNote(this IDataRecord me) =>
+            new LocoDepartureCallNote(me.GetInt32("CallId"))
+            {
+                DepartingLoco = new Loco
+                {
+                    Number = me.GetInt16("LocoNumber"),
+                    OperatorName = me.GetString("LocoOperator"),
+                    OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
+                },
+                IsFromParking = me.GetBool("FromParking"),
+                TrainOperationDays = me.GetByte("TrainOperationDaysFlag").OperationDays()
+            };
+
+        public static LocoArrivalCallNote AsLocoArrivalCallNote(this IDataRecord me) =>
+            new LocoArrivalCallNote(me.GetInt32("CallId"))
+            {
+                ArrivingLoco = new Loco
+                {
+                    Number = me.GetInt16("LocoNumber"),
+                    OperatorName = me.GetString("LocoOperator"),
+                    OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
+                },
+                IsToParking = me.GetBool("ToParking"),
+                CirculateLoco = me.GetBool("CirculateLoco"),
+                TurnLoco = me.GetBool("TurnLoco"),
+                TrainOperationDays = me.GetByte("TrainOperationDaysFlag").OperationDays()
+            };
+
+        public static BlockDestinationsCallNote AsBlockDestinationsCallNote(this IDataRecord me) =>
+            new BlockDestinationsCallNote(me.GetInt32("CallId"));
+
+        public static BlockArrivalCallNote AsBlockArrivalCallNote(this IDataRecord me) =>
+            new BlockArrivalCallNote(me.GetInt32("CallId"))
+            {
+                StationName = me.GetString("ArrivalStationName"),
+                AndBeyond = me.GetBool("AndBeyond"),
+                AlsoSwitch = me.GetBool("AlsoSwitch"),
+                OrderInTrain = me.GetInt16("OrderInTrain")
+            };
+
+        internal static BlockDestination AsBlockDestination(this IDataRecord me) =>
+            new BlockDestination
+            {
+                Name = me.GetString("DestinationStationName"),
+                AndBeyond = me.GetBool("AndBeyond"),
+                OrderInTrain = me.GetInt16("OrderInTrain")
+            };
 
         internal static Trainset AsTrainset(this IDataRecord me) =>
             new Trainset

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+#pragma warning disable CA2227 // Collection properties should be read only
+
 namespace Tellurian.Trains.Planning.App.Shared
 {
     public class DriverDuty
@@ -16,7 +18,6 @@ namespace Tellurian.Trains.Planning.App.Shared
         public string EndTime  { get; set; } = string.Empty;
         public int RemoveOrder { get; set; }
         public ICollection<DutyPart> Parts { get; set; } = new List<DutyPart>();
-
     }
 
     public static class DriverDutyExtensions

@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Get loco at parking area.</value>
+    <value>Get loco {0} {1} at parking area.</value>
   </data>
-  <data name="PutLocoAtPArking" xml:space="preserve">
-    <value>Drive loco to parking area.</value>
+  <data name="PutLocoAtParking" xml:space="preserve">
+    <value>Drive loco {0} {1} to parking area.</value>
   </data>
-  <data name="ReverseLoco" xml:space="preserve">
+  <data name="CirculateLoco" xml:space="preserve">
     <value>Circulate loco.</value>
   </data>
   <data name="TurnLoco" xml:space="preserve">
@@ -281,5 +281,38 @@
   </data>
   <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
     <value>Continues {2} as train {0} to {1}.</value>
+  </data>
+  <data name="EngineChange" xml:space="preserve">
+    <value>Engine change from {0} to {1}.</value>
+  </data>
+  <data name="GetLocoAtParkingOnDays" xml:space="preserve">
+    <value>{2}: Get loco {0} {1} at parking area.</value>
+  </data>
+  <data name="UseLoco" xml:space="preserve">
+    <value>Use loco {0} {1}.</value>
+  </data>
+  <data name="UseLocoAtDays" xml:space="preserve">
+    <value>{2}: Use loco {0} {1}.</value>
+  </data>
+  <data name="PutLocoAtParkingAtDays" xml:space="preserve">
+    <value>{2}: Drive loco {0} {1} to parking area.</value>
+  </data>
+  <data name="BringsWaggonsToDestinations" xml:space="preserve">
+    <value>Brings wagons to {0}.</value>
+  </data>
+  <data name="AndBeyond" xml:space="preserve">
+    <value>{0} and beyond</value>
+  </data>
+  <data name="DisconnectContinuingWagons" xml:space="preserve">
+    <value>Disconnect continuing wagons.</value>
+  </data>
+  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
+    <value>Switch wagons to cargo customers with main engine.</value>
+  </data>
+  <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
+    <value>Disconnect wagons to {0} and further.</value>
+  </data>
+  <data name="DisconnectWagonsToHere" xml:space="preserve">
+    <value>Disconnect wagons to {0}.</value>
   </data>
 </root>

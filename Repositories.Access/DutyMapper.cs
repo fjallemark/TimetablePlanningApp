@@ -21,7 +21,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 RemoveOrder = me.GetInt16("DutyRemoveOrder"),
                 StartTime = me.GetTime("DutyStartsTime"),
                 Parts = new List<DutyPart>()
-
             };
 
         public static Train AsTrain(this IDataRecord me) =>
@@ -73,7 +72,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 PutLocoAtParking = me.GetBool("ToParking"),
                 ReverseLoco = me.GetBool("ReverseLoco"),
                 TurnLoco = me.GetBool("TurnLoco")
-               
             };
 
         public static Loco AsLoco(this IDataRecord me) =>
@@ -81,7 +79,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 OperatorName = me.GetString("LocoOperator"),
                 Number = me.GetInt16("LocoNumber"),
-                OperatingDays = me.GetByte("LocoDays").OperationDays()
+                OperationDays = me.GetByte("LocoDays").OperationDays()
             };
     }
 }

@@ -27,7 +27,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
         [TestMethod]
         public void TrainSerialization()
         {
-            var target = DriverDutyBookletExtensions.Train51;
+            var target = Train.Example;
             var json = JsonSerializer.Serialize(target);
             var actual = JsonSerializer.Deserialize<Train>(json, new JsonSerializerOptions { MaxDepth = 20 });
             Assert.AreEqual(target.Calls.Count, actual.Calls.Count);

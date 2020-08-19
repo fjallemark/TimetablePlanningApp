@@ -67,7 +67,7 @@ namespace Tellurian.Trains.Planning.App.Shared
                 4 => FourPageOrder,
                 8 => EightPageOrder,
                 12 => TwelvePageOrder,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(numberOfPages))
             };
         private static int[] FourPageOrder => new[] { 4, 1, 2, 3 };
         private static int[] EightPageOrder => new[] { 8, 1, 2, 7, 6, 3, 4, 5 };

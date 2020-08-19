@@ -38,6 +38,5 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     }
                 }
             };
-
     }
 }

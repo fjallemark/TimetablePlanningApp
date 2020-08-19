@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+#pragma warning disable CA2227 // Collection properties should be read only
+
 namespace Tellurian.Trains.Planning.App.Shared
 {
     public abstract class VehicleSchedule

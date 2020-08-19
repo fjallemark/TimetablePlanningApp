@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Globalization;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Shared;
 
@@ -19,7 +20,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var resourceKey = me.GetString(columnName, defaultValue);
             if (resourceKey.HasValue())
             {
-                var resourceValue = resourceManager.GetString(resourceKey);
+                var resourceValue = resourceManager.GetString(resourceKey, CultureInfo.CurrentCulture);
                 if (resourceValue.HasValue()) return resourceValue;
                 return resourceKey;
             }
@@ -29,7 +30,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static byte GetByte(this IDataRecord me, string columnName)
         {
             var i = me.GetOrdinal(columnName);
-            if (me.IsDBNull(i)) return 0; ;
+            if (me.IsDBNull(i)) return 0;
             return me.GetByte(i);
         }
 
@@ -51,7 +52,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var i = me.GetOrdinal(columnName);
             if (me.IsDBNull(i)) return defaultValue;
-            return me.GetDateTime(i).ToString("HH:mm");
+            return me.GetDateTime(i).ToString("HH:mm", CultureInfo.CurrentCulture);
         }
 
         public static bool GetBool(this IDataRecord me, string columnName)

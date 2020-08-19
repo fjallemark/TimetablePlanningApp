@@ -37,16 +37,6 @@
                     </span>
                 }
             </div>
-            <div>
-                <span>@Localizer["Loco"]</span>:
-                @foreach (var loco in Item.Locos)
-                {
-                    <span>
-                        @loco.OperatingDays.ShortName:
-                        <strong>@loco.OperatorName @loco.Number</strong>
-                    </span>
-                }
-            </div>
         </div>
         @if (Item.Train.Instruction.HasValue())
         {
@@ -81,7 +71,7 @@
                             <td>
                                 @if (call.Arrival != null) foreach (var note in call.Arrival.Notes.OrderBy(n => n.DisplayOrder))
                                     {
-                                        <div>@note</div>
+                                        <div class="@note.CssClass()">@note</div>
                                     }
                             </td>
                         </tr>
@@ -101,7 +91,7 @@
                             <td>
                                 @if (call.Departure != null) foreach (var note in call.Departure.Notes.OrderBy(n => n.DisplayOrder))
                                     {
-                                        <div>@note</div>
+                                        <div class="@note.CssClass()">@note</div>
                                     }
                             </td>
                         </tr>

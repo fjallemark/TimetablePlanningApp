@@ -171,6 +171,17 @@
             text-decoration: line-through;
         }
 
+        .duty.call.shortnote {
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align:top;
+        }
+        .duty.call.longnote {
+            white-space: normal;
+            display: inline-block;
+            vertical-align: top;
+        }
+
 .pagebreak {
     display: flex;
     flex-wrap: wrap;

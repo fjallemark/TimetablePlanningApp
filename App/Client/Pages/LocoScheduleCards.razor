@@ -22,9 +22,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Items = await GetItemsAsync("test");
+        Items = await GetItemsAsync(Constants.TestScheduleName);
     }
 
     private async Task<IEnumerable<LocoSchedule>> GetItemsAsync(string timetableName) =>
-        await Http.GetFromJsonAsync<IEnumerable<LocoSchedule>>($"api/locoschedules?name={timetableName}");
+        await Http.GetFromJsonAsync<IEnumerable<LocoSchedule>>($"api/locoschedules?scheduleName={timetableName}");
 }

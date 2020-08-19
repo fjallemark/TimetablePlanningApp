@@ -1,6 +1,9 @@
-﻿using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Text;
+
+#pragma warning disable CA1308 // Normalize strings to uppercase
 
 namespace Tellurian.Trains.Planning.App.Shared
 {
@@ -10,7 +13,7 @@ namespace Tellurian.Trains.Planning.App.Shared
         public string ShortName { get; set; } = string.Empty;
 
         public override bool Equals(object obj) => obj is OperationDays other && other.FullName == FullName;
-        public override int GetHashCode() => FullName.GetHashCode();
+        public override int GetHashCode() => FullName.GetHashCode(StringComparison.OrdinalIgnoreCase);
         public override string ToString() => ShortName;
     }
 
@@ -37,14 +40,14 @@ namespace Tellurian.Trains.Planning.App.Shared
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
-            if (days.Length == 1) return new OperationDays { FullName = days.First().FullName, ShortName = days.First().ShortName };
+            if (days.Length == 1) return new OperationDays { FullName = days[0].FullName, ShortName = days[0].ShortName };
             var fullName = new StringBuilder(20);
             var shortName = new StringBuilder(10);
             var dayNumber = 0;
             var lastDayNumber = days.Last().Number;
             if (days.IsConsectutive())
             {
-                Append(days.First(), fullName, shortName);
+                Append(days[0], fullName, shortName);
                 Append(Resources.Notes.To, "-", fullName, shortName);
                 Append(days.Last(), fullName, shortName, true);
             }
@@ -60,7 +63,7 @@ namespace Tellurian.Trains.Planning.App.Shared
                     {
                         Append(",", ",", fullName, shortName);
                     }
-                    Append(day, fullName, shortName, day.Number > days.First().Number);
+                    Append(day, fullName, shortName, day.Number > days[0].Number);
                     dayNumber = day.Number;
                 }
             }
@@ -69,14 +72,14 @@ namespace Tellurian.Trains.Planning.App.Shared
 
         private static void Append(Day day, StringBuilder fullNames, StringBuilder shortNames, bool toLower = false)
         {
-            fullNames.Append(toLower && Resources.Notes.DayNameCasing.Equals("LOWER") ? day.FullName.ToLowerInvariant() : day.FullName);
+            _ = fullNames.Append(toLower && Resources.Notes.DayNameCasing.Equals("LOWER", System.StringComparison.OrdinalIgnoreCase) ? day.FullName.ToLowerInvariant() : day.FullName);
             shortNames.Append(day.ShortName);
         }
-        public static void Append(string fullText, string shortText, StringBuilder fullNames, StringBuilder shortNames)
+        public static void Append(this string fullText, string shortText, StringBuilder fullNames, StringBuilder shortNames)
         {
-            if (fullText.Length > 1) fullNames.Append(" ");
+            if (fullText.Length > 1) fullNames.Append(' ');
             fullNames.Append(fullText);
-            fullNames.Append(" ");
+            fullNames.Append(' ');
             shortNames.Append(shortText);
         }
     }
@@ -94,8 +97,8 @@ namespace Tellurian.Trains.Planning.App.Shared
         public byte Number { get; }
         private string FullNameResourceKey { get; }
         private string ShortNameResourceKey { get; }
-        public string FullName => Resources.Notes.ResourceManager.GetString(FullNameResourceKey);
-        public string ShortName => Resources.Notes.ResourceManager.GetString(ShortNameResourceKey);
+        public string FullName => Resources.Notes.ResourceManager.GetString(FullNameResourceKey, CultureInfo.CurrentCulture);
+        public string ShortName => Resources.Notes.ResourceManager.GetString(ShortNameResourceKey, CultureInfo.CurrentCulture);
     }
 
     internal static class DayExtensions

@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Hämta lok från uppställningsplats.</value>
+    <value>Hämta lok {0} {1}  från uppställning.</value>
   </data>
-  <data name="PutLocoAtPArking" xml:space="preserve">
-    <value>Kör lok till uppställningsplats.</value>
+  <data name="PutLocoAtParking" xml:space="preserve">
+    <value>Kör lok {0} {1} till uppställningsplats.</value>
   </data>
-  <data name="ReverseLoco" xml:space="preserve">
+  <data name="CirculateLoco" xml:space="preserve">
     <value>Gör rundgång.</value>
   </data>
   <data name="TurnLoco" xml:space="preserve">
@@ -281,5 +281,38 @@
   </data>
   <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
     <value>Fortsätter {2} som tåg {0} till {1}.</value>
+  </data>
+  <data name="EngineChange" xml:space="preserve">
+    <value>Lokbyte från {0} till {1}.</value>
+  </data>
+  <data name="GetLocoAtParkingOnDays" xml:space="preserve">
+    <value>{2}: Hämta lok {0} {1}  från uppställning.</value>
+  </data>
+  <data name="UseLocoAtDays" xml:space="preserve">
+    <value>{2}: Använd lok {0} {1}.</value>
+  </data>
+  <data name="UseLoco" xml:space="preserve">
+    <value>Använd lok {0} {1}.</value>
+  </data>
+  <data name="PutLocoAtParkingAtDays" xml:space="preserve">
+    <value>{2}: Kör lok {0} {1} till uppställningsplats.</value>
+  </data>
+  <data name="BringsWaggonsToDestinations" xml:space="preserve">
+    <value>Medtar vagnar till {0}.</value>
+  </data>
+  <data name="AndBeyond" xml:space="preserve">
+    <value>{0} och bortom</value>
+  </data>
+  <data name="DisconnectContinuingWagons" xml:space="preserve">
+    <value>Koppla av godsvagnar som skall vidare.</value>
+  </data>
+  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
+    <value>Växla in godsvagnar till godskunder med linjelok.</value>
+  </data>
+  <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
+    <value>Koppla av godsvagnar till {0} och bortom.</value>
+  </data>
+  <data name="DisconnectWagonsToHere" xml:space="preserve">
+    <value>Koppla av godsvagnar till {0}.</value>
   </data>
 </root>

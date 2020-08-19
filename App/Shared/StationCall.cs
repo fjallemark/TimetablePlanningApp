@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Shared
 {
@@ -12,6 +13,8 @@ namespace Tellurian.Trains.Planning.App.Shared
         public CallTime? Departure { get; set; }
         public int SequenceNumber { get; set; }
         public override string ToString() => $"{Id} {Station.Signature} {Track} Arr:{Arrival} Dep:{Departure}";
+        public override bool Equals(object obj) => obj is StationCall other && other.Id == Id;
+        public override int GetHashCode() => Id.GetHashCode();
     }
 
     public static class StationCallExtensions
@@ -35,6 +38,7 @@ namespace Tellurian.Trains.Planning.App.Shared
         public static bool AddArrivalNote(this StationCall me, Note note)
         {
             if (me.Arrival is null) return false;
+            if (me.Arrival.Notes.Contains(note)) return false;
             me.Arrival.Notes.Add(note);
             return true;
         }
@@ -42,34 +46,25 @@ namespace Tellurian.Trains.Planning.App.Shared
         public static bool AddDepartureNote(this StationCall me, Note note)
         {
             if (me.Departure is null) return false;
+            if (me.Departure.Notes.Contains(note)) return false;
             me.Departure.Notes.Add(note);
             return true;
         }
 
-        public static void AddAutomaticNotes(this StationCall me, DutyPart part)
+        public static void AddAutomaticNotes(this DutyStationCall me)
         {
-            if (!me.IsStop) me.AddDepartureNote(new Note { DisplayOrder = -30001, Text = Resources.Notes.NoStop });
-            if (part.IsFirstDutyCall(me))
-            {
-                if (part.GetLocoAtParking) me.AddDepartureNote(new Note { DisplayOrder = -30003, Text = Resources.Notes.GetLocoAtParking });
-            }
-            if (part.IsLastDutyCall(me))
-            {
-                if (part.TurnLoco) me.AddArrivalNote(new Note { DisplayOrder = 3001, Text = Resources.Notes.TurnLoco });
-                if (part.ReverseLoco) me.AddArrivalNote(new Note { DisplayOrder = 3002, Text = Resources.Notes.ReverseLoco });
-                if (part.PutLocoAtParking) me.AddArrivalNote(new Note { DisplayOrder = 30003, Text = Resources.Notes.PutLocoAtPArking });
-            }
+            if (!me.IsStop && me.IsDepartureInDuty) me.AddDepartureNote(new Note { DisplayOrder = -30001, Text = Resources.Notes.NoStop });
         }
 
-        public static void AddGeneratedNotes(this StationCall me, Train train, IEnumerable<TrainCallNote> notes)
+        public static void AddGeneratedNotes(this DutyStationCall me, DutyPart part, IEnumerable<TrainCallNote> notes)
         {
+            var train = part.Train;
             foreach (var note in notes)
             {
                 note.TrainInfo = train;
-                if (note.IsForArrival) foreach (var n in note.ToNotes()) me.AddArrivalNote(n);
-                if (note.IsForDeparture) foreach (var n in note.ToNotes()) me.AddDepartureNote(n);
+                if (note.IsForArrival && me.IsArrivalInDuty) foreach (var n in note.ToNotes()) me.AddArrivalNote(n);
+                if (note.IsForDeparture && me.IsDepartureInDuty) foreach (var n in note.ToNotes()) me.AddDepartureNote(n);
             }
-
         }
     }
 }

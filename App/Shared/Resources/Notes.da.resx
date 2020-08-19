@@ -98,12 +98,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Hent lokomotiv fra opstilling.</value>
+    <value>Hent lokomotiv {0} {1} fra opstilling.</value>
   </data>
-  <data name="PutLocoAtPArking" xml:space="preserve">
-    <value>Kør lokomotiv til opstilling.</value>
+  <data name="PutLocoAtParking" xml:space="preserve">
+    <value>Kør lokomotiv {0} {1} til opstilling.</value>
   </data>
-  <data name="ReverseLoco" xml:space="preserve">
+  <data name="CirculateLoco" xml:space="preserve">
     <value>Omløb lokomotiv.</value>
   </data>
   <data name="TurnLoco" xml:space="preserve">
@@ -170,7 +170,7 @@
     <value>On</value>
   </data>
   <data name="NoStop" xml:space="preserve">
-    <value>Ej ophold.</value>
+    <value>Ikke ophold.</value>
   </data>
   <data name="BlockingService" xml:space="preserve">
     <value>Blokerende service</value>
@@ -185,13 +185,13 @@
     <value>Containertog</value>
   </data>
   <data name="EmptyTrain" xml:space="preserve">
-    <value>Tomt tog</value>
+    <value>Tomtog</value>
   </data>
   <data name="ExpressTrain" xml:space="preserve">
     <value>Hurtigtog</value>
   </data>
   <data name="FreightExpressTrain" xml:space="preserve">
-    <value>Ekspres godstog</value>
+    <value>Ekspresgodstog</value>
   </data>
   <data name="FreightTrain" xml:space="preserve">
     <value>Godstog</value>
@@ -206,7 +206,7 @@
     <value>InterRegio</value>
   </data>
   <data name="LocalFreightTrain" xml:space="preserve">
-    <value>Lokalt godstog</value>
+    <value>Lokalgodstog</value>
   </data>
   <data name="LocoTransport" xml:space="preserve">
     <value>Lokomotivtransport</value>
@@ -251,7 +251,7 @@
     <value>Lørdag</value>
   </data>
   <data name="ConnectTrainset" xml:space="preserve">
-    <value>Koble til {0}.</value>
+    <value>Tilkoble {0}.</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
     <value>Frakoble {0}.</value>
@@ -261,5 +261,38 @@
   </data>
   <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
     <value>Fortsættes {2} som tog {0} til {1}.</value>
+  </data>
+  <data name="EngineChange" xml:space="preserve">
+    <value>Skift lokomotiv fra {0} til {1}.</value>
+  </data>
+  <data name="GetLocoAtParkingOnDays" xml:space="preserve">
+    <value>{2}: Hent lokomotiv {0} {1} fra opstilling.</value>
+  </data>
+  <data name="UseLocoAtDays" xml:space="preserve">
+    <value>{2}: Tilkoble lokomotiv {0} {1}.</value>
+  </data>
+  <data name="UseLoco" xml:space="preserve">
+    <value>Tilkoble lokomotiv {0} {1}.</value>
+  </data>
+  <data name="PutLocoAtParkingAtDays" xml:space="preserve">
+    <value>{2}: Kør lokomotiv {0} {1} til opstilling.</value>
+  </data>
+  <data name="BringsWaggonsToDestinations" xml:space="preserve">
+    <value>Medtager vogne til {0}.</value>
+  </data>
+  <data name="AndBeyond" xml:space="preserve">
+    <value>{0} og videre</value>
+  </data>
+  <data name="DisconnectContinuingWagons" xml:space="preserve">
+    <value>Afkoble godsvogne der skal videre.</value>
+  </data>
+  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
+    <value>Veksle godsvogne til godskunder med linjelokomotiv.</value>
+  </data>
+  <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
+    <value>Frakoble godsvogne til {0} og videre.</value>
+  </data>
+  <data name="DisconnectWagonsToHere" xml:space="preserve">
+    <value>Frakoble godsvogne til {0}.</value>
   </data>
 </root>

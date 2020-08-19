@@ -45,7 +45,7 @@
 
     override protected async Task OnInitializedAsync()
     {
-        Booklet = await GetDuties("Geflemodul");
+        Booklet = await GetDuties(Constants.TestScheduleName);
         Pages = Booklet.Duties.GetAllDriverDutyPagesInBookletOrder().ToArray();
     }
 

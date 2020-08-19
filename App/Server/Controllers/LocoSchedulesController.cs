@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Tellurian.Trains.Planning.App.Server.Services;
 using Tellurian.Trains.Planning.Repositories;
 
 namespace Tellurian.Trains.Planning.App.Server.Controllers
@@ -20,9 +21,6 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
         private readonly IRepository Repository;
 
         [HttpGet]
-        public IActionResult GetItems([FromQuery] string? name)
-        {
-            return Ok(Repository.GetLocoSchedules(name));
-        }
+        public IActionResult GetItems([FromQuery] string? scheduleName) => this.GetScheduleItems(scheduleName, Repository.GetLocoSchedules);
     }
 }

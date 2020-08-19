@@ -23,10 +23,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Items = await GetWaybillsAsync("test");
+        Items = await GetWaybillsAsync(Constants.TestScheduleName);
     }
 
     private async Task<IEnumerable<Waybill>> GetWaybillsAsync(string timetableName) =>
-        await Http.GetFromJsonAsync<IEnumerable<Waybill>>($"api/waybills?name={timetableName}");
+        await Http.GetFromJsonAsync<IEnumerable<Waybill>>($"api/waybills?scheduleName={timetableName}");
 
 }

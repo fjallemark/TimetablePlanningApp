@@ -14,12 +14,6 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
         private readonly DriverDutiesService Service;
 
         [HttpGet]
-        public IActionResult GetBooklet(string scheduleName)
-        {
-            if (string.IsNullOrWhiteSpace(scheduleName)) return BadRequest();
-            var result = Service.GetDriverDutyBooklet(scheduleName);
-            if (result is null) return NotFound();
-            return Ok(result);
-        }
+        public IActionResult GetBooklet(string? scheduleName) => this.GetScheduleItem(scheduleName, Service.GetDriverDutyBooklet);
     }
 }

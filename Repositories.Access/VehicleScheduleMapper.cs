@@ -30,7 +30,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var trainPart = new TrainPart
             {
-                TrainNumber = me.GetInt32("TrainNumber").ToString(CultureInfo.InvariantCulture),
+                TrainNumber = me.GetInt16("TrainNumber").ToString(CultureInfo.InvariantCulture),
                 FromDeparture = new CallAction
                 {
                     Station = new Station

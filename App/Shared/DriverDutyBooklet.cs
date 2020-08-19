@@ -8,6 +8,7 @@ namespace Tellurian.Trains.Planning.App.Shared
     {
         public string ScheduleName { get; set; } = string.Empty;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Required for deserialization.")]
         public ICollection<DriverDuty> Duties { get; set; } = Array.Empty<DriverDuty>();
 
         public static DriverDutyBooklet Example => new DriverDutyBooklet
@@ -25,7 +26,7 @@ namespace Tellurian.Trains.Planning.App.Shared
                          StartTime = "11:40",
                          EndTime = "15:38",
                          Parts = new [] {
-                             new DutyPart(DriverDutyBookletExtensions.Train51, new Loco {  OperatorName="GC", Number=52}, 22, 27)
+                             new DutyPart(Train.Example, new Loco {  OperatorName="GC", Number=52}, 22, 27)
                          }
                 }
             }
@@ -34,6 +35,50 @@ namespace Tellurian.Trains.Planning.App.Shared
 
     public static class DriverDutyBookletExtensions
     {
+        public static void MergeTrainPartsWithSameTrainNumber(this DriverDutyBooklet me)
+        {
+            foreach(var duty in me.Duties)
+            {
+                duty.Parts = duty.Parts.MergeTrainPartsWithSameTrainNumber();
+            }
+        }
+
+        internal static ICollection<DutyPart> MergeTrainPartsWithSameTrainNumber(this IEnumerable<DutyPart> me)
+        {
+            if (me.Count() == 1) return me.ToArray();
+            if (me.Count() == me.Select(m => m.Train.Number).Distinct().Count()) return me.ToArray();
+            var parts = me.OrderBy(m => m.StartTime()).ToArray();
+            var result = new List<DutyPart>();
+            for (var i =0; i < parts.Length-1; i++)
+            {
+                if (parts[i].Train.Number == parts[i+1].Train.Number)
+                {
+                    var train = parts[i].Train;
+                    var part1 = parts[i];
+                    var part2 = parts[i + 1];
+                    foreach (var call in part1.Calls())
+                    {
+                        if (call.Id == part1.FromCallId || call.Id == part1.ToCallId) call.AddAutomaticNotes();
+                    }
+                    foreach( var call in part2.Calls())
+                    {
+                        if (call.Id == part2.FromCallId || call.Id == part2.ToCallId) call.AddAutomaticNotes();
+                    }
+                    result.Add(new DutyPart
+                    {
+                        Train = train,
+                        FromCallId = part1.FromCallId,
+                        ToCallId = part2.ToCallId,
+                        Locos = part1.Locos.Concat(part2.Locos).ToArray(),
+                    });
+                }
+                else
+                {
+                    result.Add(parts[i]);
+                }
+            }
+            return result;
+        }
         public static void AddTrainCallNotes(this DriverDutyBooklet me, IEnumerable<TrainCallNote> trainCallNotes)
         {
             var notes = trainCallNotes.ToDictionary();
@@ -41,10 +86,10 @@ namespace Tellurian.Trains.Planning.App.Shared
             {
                 foreach (var part in duty.Parts)
                 {
-                    foreach (var call in part.Train.Calls)
+                    foreach (var call in part.Calls())
                     {
-                        call.AddAutomaticNotes(part);
-                        call.AddGeneratedNotes(part.Train, notes.Item(call.Id));
+                        call.AddAutomaticNotes();
+                        call.AddGeneratedNotes(part, notes.Item(call.Id));
                     }
                 }
             }
@@ -64,82 +109,5 @@ namespace Tellurian.Trains.Planning.App.Shared
 
         private static IList<TrainCallNote> Item(this IDictionary<int, IList<TrainCallNote>> me, int callId) =>
             me.ContainsKey(callId) ? me[callId] : Array.Empty<TrainCallNote>();
-
-        public static Train Train51 => new Train
-        {
-            OperatorName = "GC",
-            Number = "51",
-            Calls = new[]
-            {
-                new StationCall {
-                    Id = 21,
-                    SequenceNumber = 1,
-                    Station = new Station { Name="Göteborg Kville", Signature="Gkv"},
-                    Track = "4",
-                    Departure = CallTime.Create("12:10", "Medtar vagnsgrupp 653 tankvagnar."),
-                },
-                new StationCall {
-                    Id=22,
-                    SequenceNumber = 2,
-                    Station = new Station { Name="Göteborg Sävenäs", Signature="Gsv"},
-                    Track = "4",
-                    Arrival = CallTime.Create("12:19", "Gör rundgång"),
-                    Departure = new CallTime{ Time="12:49" },
-                },
-                new StationCall {
-                    Id=23,
-                    SequenceNumber = 3,
-                    IsStop = false,
-                    Station = new Station { Name="Tingstad", Signature="Tsd"},
-                    Track = "4",
-                    Arrival = new CallTime { Time="12:54", IsHidden=true},
-                    Departure = new CallTime{ Time="12:55" },
-                },
-                new StationCall {
-                    Id=24,
-                    SequenceNumber = 4,
-                    IsStop = true,
-                    Station = new Station { Name="Säve", Signature="Sve"},
-                    Track = "4",
-                    Arrival = CallTime.Create ("13:05", "Möter persontåg 3766."),
-                    Departure = new CallTime{ Time="13:08" },
-                },
-                new StationCall {
-                    Id=25,
-                    SequenceNumber = 5,
-                    IsStop = false,
-                    Station = new Station { Name="Ytterby", Signature="Yb"},
-                    Track = "4",
-                    Arrival = new CallTime { Time="13:13", IsHidden=true},
-                    Departure = new CallTime{ Time="13:14" },
-                },
-                new StationCall {
-                    Id = 26,
-                    SequenceNumber = 6,
-                    IsStop = false,
-                    Station = new Station { Name="Kode", Signature="Kde"},
-                    Track = "4",
-                    Arrival = new CallTime { Time="13:20", IsHidden=true},
-                    Departure = new CallTime{ Time="13:21" },
-                },
-                new StationCall {
-                    Id = 27,
-                    SequenceNumber = 7,
-                    IsStop = false,
-                    Station = new Station { Name="Stora Höga", Signature="Sth"},
-                    Track = "4",
-                    Arrival = new CallTime { Time="13:29", IsHidden=true},
-                    Departure = new CallTime{ Time="13:30" },
-                },
-                new StationCall {
-                    Id = 28,
-                    SequenceNumber = 8,
-                    IsStop = true,
-                    Station = new Station { Name="Stenungsund", Signature="Snu"},
-                    Track = "4",
-                    Arrival = CallTime.Create( "13:38", "Vagnarna växlas in till respektive godskund enligt fraktsedel."),
-                }
-            }
-        };
     }
 }

@@ -5,14 +5,12 @@ namespace Tellurian.Trains.Planning.Repositories
 {
     public interface IRepository
     {
-        IEnumerable<Waybill> GetWaybills(string? timetableName);
-        IEnumerable<VehicleSchedule> GetLocoSchedules(string? scheduleName);
-        IEnumerable<VehicleSchedule> GetTrainsetSchedules(string? scheduleName);
+        IEnumerable<Waybill>? GetWaybills(string timetableName);
+        IEnumerable<VehicleSchedule>? GetLocoSchedules(string scheduleName);
+        IEnumerable<VehicleSchedule>? GetTrainsetSchedules(string scheduleName);
         DriverDutyBooklet? GetDriverDutyBooklet(string scheduleName);
-        IEnumerable<ManualTrainCallNote> GetManualTrainStationCallNotes(string? scheduleName);
-        IEnumerable<TrainsetsCallNote> GetDepartureTrainsetsCallNotes(string? scheduleName);
-        IEnumerable<TrainsetsCallNote> GetArrivalTrainsetsCallNotes(string? scheduleName);
-        IEnumerable<TrainContinuationNumberCallNote> GetTrainContinuationNumberCallNotes(string? scheduleName);
+
+        IEnumerable<TrainCallNote> GetTrainCallNotes(string scheduleName);
     }
 
     public class RepositoryOptions

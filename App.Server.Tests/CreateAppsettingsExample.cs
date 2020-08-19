@@ -21,7 +21,7 @@ namespace App.Server.Tests
 
         public class AppSettings
         {
-            public Logging Logging { get; set; } = new Logging();
+            public LoggingSettings Logging { get; set; } = new LoggingSettings();
             public string AllowedHosts { get; set; } = "*";
             public RepositoryOptions RepositoryOptions { get; set; } = new RepositoryOptions
             {
@@ -30,7 +30,7 @@ namespace App.Server.Tests
             };
         }
 
-        public class Logging
+        public class LoggingSettings
         {
             public LogLevel LogLevel { get; set; } = new LogLevel();
         }
