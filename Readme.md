@@ -29,3 +29,5 @@ I you are interested of scheduling of model trains, especially for module meetin
 6. Constribute with pull requests.
 
 All interaction takes place on GitHub, so you will need a GitHub account and apply for membership in the project.
+
+Welcome to participate!
