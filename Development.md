@@ -2,7 +2,7 @@
 This is the development plan for the *Timetable Planning App*.
 
 *By Stefan Fjällemark*
-## History
+## Background
 I started with planning schedules for module meetings in 2017. 
 I was presented to XPLN - the FREMO planning tool - based on *OpenOffice*. 
 In my opinion, building user applications in a spreadshet software is mostly an anomaly,
@@ -17,12 +17,17 @@ Since 2017, for each plan I did, the database design was refined and extended wi
 The status of the database in March 2020 was that further development required a new approach. 
 Along with the development in Microsoft Access, the idea to create a cloud based scheduling system growed.
 But how to do this in steps that gives short time benefits,
-while at the same time supports the longer perspective of a cloud based solution?
+while at the same time supports the longer perspective of a cloud based solution? 
+My answer was to implement it in small steps with direct benefits to the Access databas but where the featurens
+and the technology behind it could be transferrerd to a cloud solution with no or minimal change.
 
 ## Development strategy
-There are two important preconditions:
-1. XPLN is the defacto standard for most schedule planning today.
+There are two factors to consider:
+1. XPLN is the defacto standard for most schedule planning today. 
+So it is important that work done in XPLN also can bebefit from the short term investments. 
 2. My database approach has been proved to work.
+The data model has been extended and verified in a number of advanced planning scenarios. 
+This data model forms the future cloud database.
 
 ### Short term goals
 It is important that all investments should pay off in the short time perspective.
@@ -38,8 +43,8 @@ This has already been prototyped with good results.
 
 ### Medium term goals
 The next step is to develop a user interface for entry and modification of schedules. 
-Propably this will first be developed against a local SQL database.
-It bis important that the local database later can be promoted to a cloud database.
+Propably this will first be developed against a local SQL database and no longer use the Access database
+It is important that the local database later easy can be promoted to a cloud database.
 
 ### Long term goals
 Cloud based scheduling system with user authentication, 
@@ -59,6 +64,11 @@ WEB API requests and responses and localization of API-data.
 
 Both user- and server applications are from start designed to support several languages.
 
+### Terminology
+The terminology in the system is primarily based on the european reference datamodel [TRANSMODEL](http://www.transmodel-cen.eu/).
+For certain railway terminology other eurupean sources are used that supplements TRANSMODEL.
+Because it is a highly specialised terminology, it is a challenge to translate these terms to other langauages.
+
 ### Platform
 Both user- and server applications are developed on the .NET platform, which is choosen for a number of reasons:
 1. I have a long and good experience with this platform.
@@ -69,7 +79,7 @@ Both user- and server applications are developed on the .NET platform, which is 
 1. There are free but very competent development tools like [Visual Studio](https://visualstudio.microsoft.com/).
 1. Using C# makes it not so hard for Java developers to understand code.
 
-Note that .NET also is used for the client that runs in the browser. The client is written in C#, HTML and CSS,
+Note that .NET also is used for the client, that runs in the browser. The client is written in C#, HTML and CSS,
 and NO JavaScript. Therefore, code can be shared between the server and client, something that makes
 a developer life a lot more easy thanks to [Blazor](https://blazor.net).
 
@@ -82,15 +92,17 @@ Delivering data to the user app over WEB API for printing has worked as a charm.
 Printing as also given less sheets to print for the 52x92mm items, because Access was limited to 5 items per page.
 
 The following reports have been implemented as HTML/CSS reports indended for printing on paper: 
-1. Loco schedules: prints 10 52x92mm schedules per page with red diagonal line.
-2. Trainset schedules: prints 10 52x92mm schedules per page with green diagonal line.
-3. Waybills: prints 10 52x92mm waybills per page. Coloring based on origin and destination regions as defined in the database.
-4. Driver duties: prints A5 pages ordered for booklet printout. 
+1. **Loco schedules**: prints ten 52x92mm schedules per page with red diagonal line.
+2. **Trainset schedules**: prints ten 52x92mm schedules per page with green diagonal line.
+3. **Waybills**: prints ten 52x92mm waybills per page. Coloring based on origin and destination regions as defined in the database.
+4. **Driver duties**: prints A5 pages ordered for booklet printout. 
 This report is defenitley an improvement in both speed and layout compared to the Access report.
-Even if many driver instructions was created from data in Access, 
-the driver duty report has improved notes and note are now also generated in the preferred language.
+The page ordering simplifies booklet printing on printers with double side printing.
+Even if many driver instructions were created from data in Access, 
+the new driver duty report has improved the intructions and they are also generated in the preferred language.
+5. **Translations** from english to swedish and danish is made for the implemented reports.
 
-You find examples in PDF in the [Examples folder](https://github.com/tellurianinteractive/Tellurian.Trains.TimetablePlanningApp/tree/master/Examples).
+You find some examples in PDF in the [Examples folder](https://github.com/tellurianinteractive/Tellurian.Trains.TimetablePlanningApp/tree/master/Examples).
 
 
 
