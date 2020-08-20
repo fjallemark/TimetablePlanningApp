@@ -3,6 +3,9 @@ using Tellurian.Trains.Planning.App.Shared;
 
 namespace Tellurian.Trains.Planning.Repositories
 {
+    /// <summary>
+    /// Operations to get data from the data store.
+    /// </summary>
     public interface IRepository
     {
         IEnumerable<Waybill>? GetWaybills(string timetableName);

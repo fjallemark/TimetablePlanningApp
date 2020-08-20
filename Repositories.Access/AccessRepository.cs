@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
 using System.Data.Odbc;
 using System.Linq;
@@ -8,6 +7,11 @@ using Tellurian.Trains.Planning.App.Shared;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
+    /// <summary>
+    /// Gets data from the Access Database.
+    /// This is a temporary implementation that will be removed when the
+    /// Access database is replaced by a SQL Server database.
+    /// </summary>
     public class AccessRepository : IRepository
     {
         public AccessRepository(IOptions<RepositoryOptions> options)
