@@ -157,4 +157,31 @@
   <data name="MaxNumberOfWagons" xml:space="preserve">
     <value>Maks antal vogne</value>
   </data>
+  <data name="Cargo" xml:space="preserve">
+    <value>Gods</value>
+  </data>
+  <data name="Carrier" xml:space="preserve">
+    <value>Speditør</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>Litra</value>
+  </data>
+  <data name="Consignee" xml:space="preserve">
+    <value>Modtager</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="Epoch" xml:space="preserve">
+    <value>Epoke</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Afsendelsesstation</value>
+  </data>
+  <data name="Shipper" xml:space="preserve">
+    <value>Afsender</value>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Instruks</value>
+  </data>
 </root>

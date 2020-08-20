@@ -10,9 +10,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 Cargo = me.GetString("CargoName"),
                 Class = me.GetString("Class", "-"),
-                Days = me.GetString("DaysShort"),
+                OperationDays = me.GetByte("OperationDaysFlag").OperationDays(),
                 Epoch = "-",
-                Operator = me.GetString("Operator", "-"),
+                OperatorName = me.GetString("Operator", "-"),
                 Origin = new CargoCustomer
                 {
                     Name = me.GetString("FromCustomerName"),
