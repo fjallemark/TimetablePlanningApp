@@ -1,11 +1,30 @@
 # Timetable Planning App
 Web application for working with scheduling of model railway operation at module meetings.
-## Work in progress
-I have prioritized functions for printing from local Microsoft Access planning database through a WEB API. 
-By implementing all printing in this manner, I get a short time benefit in better printing from my Access database, and a WEB API interface for the printing app, which later can be supported by the cloud solution with only minor changes to the printing logic. 
 
-The current printing is now production ready.
-- Loco schedules
-- Trainset schedules
-- Waybills
-- Driver duties booklet
+## Goal
+To build a web and cloud based scheduling system for multiuse and multi tenancy, and
+to make all source code and other assets open source.
+
+## Function overview
+1. Defining layout topology: stations and their connecting stretches.
+2. Defining scheduling stretches: the working unit and the unit for grapghical timetables.
+2. Scheduling trainson a stretch with extensive checking of consistency and other scheduling rules.
+4. Building loco- and trainset scheduling by defining the trains or part of train they shoud run.
+5. Constructing driver duties from one or several loco schedule parts.
+6. Printing of all types of documentation needed.
+7. Automatic creation of driver instructions based on scheduling data.
+8. Option for manually writing driver instructions in several languages.
+9. User authentication and authorization.
+
+## Development plan
+See separate document [Development Plan](Development.md).
+
+## Contribute
+I you are interested of scheduling of model trains, especially for module meetings, you can contribute in many ways:
+1. Follow the project with happy shouts!
+2. Give feedback on the idea and the documentation.
+3. Engage in design of functionality.
+4. Help with translations; add new or improve existing ones.
+5. Sumbit issues and suggestions.
+6. Constribute with pull requests.
+All interaction takes place on [GitHub], so you will need a GitHub account and apply for membership in the project.

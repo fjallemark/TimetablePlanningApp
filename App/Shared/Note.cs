@@ -232,7 +232,6 @@ namespace Tellurian.Trains.Planning.App.Shared
             IsShuntingNote = true;
             IsDriverNote = true;
             IsForArrival = true;
-
         }
         public string StationName { get; set; } = string.Empty;
         public bool AndBeyond { get; set; }
