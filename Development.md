@@ -90,5 +90,7 @@ This report is defenitley an improvement in both speed and layout compared to th
 Even if many driver instructions was created from data in Access, 
 the driver duty report has improved notes and note are now also generated in the preferred language.
 
+You find examples in PDF in the [Examples folder](https://github.com/tellurianinteractive/Tellurian.Trains.TimetablePlanningApp/tree/master/Examples).
+
 
 
