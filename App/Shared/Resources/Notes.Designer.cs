@@ -187,6 +187,15 @@ namespace Tellurian.Trains.Planning.App.Shared.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Days.
+        /// </summary>
+        public static string Days {
+            get {
+                return ResourceManager.GetString("Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Disconnect continuing wagons..
         /// </summary>
         public static string DisconnectContinuingWagons {
@@ -435,6 +444,15 @@ namespace Tellurian.Trains.Planning.App.Shared.Resources {
         public static string OnDemandShort {
             get {
                 return ResourceManager.GetString("OnDemandShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator.
+        /// </summary>
+        public static string Operator {
+            get {
+                return ResourceManager.GetString("Operator", resourceCulture);
             }
         }
         

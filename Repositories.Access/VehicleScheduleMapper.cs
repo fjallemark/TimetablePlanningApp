@@ -9,21 +9,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static LocoSchedule AsLocoSchedule(this IDataRecord me) =>
             new LocoSchedule
             {
-                Days = me.GetString("LocoDays"),
+                OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
                 Number = me.GetInt16("LocoNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("LocoOperator"),
                 Class = me.GetString("LocoClass"),
-                TurnForNextDay = me.GetBoolean(me.GetOrdinal("TurnForNextDay"))
+                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay")
             };
 
         public static TrainsetSchedule AsTrainsetSchedule(this IDataRecord me) =>
             new TrainsetSchedule
             {
-                Days = me.GetString("TrainsetDays"),
+                OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
                 Number = me.GetInt16("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("TrainsetOperator"),
                 Class = me.GetString("TrainsetClass"),
-                TurnForNextDay = me.GetBoolean(me.GetOrdinal("TurnForNextDay"))
+                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay")
             };
 
         public static void AddTrainPart(this IDataReader me, VehicleSchedule schedule)

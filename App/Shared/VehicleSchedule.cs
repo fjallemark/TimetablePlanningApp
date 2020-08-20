@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Tellurian.Trains.Planning.App.Shared.Resources;
 
 #pragma warning disable CA2227 // Collection properties should be read only
 
@@ -8,11 +10,11 @@ namespace Tellurian.Trains.Planning.App.Shared
     {
         public abstract string Type { get; }
         public string Number { get; set; } = string.Empty;
-        public string? Days { get; set; }
-        public string? Operator { get; set; }
-        public string? Note { get; set; }
+        public OperationDays OperationDays { get; set; } = new OperationDays();
+        public string Operator { get; set; } = string.Empty;
+        public string Note { get; set; } = string.Empty;
         public bool TurnForNextDay { get; set; }
-        public string? Class { get; set; }
+        public string Class { get; set; } = string.Empty;
         public IList<TrainPart> TrainParts { get; set; } = new List<TrainPart>();
     }
 
@@ -33,8 +35,8 @@ namespace Tellurian.Trains.Planning.App.Shared
             var result = new List<(string label, string? value)>();
             if (me is null) return result;
             result.Add((me.Type, me.Number));
-            if (!string.IsNullOrWhiteSpace(me.Days)) result.Add(("Days", me.Days));
-            if (!string.IsNullOrWhiteSpace(me.Operator)) result.Add(("Operator", me.Operator));
+            if (!string.IsNullOrWhiteSpace(me.OperationDays.ShortName)) result.Add((Notes.Days, me.OperationDays.ShortName));
+            if (!string.IsNullOrWhiteSpace(me.Operator)) result.Add((Notes.Operator, me.Operator));
             return result;
         }
     }

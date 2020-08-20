@@ -204,4 +204,25 @@
   <data name="Instructions" xml:space="preserve">
     <value>Instructions</value>
   </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Train</value>
+  </data>
+  <data name="TrainsetTurnus" xml:space="preserve">
+    <value>Trainset turnus</value>
+  </data>
+  <data name="TurnForNextDay" xml:space="preserve">
+    <value>Turn for next day!</value>
+  </data>
+  <data name="Wagons" xml:space="preserve">
+    <value>Wagons</value>
+  </data>
+  <data name="LocoTurnus" xml:space="preserve">
+    <value>Loco turnus</value>
+  </data>
 </root>

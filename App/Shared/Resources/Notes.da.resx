@@ -295,4 +295,10 @@
   <data name="DisconnectWagonsToHere" xml:space="preserve">
     <value>Frakoble godsvogne til {0}.</value>
   </data>
+  <data name="Days" xml:space="preserve">
+    <value>Dage</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operatør</value>
+  </data>
 </root>

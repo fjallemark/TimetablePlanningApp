@@ -72,7 +72,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public IEnumerable<Waybill>? GetWaybills(string? timetableName)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, "SELECT * FROM WaybillReport ORDER BY ToRegionName, ToStationName");
+            var reader = ExecuteReader(connection, "SELECT * FROM WaybillsReport ORDER BY ToRegionName, ToStationName");
             while (reader.Read())
             {
                 yield return WaybillMapper.AsWaybill(reader);

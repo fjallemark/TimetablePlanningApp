@@ -315,4 +315,10 @@
   <data name="DisconnectWagonsToHere" xml:space="preserve">
     <value>Koppla av godsvagnar till {0}.</value>
   </data>
+  <data name="Days" xml:space="preserve">
+    <value>Dagar</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operatör</value>
+  </data>
 </root>

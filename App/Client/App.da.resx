@@ -119,7 +119,7 @@
     <value>Slutter ved</value>
   </data>
   <data name="Loco" xml:space="preserve">
-    <value>Lokomløb</value>
+    <value>Loko</value>
   </data>
   <data name="Notes" xml:space="preserve">
     <value>Bemærk</value>
@@ -183,5 +183,26 @@
   </data>
   <data name="Instructions" xml:space="preserve">
     <value>Instruks</value>
+  </data>
+  <data name="Wagons" xml:space="preserve">
+    <value>Oprangering</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Tog</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Fra</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Til</value>
+  </data>
+  <data name="TurnForNextDay" xml:space="preserve">
+    <value>Vend til næste dag!</value>
+  </data>
+  <data name="TrainsetTurnus" xml:space="preserve">
+    <value>Vognomløb</value>
+  </data>
+  <data name="LocoTurnus" xml:space="preserve">
+    <value>Lokomløb</value>
   </data>
 </root>

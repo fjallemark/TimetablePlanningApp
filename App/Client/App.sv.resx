@@ -127,7 +127,7 @@
     <value>Svårighet</value>
   </data>
   <data name="Loco" xml:space="preserve">
-    <value>Lokomlopp</value>
+    <value>Lok</value>
   </data>
   <data name="Operator" xml:space="preserve">
     <value>Operatör</value>
@@ -203,5 +203,26 @@
   </data>
   <data name="Instructions" xml:space="preserve">
     <value>Instruktioner</value>
+  </data>
+  <data name="Wagons" xml:space="preserve">
+    <value>Vagnar</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Tåg</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Från</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>Till</value>
+  </data>
+  <data name="TurnForNextDay" xml:space="preserve">
+    <value>Vänd till nästa dag!</value>
+  </data>
+  <data name="TrainsetTurnus" xml:space="preserve">
+    <value>Vagnomlopp</value>
+  </data>
+  <data name="LocoTurnus" xml:space="preserve">
+    <value>Lokomlopp</value>
   </data>
 </root>

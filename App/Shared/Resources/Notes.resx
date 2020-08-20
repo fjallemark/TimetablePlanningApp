@@ -315,4 +315,10 @@
   <data name="DisconnectWagonsToHere" xml:space="preserve">
     <value>Disconnect wagons to {0}.</value>
   </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
 </root>

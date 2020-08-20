@@ -61,5 +61,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             if (me.IsDBNull(i)) return false;
             return me.GetBoolean(i);
         }
+
+        public static bool GetBoolFromInt16(this IDataRecord me, string columnName)
+        {
+            var i = me.GetOrdinal(columnName);
+            if (me.IsDBNull(i)) return false;
+            return me.GetInt16(columnName) != 0;
+        }
     }
 }
