@@ -27,4 +27,4 @@ I you are interested of scheduling of model trains, especially for module meetin
 4. Help with translations; add new or improve existing ones.
 5. Sumbit issues and suggestions.
 6. Constribute with pull requests.
-All interaction takes place on [GitHub], so you will need a GitHub account and apply for membership in the project.
+All interaction takes place on GitHub, so you will need a GitHub account and apply for membership in the project.
