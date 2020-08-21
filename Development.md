@@ -37,7 +37,7 @@ a very positive experience.
 With Blazor it possible to develop a responsive and user friendly scheduling application and reporting 
 using standard web technologies.
 
-[XPLN](XPLN.Md) is the defacto standard for most schedule planning today. 
+[XPLN](https://github.com/tellurianinteractive/Tellurian.Trains.TimetablePlanningApp/blob/master/XPLN.md) is the defacto standard for most schedule planning today. 
 So it is important that work done in XPLN also can bebefit from the short term investments in *Timetable Planning App*. 
 The ability to import work done in XPLN into the database gives two advantages: 
 People can still use XPLN to do the basic scheduling, and
