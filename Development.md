@@ -110,6 +110,12 @@ a developer life a lot more easy thanks to [Blazor](https://blazor.net).
 
 Currently, development is on [.NET Core 3.1](https://dotnet.microsoft.com/). An upgrade to [.NET 5](https://devblogs.microsoft.com/dotnet/introducing-net-5/) is expected during spring 2021.
 
+### Database
+A short term goal is to move from Microsoft Access to a SQL Server database running locally. 
+There exists tooling for moving an SQL Server Database and its data to a cloud database.
+The access layer for the database will problably be a mix of Entity Framework and SQL against views.
+The latter is probably the best approach when retrieving read-only data to the WEB API that support the reports. 
+ 
 ## Status August 2020
 The work to replace Access reports have made a significat progress. 
 The prototyping of using HTML/CSS for prettyprinting and pagination has been sucessful. 
