@@ -1,0 +1,49 @@
+# Handling XPLN data
+XPLN is the defacto tool to create schedules and printed media for module meetings.
+It is developed based on *OpenOffice Calc*, with scripting and forms. 
+Because it lacks the data integrity of a real database, it requires users to
+follow a strict workflow to not end up with inconsistent data.
+
+## Reading XPLN data 
+Because data is stored in worksheet in a understandable format,
+it is possible to let software read out the XPLN data.
+I have built such software that reads out all possible data; 
+stations, trains, loco turnus and duties etc.
+
+When reading the XPLN-data an building into a model in memory, 
+I made the following experineces:
+- Almost every XPLN-document suffers from inconsistent data,
+which makes further reading impossible until the XPLN-document has been correctred.
+- Valid but unreasonable data, for example two trains scheduled at the same time on the same single-track stretch, 
+or to fast/slow running times between stations.
+
+The software I have built therefor works in two stages:
+1. Checks the formal consistency of XPLN-data. If any error is found, reading is aborted and the errors are reported.
+2. If consistecy check succseeds, the data is checked for any unreasonable values. This is a quite extensive check, see below.
+
+## Validation of XPLN data
+
+The software is open source and there is also a documentation of the checks made.
+There are two modules:
+- [XplnRepository](https://github.com/tellurianinteractive/Tellurian.Trains.Repositories.Xpln) 
+that parses XPLN-data and detects inconsistencies.
+- [Model](https://github.com/tellurianinteractive/Tellurian.Trains.Models.Planning) 
+that validates for any unreasonable data, regardless of data source.
+
+## Reading XPLN-documents
+XPLN documents have the file type .ODS, which stands for *Open Document Spreadsheet*.
+The content of an .ODS-file is a rather complex XML. 
+Reading the raw XML is therefore out of the question and no suitable free NuGet.package exist for reading .ODS-files.
+
+However, reading .ODS-files is supported if you have Microsoft Excel installed.
+Using COM-interop it is fairly easy to open and manipulate Excel-files programmatically from a .NET application.
+It is possible to open an .ODS-file with Excel, and then read its content. And thats the current approach.
+
+There also exists solutions to read Excel-files <u>not</u> having Excel installed, using a free NuGet package 
+*DocumentFormat.OpenXml*. But this is more tricky, so this approach will be considered to use in a cloud solution,
+where it is not possible to depend on COM-interop with Microsoft Excel.
+
+In all cases, .ODS-files has to be converted to Excel. You can do this yourself if you have Excel installed,
+otherwise there exists on-line services for converting .ODS to .XLSX.
+
+
