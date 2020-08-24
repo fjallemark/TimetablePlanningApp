@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Server", "App\Server\Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Client", "App\Client\App.Client.csproj", "{63EDA1AC-E12D-49E9-9B36-50819460B2AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Shared", "App\Shared\App.Shared.csproj", "{2DC49911-D3C9-4084-AB92-12939AE23685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Contract", "App\Shared\App.Contract.csproj", "{2DC49911-D3C9-4084-AB92-12939AE23685}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Server.Tests", "App.Server.Tests\App.Server.Tests.csproj", "{9D42B9AD-3263-49B3-A5A4-42981E6E1FA5}"
 EndProject

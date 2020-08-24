@@ -4,7 +4,7 @@ using System.Linq;
 
 #pragma warning disable CA2227 // Collection properties should be read only
 
-namespace Tellurian.Trains.Planning.App.Shared
+namespace Tellurian.Trains.Planning.App.Contract
 {
     public class CallTime
     {

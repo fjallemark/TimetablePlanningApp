@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
-using Tellurian.Trains.Planning.App.Shared.Resources;
+using Tellurian.Trains.Planning.App.Contract.Resources;
 
-namespace Tellurian.Trains.Planning.App.Shared
+namespace Tellurian.Trains.Planning.App.Contract
 {
     public class Note
     {

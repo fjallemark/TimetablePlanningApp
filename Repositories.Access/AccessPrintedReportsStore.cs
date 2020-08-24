@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
 using System.Linq;
-using Tellurian.Trains.Planning.App.Shared;
+using System.Threading.Tasks;
+using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
@@ -12,9 +13,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     /// This is a temporary implementation that will be removed when the
     /// Access database is replaced by a SQL Server database.
     /// </summary>
-    public class AccessRepository : IRepository
+    public class AccessPrintedReportsStore : IPrintedReportsStore
     {
-        public AccessRepository(IOptions<RepositoryOptions> options)
+        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options)
         {
             Options = options.Value;
         }
@@ -22,25 +23,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private readonly RepositoryOptions Options;
         private OdbcConnection CreateConnection => new OdbcConnection(Options.ConnectionString);
 
-        public DriverDutyBooklet? GetDriverDutyBooklet(string scheduleName)
+        public Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
         {
-            var duties = GetDriverDuties(scheduleName);
-            if (duties is null) return null;
-            foreach (var d in duties)
-            {
-                d.Parts = d.Parts.OrderBy(p => p.Calls().First().Departure?.Time).ToArray();
-            }
-            return new DriverDutyBooklet
-            {
-                ScheduleName = scheduleName,
-                Duties = duties.OrderBy(d => d.Number).ToArray()
-            };
-        }
-
-        private IEnumerable<DriverDuty>? GetDriverDuties(string scheduleName)
-        {
+            var result = new List<DriverDuty>(100);
             using var connection = CreateConnection;
-            var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutName = '{scheduleName}' ORDER BY DutyId, LocoScheduleTrainId, DepartureTime";
+            var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutId = {layoutId} ORDER BY DutyId, LocoScheduleTrainId, DepartureTime";
             var reader = ExecuteReader(connection, sql);
             var lastDutyId = 0;
             var lastLocoScheduleTrainId = 0;
@@ -58,7 +45,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     if (currentDutyId != lastDutyId)
                     {
                         lastDutyId = currentDutyId;
-                        if (duty != null) yield return duty;
+                        if (duty != null) result.Add(duty);
                         duty = reader.AsDuty();
                     }
                     duty?.Parts.Add(reader.AsDutyPart(train));
@@ -66,23 +53,27 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 }
                 train?.Calls.Add(reader.AsStationCall(++sequenceNumber));
             }
-            if (duty != null) yield return duty;
+            if (duty != null) result.Add(duty);
+            return Task.FromResult(result.AsEnumerable());
         }
 
-        public IEnumerable<Waybill>? GetWaybills(string? timetableName)
+        public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId)
         {
+            var result = new List<Waybill>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, "SELECT * FROM WaybillsReport ORDER BY ToRegionName, ToStationName");
+            var reader = ExecuteReader(connection, $"SELECT * FROM WaybillsReport WHERE LayoutId = {layoutId} ORDER BY ToRegionName, ToStationName");
             while (reader.Read())
             {
-                yield return WaybillMapper.AsWaybill(reader);
+                result.Add(WaybillMapper.AsWaybill(reader));
             }
+            return Task.FromResult(result.AsEnumerable());
         }
 
-        public IEnumerable<VehicleSchedule>? GetLocoSchedules(string scheduleName)
+        public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId)
         {
+            var result = new List<LocoSchedule>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, "SELECT * FROM LocoTurnusReport ORDER BY LocoNumber, LocoDays, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM LocoTurnusReport WHERE LayoutId = {layoutId} ORDER BY LocoNumber, LocoDays, DepartureTime");
             var lastUnique = "";
             LocoSchedule? locoSchedule = null;
             while (reader.Read())
@@ -90,19 +81,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var currentUnique = $"{reader.GetInt16("LocoNumber")}{reader.GetString("LocoDays")}";
                 if (currentUnique != lastUnique)
                 {
-                    if (locoSchedule != null) yield return locoSchedule;
+                    if (locoSchedule != null) result.Add( locoSchedule);
                     locoSchedule = reader.AsLocoSchedule();
                 }
                 if (locoSchedule != null) reader.AddTrainPart(locoSchedule);
                 lastUnique = currentUnique;
             }
-            if (locoSchedule != null) yield return locoSchedule;
+            if (locoSchedule != null) result.Add( locoSchedule);
+            return Task.FromResult(result.AsEnumerable());
         }
 
-        public IEnumerable<VehicleSchedule>? GetTrainsetSchedules(string scheduleName)
+        public Task<IEnumerable<TrainsetSchedule>> GetTrainsetSchedulesAsync(int layoutId)
         {
+            var result = new List<TrainsetSchedule>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, "SELECT * FROM TrainsetTurnusReport WHERE PrintSchedule = TRUE ORDER BY TrainsetNumber, TrainsetDays, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetNumber, TrainsetDays, DepartureTime");
             var lastUnique = "";
             TrainsetSchedule? schedule = null;
             while (reader.Read())
@@ -110,45 +103,49 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var currentUnique = $"{reader.GetInt16("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
                 if (currentUnique != lastUnique)
                 {
-                    if (schedule != null) yield return schedule;
+                    if (schedule != null)result.Add(schedule);
                     schedule = reader.AsTrainsetSchedule();
                 }
                 if (schedule != null) reader.AddTrainPart(schedule);
                 lastUnique = currentUnique;
             }
-            if (schedule != null) yield return schedule;
+            if (schedule != null) result.Add(schedule);
+            return Task.FromResult(result.AsEnumerable());
         }
 
-        public IEnumerable<TrainCallNote> GetTrainCallNotes(string scheduleName)
+        public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId)
         {
-            foreach (var n in GetManualTrainStationCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetDepartureTrainsetsCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetArrivalTrainsetsCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetTrainContinuationNumberCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetLocoExchangeCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetLocoDepartureCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetLocoArrivalCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetBlockDestinationsCallNotes(scheduleName)) yield return n;
-            foreach (var n in GetBlockArrivalCallNotes(scheduleName)) yield return n;
+            var result = new List<TrainCallNote>(500);
+            result.AddRange( GetManualTrainStationCallNotes(layoutId));
+            result.AddRange(GetDepartureTrainsetsCallNotes(layoutId));
+            result.AddRange(GetArrivalTrainsetsCallNotes(layoutId)) ;
+            result.AddRange(GetTrainContinuationNumberCallNotes(layoutId));
+            result.AddRange(GetLocoExchangeCallNotes(layoutId));
+            result.AddRange(GetLocoDepartureCallNotes(layoutId));
+            result.AddRange(GetLocoArrivalCallNotes(layoutId));
+            result.AddRange(GetBlockDestinationsCallNotes(layoutId));
+            result.AddRange(GetBlockArrivalCallNotes(layoutId));
+            return Task.FromResult(result.AsEnumerable());
         }
 
-        public IEnumerable<ManualTrainCallNote> GetManualTrainStationCallNotes(string scheduleName)
+        private IEnumerable<ManualTrainCallNote> GetManualTrainStationCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM ManualTrainStationCallNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, Row");
-            while (reader.Read()) {
+            var reader = ExecuteReader(connection, $"SELECT * FROM ManualTrainStationCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, Row");
+            while (reader.Read())
+            {
                 yield return reader.AsManualTrainCallNote();
             }
         }
 
-        public IEnumerable<TrainsetsCallNote> GetDepartureTrainsetsCallNotes(string scheduleName)
+        private IEnumerable<TrainsetsCallNote> GetDepartureTrainsetsCallNotes(int layoutId)
         {
-            var sql= $"SELECT * FROM TrainsetsDepartureNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, OrderInTrain";
+            var sql = $"SELECT * FROM TrainsetsDepartureNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
             return GetTrainsetsCallNotes(sql, true, false);
         }
-        public IEnumerable<TrainsetsCallNote> GetArrivalTrainsetsCallNotes(string scheduleName)
+        private IEnumerable<TrainsetsCallNote> GetArrivalTrainsetsCallNotes(int layoutId)
         {
-            var sql = $"SELECT * FROM TrainsetsArrivalNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, OrderInTrain";
+            var sql = $"SELECT * FROM TrainsetsArrivalNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
             return GetTrainsetsCallNotes(sql, false, true);
         }
 
@@ -172,50 +169,50 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             if (current != null) yield return current;
         }
 
-        public IEnumerable<TrainContinuationNumberCallNote> GetTrainContinuationNumberCallNotes(string scheduleName)
+        private IEnumerable<TrainContinuationNumberCallNote> GetTrainContinuationNumberCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainNumberChangeNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainNumberChangeNotes WHERE LayoutId = {layoutId} ORDER BY CallId");
             while (reader.Read())
             {
                 yield return reader.AsTrainContinuationNumberCallNote();
             }
         }
 
-        public IEnumerable<LocoExchangeCallNote> GetLocoExchangeCallNotes(string scheduleName)
+        private IEnumerable<LocoExchangeCallNote> GetLocoExchangeCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM LocoExchangeCallNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId");
+            var reader = ExecuteReader(connection, $"SELECT * FROM LocoExchangeCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId");
             while (reader.Read())
             {
                 yield return reader.AsLocoExchangeCallNote();
             }
         }
 
-        public IEnumerable<LocoDepartureCallNote> GetLocoDepartureCallNotes(string scheduleName)
+        private IEnumerable<LocoDepartureCallNote> GetLocoDepartureCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM LocoDepartureCallNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, LocoOperationDaysFlag");
+            var reader = ExecuteReader(connection, $"SELECT * FROM LocoDepartureCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
             while (reader.Read())
             {
                 yield return reader.AsLocoDepartureCallNote();
             }
         }
 
-        public IEnumerable<LocoArrivalCallNote> GetLocoArrivalCallNotes(string scheduleName)
+        private IEnumerable<LocoArrivalCallNote> GetLocoArrivalCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM LocoArrivalCallNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, LocoOperationDaysFlag");
+            var reader = ExecuteReader(connection, $"SELECT * FROM LocoArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
             while (reader.Read())
             {
                 yield return reader.AsLocoArrivalCallNote();
             }
         }
 
-        internal IEnumerable<BlockDestinationsCallNote> GetBlockDestinationsCallNotes(string scheduleName)
+        private IEnumerable<BlockDestinationsCallNote> GetBlockDestinationsCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM BlockDestinationsCallNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
+            var reader = ExecuteReader(connection, $"SELECT * FROM BlockDestinationsCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
             var lastCallId = 0;
             BlockDestinationsCallNote? current = null;
             while (reader.Read())
@@ -232,10 +229,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             if (current != null) yield return current;
         }
 
-        internal IEnumerable<BlockArrivalCallNote> GetBlockArrivalCallNotes(string scheduleName)
+        private IEnumerable<BlockArrivalCallNote> GetBlockArrivalCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM BlockArrivalCallNotes WHERE LayoutName = '{scheduleName}' ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
+            var reader = ExecuteReader(connection, $"SELECT * FROM BlockArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
             while (reader.Read())
             {
                 yield return reader.AsBlockArrivalCallNote();

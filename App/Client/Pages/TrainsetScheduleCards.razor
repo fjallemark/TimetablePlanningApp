@@ -1,6 +1,7 @@
 ﻿@layout PrintLayout
 @page "/trainsetschedules"
 @inject HttpClient Http
+@inject Services.PrintedReportsService DataService
 
 @using Tellurian.Trains.Planning.App.Client.Components
 
@@ -22,9 +23,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Items = await GetItemsAsync(Constants.TestScheduleName);
+        var result = await DataService.GetTrainsetSchedulesAsync(Constants.LayoutId);
+        if (result.statusCode.IsSuccess()) Items = result.items.Cast<TrainsetSchedule>();
     }
-
-    private async Task<IEnumerable<TrainsetSchedule>> GetItemsAsync(string timetableName) =>
-        await Http.GetFromJsonAsync<IEnumerable<TrainsetSchedule>>($"api/trainsetschedules?scheduleName={timetableName}");
 }

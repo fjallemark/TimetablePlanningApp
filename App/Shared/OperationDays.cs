@@ -5,7 +5,7 @@ using System.Text;
 
 #pragma warning disable CA1308 // Normalize strings to uppercase
 
-namespace Tellurian.Trains.Planning.App.Shared
+namespace Tellurian.Trains.Planning.App.Contract
 {
     public class OperationDays
     {

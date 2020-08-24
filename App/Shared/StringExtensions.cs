@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Tellurian.Trains.Planning.App.Shared
+namespace Tellurian.Trains.Planning.App.Contract
 {
     public static class StringExtensions
     {

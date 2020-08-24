@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Tellurian.Trains.Planning.Repositories;
+using Tellurian.Trains.Planning.App.Contract;
 
 namespace App.Server.Tests
 {

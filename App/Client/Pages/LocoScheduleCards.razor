@@ -1,6 +1,7 @@
 ﻿@layout PrintLayout
 @page "/locoschedules"
 @inject HttpClient Http
+@inject Services.PrintedReportsService DataService
 
 @using Tellurian.Trains.Planning.App.Client.Components
 
@@ -8,12 +9,12 @@
 {
     @foreach (var itemsOnPage in Items.ItemsPerPage(10))
     {
-    <div class="pagebreak">
-        @foreach (var item in itemsOnPage)
-        {
-            <VehicleScheduleCard Item="@item"></VehicleScheduleCard>
-        }
-    </div>
+        <div class="pagebreak">
+            @foreach (var item in itemsOnPage)
+            {
+                <VehicleScheduleCard Item="@item"></VehicleScheduleCard>
+            }
+        </div>
     }
 }
 
@@ -22,9 +23,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Items = await GetItemsAsync(Constants.TestScheduleName);
+        var result = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
+        if (result.statusCode.IsSuccess()) Items = result.items.Cast<LocoSchedule>();
     }
-
-    private async Task<IEnumerable<LocoSchedule>> GetItemsAsync(string timetableName) =>
-        await Http.GetFromJsonAsync<IEnumerable<LocoSchedule>>($"api/locoschedules?scheduleName={timetableName}");
 }

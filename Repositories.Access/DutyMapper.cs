@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Resources;
-using Tellurian.Trains.Planning.App.Shared;
+using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
     internal static class DutyMapper
     {
-        private static ResourceManager Notes => App.Shared.Resources.Notes.ResourceManager;
+        private static ResourceManager Notes => App.Contract.Resources.Notes.ResourceManager;
 
         public static DriverDuty AsDuty(this IDataRecord me) =>
             new DriverDuty
@@ -15,6 +15,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 OperationDays = me.GetByte("DutyDays").OperationDays(),
                 Difficulty = me.GetInt16("DutyDifficulty"),
                 EndTime = me.GetTime("DutyEndsTime"),
+                LayoutName = me.GetString("LayoutName"),
                 Name = me.GetString("DutyName"),
                 Number = me.GetInt16("DutyNumber"),
                 Operator = me.GetString("DutyOperator"),

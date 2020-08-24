@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
-using Tellurian.Trains.Planning.App.Shared;
+using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.App.Server.Tests
 {

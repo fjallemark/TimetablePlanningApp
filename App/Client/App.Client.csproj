@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Repositories.Access\Repositories.Access.csproj" />
-    <ProjectReference Include="..\Shared\App.Shared.csproj" />
+    <ProjectReference Include="..\Shared\App.Contract.csproj" />
   </ItemGroup>
 
   <ItemGroup>

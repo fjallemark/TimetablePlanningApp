@@ -3,9 +3,9 @@
 <div class="duty frame">
 
     <div class="duty content frontpage">
-        <div class="duty schedulename">@ScheduleName</div>
         @if (Item != null)
         {
+            <div class="duty schedulename">@Item.LayoutName</div>
 
             <div>
                 <div>@Localizer["Duty"]</div>
@@ -26,7 +26,7 @@
             <div>
                 <span>@Localizer["Starts"]</span>:
                 <span><strong>@Item.StartTime()</strong></span>
-                
+
                 <span>@Localizer["Ends"]</span>:
                 <span><strong>@Item.EndTime()</strong></span>
             </div>
@@ -36,8 +36,6 @@
 </div>
 
 @code {
-    [Parameter]
-    public string? ScheduleName { get; set; }
     [Parameter]
     public int PageNumber { get; set; }
     [Parameter]

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tellurian.Trains.Planning.App.Shared.Resources {
+namespace Tellurian.Trains.Planning.App.Contract.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Tellurian.Trains.Planning.App.Shared.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tellurian.Trains.Planning.App.Shared.Resources.Notes", typeof(Notes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Tellurian.Trains.Planning.App.Contract.Resources.Notes", typeof(Notes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

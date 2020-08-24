@@ -4,8 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tellurian.Trains.Planning.Repositories.Access;
-using Tellurian.Trains.Planning.Repositories;
 using Microsoft.AspNetCore.Localization;
+using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Server.Services;
 
 namespace Tellurian.Trains.Planning.App.Server
@@ -24,8 +24,8 @@ namespace Tellurian.Trains.Planning.App.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<RepositoryOptions>(Configuration.GetSection(nameof(RepositoryOptions)));
-            services.AddSingleton<IRepository, AccessRepository>();
-            services.AddSingleton<DriverDutiesService>();
+            services.AddSingleton<IPrintedReportsStore, AccessPrintedReportsStore>();
+            services.AddSingleton<PrintedReportsService>();
             services.AddLocalization();
             services.AddControllersWithViews();
             services.AddRazorPages();

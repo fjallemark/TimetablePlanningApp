@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Tellurian.Trains.Planning.App.Shared;
-using Tellurian.Trains.Planning.App.Shared.Resources;
+using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contract.Resources;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {

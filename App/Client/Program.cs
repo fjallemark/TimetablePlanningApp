@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Tellurian.Trains.Planning.App.Client.Services;
 
 namespace Tellurian.Trains.Planning.App.Client
 {
@@ -13,6 +14,7 @@ namespace Tellurian.Trains.Planning.App.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
             builder.Services.AddLocalization();
+            builder.Services.AddScoped<PrintedReportsService>();
             builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             await builder.Build().RunAsync().ConfigureAwait(false);
         }

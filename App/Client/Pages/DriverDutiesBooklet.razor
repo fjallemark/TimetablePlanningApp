@@ -1,9 +1,10 @@
-﻿@layout PrintLayout
+﻿@using Tellurian.Trains.Planning.App.Client.Components
+@layout PrintLayout
 @page "/driverdutiesbooklet"
-@using Tellurian.Trains.Planning.App.Client.Components
-
+@inject Services.PrintedReportsService DataService
 @inject HttpClient Http
-@if (Booklet != null && Pages != null)
+
+@if (Pages != null)
 {
     @for (var i = 0; i < Pages.Length; i += 2)
     {
@@ -26,7 +27,7 @@
             }
             else if (PageRight(i).IsFront)
             {
-                <DutyFrontPage PageNumber="PageRight(i).Number" ScheduleName="@Booklet.ScheduleName" Item="PageRight(i).Duty"></DutyFrontPage>
+                <DutyFrontPage PageNumber="PageRight(i).Number" Item="PageRight(i).Duty"></DutyFrontPage>
             }
             else if (PageRight(i).IsPart)
             {
@@ -39,14 +40,16 @@
 
 @code
 {
-    private DriverDutyBooklet? Booklet;
     private DutyPage[] Pages = Array.Empty<DutyPage>();
     private int pageNumber;
 
     override protected async Task OnInitializedAsync()
     {
-        Booklet = await GetDuties(Constants.TestScheduleName);
-        Pages = Booklet.Duties.GetAllDriverDutyPagesInBookletOrder().ToArray();
+        var result = await DataService.GetDriverDutiesAsync(Constants.LayoutId);
+        if (result.statusCode.IsSuccess())
+        {
+            Pages = result.items.GetAllDriverDutyPagesInBookletOrder().ToArray();
+        }
     }
 
     private string PagebreakCss()
@@ -57,10 +60,4 @@
 
     private DutyPage PageLeft(int i) => Pages[i];
     private DutyPage PageRight(int i) => Pages[i + 1];
-
-
-
-    private async Task<DriverDutyBooklet> GetDuties(string scheduleName) =>
-     await Http.GetFromJsonAsync<DriverDutyBooklet>($"api/driverduties?scheduleName={scheduleName}");
-
 }

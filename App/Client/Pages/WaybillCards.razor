@@ -1,6 +1,7 @@
 ﻿@layout PrintLayout
 @page "/waybills"
 @inject HttpClient Http
+@inject Services.PrintedReportsService DataService
 
 @using Tellurian.Trains.Planning.App.Client.Components
 
@@ -23,10 +24,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Items = await GetWaybillsAsync(Constants.TestScheduleName);
+        var result = await DataService.GetWaybillsAsync(Constants.LayoutId);
+        if (result.statusCode.IsSuccess()) Items = result.items;
     }
-
-    private async Task<IEnumerable<Waybill>> GetWaybillsAsync(string timetableName) =>
-        await Http.GetFromJsonAsync<IEnumerable<Waybill>>($"api/waybills?scheduleName={timetableName}");
-
 }

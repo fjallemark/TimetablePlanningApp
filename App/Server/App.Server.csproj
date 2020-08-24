@@ -17,12 +17,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="3.1.7" />
+    <PackageReference Include="System.Linq.Async" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Repositories.Access\Repositories.Access.csproj" />
     <ProjectReference Include="..\Client\App.Client.csproj" />
-    <ProjectReference Include="..\Shared\App.Shared.csproj" />
+    <ProjectReference Include="..\Shared\App.Contract.csproj" />
   </ItemGroup>
 
 

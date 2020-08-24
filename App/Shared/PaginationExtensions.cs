@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Tellurian.Trains.Planning.App.Shared
+namespace Tellurian.Trains.Planning.App.Contract
 {
     public static class PaginationExtensions
     {

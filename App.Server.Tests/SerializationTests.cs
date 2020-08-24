@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using Tellurian.Trains.Planning.App.Shared;
+using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.App.Server.Tests
 {

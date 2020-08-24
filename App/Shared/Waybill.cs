@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tellurian.Trains.Planning.App.Shared
+namespace Tellurian.Trains.Planning.App.Contract
 {
     public class Waybill
     {
