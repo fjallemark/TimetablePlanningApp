@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.36
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Server", "App\Server\App.Server.csproj", "{140ECF49-9A3F-4FF8-991F-BC318B17F333}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Server", "App.Server\App.Server.csproj", "{140ECF49-9A3F-4FF8-991F-BC318B17F333}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Client", "App\Client\App.Client.csproj", "{63EDA1AC-E12D-49E9-9B36-50819460B2AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Client", "App.Client\App.Client.csproj", "{63EDA1AC-E12D-49E9-9B36-50819460B2AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Contract", "App\Shared\App.Contract.csproj", "{2DC49911-D3C9-4084-AB92-12939AE23685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Contract", "App.Contract\App.Contract.csproj", "{2DC49911-D3C9-4084-AB92-12939AE23685}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Server.Tests", "App.Server.Tests\App.Server.Tests.csproj", "{9D42B9AD-3263-49B3-A5A4-42981E6E1FA5}"
 EndProject

@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Repositories.Access\Repositories.Access.csproj" />
-    <ProjectReference Include="..\Client\App.Client.csproj" />
-    <ProjectReference Include="..\Shared\App.Contract.csproj" />
+    <ProjectReference Include="..\App.Client\App.Client.csproj" />
+    <ProjectReference Include="..\App.Contract\App.Contract.csproj" />
+    <ProjectReference Include="..\Repositories.Access\Repositories.Access.csproj" />
   </ItemGroup>
 
 
