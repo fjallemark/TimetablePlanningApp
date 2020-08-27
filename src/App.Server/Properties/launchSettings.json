@@ -18,7 +18,7 @@
     },
     "Tellurian.Trains.TimetablePlanningApp.Server": {
       "commandName": "Project",
-      "launchUrl": "https://localhost:5001",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

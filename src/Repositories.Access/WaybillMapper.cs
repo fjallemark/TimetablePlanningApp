@@ -18,6 +18,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     Name = me.GetString("FromCustomerName"),
                     Station = me.GetString("FromStationName"),
                     Instruction = me.GetString("LoadingNote", "-"),
+                    Language = me.GetString("OriginLanguageCode"),
                     Region = new Region
                     {
                         Name = me.GetString("FromRegionName"),
@@ -30,6 +31,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     Name = me.GetString("ToCustomerName"),
                     Station = me.GetString("ToStationName"),
                     Instruction = me.GetString("UnloadingNote", "-"),
+                    Language = me.GetString("DestinationLanguageCode"),
                     Region = new Region
                     {
                         Name = me.GetString("ToRegionName"),

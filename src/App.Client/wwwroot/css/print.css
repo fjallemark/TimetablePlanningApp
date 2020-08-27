@@ -48,9 +48,23 @@
         background-color: lightyellow;
     }
 
+    .waybill.box {
+        height: 12mm;
+        border: 2px solid red;
+    }
+
     .waybill.name {
         font-weight: bold;
         font-size: 14pt;
+        line-height: 18pt;
+        width: 50mm;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .waybill.flag {
+        vertical-align: text-bottom;
     }
 
     .waybill.item {
@@ -148,6 +162,7 @@
         font-weight: bold;
         color: red;
     }
+
     .duty.ends {
         text-align: center;
         font-size: 16pt;
@@ -156,26 +171,27 @@
 
     .duty.call {
         vertical-align: text-top;
-        font-family:'Times New Roman', Times, serif;
+        font-family: 'Times New Roman', Times, serif;
         font-size: 12pt;
     }
 
         .duty.call.part {
-        color: black;
-        border-bottom: solid 1px black;
+            color: black;
+            border-bottom: solid 1px black;
         }
 
         .duty.call.notpart {
             color: darkgray;
-            border-bottom: solid 1px darkgray ;
+            border-bottom: solid 1px darkgray;
             text-decoration: line-through;
         }
 
         .duty.call.shortnote {
             white-space: nowrap;
             display: inline-block;
-            vertical-align:top;
+            vertical-align: top;
         }
+
         .duty.call.longnote {
             white-space: normal;
             display: inline-block;

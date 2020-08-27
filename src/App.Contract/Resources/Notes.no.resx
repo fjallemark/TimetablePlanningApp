@@ -118,106 +118,106 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Get loco {0} {1} at parking area.</value>
+    <value>Hent lok {0} {1} fra oppstilling.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
-    <value>Drive loco {0} {1} to parking area.</value>
+    <value>Kjør lok {0} {1} til oppstilling.</value>
   </data>
   <data name="CirculateLoco" xml:space="preserve">
-    <value>Circulate loco.</value>
+    <value>Omløp lok.</value>
   </data>
   <data name="TurnLoco" xml:space="preserve">
-    <value>Turn loco.</value>
+    <value>Snu lok.</value>
   </data>
   <data name="And" xml:space="preserve">
-    <value>and</value>
+    <value>og</value>
   </data>
   <data name="Daily" xml:space="preserve">
-    <value>Daily</value>
+    <value>Daglig</value>
   </data>
   <data name="Friday" xml:space="preserve">
-    <value>Friday</value>
+    <value>fredag</value>
   </data>
   <data name="Monday" xml:space="preserve">
-    <value>Monday</value>
+    <value>mandag</value>
   </data>
   <data name="OnDemand" xml:space="preserve">
-    <value>On demand</value>
+    <value>På forespørsel</value>
   </data>
   <data name="Sunday" xml:space="preserve">
-    <value>Sunday</value>
+    <value>Søndag</value>
   </data>
   <data name="Thursday" xml:space="preserve">
-    <value>Thursday</value>
+    <value>Torsdag</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>to</value>
+    <value>til</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
-    <value>Tuesday</value>
+    <value>Tirsdag</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
-    <value>Wednesday</value>
+    <value>Onsdag</value>
   </data>
   <data name="DailyShort" xml:space="preserve">
-    <value>Daily</value>
+    <value>Daglig</value>
   </data>
   <data name="DayNameCasing" xml:space="preserve">
-    <value>UPPER</value>
+    <value>LOWER</value>
   </data>
   <data name="FridayShort" xml:space="preserve">
     <value>Fr</value>
   </data>
   <data name="MondayShort" xml:space="preserve">
-    <value>Mo</value>
+    <value>Ma</value>
   </data>
   <data name="OnDemandShort" xml:space="preserve">
-    <value>Demand</value>
+    <value>Behov</value>
   </data>
   <data name="SaturdayShort" xml:space="preserve">
-    <value>Sa</value>
+    <value>Lø</value>
   </data>
   <data name="SundayShort" xml:space="preserve">
-    <value>Su</value>
+    <value>Sø</value>
   </data>
   <data name="ThursdayShort" xml:space="preserve">
-    <value>Th</value>
+    <value>To</value>
   </data>
   <data name="TuesdayShort" xml:space="preserve">
-    <value>Tu</value>
+    <value>Ti</value>
   </data>
   <data name="WednesdayShort" xml:space="preserve">
-    <value>We</value>
+    <value>On</value>
   </data>
   <data name="NoStop" xml:space="preserve">
-    <value>No stop.</value>
+    <value>Ikke stopp.</value>
   </data>
   <data name="BlockingService" xml:space="preserve">
-    <value>Blocking service</value>
+    <value>Blokkeringstjeneste</value>
   </data>
   <data name="CommuterTrain" xml:space="preserve">
-    <value>Commuter train</value>
+    <value>Pendeltog</value>
   </data>
   <data name="ConstructionTrain" xml:space="preserve">
-    <value>Contruction train</value>
+    <value>Arbeidstog</value>
   </data>
   <data name="ContainerTrain" xml:space="preserve">
-    <value>Container train</value>
+    <value>Containertog</value>
   </data>
   <data name="EmptyTrain" xml:space="preserve">
-    <value>Empty train</value>
+    <value>Tomt tog</value>
   </data>
   <data name="ExpressTrain" xml:space="preserve">
-    <value>Express train</value>
+    <value>Ekspress tog</value>
   </data>
   <data name="FreightExpressTrain" xml:space="preserve">
-    <value>Express freight train</value>
+    <value>Ekspressgodstog</value>
   </data>
   <data name="FreightTrain" xml:space="preserve">
-    <value>Freight train</value>
+    <value>Godstog</value>
   </data>
   <data name="HistoricalTrain" xml:space="preserve">
-    <value>Historical train</value>
+    <value>Historisk tog</value>
   </data>
   <data name="InterCity" xml:space="preserve">
     <value>InterCity</value>
@@ -226,126 +226,126 @@
     <value>InterRegio</value>
   </data>
   <data name="LocalFreightTrain" xml:space="preserve">
-    <value>Local freight train</value>
+    <value>Lokalgodstog</value>
   </data>
   <data name="LocoTransport" xml:space="preserve">
-    <value>Loco transport</value>
+    <value>Loktransport</value>
   </data>
   <data name="LongDistanceFreightTrain" xml:space="preserve">
-    <value>Long-distance freight train</value>
+    <value>Langdistansetog</value>
   </data>
   <data name="MailTrain" xml:space="preserve">
-    <value>Mail train</value>
+    <value>Posttog</value>
   </data>
   <data name="NightTrain" xml:space="preserve">
-    <value>Night train</value>
+    <value>Nattog</value>
   </data>
   <data name="NormalFreightTrain" xml:space="preserve">
-    <value>Normal freight train</value>
+    <value>Normalgodstog</value>
   </data>
   <data name="OreTrain" xml:space="preserve">
-    <value>Ore train</value>
+    <value>Malmtog</value>
   </data>
   <data name="PassengerTrain" xml:space="preserve">
-    <value>Passenger train</value>
+    <value>Persontog</value>
   </data>
   <data name="RegionalTrain" xml:space="preserve">
-    <value>Regional train</value>
+    <value>Regiontog</value>
   </data>
   <data name="Shunting" xml:space="preserve">
-    <value>Shunting</value>
+    <value>Veksling</value>
   </data>
   <data name="SpecialFreightTrain" xml:space="preserve">
-    <value>Special freight train</value>
+    <value>Spesialgodstog</value>
   </data>
   <data name="SpeedTrain" xml:space="preserve">
-    <value>Speed train</value>
+    <value>Højhastighetstog</value>
   </data>
   <data name="TimberTrain" xml:space="preserve">
-    <value>Timber train</value>
+    <value>Tømmertog</value>
   </data>
   <data name="LocalTrain" xml:space="preserve">
-    <value>Local train</value>
+    <value>Lokaltog</value>
   </data>
   <data name="Saturday" xml:space="preserve">
-    <value>Saturday</value>
+    <value>Lørdag</value>
   </data>
   <data name="ConnectTrainset" xml:space="preserve">
-    <value>Connect {0}.</value>
+    <value>Koble til {0}.</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
-    <value>Disconnect {0}.</value>
+    <value>Koble fra {0}.</value>
   </data>
   <data name="ContinuesAsTrainToDestination" xml:space="preserve">
-    <value>Continues as train {0} to {1}.</value>
+    <value>Fortsettes som tog {0} til {1}.</value>
   </data>
   <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
-    <value>Continues {2} as train {0} to {1}.</value>
+    <value>Fortsettes {2} som tog {0} til {1}.</value>
   </data>
   <data name="EngineChange" xml:space="preserve">
-    <value>Engine change from {0} to {1}.</value>
+    <value>Lokbytte fra {0} til {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{2}: Get loco {0} {1} at parking area.</value>
+    <value>{2}: Hent lok {0} {1} fra oppstilling.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Use loco {0} {1}.</value>
+    <value>Bruk lok {0} {1}.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{2}: Use loco {0} {1}.</value>
+    <value>{2}: Bruk lok {0} {1}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
-    <value>{2}: Drive loco {0} {1} to parking area.</value>
+    <value>{2}: Kjør lok {0} {1} til oppstilling.</value>
   </data>
   <data name="BringsWaggonsToDestinations" xml:space="preserve">
-    <value>Brings wagons to {0}.</value>
+    <value>Bringer vogner til {0}.</value>
   </data>
   <data name="AndBeyond" xml:space="preserve">
-    <value>{0} and beyond</value>
+    <value>{0} og utover</value>
   </data>
   <data name="DisconnectContinuingWagons" xml:space="preserve">
-    <value>Disconnect continuing wagons.</value>
+    <value>Koble fra vogner der skal videre.</value>
   </data>
   <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
-    <value>Switch wagons to cargo customers with main engine.</value>
+    <value>Veskle vogner til godskunder med linjelok.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Disconnect wagons to {0} and further.</value>
+    <value>Koble fra vogner til {0} og videre.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
-    <value>Disconnect wagons to {0}.</value>
+    <value>Koble fra vogner til {0}.</value>
   </data>
   <data name="Days" xml:space="preserve">
-    <value>Days</value>
+    <value>Dager</value>
   </data>
   <data name="Operator" xml:space="preserve">
-    <value>Operator</value>
+    <value>Operatør</value>
   </data>
   <data name="Cargo" xml:space="preserve">
-    <value>Cargo</value>
+    <value>Gods</value>
   </data>
   <data name="Carrier" xml:space="preserve">
-    <value>Carrier</value>
+    <value>Speditør</value>
   </data>
   <data name="Class" xml:space="preserve">
-    <value>Class</value>
+    <value>Klasse</value>
   </data>
   <data name="Consignee" xml:space="preserve">
-    <value>Consignee</value>
+    <value>Mottaker</value>
   </data>
   <data name="Destination" xml:space="preserve">
-    <value>Destination</value>
+    <value>Destinasjon</value>
   </data>
   <data name="Epoch" xml:space="preserve">
-    <value>Epoch</value>
+    <value>Epoke</value>
   </data>
   <data name="Instructions" xml:space="preserve">
-    <value>Instructions</value>
+    <value>Instruksjoner</value>
   </data>
   <data name="Origin" xml:space="preserve">
-    <value>Origin</value>
+    <value>Avsenderstasjon</value>
   </data>
   <data name="Shipper" xml:space="preserve">
-    <value>Shipper</value>
+    <value>Avsender</value>
   </data>
 </root>

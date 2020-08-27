@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contract
 {
@@ -13,5 +17,21 @@ namespace Tellurian.Trains.Planning.App.Contract
         [Obsolete("Use " + nameof(OperationDays))]
         public string Days { get; set; } = string.Empty;
         public OperationDays OperationDays { get; set; } = new OperationDays();
+    }
+
+    public static class WaybillExtensions
+    { 
+        public static IEnumerable<string> LabelResourceKeys => new[]
+        {
+            "Destination",
+            "Origin",
+            "Consignee",
+            "Shipper",
+            "Carrier",
+            "Cargo",
+            "Class",
+            "Epoch",
+            "Instructions"
+        };
     }
 }

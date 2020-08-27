@@ -14,7 +14,8 @@ namespace Tellurian.Trains.Planning.App.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
             builder.Services.AddLocalization();
-            builder.Services.AddScoped<PrintedReportsService>();
+            builder.Services.AddTransient<LanguageService>();
+            builder.Services.AddTransient<PrintedReportsService>();
             builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             await builder.Build().RunAsync().ConfigureAwait(false);
         }

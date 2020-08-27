@@ -6,6 +6,7 @@
         public string Station { get; set; } = string.Empty;
         public Region Region { get; set; } = Region.DestinationDefault;
         public string Instruction { get; set; } = string.Empty;
+        public string Language { get; set; } = string.Empty;
 
         public static CargoCustomer Origin(string name, string station, string instruction = "-") =>
             new CargoCustomer { Name = name, Station = station, Instruction = instruction, Region = Region.OriginDefault };

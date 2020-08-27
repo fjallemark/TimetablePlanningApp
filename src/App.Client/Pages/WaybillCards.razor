@@ -2,6 +2,7 @@
 @page "/waybills"
 @inject HttpClient Http
 @inject Services.PrintedReportsService DataService
+@inject Services.LanguageService LanguageService
 
 @using Tellurian.Trains.Planning.App.Client.Components
 
@@ -12,7 +13,7 @@
         <div class="pagebreak">
             @foreach (var item in itemsPerPage)
             {
-                <WaybillCard Item="@item"></WaybillCard>
+                <WaybillCard Item="@item" LanguageLabels="@LanguageLabels"></WaybillCard>
             }
         </div>
     }
@@ -21,9 +22,11 @@
 @code {
 
     private IEnumerable<Waybill>? Items { get; set; }
+    private IEnumerable<LanguageLabels>? LanguageLabels { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        LanguageLabels = await LanguageService.GetWaybillLabels();
         var result = await DataService.GetWaybillsAsync(Constants.LayoutId);
         if (result.statusCode.IsSuccess()) Items = result.items;
     }
