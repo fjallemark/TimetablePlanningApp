@@ -13,7 +13,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Number = me.GetInt16("LocoNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("LocoOperator"),
                 Class = me.GetString("LocoClass"),
-                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay")
+                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay"),
+                Note = me.GetString("Note")
             };
 
         public static TrainsetSchedule AsTrainsetSchedule(this IDataRecord me) =>
@@ -23,7 +24,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Number = me.GetInt16("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("TrainsetOperator"),
                 Class = me.GetString("TrainsetClass"),
-                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay")
+                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay"),
+                Note = me.GetString("Note")
             };
 
         public static void AddTrainPart(this IDataReader me, VehicleSchedule schedule)

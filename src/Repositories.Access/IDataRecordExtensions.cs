@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Globalization;
+using System.Reflection;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Contract;
 
@@ -32,6 +33,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var i = me.GetOrdinal(columnName);
             if (me.IsDBNull(i)) return 0;
             return me.GetByte(i);
+        }
+
+        public static byte GetByteFromDouble(this IDataRecord me, string columnName)
+        {
+            var i = me.GetOrdinal(columnName);
+            if (me.IsDBNull(i)) return 0;
+            return (byte)me.GetDouble(i);
         }
 
         public static int GetInt16(this IDataRecord me, string columnName, short defaultValue = 0)

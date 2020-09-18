@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Tellurian.Trains.Planning.App.Contract
 {
@@ -65,6 +66,12 @@ namespace Tellurian.Trains.Planning.App.Contract
                 if (note.IsForArrival && me.IsArrivalInDuty) foreach (var n in note.ToNotes()) me.AddArrivalNote(n);
                 if (note.IsForDeparture && me.IsDepartureInDuty) foreach (var n in note.ToNotes()) me.AddDepartureNote(n);
             }
+        }
+
+        public static void MergeLocoDepartureCallNote(this DutyStationCall me)
+        {
+            if (me.Departure is null) return;
+            var x = me.Departure.Notes.OfType<LocoDepartureCallNote>().GroupBy(n => n.TrainInfo!.Number);
         }
     }
 }

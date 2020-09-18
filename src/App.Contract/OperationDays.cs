@@ -12,8 +12,8 @@ namespace Tellurian.Trains.Planning.App.Contract
         public string FullName { get; set; } = string.Empty;
         public string ShortName { get; set; } = string.Empty;
 
-        public override bool Equals(object obj) => obj is OperationDays other && other.FullName == FullName;
-        public override int GetHashCode() => FullName.GetHashCode(StringComparison.OrdinalIgnoreCase);
+        public override bool Equals(object obj) => obj is OperationDays other && other.ShortName.Equals(ShortName, StringComparison.OrdinalIgnoreCase);
+        public override int GetHashCode() => ShortName.GetHashCode(StringComparison.OrdinalIgnoreCase);
         public override string ToString() => ShortName;
     }
 

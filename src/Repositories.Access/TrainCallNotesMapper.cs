@@ -69,10 +69,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     Number = me.GetInt16("LocoNumber"),
                     OperatorName = me.GetString("LocoOperator"),
-                    OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
+                    OperationDays = me.GetByteFromDouble("LocoOperationDaysFlag").OperationDays(),
                 },
                 IsFromParking = me.GetBool("FromParking"),
-                TrainOperationDays = me.GetByte("TrainOperationDaysFlag").OperationDays()
+                TrainOperationDays = me.GetByteFromDouble("TrainOperationDaysFlag").OperationDays()
             };
 
         public static LocoArrivalCallNote AsLocoArrivalCallNote(this IDataRecord me) =>
