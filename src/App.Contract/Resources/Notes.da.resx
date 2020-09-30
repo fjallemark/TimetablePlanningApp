@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Hent lokomotiv {0} {1} fra opstilling.</value>
+    <value>Hent {0} {1} {2} fra opstilling.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
     <value>Kør lokomotiv {0} {1} til opstilling.</value>
@@ -266,13 +266,13 @@
     <value>Skift lokomotiv fra {0} til {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{2}: Hent lokomotiv {0} {1} fra opstilling.</value>
+    <value>{3}: Hent {0} {1} {2} fra opstilling.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{2}: Tilkoble lokomotiv {0} {1}.</value>
+    <value>{3}: Tilkoble {0} {1} {2}.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Tilkoble lokomotiv {0} {1}.</value>
+    <value>Tilkoble {0} {1} {2}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
     <value>{2}: Kør lokomotiv {0} {1} til opstilling.</value>
@@ -284,16 +284,16 @@
     <value>{0} og videre</value>
   </data>
   <data name="DisconnectContinuingWagons" xml:space="preserve">
-    <value>Afkoble godsvogne der skal videre.</value>
+    <value>Afkoble vogne der skal videre.</value>
   </data>
-  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
-    <value>Veksle godsvogne til godskunder med linjelokomotiv.</value>
+  <data name="SwitchWagonsToCustomers" xml:space="preserve">
+    <value>Veksle vogne til godskunder.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Frakoble godsvogne til {0} og videre.</value>
+    <value>Frakoble vogne til {0} og videre.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
-    <value>Frakoble godsvogne til {0}.</value>
+    <value>Frakoble vogne til {0}.</value>
   </data>
   <data name="Days" xml:space="preserve">
     <value>Dage</value>
@@ -327,5 +327,20 @@
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Afsender</value>
+  </data>
+  <data name="AllDestinations" xml:space="preserve">
+    <value>Alle destinationer</value>
+  </data>
+  <data name="TransferVia" xml:space="preserve">
+    <value>{0} (over {1})</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Lokomotiv</value>
+  </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Motorvogn</value>
+  </data>
+  <data name="MeetsOtherTrains" xml:space="preserve">
+    <value>Krydser {0}.</value>
   </data>
 </root>

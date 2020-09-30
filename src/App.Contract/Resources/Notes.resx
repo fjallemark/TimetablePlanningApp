@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Get loco {0} {1} at parking area.</value>
+    <value>Get {0} {1} {2} at parking area.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
     <value>Drive loco {0} {1} to parking area.</value>
@@ -286,13 +286,13 @@
     <value>Engine change from {0} to {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{2}: Get loco {0} {1} at parking area.</value>
+    <value>{3}: Get {0} {1} {2} at parking area.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Use loco {0} {1}.</value>
+    <value>Use {0} {1} {2}.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{2}: Use loco {0} {1}.</value>
+    <value>{3}: Use {0} {1} {2}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
     <value>{2}: Drive loco {0} {1} to parking area.</value>
@@ -306,11 +306,11 @@
   <data name="DisconnectContinuingWagons" xml:space="preserve">
     <value>Disconnect continuing wagons.</value>
   </data>
-  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
-    <value>Switch wagons to cargo customers with main engine.</value>
+  <data name="SwitchWagonsToCustomers" xml:space="preserve">
+    <value>Switch wagons to cargo customers.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Disconnect wagons to {0} and further.</value>
+    <value>Disconnect wagons to {0} and beyond.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
     <value>Disconnect wagons to {0}.</value>
@@ -347,5 +347,20 @@
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Shipper</value>
+  </data>
+  <data name="AllDestinations" xml:space="preserve">
+    <value>All destinations</value>
+  </data>
+  <data name="TransferVia" xml:space="preserve">
+    <value>{0} (via {1})</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Loco</value>
+  </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Railcar</value>
+  </data>
+  <data name="MeetsOtherTrains" xml:space="preserve">
+    <value>Meets {0}.</value>
   </data>
 </root>

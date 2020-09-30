@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Hämta lok {0} {1}  från uppställning.</value>
+    <value>Hämta {0} {1} {2}  från uppställning.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
     <value>Kör lok {0} {1} till uppställningsplats.</value>
@@ -286,13 +286,13 @@
     <value>Lokbyte från {0} till {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{2}: Hämta lok {0} {1}  från uppställning.</value>
+    <value>{3}: Hämta {0} {1} {2} från uppställning.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{2}: Använd lok {0} {1}.</value>
+    <value>{3}: Använd {0} {1} {2}.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Använd lok {0} {1}.</value>
+    <value>Använd {0} {1} {2}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
     <value>{2}: Kör lok {0} {1} till uppställningsplats.</value>
@@ -306,14 +306,14 @@
   <data name="DisconnectContinuingWagons" xml:space="preserve">
     <value>Koppla av godsvagnar som skall vidare.</value>
   </data>
-  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
-    <value>Växla in godsvagnar till godskunder med linjelok.</value>
+  <data name="SwitchWagonsToCustomers" xml:space="preserve">
+    <value>Växla in vagnar till godskunder.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Koppla av godsvagnar till {0} och bortom.</value>
+    <value>Koppla av vagnar till {0} och bortom.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
-    <value>Koppla av godsvagnar till {0}.</value>
+    <value>Koppla av vagnar till {0}.</value>
   </data>
   <data name="Days" xml:space="preserve">
     <value>Dagar</value>
@@ -347,5 +347,20 @@
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Avsändare</value>
+  </data>
+  <data name="AllDestinations" xml:space="preserve">
+    <value>Alla destinationer</value>
+  </data>
+  <data name="TransferVia" xml:space="preserve">
+    <value>{0} (över {1})</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Lok</value>
+  </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Motorvagn</value>
+  </data>
+  <data name="MeetsOtherTrains" xml:space="preserve">
+    <value>Möter {0}.</value>
   </data>
 </root>

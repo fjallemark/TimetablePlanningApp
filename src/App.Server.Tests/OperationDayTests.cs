@@ -63,13 +63,23 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
         }
 
         [TestMethod]
-        public void MondayWendnesFridaySwedish()
+        public void MondayWendnesdayFridaySwedish()
         {
             Swedish();
             const byte target = 0x15;
             var actual = target.OperationDays();
             Assert.AreEqual("Måndag, onsdag och fredag", actual.FullName);
             Assert.AreEqual("M,O,F", actual.ShortName);
+        }
+
+        [TestMethod]
+        public void MondayToFridayAndSundaySwedish()
+        {
+            Swedish();
+            const byte target = 95;
+            var actual = target.OperationDays();
+            Assert.AreEqual("Måndag till fredag och söndag", actual.FullName);
+            Assert.AreEqual("M-F,S", actual.ShortName);
         }
 
         private static void English()

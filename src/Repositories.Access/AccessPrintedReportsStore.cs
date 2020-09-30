@@ -81,13 +81,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var currentUnique = $"{reader.GetInt16("LocoNumber")}{reader.GetString("LocoDays")}";
                 if (currentUnique != lastUnique)
                 {
-                    if (locoSchedule != null) result.Add( locoSchedule);
+                    if (locoSchedule != null) result.Add(locoSchedule);
                     locoSchedule = reader.AsLocoSchedule();
                 }
                 if (locoSchedule != null) reader.AddTrainPart(locoSchedule);
                 lastUnique = currentUnique;
             }
-            if (locoSchedule != null) result.Add( locoSchedule);
+            if (locoSchedule != null) result.Add(locoSchedule);
             return Task.FromResult(result.AsEnumerable());
         }
 
@@ -103,7 +103,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var currentUnique = $"{reader.GetInt16("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
                 if (currentUnique != lastUnique)
                 {
-                    if (schedule != null)result.Add(schedule);
+                    if (schedule != null) result.Add(schedule);
                     schedule = reader.AsTrainsetSchedule();
                 }
                 if (schedule != null) reader.AddTrainPart(schedule);
@@ -116,10 +116,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId)
         {
             var result = new List<TrainCallNote>(500);
-            result.AddRange( GetManualTrainStationCallNotes(layoutId));
+            result.AddRange(GetManualTrainStationCallNotes(layoutId));
             result.AddRange(GetDepartureTrainsetsCallNotes(layoutId));
-            result.AddRange(GetArrivalTrainsetsCallNotes(layoutId)) ;
+            result.AddRange(GetArrivalTrainsetsCallNotes(layoutId));
             result.AddRange(GetTrainContinuationNumberCallNotes(layoutId));
+            result.AddRange(GetTrainMeetCallNotes(layoutId));
             result.AddRange(GetLocoExchangeCallNotes(layoutId));
             result.AddRange(GetLocoDepartureCallNotes(layoutId));
             result.AddRange(GetLocoArrivalCallNotes(layoutId));
@@ -164,6 +165,26 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     current = reader.AsTrainsetsCallNote(isForDeparture, isForArrival);
                 }
                 current?.AddTrainset(reader.AsTrainset());
+                lastCallId = currentCallId;
+            }
+            if (current != null) yield return current;
+        }
+
+        private IEnumerable<TrainMeetCallNote> GetTrainMeetCallNotes(int layoutId)
+        {
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainMeetCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId");
+            var lastCallId = 0;
+            TrainMeetCallNote? current = null;
+            while (reader.Read())
+            {
+                var currentCallId = reader.GetInt32("CallId");
+                if (currentCallId != lastCallId)
+                {
+                    if (current != null) yield return current;
+                    current = reader.AsTrainMeetCallNote();
+                }
+                current?.MeetingTrains.Add(reader.AsMeetingTrain());
                 lastCallId = currentCallId;
             }
             if (current != null) yield return current;
@@ -223,7 +244,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     if (current != null) yield return current;
                     current = reader.AsBlockDestinationsCallNote();
                 }
-                current?.BlockDestinations.Add(reader.AsBlockDestination());
+                var blockDestination = reader.AsBlockDestination();
+                current?.BlockDestinations.Add(blockDestination);
                 lastCallId = currentCallId;
             }
             if (current != null) yield return current;

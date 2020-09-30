@@ -26,7 +26,7 @@ namespace App.Server.Tests
             public RepositoryOptions RepositoryOptions { get; set; } = new RepositoryOptions
             {
                 //ConnectionString = @"Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2020\\2020-05 Gävle\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
-                 ConnectionString = @"Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2020\\2020-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
+                 ConnectionString = @"Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2020\\2020-10 Värnamo\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
             };
         }
 

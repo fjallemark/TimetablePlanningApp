@@ -61,6 +61,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All destinations.
+        /// </summary>
+        public static string AllDestinations {
+            get {
+                return ResourceManager.GetString("AllDestinations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to and.
         /// </summary>
         public static string And {
@@ -268,7 +277,7 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disconnect wagons to {0} and further..
+        ///   Looks up a localized string similar to Disconnect wagons to {0} and beyond..
         /// </summary>
         public static string DisconnectWagonsToHereAndFurther {
             get {
@@ -349,7 +358,7 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get loco {0} {1} at parking area..
+        ///   Looks up a localized string similar to Get {0} {1} {2} at parking area..
         /// </summary>
         public static string GetLocoAtParking {
             get {
@@ -358,7 +367,7 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {2}: Get loco {0} {1} at parking area..
+        ///   Looks up a localized string similar to {3}: Get {0} {1} {2} at parking area..
         /// </summary>
         public static string GetLocoAtParkingOnDays {
             get {
@@ -421,6 +430,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loco.
+        /// </summary>
+        public static string Loco {
+            get {
+                return ResourceManager.GetString("Loco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loco transport.
         /// </summary>
         public static string LocoTransport {
@@ -444,6 +462,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         public static string MailTrain {
             get {
                 return ResourceManager.GetString("MailTrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meets {0}..
+        /// </summary>
+        public static string MeetsOtherTrains {
+            get {
+                return ResourceManager.GetString("MeetsOtherTrains", resourceCulture);
             }
         }
         
@@ -565,6 +592,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Railcar.
+        /// </summary>
+        public static string Railcar {
+            get {
+                return ResourceManager.GetString("Railcar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Regional train.
         /// </summary>
         public static string RegionalTrain {
@@ -646,11 +682,11 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switch wagons to cargo customers with main engine..
+        ///   Looks up a localized string similar to Switch wagons to cargo customers..
         /// </summary>
-        public static string SwitchWagonsWithMainLoco {
+        public static string SwitchWagonsToCustomers {
             get {
-                return ResourceManager.GetString("SwitchWagonsWithMainLoco", resourceCulture);
+                return ResourceManager.GetString("SwitchWagonsToCustomers", resourceCulture);
             }
         }
         
@@ -691,6 +727,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} (via {1}).
+        /// </summary>
+        public static string TransferVia {
+            get {
+                return ResourceManager.GetString("TransferVia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tuesday.
         /// </summary>
         public static string Tuesday {
@@ -718,7 +763,7 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use loco {0} {1}..
+        ///   Looks up a localized string similar to Use {0} {1} {2}..
         /// </summary>
         public static string UseLoco {
             get {
@@ -727,7 +772,7 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {2}: Use loco {0} {1}..
+        ///   Looks up a localized string similar to {3}: Use {0} {1} {2}..
         /// </summary>
         public static string UseLocoAtDays {
             get {

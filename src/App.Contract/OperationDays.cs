@@ -3,8 +3,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
-
 namespace Tellurian.Trains.Planning.App.Contract
 {
     public class OperationDays
@@ -51,6 +49,14 @@ namespace Tellurian.Trains.Planning.App.Contract
                 Append(Resources.Notes.To, "-", fullName, shortName);
                 Append(days.Last(), fullName, shortName, true);
             }
+            else if (flags == 0x5F)
+            {
+                Append(Days[1], fullName, shortName);
+                Append(Resources.Notes.To, "-", fullName, shortName);
+                Append(Days[5], fullName, shortName, true);
+                Append(Resources.Notes.And, ",", fullName, shortName);
+                Append(Days[7], fullName, shortName, true);
+            }
             else
             {
                 foreach (var day in days)
@@ -72,7 +78,7 @@ namespace Tellurian.Trains.Planning.App.Contract
 
         private static void Append(Day day, StringBuilder fullNames, StringBuilder shortNames, bool toLower = false)
         {
-            _ = fullNames.Append(toLower && Resources.Notes.DayNameCasing.Equals("LOWER", System.StringComparison.OrdinalIgnoreCase) ? day.FullName.ToLowerInvariant() : day.FullName);
+            _ = fullNames.Append(toLower && Resources.Notes.DayNameCasing.Equals("LOWER", StringComparison.OrdinalIgnoreCase) ? day.FullName.ToLowerInvariant() : day.FullName);
             shortNames.Append(day.ShortName);
         }
         public static void Append(this string fullText, string shortText, StringBuilder fullNames, StringBuilder shortNames)

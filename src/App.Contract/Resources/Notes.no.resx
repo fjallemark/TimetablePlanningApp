@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Hent lok {0} {1} fra oppstilling.</value>
+    <value>Hent {0} {1} {2} fra oppstilling.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
     <value>Kjør lok {0} {1} til oppstilling.</value>
@@ -286,13 +286,13 @@
     <value>Lokbytte fra {0} til {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{2}: Hent lok {0} {1} fra oppstilling.</value>
+    <value>{3}: Hent {0} {1} {2} fra oppstilling.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Bruk lok {0} {1}.</value>
+    <value>Bruk {0} {1} {2}.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{2}: Bruk lok {0} {1}.</value>
+    <value>{3}: Bruk {0} {1} {2}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
     <value>{2}: Kjør lok {0} {1} til oppstilling.</value>
@@ -306,8 +306,8 @@
   <data name="DisconnectContinuingWagons" xml:space="preserve">
     <value>Koble fra vogner der skal videre.</value>
   </data>
-  <data name="SwitchWagonsWithMainLoco" xml:space="preserve">
-    <value>Veskle vogner til godskunder med linjelok.</value>
+  <data name="SwitchWagonsToCustomers" xml:space="preserve">
+    <value>Veksle vogner til godskunder.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
     <value>Koble fra vogner til {0} og videre.</value>
@@ -347,5 +347,20 @@
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Avsender</value>
+  </data>
+  <data name="AllDestinations" xml:space="preserve">
+    <value>Alle destinasjoner</value>
+  </data>
+  <data name="TransferVia" xml:space="preserve">
+    <value>{0} (over {1})</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Lok</value>
+  </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Motorvogn</value>
+  </data>
+  <data name="MeetsOtherTrains" xml:space="preserve">
+    <value>Møter {0}.</value>
   </data>
 </root>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Tellurian.Trains.Planning.App.Contract
 {
@@ -39,15 +38,16 @@ namespace Tellurian.Trains.Planning.App.Contract
         public static bool AddArrivalNote(this StationCall me, Note note)
         {
             if (me.Arrival is null) return false;
-            if (me.Arrival.Notes.Contains(note)) return false;
-            me.Arrival.Notes.Add(note);
+            if (me.Arrival.ContainsSimilarNote(note)) return false;
+            if (me.IsStop) me.Arrival.Notes.Add(note);
+            else if(me.Departure is not null) me.Departure.Notes.Add(note);
             return true;
         }
 
         public static bool AddDepartureNote(this StationCall me, Note note)
         {
             if (me.Departure is null) return false;
-            if (me.Departure.Notes.Contains(note)) return false;
+            if (me.Departure.ContainsSimilarNote(note)) return false;
             me.Departure.Notes.Add(note);
             return true;
         }
@@ -68,10 +68,10 @@ namespace Tellurian.Trains.Planning.App.Contract
             }
         }
 
-        public static void MergeLocoDepartureCallNote(this DutyStationCall me)
+        private static bool ContainsSimilarNote(this CallTime? me, Note note)
         {
-            if (me.Departure is null) return;
-            var x = me.Departure.Notes.OfType<LocoDepartureCallNote>().GroupBy(n => n.TrainInfo!.Number);
+            if (me is null) return false;
+            return me.Notes.Any(n => n.Text.StartsWith(note.Text[0..^1], System.StringComparison.OrdinalIgnoreCase));
         }
     }
 }
