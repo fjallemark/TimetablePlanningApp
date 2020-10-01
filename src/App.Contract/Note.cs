@@ -240,7 +240,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public IList<BlockDestination> BlockDestinations { get; } = new List<BlockDestination>();
 
         public override IEnumerable<Note> ToNotes() => Note.SingleNote(100,
-            string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, string.Join(", ", BlockDestinations.Select(d => d.ToString()))));
+            string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, string.Join(", ", BlockDestinations.Distinct().Select(d => d.ToString()))));
     }
 
     public class BlockArrivalCallNote : TrainCallNote

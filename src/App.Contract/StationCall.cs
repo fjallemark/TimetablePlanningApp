@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Contract
@@ -39,6 +40,12 @@ namespace Tellurian.Trains.Planning.App.Contract
         {
             if (me.Arrival is null) return false;
             if (me.Arrival.ContainsSimilarNote(note)) return false;
+            var similarNote = me.Arrival.Notes.FirstOrDefault(n => note.Text.StartsWith(n.Text[0..^1], StringComparison.OrdinalIgnoreCase));
+            if (similarNote is not null)
+            {
+                similarNote.Text = note.Text;
+                return true;
+            }
             if (me.IsStop) me.Arrival.Notes.Add(note);
             else if(me.Departure is not null) me.Departure.Notes.Add(note);
             return true;
@@ -48,6 +55,12 @@ namespace Tellurian.Trains.Planning.App.Contract
         {
             if (me.Departure is null) return false;
             if (me.Departure.ContainsSimilarNote(note)) return false;
+            var similarNote = me.Departure.Notes.FirstOrDefault(n => note.Text.StartsWith(n.Text[0..^1], StringComparison.OrdinalIgnoreCase));
+            if (similarNote is not null)
+            {
+                similarNote.Text = note.Text;
+                return true;
+            }
             me.Departure.Notes.Add(note);
             return true;
         }
@@ -71,7 +84,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         private static bool ContainsSimilarNote(this CallTime? me, Note note)
         {
             if (me is null) return false;
-            return me.Notes.Any(n => n.Text.StartsWith(note.Text[0..^1], System.StringComparison.OrdinalIgnoreCase));
+            return me.Notes.Any(n => n.Text.StartsWith(note.Text[0..^1], StringComparison.OrdinalIgnoreCase));
         }
     }
 }

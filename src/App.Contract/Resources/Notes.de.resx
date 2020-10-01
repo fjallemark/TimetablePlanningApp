@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="GetLocoAtParking" xml:space="preserve">
+    <value>Holen Sie sich {0} {1} {2} auf dem Parkplatz.</value>
+  </data>
+  <data name="PutLocoAtParking" xml:space="preserve">
+    <value>Fahren Sie die Lok {0} {1} zum Parkplatz.</value>
+  </data>
+  <data name="CirculateLoco" xml:space="preserve">
+    <value>Umlauf lassen.</value>
+  </data>
+  <data name="TurnLoco" xml:space="preserve">
+    <value>Lok drehen.</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>und</value>
+  </data>
+  <data name="Daily" xml:space="preserve">
+    <value>Täglich</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Freitag</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Montag</value>
+  </data>
+  <data name="OnDemand" xml:space="preserve">
+    <value>Bedarfsgesteuert</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sonntag</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Donnerstag</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>an</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Dienstag</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Mittwoch</value>
+  </data>
+  <data name="DailyShort" xml:space="preserve">
+    <value>Tägl</value>
+  </data>
+  <data name="DayNameCasing" xml:space="preserve">
+    <value>UPPER</value>
+  </data>
+  <data name="FridayShort" xml:space="preserve">
+    <value>Fr</value>
+  </data>
+  <data name="MondayShort" xml:space="preserve">
+    <value>Mo</value>
+  </data>
+  <data name="OnDemandShort" xml:space="preserve">
+    <value>Bedarf</value>
+  </data>
+  <data name="SaturdayShort" xml:space="preserve">
+    <value>Sa</value>
+  </data>
+  <data name="SundayShort" xml:space="preserve">
+    <value>So</value>
+  </data>
+  <data name="ThursdayShort" xml:space="preserve">
+    <value>Do</value>
+  </data>
+  <data name="TuesdayShort" xml:space="preserve">
+    <value>Di</value>
+  </data>
+  <data name="WednesdayShort" xml:space="preserve">
+    <value>Mi</value>
+  </data>
+  <data name="NoStop" xml:space="preserve">
+    <value>Nicht halt.</value>
+  </data>
+  <data name="BlockingService" xml:space="preserve">
+    <value>Sperrdienst</value>
+  </data>
+  <data name="CommuterTrain" xml:space="preserve">
+    <value>Pendlerzug</value>
+  </data>
+  <data name="ConstructionTrain" xml:space="preserve">
+    <value>Bauzug</value>
+  </data>
+  <data name="ContainerTrain" xml:space="preserve">
+    <value>Containerzug</value>
+  </data>
+  <data name="EmptyTrain" xml:space="preserve">
+    <value>Leerer Zug</value>
+  </data>
+  <data name="ExpressTrain" xml:space="preserve">
+    <value>Schnellzug</value>
+  </data>
+  <data name="FreightExpressTrain" xml:space="preserve">
+    <value>Express-Güterzug</value>
+  </data>
+  <data name="FreightTrain" xml:space="preserve">
+    <value>Güterzug</value>
+  </data>
+  <data name="HistoricalTrain" xml:space="preserve">
+    <value>Historischer Zug</value>
+  </data>
+  <data name="InterCity" xml:space="preserve">
+    <value>Intercity</value>
+  </data>
+  <data name="InterRegio" xml:space="preserve">
+    <value>InterRegio</value>
+  </data>
+  <data name="LocalFreightTrain" xml:space="preserve">
+    <value>Lokaler Güterzug</value>
+  </data>
+  <data name="LocoTransport" xml:space="preserve">
+    <value>Loktransport</value>
+  </data>
+  <data name="LongDistanceFreightTrain" xml:space="preserve">
+    <value>Ferngüterzug</value>
+  </data>
+  <data name="MailTrain" xml:space="preserve">
+    <value>Zug</value>
+  </data>
+  <data name="NightTrain" xml:space="preserve">
+    <value>Nachtzug</value>
+  </data>
+  <data name="NormalFreightTrain" xml:space="preserve">
+    <value>Normaler Güterzug</value>
+  </data>
+  <data name="OreTrain" xml:space="preserve">
+    <value>Erzzug</value>
+  </data>
+  <data name="PassengerTrain" xml:space="preserve">
+    <value>Personenzug</value>
+  </data>
+  <data name="RegionalTrain" xml:space="preserve">
+    <value>Regionalzug</value>
+  </data>
+  <data name="Shunting" xml:space="preserve">
+    <value>Rangieren</value>
+  </data>
+  <data name="SpecialFreightTrain" xml:space="preserve">
+    <value>Sondergüterzug</value>
+  </data>
+  <data name="SpeedTrain" xml:space="preserve">
+    <value>Hochgeschwindigkeitszug</value>
+  </data>
+  <data name="TimberTrain" xml:space="preserve">
+    <value>Holzzug</value>
+  </data>
+  <data name="LocalTrain" xml:space="preserve">
+    <value>Regionalbahn</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Samstag</value>
+  </data>
+  <data name="ConnectTrainset" xml:space="preserve">
+    <value>{0} an den Zug anschließen.</value>
+  </data>
+  <data name="DisconnectTrainset" xml:space="preserve">
+    <value>Abklemmen {0}.</value>
+  </data>
+  <data name="ContinuesAsTrainToDestination" xml:space="preserve">
+    <value>Fährt als Zug {0} nach {1} fort.</value>
+  </data>
+  <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
+    <value>Fährt {2} als Zug {0} nach {1} fort.</value>
+  </data>
+  <data name="EngineChange" xml:space="preserve">
+    <value>Motorwechsel von {0} auf {1}.</value>
+  </data>
+  <data name="GetLocoAtParkingOnDays" xml:space="preserve">
+    <value>{3}: Holen Sie sich {0} {1} {2} auf dem Parkplatz.</value>
+  </data>
+  <data name="UseLoco" xml:space="preserve">
+    <value>Vervenden Sie {0} {1} {2}</value>
+  </data>
+  <data name="UseLocoAtDays" xml:space="preserve">
+    <value>{3}: Verwenden Sie {0} {1} {2}.</value>
+  </data>
+  <data name="PutLocoAtParkingAtDays" xml:space="preserve">
+    <value>{2}: Lok {0} {1} zum Parkplatz fahren.</value>
+  </data>
+  <data name="BringsWaggonsToDestinations" xml:space="preserve">
+    <value>Bringt Wagen auf {0}.</value>
+  </data>
+  <data name="AndBeyond" xml:space="preserve">
+    <value>{0} und darüber hinaus</value>
+  </data>
+  <data name="DisconnectContinuingWagons" xml:space="preserve">
+    <value>Durchgehende Wagen abklemmen.</value>
+  </data>
+  <data name="SwitchWagonsToCustomers" xml:space="preserve">
+    <value>Wagen auf Frachtkunden umstellen.</value>
+  </data>
+  <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
+    <value>Abklemmen die Wagen von {0} und darüber hinaus.</value>
+  </data>
+  <data name="DisconnectWagonsToHere" xml:space="preserve">
+    <value>Abklemmen die Wagen von {0}.</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="Cargo" xml:space="preserve">
+    <value>Fracht</value>
+  </data>
+  <data name="Carrier" xml:space="preserve">
+    <value>Spediteur</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>Klasse</value>
+  </data>
+  <data name="Consignee" xml:space="preserve">
+    <value>Empfänger</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Ziel</value>
+  </data>
+  <data name="Epoch" xml:space="preserve">
+    <value>Epoch</value>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Anweisungen</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Versandstation</value>
+  </data>
+  <data name="Shipper" xml:space="preserve">
+    <value>Absender</value>
+  </data>
+  <data name="AllDestinations" xml:space="preserve">
+    <value>Alle Ziele</value>
+  </data>
+  <data name="TransferVia" xml:space="preserve">
+    <value>{0} (über {1})</value>
+  </data>
+  <data name="Loco" xml:space="preserve">
+    <value>Loco</value>
+  </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Triebwagen</value>
+  </data>
+  <data name="MeetsOtherTrains" xml:space="preserve">
+    <value>Trifft {0}.</value>
+  </data>
+</root>

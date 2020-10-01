@@ -167,14 +167,14 @@
 
     .duty.continuenextpage {
         text-align: center;
-        font-size: 16pt;
+        font-size: 12pt;
         font-weight: bold;
         color: red;
     }
 
     .duty.ends {
         text-align: center;
-        font-size: 16pt;
+        font-size: 12pt;
         font-weight: bold;
     }
 
