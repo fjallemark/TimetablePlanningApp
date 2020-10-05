@@ -5,6 +5,8 @@ using System.Linq;
 using System.Xml;
 using Tellurian.Trains.Planning.App.Contract.Resources;
 
+#pragma warning disable CA1308 // Normalize strings to uppercase
+
 namespace Tellurian.Trains.Planning.App.Contract
 {
     public class Note
@@ -285,18 +287,22 @@ namespace Tellurian.Trains.Planning.App.Contract
         public bool ToAllDestinations { get; set; }
         public bool AndBeyond { get; set; }
         public int OrderInTrain { get; set; }
+        public int MaxNumberOfWagons { get; set; }
         public string? TransferDestination { get; set; }
         public override string ToString() =>
             ToAllDestinations ? Notes.AllDestinations.ToLowerInvariant() :
             AndBeyond ?
-            string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationName) :
-            DestinationName;
+            string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationNameWithMaxWagons) :
+            DestinationNameWithMaxWagons;
 
-        private string DestinationName =>
-            ToAllDestinations ? Notes.AllDestinations.ToLowerInvariant() :
+        public string DestinationName =>
+            ToAllDestinations ? AllDestinationsWithMaxWagons :
             string.IsNullOrWhiteSpace(TransferDestination) ?
             StationName :
             string.Format(CultureInfo.CurrentCulture, Notes.TransferVia, TransferDestination, StationName);
+
+        public string DestinationNameWithMaxWagons => $"{DestinationName}×{MaxNumberOfWagons}";
+        private string AllDestinationsWithMaxWagons => $"{Notes.AllDestinations.ToLowerInvariant()}×{MaxNumberOfWagons}";
 
         public override bool Equals(object obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);

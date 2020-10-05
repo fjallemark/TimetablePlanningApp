@@ -1,0 +1,35 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+@if (BlockDestinations == null)
+{
+    <p>Wait...</p>
+}
+else
+{
+<div>
+    <h3>@BlockDestinations.OriginStationName</h3>
+    <div >
+        @foreach (var track in BlockDestinations.TrackDestinations)
+        {
+            <div class="track">
+                <span class="track number">@Localizer["Track"] @track.TrackNumber</span> :
+                <span class="track loco">@Localizer["Loco"]</span>
+                @foreach (var destination in track.BlockDestinations)
+                {
+                    <span class="track destination">
+                        @destination.Display()&times;@destination.MaxNumberOfWagons
+                    </span>
+                }
+                <span>
+                    &nbsp;
+                </span>
+            </div>
+        }
+    </div>
+</div>
+}
+
+@code {
+    [Parameter]
+    public BlockDestinations? BlockDestinations { get; set; }
+}

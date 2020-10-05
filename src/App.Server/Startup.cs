@@ -7,6 +7,7 @@ using Tellurian.Trains.Planning.Repositories.Access;
 using Microsoft.AspNetCore.Localization;
 using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Server.Services;
+using System.Text.Json;
 
 namespace Tellurian.Trains.Planning.App.Server
 {
@@ -27,7 +28,9 @@ namespace Tellurian.Trains.Planning.App.Server
             services.AddSingleton<IPrintedReportsStore, AccessPrintedReportsStore>();
             services.AddSingleton<PrintedReportsService>();
             services.AddLocalization();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+                options.JsonSerializerOptions.IgnoreReadOnlyProperties = true
+            );
             services.AddRazorPages();
         }
 

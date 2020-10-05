@@ -28,5 +28,8 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             duties.AddTrainCallNotes(notes);
             return duties.OrderBy(d => d.Number).AsEnumerable();
         }
+
+        public async Task<IEnumerable<BlockDestinations>> GetBlockDestinations(int layoutId) =>
+            await Store.GetBlockDestinations(layoutId).ConfigureAwait(false);
     }
 }

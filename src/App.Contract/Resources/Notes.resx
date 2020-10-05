@@ -363,4 +363,7 @@
   <data name="MeetsOtherTrains" xml:space="preserve">
     <value>Meets {0}.</value>
   </data>
+  <data name="Track" xml:space="preserve">
+    <value>Track</value>
+  </data>
 </root>

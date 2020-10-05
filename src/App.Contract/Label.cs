@@ -16,7 +16,7 @@ namespace Tellurian.Trains.Planning.App.Contract
     public class LanguageLabels
     {
         public string LanguageCode { get; set; } = string.Empty;
-        public ICollection<Label> Labels { get; set; } = Array.Empty<Label>();   
+        public ICollection<Label> Labels { get; set; } = Array.Empty<Label>();
     }
 
     public static class LanguageLabelsExtensions

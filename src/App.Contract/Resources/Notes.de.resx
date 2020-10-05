@@ -269,7 +269,7 @@
     <value>{3}: Holen Sie sich {0} {1} {2} auf dem Parkplatz.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Vervenden Sie {0} {1} {2}</value>
+    <value>Vervenden Sie {0} {1} {2}.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
     <value>{3}: Verwenden Sie {0} {1} {2}.</value>
@@ -342,5 +342,8 @@
   </data>
   <data name="MeetsOtherTrains" xml:space="preserve">
     <value>Trifft {0}.</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Gleis</value>
   </data>
 </root>

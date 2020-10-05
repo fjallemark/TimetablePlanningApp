@@ -1,0 +1,26 @@
+﻿@layout PrintLayout
+@using Tellurian.Trains.Planning.App.Client.Components
+@page "/blockdestinations"
+@inject Services.PrintedReportsService DataService
+<h3>BlockDestinations</h3>
+@if (Items == null)
+{
+    <p>wait...</p>
+}
+else
+{
+    @foreach (var item in Items)
+    {
+        <BlockDestinationsItem BlockDestinations="item" ></BlockDestinationsItem>
+    }
+}
+
+@code {
+    private IEnumerable<Contract.BlockDestinations>? Items;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await DataService.GetBlockDestinations(Constants.LayoutId);
+        Items = result.items;
+    }
+}

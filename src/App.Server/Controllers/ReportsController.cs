@@ -25,5 +25,8 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
 
         [HttpGet("waybills")]
         public async Task<IActionResult> GetWaybills(int id) => await this.GetScheduleItems(id, Service.GetWaybillsAsync).ConfigureAwait(false);
+
+        [HttpGet("blockdestinations")]
+        public async Task<IActionResult> GetBlockDestinations(int id) => await this.GetScheduleItems(id, Service.GetBlockDestinations).ConfigureAwait(false);
     }
 }

@@ -207,6 +207,38 @@
             vertical-align: top;
         }
 
+.track {
+    width: 100%;
+    height: 14mm;
+    line-height: 14mm;
+    font-size: 4mm;
+    font-weight: bold;
+    padding: 0px 3mm 0px 3mm;
+    border: 1px solid lightgray;
+}
+    .track.number {
+        background-color: white;
+        color: black;
+        padding: 1mm 1mm 1mm 1mm;
+        margin: 0px 3px 0px 3px;
+        border: none;
+    }
+
+    .track.destination {
+        background-color: blue;
+        color: white;
+        padding: 1mm 2mm 1mm 2mm;
+        margin: 0px 3px 0px 3px;
+        border: none;
+    }
+    .track.loco {
+        background-color: red;
+        color: white;
+        padding: 1mm 1mm 1mm 1mm;
+        margin: 0px 3px 0px 3px;
+        border: none;
+    }
+
 .pagebreak {
     display: flex;
     flex-wrap: wrap;

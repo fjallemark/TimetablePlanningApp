@@ -727,6 +727,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Track.
+        /// </summary>
+        public static string Track {
+            get {
+                return ResourceManager.GetString("Track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} (via {1}).
         /// </summary>
         public static string TransferVia {

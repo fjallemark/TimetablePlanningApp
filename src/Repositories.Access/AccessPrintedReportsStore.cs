@@ -113,6 +113,38 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
+        public Task<IEnumerable<BlockDestinations>> GetBlockDestinations(int layoutId)
+        {
+            var result = new List<BlockDestinations>(100);
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM ShadowStationBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, OrderInTrain");
+            BlockDestinations? current = null;
+            var lastOriginStationName = "";
+            var lastTrackNumber = "";
+            while (reader.Read())
+            {
+                var currentOriginStationName = reader.GetString("OriginStationName");
+                var currentTrackNumber = reader.GetString("TrackNumber");
+                if (currentOriginStationName != lastOriginStationName)
+                {
+                    if (current != null) result.Add(current);
+                    current = reader.AsBlockDestinations();
+                }
+                if (current != null && currentTrackNumber != lastTrackNumber)
+                {
+                    current.TrackDestinations.Add(reader.AsTrackDestination());
+                }
+                if (current != null)
+                {
+                    current.TrackDestinations.Last().BlockDestinations.Add(reader.AsBlockDestination());
+                }
+                lastTrackNumber = currentTrackNumber;
+                lastOriginStationName = currentOriginStationName;
+            }
+            if (current != null) result.Add(current);
+            return Task.FromResult(result.AsEnumerable());
+        }
+
         public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId)
         {
             var result = new List<TrainCallNote>(500);

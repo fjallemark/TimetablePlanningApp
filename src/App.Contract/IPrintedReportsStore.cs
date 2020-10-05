@@ -13,6 +13,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         Task<IEnumerable<TrainsetSchedule>> GetTrainsetSchedulesAsync(int layoutId);
         Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId);
         Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId);
+        Task<IEnumerable<BlockDestinations>> GetBlockDestinations(int layoutId);
     }
 
     public class RepositoryOptions

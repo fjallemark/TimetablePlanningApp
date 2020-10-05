@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contract;
 
@@ -15,8 +16,13 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             Http = http;
         }
         private readonly HttpClient Http;
+        private static JsonSerializerOptions Options => new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            IgnoreReadOnlyProperties = true
+        };
 
-        public Task<(HttpStatusCode statusCode, IEnumerable<Waybill> items)> GetWaybillsAsync(int layoutId)=>
+        public Task<(HttpStatusCode statusCode, IEnumerable<Waybill> items)> GetWaybillsAsync(int layoutId) =>
             Get<Waybill>($"api/layouts/{layoutId}/reports/waybills");
 
         public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId)=>
@@ -30,6 +36,9 @@ namespace Tellurian.Trains.Planning.App.Client.Services
 
         public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
              Get<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
+
+        public Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinations(int layoutId) =>
+              Get<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
 
         private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> Get<T>(string requestUrl)
         {
@@ -47,6 +56,6 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         }
 
         private static async Task<IEnumerable<T>> Content<T>(HttpResponseMessage response) =>
-           await response.Content.ReadFromJsonAsync<IEnumerable<T>>().ConfigureAwait(false);
+           await response.Content.ReadFromJsonAsync<IEnumerable<T>>(Options).ConfigureAwait(false);
     }
 }

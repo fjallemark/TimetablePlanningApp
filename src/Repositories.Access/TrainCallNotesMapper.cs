@@ -128,7 +128,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 TransferDestination = me.GetString("TransferDestinationName"),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
                 AndBeyond = me.GetBool("AndBeyond"),
-                OrderInTrain = me.GetInt16("OrderInTrain")
+                OrderInTrain = me.GetInt16("OrderInTrain"),
+                MaxNumberOfWagons = me.GetInt16("MaxNumberOfWagons")
             };
 
         internal static NoteTrainset AsTrainset(this IDataRecord me) =>
@@ -138,7 +139,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 IsCargo = me.GetBool("IsCargo"),
                 HasCoupleNote = me.GetBool("HasCoupleNote"),
                 HasUncoupleNote = me.GetBool("HasUncoupleNote"),
-                MaxNumberOfWaggons = me.GetInt16("MaxNumberOfWaggons"),
+                MaxNumberOfWaggons = me.GetInt16("MaxNumberOfWagons"),
                 Note = me.GetString("Description"),
                 Number = me.GetInt16("Number"),
                 OperationDaysFlag = me.GetByte("OperatingDaysFlag"),
