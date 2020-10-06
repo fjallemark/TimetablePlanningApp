@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
@@ -11,7 +13,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static string GetString(this IDataRecord me, string columnName, string defaultValue = "")
         {
             var i = me.GetOrdinal(columnName);
-            if (me.IsDBNull(i)) return defaultValue;
+            if (i < 0 || me.IsDBNull(i)) return defaultValue;
             var s = me.GetString(me.GetOrdinal(columnName));
             return (string.IsNullOrWhiteSpace(s)) ? defaultValue : s;
         }
@@ -42,6 +44,17 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return (byte)me.GetDouble(i);
         }
 
+        public static int GetInt(this IDataRecord me, string columnName, short defaultValue = 0)
+        {
+            var i = me.GetOrdinal(columnName);
+            if (i < 0) throw new ArgumentOutOfRangeException(columnName);
+            if (me.IsDBNull(i)) return defaultValue;
+            var value = me.GetValue(i);
+            if (value is int b) return b;
+            if (value is short a) return a;
+            throw new InvalidOperationException(columnName);
+        }
+
         public static int GetInt16(this IDataRecord me, string columnName, short defaultValue = 0)
         {
             var i = me.GetOrdinal(columnName);
@@ -67,9 +80,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var i = me.GetOrdinal(columnName);
             if (me.IsDBNull(i)) return false;
-            return me.GetBoolean(i);
+            var value = me.GetValue(i);
+            if (value is bool a) return a;
+            if (value is Int16 b) return b != 0;
+            if (value is double c) return c != 0;
+            throw new InvalidOperationException(columnName);
         }
-
+        [Obsolete]
         public static bool GetBoolFromInt16(this IDataRecord me, string columnName)
         {
             var i = me.GetOrdinal(columnName);

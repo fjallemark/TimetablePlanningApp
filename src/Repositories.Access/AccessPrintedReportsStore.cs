@@ -117,7 +117,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<BlockDestinations>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM ShadowStationBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, OrderInTrain");
+            var reader = ExecuteReader(connection, $"SELECT * FROM ShadowStationCargoDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, OrderInTrain");
             BlockDestinations? current = null;
             var lastOriginStationName = "";
             var lastTrackNumber = "";

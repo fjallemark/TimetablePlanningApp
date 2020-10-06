@@ -125,11 +125,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new BlockDestination
             {
                 StationName = me.GetString("DestinationStationName"),
-                TransferDestination = me.GetString("TransferDestinationName"),
+                TransferDestination = me.GetString("TransferDestinationName", ""),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
                 AndBeyond = me.GetBool("AndBeyond"),
-                OrderInTrain = me.GetInt16("OrderInTrain"),
-                MaxNumberOfWagons = me.GetInt16("MaxNumberOfWagons")
+                OrderInTrain = me.GetInt("OrderInTrain"),
+                MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
+                ForeColor = me.GetString("ForeColor", "#000000"),
+                BackColor = me.GetString("BackColor", "#FFFFFF")
             };
 
         internal static NoteTrainset AsTrainset(this IDataRecord me) =>

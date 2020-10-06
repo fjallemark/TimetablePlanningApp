@@ -225,8 +225,6 @@
     }
 
     .track.destination {
-        background-color: blue;
-        color: white;
         padding: 1mm 2mm 1mm 2mm;
         margin: 0px 3px 0px 3px;
         border: none;

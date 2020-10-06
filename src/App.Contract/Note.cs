@@ -289,20 +289,38 @@ namespace Tellurian.Trains.Planning.App.Contract
         public int OrderInTrain { get; set; }
         public int MaxNumberOfWagons { get; set; }
         public string? TransferDestination { get; set; }
+        public string ForeColor { get; set; } = "#000000";
+        public string BackColor { get; set; } = "#FFFFFF";
         public override string ToString() =>
             ToAllDestinations ? Notes.AllDestinations.ToLowerInvariant() :
             AndBeyond ?
-            string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationNameWithMaxWagons) :
-            DestinationNameWithMaxWagons;
+            string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, FinalDestinationNameWithMaxWagons) :
+            FinalDestinationNameWithMaxWagons;
 
-        public string DestinationName =>
+        public string FinalDestinationNameWithTransfer =>
             ToAllDestinations ? AllDestinationsWithMaxWagons :
-            string.IsNullOrWhiteSpace(TransferDestination) ?
-            StationName :
-            string.Format(CultureInfo.CurrentCulture, Notes.TransferVia, TransferDestination, StationName);
+            string.IsNullOrWhiteSpace(TransferDestination) ? StationName :
+            string.Format(CultureInfo.CurrentCulture, Notes.TransferVia, TransferDestinationNameWithMaxWagons, StationName);
 
-        public string DestinationNameWithMaxWagons => $"{DestinationName}×{MaxNumberOfWagons}";
-        private string AllDestinationsWithMaxWagons => $"{Notes.AllDestinations.ToLowerInvariant()}×{MaxNumberOfWagons}";
+
+        public string FinalDestinationName =>
+            ToAllDestinations ? AllDestinationsWithMaxWagons :
+            string.IsNullOrWhiteSpace(TransferDestination) ? StationName :
+            TransferDestination;
+
+        public string FinalDestinationNameWithMaxWagons =>
+            MaxNumberOfWagons == 0 ? FinalDestinationName :
+            $"{FinalDestinationName}×{MaxNumberOfWagons}";
+
+         private string AllDestinationsWithMaxWagons =>
+            MaxNumberOfWagons == 0 ?
+            Notes.AllDestinations.ToLowerInvariant() :
+            $"{Notes.AllDestinations.ToLowerInvariant()}×{MaxNumberOfWagons}";
+
+        private string TransferDestinationNameWithMaxWagons =>
+            string.IsNullOrWhiteSpace(TransferDestination) ? string.Empty :
+            MaxNumberOfWagons == 0 ? TransferDestination  :
+            $"{TransferDestination}×{MaxNumberOfWagons}";
 
         public override bool Equals(object obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);

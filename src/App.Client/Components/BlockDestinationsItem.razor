@@ -16,8 +16,8 @@ else
                 <span class="track loco">@Localizer["Loco"]</span>
                 @foreach (var destination in track.BlockDestinations)
                 {
-                    <span class="track destination">
-                        @destination.Display()&times;@destination.MaxNumberOfWagons
+                    <span style="color: @destination.ForeColor; background-color: @destination.BackColor" class="track destination">
+                        @destination.FinalDestinationNameWithMaxWagons
                     </span>
                 }
                 <span>
