@@ -17,7 +17,6 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
             Assert.AreEqual("Special freight train/Spesialgodstog", actual);
         }
 
-
         private static string GetLanguageString(string? language, string key, string? englishText = null)
         {
             if (language is null) return key;

@@ -7,10 +7,10 @@ namespace Tellurian.Trains.Planning.App.Server.Services
 {
     public static class ControllerBaseExtensions
     {
-        internal static IActionResult GetScheduleItem<T>(this ControllerBase me, int? scheduleId, Func<int, T?> repositoryAction) where T: class
+        internal static async Task<IActionResult> GetScheduleItem<T>(this ControllerBase me, int? scheduleId, Func<int, Task<T>> repositoryAction)
         {
             if (!scheduleId.HasValue) return me.BadRequest();
-            var result = repositoryAction(scheduleId.Value);
+            var result = await repositoryAction(scheduleId.Value).ConfigureAwait(false);
             if (result is null) return me.NotFound();
             return me.Ok(result);
         }

@@ -23,6 +23,22 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private readonly RepositoryOptions Options;
         private OdbcConnection CreateConnection => new OdbcConnection(Options.ConnectionString);
 
+        public Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
+        {
+            using var connection = CreateConnection;
+            var sql = $"SELECT * FROM DutyInstructionsReport WHERE LayoutId = {layoutId}";
+            var reader = ExecuteReader(connection, sql);
+            DriverDutyBooklet? booklet = null;
+            while (reader.Read())
+            {
+                if (booklet is null)
+                {
+                    booklet = reader.AsDriverDutyBooklet();
+                }
+            }
+            return Task.FromResult(booklet);
+        }
+
         public Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
         {
             var result = new List<DriverDuty>(100);
@@ -36,8 +52,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             Train? train = null;
             while (reader.Read())
             {
-                var currentDutyId = reader.GetInt32("DutyId");
-                var currentLocoScheduleTrainId = reader.GetInt32("LocoScheduleTrainId");
+                var currentDutyId = reader.GetInt("DutyId");
+                var currentLocoScheduleTrainId = reader.GetInt("LocoScheduleTrainId");
                 if (currentLocoScheduleTrainId != lastLocoScheduleTrainId)
                 {
                     sequenceNumber = 0;
@@ -78,7 +94,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             LocoSchedule? locoSchedule = null;
             while (reader.Read())
             {
-                var currentUnique = $"{reader.GetInt16("LocoNumber")}{reader.GetString("LocoDays")}";
+                var currentUnique = $"{reader.GetInt("LocoNumber")}{reader.GetString("LocoDays")}";
                 if (currentUnique != lastUnique)
                 {
                     if (locoSchedule != null) result.Add(locoSchedule);
@@ -100,7 +116,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             TrainsetSchedule? schedule = null;
             while (reader.Read())
             {
-                var currentUnique = $"{reader.GetInt16("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
+                var currentUnique = $"{reader.GetInt("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
                 if (currentUnique != lastUnique)
                 {
                     if (schedule != null) result.Add(schedule);
@@ -190,7 +206,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             TrainsetsCallNote? current = null;
             while (reader.Read())
             {
-                var currentCallId = reader.GetInt32("CallId");
+                var currentCallId = reader.GetInt("CallId");
                 if (currentCallId != lastCallId)
                 {
                     if (current != null) yield return current;
@@ -210,7 +226,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             TrainMeetCallNote? current = null;
             while (reader.Read())
             {
-                var currentCallId = reader.GetInt32("CallId");
+                var currentCallId = reader.GetInt("CallId");
                 if (currentCallId != lastCallId)
                 {
                     if (current != null) yield return current;
@@ -270,7 +286,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             BlockDestinationsCallNote? current = null;
             while (reader.Read())
             {
-                var currentCallId = reader.GetInt32("CallId");
+                var currentCallId = reader.GetInt("CallId");
                 if (currentCallId != lastCallId)
                 {
                     if (current != null) yield return current;

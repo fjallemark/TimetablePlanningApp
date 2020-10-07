@@ -166,7 +166,7 @@
     <value>Spür</value>
   </data>
   <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
-    <value>HINWEIS: Der Dienst wird auf der nächsten Seite fortgesetzt.!</value>
+    <value>HINWEIS: Der Dienst wird auf der nächsten Seite fortgesetzt.</value>
   </data>
   <data name="NoMorePagesInDuty" xml:space="preserve">
     <value>HINWEIS: Keine Seiten mehr im Dienst.</value>
@@ -224,5 +224,11 @@
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Loco Turnus</value>
+  </data>
+  <data name="Wait" xml:space="preserve">
+    <value>Bitte warten...</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Daten werden abgerufen...</value>
   </data>
 </root>

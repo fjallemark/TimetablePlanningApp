@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Server.Services;
 
 namespace Tellurian.Trains.Planning.App.Server.Controllers
@@ -15,7 +16,7 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
         private readonly PrintedReportsService Service;
 
         [HttpGet("driverduties")]
-        public async Task<IActionResult> GetDriverDuties(int id) => await this.GetScheduleItems(id, Service.GetDriverDutiesAsync).ConfigureAwait(false);
+        public async Task<IActionResult> GetDriverDuties(int id) => await this.GetScheduleItem(id, Service.GetDriverDutyBookletAsync).ConfigureAwait(false);
 
         [HttpGet("locoschedules")]
         public async Task<IActionResult> GetLocoSchedules(int id) => await this.GetScheduleItems(id, Service.GetLocoSchedulesAsync).ConfigureAwait(false);
@@ -27,6 +28,6 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
         public async Task<IActionResult> GetWaybills(int id) => await this.GetScheduleItems(id, Service.GetWaybillsAsync).ConfigureAwait(false);
 
         [HttpGet("blockdestinations")]
-        public async Task<IActionResult> GetBlockDestinations(int id) => await this.GetScheduleItems(id, Service.GetBlockDestinations).ConfigureAwait(false);
+        public async Task<IActionResult> GetBlockDestinations(int id) => await this.GetScheduleItems(id, Service.GetBlockDestinationsAsync).ConfigureAwait(false);
     }
 }

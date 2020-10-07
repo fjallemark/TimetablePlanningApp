@@ -225,4 +225,10 @@
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokomlopp</value>
   </data>
+  <data name="Wait" xml:space="preserve">
+    <value>Vänta...</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Hämtar data...</value>
+  </data>
 </root>

@@ -20,14 +20,12 @@ namespace Tellurian.Trains.Planning.App.Contract
             return Enumerable.Range(1, totalPages).Select(page => me.Page(itemsPerPage, page));
         }
 
-        public static IEnumerable<DutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me) =>
-            me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder()).ToList();
+        public static IEnumerable<DutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me, string? instructionsMarkdown = null) =>
+            me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder(instructionsMarkdown)).ToList();
 
-        public static IEnumerable<DutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me)
+        public static IEnumerable<DutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me, string? instructionsMarkdown = null)
         {
-            //if (me.Number == "13") Debugger.Break();
-            var pages = me.GetDriverDutyPages().ToArray();
-            //if (pages.Length > 4) Debugger.Break();
+            var pages = me.GetDriverDutyPages(instructionsMarkdown).ToArray();
             var bookletPageOrder = BookletPageOrder(pages.Length);
             var result = new List<DutyPage>();
             for (int i = 0; i < bookletPageOrder.Length; i++)
@@ -37,17 +35,22 @@ namespace Tellurian.Trains.Planning.App.Contract
             return result;
         }
 
-        public static IEnumerable<DutyPage> GetDriverDutyPages(this DriverDuty me)
+        public static IEnumerable<DutyPage> GetDriverDutyPages(this DriverDuty me, string? instructionsMarkdown = null)
         {
+            var pageNumber = 1;
             var result = new List<DutyPage>
             {
-                DutyPage.Front(1, me)
+                DutyPage.Front(pageNumber++, me)
             };
+            if (! string.IsNullOrWhiteSpace(instructionsMarkdown))
+            {
+                result.Add(DutyPage.Instructions(pageNumber++, instructionsMarkdown));
+            }
             var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
             dutyParts.Last().IsLastPart = true;
             for (int i = 0; i < me.Parts.Count; i++)
             {
-                result.Add(DutyPage.Part(i + 2, me, dutyParts[i]));
+                result.Add(DutyPage.Part(pageNumber++, me, dutyParts[i]));
             }
             result.AddRange(BlankPagesToAppend(result.Count));
             return result;
@@ -85,13 +88,17 @@ namespace Tellurian.Trains.Planning.App.Contract
         private DutyPage(int number) : base(number) { }
         private DutyPage(int number, DriverDuty duty) : base(number) { Duty = duty; }
         private DutyPage(int number, DriverDuty duty, DutyPart part) : base(number) { Duty = duty; DutyPart = part; }
+        private DutyPage(int number, string? markdown) : base(number) { InstructionsMarkdown = markdown; }
         public DriverDuty? Duty { get; }
-        public DutyPart? DutyPart { get; }
-        public bool IsBlank => Duty == null && DutyPart == null;
+        public DutyPart? DutyPart { get;}
+        public string? InstructionsMarkdown { get; }
+        public bool IsBlank => Duty == null && DutyPart == null && !IsInstructions;
         public bool IsFront => Duty != null && DutyPart == null;
         public bool IsPart => DutyPart != null && Duty != null;
+        public bool IsInstructions => !string.IsNullOrWhiteSpace(InstructionsMarkdown);
         public static DutyPage Blank(int number) => new DutyPage(number);
         public static DutyPage Front(int number, DriverDuty duty) => new DutyPage(number, duty);
         public static DutyPage Part(int number, DriverDuty duty, DutyPart part) => new DutyPage(number, duty, part);
+        public static DutyPage Instructions(int number, string? markdown) => new DutyPage(number, markdown);
     }
 }

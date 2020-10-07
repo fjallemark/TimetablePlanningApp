@@ -205,4 +205,10 @@
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokomløb</value>
   </data>
+  <data name="Wait" xml:space="preserve">
+    <value>Vent et øjeblikk...</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Henter data...</value>
+  </data>
 </root>

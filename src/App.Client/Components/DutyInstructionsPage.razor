@@ -1,0 +1,25 @@
+﻿@using Markdig
+@inject IStringLocalizer<App> Localizer
+
+<div class="duty frame">
+    <div class="duty content">
+
+        <h1>@Localizer["Instructions"]</h1>
+        @if (MarkdownContent != null)
+        {
+            <div>
+                @((MarkupString)Markdown.ToHtml(MarkdownContent))
+            </div>
+        }
+    </div>
+    <div class="duty pagenumber">
+        - @PageNumber -
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int PageNumber { get; set; }
+    [Parameter]
+    public string? MarkdownContent { get; set; }
+}

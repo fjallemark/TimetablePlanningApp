@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
@@ -9,17 +10,24 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     {
         private static ResourceManager Notes => App.Contract.Resources.Notes.ResourceManager;
 
+        public static DriverDutyBooklet AsDriverDutyBooklet(this IDataRecord me) =>
+            new DriverDutyBooklet
+            {
+                ScheduleName = me.GetString("LayoutName"),
+                InstructionsMarkdown = me.GetString("Markdown")
+            };
+
         public static DriverDuty AsDuty(this IDataRecord me) =>
             new DriverDuty
             {
                 OperationDays = me.GetByte("DutyDays").OperationDays(),
-                Difficulty = me.GetInt16("DutyDifficulty"),
+                Difficulty = me.GetInt("DutyDifficulty"),
                 EndTime = me.GetTime("DutyEndsTime"),
                 LayoutName = me.GetString("LayoutName"),
                 Name = me.GetString("DutyName"),
-                Number = me.GetInt16("DutyNumber"),
+                Number = me.GetInt("DutyNumber"),
                 Operator = me.GetString("DutyOperator"),
-                RemoveOrder = me.GetInt16("DutyRemoveOrder"),
+                RemoveOrder = me.GetInt("DutyRemoveOrder"),
                 StartTime = me.GetTime("DutyStartsTime"),
                 Parts = new List<DutyPart>()
             };
@@ -28,19 +36,19 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new Train
             {
                 OperatorName = me.GetString("TrainOperator"),
-                Number = $"{me.GetString("TrainNumberPrefix")} {me.GetInt16("TrainNumber")}",
+                Number = $"{me.GetString("TrainNumberPrefix")} {me.GetInt("TrainNumber")}",
                 OperationDays = me.GetByte("TrainDays").OperationDays(),
                 CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                 Instruction = me.GetString("TrainInstruction"),
-                MaxNumberOfWaggons = me.GetInt16("TrainMaxNumberOfWaggons"),
-                MaxSpeed = me.GetInt16("TrainMaxSpeed"),
+                MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons"),
+                MaxSpeed = me.GetInt("TrainMaxSpeed"),
                 Calls = new List<StationCall>()
             };
 
         public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber) =>
             new StationCall
             {
-                Id = me.GetInt32("CallId"),
+                Id = me.GetInt("CallId"),
                 IsStop = me.GetBool("IsStop"),
                 Track = me.GetString("TrackNumber"),
                 SequenceNumber = sequenceNumber,
@@ -67,9 +75,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new DutyPart
             {
                 Train = train,
-                FromCallId  = me.GetInt32("FromCallId"),
+                FromCallId  = me.GetInt("FromCallId"),
                 GetLocoAtParking = me.GetBool("FromParking"),
-                ToCallId = me.GetInt32("ToCallId"),
+                ToCallId = me.GetInt("ToCallId"),
                 PutLocoAtParking = me.GetBool("ToParking"),
                 ReverseLoco = me.GetBool("ReverseLoco"),
                 TurnLoco = me.GetBool("TurnLoco")
@@ -79,7 +87,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new Loco
             {
                 OperatorName = me.GetString("LocoOperator"),
-                Number = me.GetInt16("LocoNumber"),
+                Number = me.GetInt("LocoNumber"),
                 OperationDays = me.GetByte("LocoDays").OperationDays()
             };
     }

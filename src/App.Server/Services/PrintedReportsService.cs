@@ -20,16 +20,19 @@ namespace Tellurian.Trains.Planning.App.Server.Services
         public Task<IEnumerable<TrainsetSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>
             Store.GetTrainsetSchedulesAsync(layoutId);
 
-        public async Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
+        public async Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
         {
+            var booklet = await Store.GetDriverDutyBookletAsync(layoutId).ConfigureAwait(false);
+            if (booklet is null) return null;
             var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
             var duties = await Store.GetDriverDutiesAsync(layoutId).ConfigureAwait(false);
             duties.MergeTrainPartsWithSameTrainNumber();
             duties.AddTrainCallNotes(notes);
-            return duties.OrderBy(d => d.Number).AsEnumerable();
+            booklet.Duties = duties.OrderBy(d => d.Number).ToArray();
+            return booklet;
         }
 
-        public async Task<IEnumerable<BlockDestinations>> GetBlockDestinations(int layoutId) =>
+        public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
             await Store.GetBlockDestinations(layoutId).ConfigureAwait(false);
     }
 }

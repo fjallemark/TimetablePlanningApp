@@ -10,10 +10,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new LocoSchedule
             {
                 OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
-                Number = me.GetInt16("LocoNumber").ToString(CultureInfo.InvariantCulture),
+                Number = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("LocoOperator"),
                 Class = me.GetString("LocoClass"),
-                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay"),
+                TurnForNextDay = me.GetBool("TurnForNextDay"),
                 Note = me.GetString("Note")
             };
 
@@ -21,10 +21,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new TrainsetSchedule
             {
                 OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
-                Number = me.GetInt16("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+                Number = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("TrainsetOperator"),
                 Class = me.GetString("TrainsetClass"),
-                TurnForNextDay = me.GetBoolFromInt16("TurnForNextDay"),
+                TurnForNextDay = me.GetBool("TurnForNextDay"),
                 Note = me.GetString("Note")
             };
 
@@ -32,7 +32,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var trainPart = new TrainPart
             {
-                TrainNumber = me.GetInt16("TrainNumber").ToString(CultureInfo.InvariantCulture),
+                TrainNumber = me.GetInt("TrainNumber").ToString(CultureInfo.InvariantCulture),
                 FromDeparture = new CallAction
                 {
                     Station = new Station

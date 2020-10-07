@@ -23,39 +23,45 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         };
 
         public Task<(HttpStatusCode statusCode, IEnumerable<Waybill> items)> GetWaybillsAsync(int layoutId) =>
-            Get<Waybill>($"api/layouts/{layoutId}/reports/waybills");
+            GetItems<Waybill>($"api/layouts/{layoutId}/reports/waybills");
 
-        public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId)=>
-            Get<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
+        public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId) =>
+            GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
 
         public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
-             Get<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
+             GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
 
-        public Task<(HttpStatusCode statusCode, IEnumerable<DriverDuty> items)> GetDriverDutiesAsync(int layoutId) =>
-             Get<DriverDuty>($"api/layouts/{layoutId}/reports/driverduties");
+        public Task<(HttpStatusCode statusCode, DriverDutyBooklet? item)> GetDriverDutiesAsync(int layoutId) =>
+             GetItem<DriverDutyBooklet>($"api/layouts/{layoutId}/reports/driverduties");
 
         public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
-             Get<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
+             GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
 
         public Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinations(int layoutId) =>
-              Get<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
+              GetItems<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
 
-        private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> Get<T>(string requestUrl)
+        private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
         {
             using var request = CreateRequest(requestUrl);
             var response = await Http.SendAsync(request).ConfigureAwait(false);
-            if (response.IsSuccessStatusCode) return (response.StatusCode, await Content<T>(response).ConfigureAwait(false));
+            if (response.IsSuccessStatusCode) return (response.StatusCode, await Items<T>(response).ConfigureAwait(false));
             return (response.StatusCode, Array.Empty<T>());
         }
-
-        private static HttpRequestMessage CreateRequest(string requestUri)
+        private async Task<(HttpStatusCode statusCode, T? item)> GetItem<T>(string requestUrl) where T : class
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
-            //request.Content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Application.Json);
-            return request;
+            using var request = CreateRequest(requestUrl);
+            var response = await Http.SendAsync(request).ConfigureAwait(false);
+            if (response.IsSuccessStatusCode) return (response.StatusCode, await Item<T>(response).ConfigureAwait(false));
+            return (response.StatusCode, null);
         }
 
-        private static async Task<IEnumerable<T>> Content<T>(HttpResponseMessage response) =>
+        private static HttpRequestMessage CreateRequest(string requestUri) =>
+            new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+        private static async Task<IEnumerable<T>> Items<T>(HttpResponseMessage response) =>
            await response.Content.ReadFromJsonAsync<IEnumerable<T>>(Options).ConfigureAwait(false);
+
+        private static async Task<T> Item<T>(HttpResponseMessage response) =>
+            await response.Content.ReadFromJsonAsync<T>(Options).ConfigureAwait(false);
     }
 }

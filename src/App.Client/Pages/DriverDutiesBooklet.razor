@@ -1,9 +1,14 @@
 ﻿@using Tellurian.Trains.Planning.App.Client.Components
 @layout PrintLayout
 @page "/driverdutiesbooklet"
+@inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
 
-@if (Pages != null)
+@if (Pages == null)
+{ 
+    <div>@Localizer["FetchingData"]</div>
+}
+else
 {
     @for (var i = 0; i < Pages.Length; i += 2)
     {
@@ -19,6 +24,10 @@
             else if (PageLeft(i).IsPart)
             {
                 <DutyPartPage PageNumber="PageLeft(i).Number" Item="PageLeft(i).DutyPart" Duty="PageLeft(i).Duty"></DutyPartPage>
+            }
+            else if (PageLeft(i).IsInstructions)
+            {
+                <DutyInstructionsPage PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown"></DutyInstructionsPage>
             }
             @if (PageRight(i).IsBlank)
             {
@@ -45,9 +54,9 @@
     override protected async Task OnInitializedAsync()
     {
         var result = await DataService.GetDriverDutiesAsync(Constants.LayoutId);
-        if (result.statusCode.IsSuccess())
+        if (result.statusCode.IsSuccess() && result.item != null)
         {
-            Pages = result.items.GetAllDriverDutyPagesInBookletOrder().ToArray();
+            Pages = result.item.Duties.GetAllDriverDutyPagesInBookletOrder(result.item.InstructionsMarkdown).ToArray();
         }
     }
 

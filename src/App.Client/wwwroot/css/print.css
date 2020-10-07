@@ -121,12 +121,22 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
+    .duty.content h1 {
+        font-size: 24pt;
+        font-weight: bold;
+    }
+
+    .duty.content h2 {
+        font-size: 18pt;
+        font-weight: bold;
+    }
+
     .duty.frame {
         width: 148.1mm;
         height: 209.5mm;
         padding: 0pt;
         margin: 0pt;
-        border-color: gainsboro;
+        border-color: aliceblue;
         border-width: 1px;
         border-style: solid;
         padding: 2pt;
@@ -216,6 +226,7 @@
     padding: 0px 3mm 0px 3mm;
     border: 1px solid lightgray;
 }
+
     .track.number {
         background-color: white;
         color: black;
@@ -229,6 +240,7 @@
         margin: 0px 3px 0px 3px;
         border: none;
     }
+
     .track.loco {
         background-color: red;
         color: white;
