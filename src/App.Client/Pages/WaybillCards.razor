@@ -1,11 +1,15 @@
-﻿@layout PrintLayout
+﻿@using Tellurian.Trains.Planning.App.Client.Components
 @page "/waybills"
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
 @inject Services.LanguageService LanguageService
 
-@using Tellurian.Trains.Planning.App.Client.Components
-
-@if (Items != null)
+@if (Items is null || LanguageLabels is null)
+{
+    <div class="print creatingreport">@Localizer["CreatingReport"]</div>
+}
+else
 {
     @foreach (var itemsPerPage in Items.ItemsPerPage(10))
     {

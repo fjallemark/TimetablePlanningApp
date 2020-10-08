@@ -231,4 +231,10 @@
   <data name="FetchingData" xml:space="preserve">
     <value>Henter data...</value>
   </data>
+  <data name="PrintedTime" xml:space="preserve">
+    <value>Utskrivet {0:d} {0:t}</value>
+  </data>
+  <data name="CreatingReport" xml:space="preserve">
+    <value>Oppretter rapport...</value>
+  </data>
 </root>

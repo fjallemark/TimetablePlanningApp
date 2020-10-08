@@ -3,6 +3,13 @@
     margin: 0cm 0cm 0cm 0cm;
 }
 
+.print.creatingreport {
+    padding: 1cm;
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+}
+
 .pocket {
     font-weight: 500;
     font-size: 11pt;
@@ -127,8 +134,9 @@
     }
 
     .duty.content h2 {
-        font-size: 18pt;
+        font-size: 14pt;
         font-weight: bold;
+        line-height: 16pt;
     }
 
     .duty.frame {

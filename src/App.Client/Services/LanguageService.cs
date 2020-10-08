@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contract;
+
+#pragma warning disable CA1812 // The class is used by dependecy injection!
 
 namespace Tellurian.Trains.Planning.App.Client.Services
 {
@@ -16,6 +17,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         }
 
         private readonly HttpClient Http;
+
         public async Task<IEnumerable<LanguageLabels>> GetWaybillLabels() =>
             await Http.GetFromJsonAsync<IEnumerable<LanguageLabels>>("api/languages/all/labels/waybills").ConfigureAwait(false);
     }

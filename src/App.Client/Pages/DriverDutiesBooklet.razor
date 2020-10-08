@@ -4,9 +4,9 @@
 @inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
 
-@if (Pages == null)
+@if (!IsLoaded)
 { 
-    <div>@Localizer["FetchingData"]</div>
+    <div class="print creatingreport">@Localizer["CreatingReport"]</div>
 }
 else
 {
@@ -50,13 +50,16 @@ else
 {
     private DutyPage[] Pages = Array.Empty<DutyPage>();
     private int pageNumber;
+    private bool IsLoaded;
 
     override protected async Task OnInitializedAsync()
     {
+        IsLoaded = false;
         var result = await DataService.GetDriverDutiesAsync(Constants.LayoutId);
         if (result.statusCode.IsSuccess() && result.item != null)
         {
             Pages = result.item.Duties.GetAllDriverDutyPagesInBookletOrder(result.item.InstructionsMarkdown).ToArray();
+            IsLoaded = true;
         }
     }
 

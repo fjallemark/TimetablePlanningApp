@@ -1,17 +1,19 @@
-﻿@layout PrintLayout
-@using Tellurian.Trains.Planning.App.Client.Components
+﻿@using Tellurian.Trains.Planning.App.Client.Components
 @page "/blockdestinations"
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
-<h3>BlockDestinations</h3>
+
+<h1>BlockDestinations</h1>
 @if (Items == null)
 {
-    <p>wait...</p>
+    <div class="print creatingreport">@Localizer["CreatingReport"]</div>
 }
 else
 {
     @foreach (var item in Items)
     {
-        <BlockDestinationsItem BlockDestinations="item" ></BlockDestinationsItem>
+        <BlockDestinationsItem BlockDestinations="item"></BlockDestinationsItem>
     }
 }
 

@@ -16,7 +16,9 @@ namespace Tellurian.Trains.Planning.App.Client
             builder.Services.AddLocalization();
             builder.Services.AddTransient<LanguageService>();
             builder.Services.AddTransient<PrintedReportsService>();
-            builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient<LanguageService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            builder.Services.AddHttpClient<PrintedReportsService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            //builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             await builder.Build().RunAsync().ConfigureAwait(false);
         }
     }

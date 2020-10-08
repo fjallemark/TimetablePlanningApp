@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
 using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Contract.Resources;
 
