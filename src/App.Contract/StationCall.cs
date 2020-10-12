@@ -7,13 +7,14 @@ namespace Tellurian.Trains.Planning.App.Contract
     public class StationCall
     {
         public int Id { get; set; }
-        public Station Station { get; set; } = new Station();
-        public string Track { get; set; } = string.Empty;
+        public StationInfo Station { get; set; } = new StationInfo();
+        public int TrackId { get; set; }
+        public string TrackNumber { get; set; } = string.Empty;
         public bool IsStop { get; set; } = true;
         public CallTime? Arrival { get; set; }
         public CallTime? Departure { get; set; }
         public int SequenceNumber { get; set; }
-        public override string ToString() => $"{Id} {Station.Signature} {Track} Arr:{Arrival} Dep:{Departure}";
+        public override string ToString() => $"{Id} {Station.Signature} {TrackNumber} Arr:{Arrival} Dep:{Departure}";
         public override bool Equals(object obj) => obj is StationCall other && other.Id == Id;
         public override int GetHashCode() => Id.GetHashCode();
     }
@@ -24,7 +25,7 @@ namespace Tellurian.Trains.Planning.App.Contract
             new CallAction
             {
                 Station = call.Station,
-                Track = call.Track,
+                Track = call.TrackNumber,
                 Time = call.Arrival,
             };
 
@@ -32,7 +33,7 @@ namespace Tellurian.Trains.Planning.App.Contract
             new CallAction
             {
                 Station = call.Station,
-                Track = call.Track,
+                Track = call.TrackNumber,
                 Time = call.Departure,
             };
 

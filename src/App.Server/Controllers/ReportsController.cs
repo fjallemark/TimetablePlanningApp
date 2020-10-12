@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Server.Services;
 
 namespace Tellurian.Trains.Planning.App.Server.Controllers
@@ -29,5 +28,8 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
 
         [HttpGet("blockdestinations")]
         public async Task<IActionResult> GetBlockDestinations(int id) => await this.GetScheduleItems(id, Service.GetBlockDestinationsAsync).ConfigureAwait(false);
+
+        [HttpGet("timetablestretches")]
+        public async Task<IActionResult> GetTimetableStretches(int id) => await this.GetScheduleItems(id, Service.GetTimetableStretchesAsync).ConfigureAwait(false);
     }
 }

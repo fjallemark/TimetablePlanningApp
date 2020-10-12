@@ -1,0 +1,63 @@
+﻿
+
+@if (Data is null)
+{
+
+}
+else
+{
+    <div>
+        <div class="graphictimetable heading">
+            @Data.Heading()
+        </div>
+        <svg height="@Data.YCanvas()" width="@Data.XCanvas()">
+            @foreach (var station in Data.Stations.OrderBy(s => s.DisplayOrder))
+            {
+                <text>
+                    <text class="graphictimetable station" x="@Data.XStation()" y="@Data.YStationName(station)">@station.Station.Signature</text>
+                </text>
+                @foreach (var track in station.Tracks())
+                {
+                    <text>
+                        <text class="graphictimetable track" x="@Data.XTrackNumber()" y="@Data.YTrackNumber(station, track)">@track.Number</text>
+                    </text>
+                    <line x1="@Data.XFirstHour()" x2="@Data.XLastHour()" y1="@Data.YTrack(station, track)" style="@track.Style()" y2="@Data.YTrack(station, track)"></line>
+                }
+
+
+            }
+            @foreach (var hour in Data.Hours())
+            {
+                <line x1="@hour.XHour" x2="@hour.XHour" y1="@Data.YStationsTop()" y2="@Data.YStationsBottom()" style="stroke: gray; stroke-width: 1px"></line>
+                <text>
+                    <text class="graphictimetable hour" x="@hour.XHourText()" y="@Data.YHour()">@hour.Text</text>
+                </text>
+            }
+            @foreach (var section in Data.TrainSections)
+            {
+                @if (section.IsBetweenStations())
+                {
+                    <path id="@Data.PathId(section)" fill="none" style="@section.CssClass()"  fill-opacity="0"
+                          d="M @Data.XStartTime(section),@Data.YStartTime(section) L @Data.XEndTime(section), @Data.YEndTime(section) " />
+                    <text>
+                        <text class="graphictimetable train">
+                            <textPath href="#@Data.PathId(section)">
+                                @section.TrainLabel()
+                            </textPath>
+                        </text>
+                    </text>
+                }
+                else
+                {
+                    <line x1="@Data.XStartTime(section)" x2="@Data.XEndTime(section)" y1="@Data.YStartTime(section)" y2="@Data.YEndTime(section)" style="@section.CssClass()"></line>
+                }
+            }
+        </svg>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public TimetableStretch? Data { get; set; }
+
+}

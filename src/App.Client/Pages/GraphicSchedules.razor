@@ -1,0 +1,33 @@
+﻿@page "/graphictimetables"
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
+@inject PrintedReportsService DataService
+
+@if (!DataIsReady)
+{
+    <div class="print creatingreport">@Localizer["CreatingReport"]</div>
+}
+else
+{
+    foreach (var timetableStretch in TimetableStretches)
+    {
+        <GraphicTimetableStretch Data="@timetableStretch"></GraphicTimetableStretch>
+    }
+}
+
+@code {
+    private TimetableStretch[] TimetableStretches = Array.Empty<TimetableStretch>();
+    private bool DataIsReady = false;
+
+    protected async override Task OnInitializedAsync()
+    {
+        DataIsReady = false;
+        var result = await DataService.GetTimetableStretches(8);
+        if (result.statusCode.IsSuccess())
+        {
+            TimetableStretches = result.items.ToArray();
+        }
+        DataIsReady = true;
+    }
+
+}

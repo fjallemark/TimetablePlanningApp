@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		XPLN.md = XPLN.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Client.Tests", "src\App.Client.Tests\App.Client.Tests.csproj", "{2426A325-C2E5-4FB2-932E-94ADF43A4E76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,14 @@ Global
 		{32980BE9-1074-43E2-BA64-CBE905E0C320}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32980BE9-1074-43E2-BA64-CBE905E0C320}.Release|x64.ActiveCfg = Release|x64
 		{32980BE9-1074-43E2-BA64-CBE905E0C320}.Release|x64.Build.0 = Release|x64
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Debug|x64.Build.0 = Debug|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Release|x64.ActiveCfg = Release|Any CPU
+		{2426A325-C2E5-4FB2-932E-94ADF43A4E76}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

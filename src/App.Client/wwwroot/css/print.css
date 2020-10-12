@@ -3,12 +3,12 @@
     margin: 0cm 0cm 0cm 0cm;
 }
 
-.print.creatingreport {
-    padding: 1cm;
-    font-size: 18pt;
-    font-weight: bold;
-    text-align: center;
-}
+    .print.creatingreport {
+        padding: 1cm;
+        font-size: 18pt;
+        font-weight: bold;
+        text-align: center;
+    }
 
 .pocket {
     font-weight: 500;
@@ -255,6 +255,35 @@
         padding: 1mm 1mm 1mm 1mm;
         margin: 0px 3px 0px 3px;
         border: none;
+    }
+
+.graphictimetable {
+}
+
+    .graphictimetable.heading {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16pt
+    }
+
+    .graphictimetable.station {
+        font-weight: bold;
+        font-size: 12pt;
+    }
+
+    .graphictimetable.hour {
+        font-weight: bold;
+        font-size: 12pt;
+    }
+
+    .graphictimetable.train {
+        font-weight: bold;
+        font-size: 9pt;
+        line-height: 12pt;
+    }
+
+    .graphictimetable.track {
+        font-size: 7pt;
     }
 
 .pagebreak {

@@ -302,7 +302,6 @@ namespace Tellurian.Trains.Planning.App.Contract
             string.IsNullOrWhiteSpace(TransferDestination) ? StationName :
             string.Format(CultureInfo.CurrentCulture, Notes.TransferVia, TransferDestinationNameWithMaxWagons, StationName);
 
-
         public string FinalDestinationName =>
             ToAllDestinations ? AllDestinationsWithMaxWagons :
             string.IsNullOrWhiteSpace(TransferDestination) ? StationName :

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Tellurian.Trains.Planning.App.Contract
@@ -13,8 +14,10 @@ namespace Tellurian.Trains.Planning.App.Contract
         Task<IEnumerable<TrainsetSchedule>> GetTrainsetSchedulesAsync(int layoutId);
         Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId);
         Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId);
-        Task<IEnumerable<BlockDestinations>> GetBlockDestinations(int layoutId);
+        Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId);
         Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId);
+        Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId);
+        Task<IEnumerable<Train>> GetTrainsAsync(int layoutId);
     }
 
     public class RepositoryOptions

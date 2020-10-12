@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
@@ -129,7 +130,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
-        public Task<IEnumerable<BlockDestinations>> GetBlockDestinations(int layoutId)
+        public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
         {
             var result = new List<BlockDestinations>(100);
             using var connection = CreateConnection;
@@ -156,6 +157,63 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 }
                 lastTrackNumber = currentTrackNumber;
                 lastOriginStationName = currentOriginStationName;
+            }
+            if (current != null) result.Add(current);
+            return Task.FromResult(result.AsEnumerable());
+        }
+
+        public Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId)
+        {
+            var result = new List<TimetableStretch>();
+            TimetableStretch? current = null;
+            var lastTimetableNumber = "";
+            var lastStationId = 0;
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} ORDER BY TimetableNumber, StationDisplayOrder, TrackDisplayOrder");
+            while (reader.Read())
+            {
+                var currentTimetableNumber = reader.GetString("TimetableNumber");
+                var currentStationId = reader.GetInt("StationDisplayOrder");
+                if (currentTimetableNumber != lastTimetableNumber)
+                {
+                    if (current != null) { result.Add(current); }
+                    current = reader.AsTimetableStretch();
+                }
+                if (current != null && currentStationId != lastStationId)
+                {
+                    current.Stations.Add(reader.AsTimetableStretchStation());
+                }
+                if (current != null)
+                {
+                    current.Stations.Last().Station.Tracks.Add(reader.AsStationStrack());
+                }
+                lastStationId = currentStationId;
+                lastTimetableNumber = currentTimetableNumber;
+            }
+            if (current != null) { result.Add(current); }
+
+            return Task.FromResult(result.AsEnumerable());
+        }
+
+        public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
+        {
+            var result = new List<Train>(100);
+            Train? current = null;
+            var lastTrainNumber = 0;
+            var sequenceNumber = 0;
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} ORDER BY TrainNumber, DepartureTime");
+            while (reader.Read())
+            {
+                var currentTrainNumber = reader.GetInt("TrainNumber");
+                if (currentTrainNumber != lastTrainNumber)
+                {
+                    if (current != null) result.Add(current);
+                    sequenceNumber = 0;
+                    current = reader.AsTrain();
+                }
+                if (current != null) current.Calls.Add(reader.AsStationCall(++sequenceNumber));
+                lastTrainNumber = currentTrainNumber;
             }
             if (current != null) result.Add(current);
             return Task.FromResult(result.AsEnumerable());

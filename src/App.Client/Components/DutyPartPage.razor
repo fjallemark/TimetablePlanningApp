@@ -66,7 +66,7 @@
                                 }
                             </td>
                             <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
-                            <td align="center"><strong>@call.Track</strong></td>
+                            <td align="center"><strong>@call.TrackNumber</strong></td>
                             <td align="center"><strong>@call.Arrival?.Time</strong></td>
                             <td>
                                 @if (call.Arrival != null) foreach (var note in call.Arrival.Notes.OrderBy(n => n.DisplayOrder))
@@ -86,7 +86,7 @@
                                 }
                             </td>
                             <td><strong>@call.Station.Name</strong></td>
-                            <td align="center"><strong>@call.Track</strong></td>
+                            <td align="center"><strong>@call.TrackNumber</strong></td>
                             <td align="center"><strong>@call.Departure?.Time</strong></td>
                             <td>
                                 @if (call.Departure != null) foreach (var note in call.Departure.Notes.OrderBy(n => n.DisplayOrder))

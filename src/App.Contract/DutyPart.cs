@@ -36,8 +36,8 @@ namespace Tellurian.Trains.Planning.App.Contract
 
     public static class DutyPartExtensions
     {
-        public static Station StartStation(this DutyPart me) => me.Train.Calls[me.FromCallIndex()].Station;
-        public static Station EndStation(this DutyPart me) => me.Train.Calls[me.ToCallIndex()].Station;
+        public static StationInfo StartStation(this DutyPart me) => me.Train.Calls[me.FromCallIndex()].Station;
+        public static StationInfo EndStation(this DutyPart me) => me.Train.Calls[me.ToCallIndex()].Station;
         public static string? StartTime(this DutyPart me) => me.Train.Calls[me.FromCallIndex()].Arrival?.Time ?? me.Train.Calls[me.FromCallIndex()].Departure?.Time;
         public static string? EndTime(this DutyPart me) => me.Train.Calls[me.ToCallIndex()].Departure?.Time ?? me.Train.Calls[me.ToCallIndex()].Arrival?.Time;
         public static bool IsFirstDutyCall(this DutyPart me, StationCall call) => me.FromCallId == call.Id;
@@ -64,7 +64,7 @@ namespace Tellurian.Trains.Planning.App.Contract
             IsStop = c.IsStop,
             SequenceNumber = c.SequenceNumber,
             Station = c.Station,
-            Track = c.Track,
+            TrackNumber = c.TrackNumber,
             IsLast = (i == me.Train.Calls.Count - 1)
         }).ToArray();
     }

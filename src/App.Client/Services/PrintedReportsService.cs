@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reflection.Emit;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contract;
@@ -39,6 +40,11 @@ namespace Tellurian.Trains.Planning.App.Client.Services
 
         public Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinations(int layoutId) =>
               GetItems<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
+
+        public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretches(int layoutId) =>
+            GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches");
+        public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrains(int layoutId) =>
+            GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
 
         private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
         {

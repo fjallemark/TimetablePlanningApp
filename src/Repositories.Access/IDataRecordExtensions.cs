@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Globalization;
 using System.Resources;
@@ -40,11 +41,22 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
          public static int GetInt(this IDataRecord me, string columnName, short defaultValue = 0)
         {
-            var i = me.GetColumIndex(columnName);
+            var i = me.GetColumIndex(columnName, false);
+            if (i < 0) return defaultValue;
             if (me.IsDBNull(i)) return defaultValue;
             var value = me.GetValue(i);
             if (value is int b) return b;
             if (value is short a) return a;
+            throw new InvalidOperationException(columnName);
+        }
+
+        public static double GetDouble(this IDataRecord me, string columnName, double defaultValue = 0)
+        {
+            var i = me.GetColumIndex(columnName);
+            if (me.IsDBNull(i)) return defaultValue;
+            var value = me.GetValue(i);
+            if (value is double b) return b;
+            if (value is float a) return a;
             throw new InvalidOperationException(columnName);
         }
 
@@ -53,6 +65,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var i = me.GetColumIndex(columnName);
             if (me.IsDBNull(i)) return defaultValue;
             return me.GetDateTime(i).ToString("HH:mm", CultureInfo.CurrentCulture);
+        }
+
+        public static TimeSpan GetTimeAsTimespan(this IDataRecord me, string columnName)
+        {
+            var i = me.GetColumIndex(columnName);
+            if (me.IsDBNull(i)) return TimeSpan.MinValue;
+            var value = me.GetValue(i);
+            if (value is DateTime d) return new TimeSpan(d.Hour, d.Minute, 0);
+            throw new InvalidOperationException(columnName);
+        }
+
+        public static double GetTimeAsDouble(this IDataRecord me, string columnName)
+        {
+            var t = me.GetTimeAsTimespan(columnName);
+            return t.TotalMinutes;
         }
 
         public static bool GetBool(this IDataRecord me, string columnName)

@@ -7,11 +7,14 @@ namespace Tellurian.Trains.Planning.App.Contract
 {
     public class TrainInfo
     {
-        public string Number { get; set; } = string.Empty;
+        public string Prefix { get; set; } = string.Empty;
+        public int Number { get; set; }
         public string OperatorName { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
+        public bool IsCargo { get; set; }
+        public bool IsPassenger { get; set; }
         public OperationDays OperationDays { get; set; } = new OperationDays();
-        public override string ToString() => $"{OperatorName} {Number} {OperationDays.ShortName}";
+        public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDays.ShortName}";
     }
 
     public class Train : TrainInfo
@@ -24,21 +27,22 @@ namespace Tellurian.Trains.Planning.App.Contract
         public static Train Example => new Train
         {
             OperatorName = "GC",
-            Number = "51",
+            Prefix = "G",
+            Number = 51,
             Calls = new[]
             {
                 new StationCall {
                     Id = 21,
                     SequenceNumber = 1,
                     Station = new Station { Name="Göteborg Kville", Signature="Gkv"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Departure = CallTime.Create("12:10", "Medtar vagnsgrupp 653 tankvagnar."),
                 },
                 new StationCall {
                     Id=22,
                     SequenceNumber = 2,
                     Station = new Station { Name="Göteborg Sävenäs", Signature="Gsv"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = CallTime.Create("12:19", "Gör rundgång"),
                     Departure = new CallTime{ Time="12:49" },
                 },
@@ -47,7 +51,7 @@ namespace Tellurian.Trains.Planning.App.Contract
                     SequenceNumber = 3,
                     IsStop = false,
                     Station = new Station { Name="Tingstad", Signature="Tsd"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = new CallTime { Time="12:54", IsHidden=true},
                     Departure = new CallTime{ Time="12:55" },
                 },
@@ -56,7 +60,7 @@ namespace Tellurian.Trains.Planning.App.Contract
                     SequenceNumber = 4,
                     IsStop = true,
                     Station = new Station { Name="Säve", Signature="Sve"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = CallTime.Create ("13:05", "Möter persontåg 3766."),
                     Departure = new CallTime{ Time="13:08" },
                 },
@@ -65,7 +69,7 @@ namespace Tellurian.Trains.Planning.App.Contract
                     SequenceNumber = 5,
                     IsStop = false,
                     Station = new Station { Name="Ytterby", Signature="Yb"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = new CallTime { Time="13:13", IsHidden=true},
                     Departure = new CallTime{ Time="13:14" },
                 },
@@ -74,7 +78,7 @@ namespace Tellurian.Trains.Planning.App.Contract
                     SequenceNumber = 6,
                     IsStop = false,
                     Station = new Station { Name="Kode", Signature="Kde"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = new CallTime { Time="13:20", IsHidden=true},
                     Departure = new CallTime{ Time="13:21" },
                 },
@@ -83,7 +87,7 @@ namespace Tellurian.Trains.Planning.App.Contract
                     SequenceNumber = 7,
                     IsStop = false,
                     Station = new Station { Name="Stora Höga", Signature="Sth"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = new CallTime { Time="13:29", IsHidden=true},
                     Departure = new CallTime{ Time="13:30" },
                 },
@@ -92,7 +96,7 @@ namespace Tellurian.Trains.Planning.App.Contract
                     SequenceNumber = 8,
                     IsStop = true,
                     Station = new Station { Name="Stenungsund", Signature="Snu"},
-                    Track = "4",
+                    TrackNumber = "4",
                     Arrival = CallTime.Create( "13:38", "Vagnarna växlas in till respektive godskund enligt fraktsedel."),
                 }
             }
