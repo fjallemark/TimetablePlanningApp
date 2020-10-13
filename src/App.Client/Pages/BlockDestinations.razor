@@ -4,17 +4,19 @@
 @inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
 
-<h1>BlockDestinations</h1>
 @if (Items == null)
 {
     <div class="print creatingreport">@Localizer["CreatingReport"]</div>
 }
 else
 {
-    @foreach (var item in Items)
-    {
-        <BlockDestinationsItem BlockDestinations="item"></BlockDestinationsItem>
-    }
+    <div>
+        <h1>@Localizer["BlockDestinations"]</h1>
+        @foreach (var item in Items)
+        {
+            <BlockDestinationsItem BlockDestinations="item"></BlockDestinationsItem>
+        }
+    </div>
 }
 
 @code {

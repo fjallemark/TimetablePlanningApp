@@ -225,37 +225,76 @@
             vertical-align: top;
         }
 
-.track {
-    width: 100%;
-    height: 14mm;
-    line-height: 14mm;
-    font-size: 4mm;
+.departure {
+    height: 46mm;
+    width: 48mm;
     font-weight: bold;
-    padding: 0px 3mm 0px 3mm;
-    border: 1px solid lightgray;
+    font-size: 12pt;
+    text-align: center;
 }
 
-    .track.number {
-        background-color: white;
-        color: black;
-        padding: 1mm 1mm 1mm 1mm;
-        margin: 0px 3px 0px 3px;
-        border: none;
+    .departure.station {
+        height: auto;
+        font-size: 12pt
+    }
+    .departure.loco {
+        height: auto;
+        font-size: 12pt
+    }
+    .departure.time {
+        height: auto;
+        color: maroon;
+        font-size: 18pt;
+        line-height: 19pt;
+    }
+    .departure.train {
+        height: auto;
+        font-size: 18pt;
+        color: darkcyan;
+        line-height: 19pt;
+    }
+    .departure.days {
+        height: auto;
+        font-size: 12pt;
+        color: darkcyan;
     }
 
-    .track.destination {
+.blocking {
+}
+
+    .blocking.track {
+        height: 12mm;
+        font-size: 4mm;
+        font-weight: bold;
         padding: 1mm 2mm 1mm 2mm;
-        margin: 0px 3px 0px 3px;
-        border: none;
+        border: 1px solid lightgray;
+        white-space: nowrap; 
     }
 
-    .track.loco {
-        background-color: red;
-        color: white;
-        padding: 1mm 1mm 1mm 1mm;
-        margin: 0px 3px 0px 3px;
-        border: none;
-    }
+        .blocking.track.number {
+            height: 8mm;
+            background-color: white;
+            color: black;
+            padding: 1mm 1mm 1mm 1mm;
+            margin: 0px 3px 0px 0px;
+            border: none;
+        }
+
+        .blocking.track.destination {
+            height: 8mm;
+            padding: 1mm 2mm 1mm 2mm;
+            margin: 0px 3px 0px 0px;
+            border: none;
+        }
+
+        .blocking.track.loco {
+            height: 8mm;
+            background-color: red;
+            color: white;
+            padding: 1mm 1mm 1mm 1mm;
+            margin: 0px 3px 0px 0px;
+            border: none;
+        }
 
 .graphictimetable {
 }
@@ -282,7 +321,7 @@
         line-height: 12pt;
     }
 
-    .graphictimetable.track {
+    .graphictimetable.tracknumber {
         font-size: 7pt;
     }
 

@@ -31,5 +31,8 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
 
         [HttpGet("timetablestretches")]
         public async Task<IActionResult> GetTimetableStretches(int id) => await this.GetScheduleItems(id, Service.GetTimetableStretchesAsync).ConfigureAwait(false);
+
+        [HttpGet("traininitialdepartures")]
+        public async Task<IActionResult> GetTimetableDepartures(int id) => await this.GetScheduleItems(id, Service.GetTrainDeparturesAsync).ConfigureAwait(false);
     }
 }

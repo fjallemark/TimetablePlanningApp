@@ -10,14 +10,15 @@ namespace Tellurian.Trains.Planning.App.Contract
     public class BlockDestinations
     {
         public string OriginStationName { get; set; } = string.Empty;
-        public IList<TrackDestination> TrackDestinations { get; set;  } = new List<TrackDestination>();
+        public IList<TrackDestination> TrackDestinations { get; set; } = new List<TrackDestination>();
     }
 
     public class TrackDestination
     {
         public string TrackNumber { get; set; } = string.Empty;
         public int TrackDisplayOrder { get; set; }
-        public IList<BlockDestination> BlockDestinations { get; set;  } = new List<BlockDestination>();
+        public bool TrainsDepartsToLeft { get; set; }
+        public IList<BlockDestination> BlockDestinations { get; set; } = new List<BlockDestination>();
         public override string ToString() => $"{Notes.Track} {TrackNumber}";
     }
 

@@ -11,18 +11,10 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         public static readonly GraphicScheduleOptions Options = new GraphicScheduleOptions();
 
         public static string Heading(this TimetableStretch me) =>
-            $"{me.Number} {me.Name} : {me.Stations.First().Station.Name} - {me.Stations.Last().Station.Name}";
+            $"{me.Number} {me.Name} : {me.Stations[0].Station.Name} - {me.Stations.Last().Station.Name}";
 
         #region Time
 
-        public static int FirstHour(this TimetableStretch me) =>
-            (me?.TrainSections.Min(ts => ts.StartTime).Hour()) ?? 0;
-
-        public static int LastHour(this TimetableStretch me)
-        {
-            var last = me.TrainSections.Max(ts => ts.EndTime);
-            return (last == last.Hour()) ? last.Hour() : last.Hour() + 1;
-        }
 
         public static IEnumerable<(int XHour, string Text)> Hours(this TimetableStretch me)
         {
@@ -32,8 +24,6 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         }
 
         public static int XHourText(this (int h, string) me) => me.h - 12;
-
-        private static int Hour(this double me) => ((int)me) / 60;
 
         #endregion
 
@@ -85,7 +75,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
 
         public static int XCanvas(this TimetableStretch me) => me.XLastHour() + 20;
         public static int XStation(this TimetableStretch me) => me is null ? 0 : 1;
-        public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour()- 10;
+        public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 10;
         public static int XFirstHour(this TimetableStretch me) => (me?.XHour(me.FirstHour())) ?? 0;
         public static int XLastHour(this TimetableStretch me) => (me?.XHour(me.LastHour())) ?? 0;
         public static int XHour(this TimetableStretch me, int hour) => me is null ? 0 : Options.FirstHourOffset + ((hour - me.FirstHour()) * Options.HourWidth);
@@ -146,7 +136,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             me.FromStationId != me.ToStationId;
 
         public static string TrainLabel(this TimetableTrainSection me) =>
-            me.OperationDays.ShortName == "Dagl" ? $"{me.TrainNumber}" : $"{me.TrainNumber} {me.OperationDays.ShortName}";
+            me.OperationDays.IsDaily ? $"{me.TrainNumber}" : $"{me.TrainNumber} {me.OperationDays.ShortName}";
 
         public static string CssClass(this TimetableTrainSection me) =>
             me.IsCargo ? "stroke: #0066cc; stroke-width:2px" :

@@ -216,9 +216,6 @@
   <data name="TrainsetTurnus" xml:space="preserve">
     <value>Wagen Turnus</value>
   </data>
-  <data name="TurnForNextDay" xml:space="preserve">
-    <value>Wende für den nächsten Tag!</value>
-  </data>
   <data name="Wagons" xml:space="preserve">
     <value>Waggons</value>
   </data>
@@ -236,5 +233,32 @@
   </data>
   <data name="CreatingReport" xml:space="preserve">
     <value>Bericht wird erstellt...</value>
+  </data>
+  <data name="TurnForNextDay" xml:space="preserve">
+    <value>Zum nächsten Tag wenden?</value>
+  </data>
+  <data name="TrainInitialDepartures" xml:space="preserve">
+    <value>Startetiketten Zug</value>
+  </data>
+  <data name="GraphicTimetables" xml:space="preserve">
+    <value>Grafische Fahrpläne</value>
+  </data>
+  <data name="BlockDestinations" xml:space="preserve">
+    <value>Güterzüge ausrichten</value>
+  </data>
+  <data name="DriverDuties" xml:space="preserve">
+    <value>Fahrerservice</value>
+  </data>
+  <data name="Waybills" xml:space="preserve">
+    <value>Frachtbriefe</value>
+  </data>
+  <data name="Trainsets" xml:space="preserve">
+    <value>Wagonplans</value>
+  </data>
+  <data name="LocoSchedules" xml:space="preserve">
+    <value>Lokpläne</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Startseite</value>
   </data>
 </root>

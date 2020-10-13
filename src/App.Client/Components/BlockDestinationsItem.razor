@@ -6,27 +6,24 @@
 }
 else
 {
-<div>
-    <h3>@BlockDestinations.OriginStationName</h3>
-    <div >
-        @foreach (var track in BlockDestinations.TrackDestinations)
-        {
-            <div class="track">
-                <div class="track number">@Localizer["Track"] @track.TrackNumber</div> :
-                <div class="track loco">@Localizer["Loco"]</div>
-                @foreach (var destination in track.BlockDestinations)
-                {
-                    <div style="color: @destination.ForeColor; background-color: @destination.BackColor" class="track destination">
-                        @destination.FinalDestinationNameWithMaxWagons
-                    </div>
-                }
-                <span>
-                    &nbsp;
-                </span>
-            </div>
-        }
+    <div>
+        <h3>@BlockDestinations.OriginStationName</h3>
+        <div>
+            @foreach (var track in BlockDestinations.TrackDestinations)
+            {
+                <div class="blocking track" style="display: flex; flex-direction: @track.FlexDirection(); justify-content:flex-start">
+                    <div class="blocking track number">@Localizer["Track"] @track.TrackNumber</div>
+                    <div class="blocking track loco">@Localizer["Loco"]</div>
+                    @foreach (var destination in track.BlockDestinations)
+                    {
+                        <div class="blocking track destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
+                            @destination.FinalDestinationNameWithMaxWagons
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
-</div>
 }
 
 @code {

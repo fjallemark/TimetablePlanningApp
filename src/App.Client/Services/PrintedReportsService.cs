@@ -45,6 +45,8 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches");
         public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrains(int layoutId) =>
             GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
+        public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDepartures(int layoutId) =>
+            GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/traininitialdepartures");
 
         private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
         {

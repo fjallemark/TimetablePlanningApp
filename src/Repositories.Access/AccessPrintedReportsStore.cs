@@ -219,6 +219,18 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
+        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId)
+        {
+            var result = new List<TrainDeparture>(100);
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, DepartureTime");
+            while (reader.Read())
+            {
+                result.Add(reader.AsTrainDeparture());
+            }
+            return Task.FromResult(result.AsEnumerable());
+        }
+
         public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId)
         {
             var result = new List<TrainCallNote>(500);

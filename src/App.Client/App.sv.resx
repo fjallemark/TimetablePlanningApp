@@ -216,9 +216,6 @@
   <data name="To" xml:space="preserve">
     <value>Till</value>
   </data>
-  <data name="TurnForNextDay" xml:space="preserve">
-    <value>Vänd till nästa dag!</value>
-  </data>
   <data name="TrainsetTurnus" xml:space="preserve">
     <value>Vagnomlopp</value>
   </data>
@@ -236,5 +233,32 @@
   </data>
   <data name="CreatingReport" xml:space="preserve">
     <value>Skapar rapport...</value>
+  </data>
+  <data name="TurnForNextDay" xml:space="preserve">
+    <value>Vänd till nästa dag?</value>
+  </data>
+  <data name="TrainInitialDepartures" xml:space="preserve">
+    <value>Tåg startetiketter</value>
+  </data>
+  <data name="GraphicTimetables" xml:space="preserve">
+    <value>Grafiska tidtabeller</value>
+  </data>
+  <data name="BlockDestinations" xml:space="preserve">
+    <value>Blockning godståg</value>
+  </data>
+  <data name="DriverDuties" xml:space="preserve">
+    <value>Förartjänster</value>
+  </data>
+  <data name="Waybills" xml:space="preserve">
+    <value>Fraktsedlar</value>
+  </data>
+  <data name="Trainsets" xml:space="preserve">
+    <value>Vagnomlopp</value>
+  </data>
+  <data name="LocoSchedules" xml:space="preserve">
+    <value>Lokomlopp</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Hem</value>
   </data>
 </root>

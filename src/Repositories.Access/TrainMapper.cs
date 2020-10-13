@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using System.Resources;
-using System.Text;
 using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.Repositories.Access

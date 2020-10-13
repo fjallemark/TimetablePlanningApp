@@ -1,0 +1,35 @@
+﻿@page "/traininitialdepartures"
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
+@inject Services.PrintedReportsService DataService
+
+
+@if (Data is null)
+{
+    <div class="print creatingreport">@Localizer["CreatingReport"]</div>
+}
+else
+{
+    @foreach (var itemsPerPage in Data.ItemsPerPage(10))
+    {
+        <div class="pagebreak">
+            @foreach (var departure in itemsPerPage)
+            {
+                <TrainDepartureTrackLabel Departure="@departure"></TrainDepartureTrackLabel>
+            }
+        </div>
+    }
+}
+
+@code {
+    private IEnumerable<TrainDeparture>? Data;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await DataService.GetTrainDepartures(Constants.LayoutId);
+        if (result.statusCode.IsSuccess())
+        {
+            Data = result.items;
+        }
+    }
+}

@@ -15,7 +15,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new TrackDestination
             {
                  TrackNumber = me.GetString("TrackNumber"),
-                 TrackDisplayOrder = me.GetInt("TrackDisplayOrder")
+                 TrackDisplayOrder = me.GetInt("TrackDisplayOrder"),
+                 TrainsDepartsToLeft = me.GetBool("TrainsDepartsToLeft")
             };
     }
 }

@@ -9,6 +9,7 @@ namespace Tellurian.Trains.Planning.App.Contract
     {
         public string FullName { get; set; } = string.Empty;
         public string ShortName { get; set; } = string.Empty;
+        public bool IsDaily { get; set; }
 
         public override bool Equals(object obj) => obj is OperationDays other && other.ShortName.Equals(ShortName, StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ShortName.GetHashCode(StringComparison.OrdinalIgnoreCase);
@@ -38,42 +39,55 @@ namespace Tellurian.Trains.Planning.App.Contract
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
-            if (days.Length == 1) return new OperationDays { FullName = days[0].FullName, ShortName = days[0].ShortName };
+            var isDaily = flags == 0x7F;
             var fullName = new StringBuilder(20);
             var shortName = new StringBuilder(10);
-            var dayNumber = 0;
-            var lastDayNumber = days.Last().Number;
-            if (days.IsConsectutive())
+            if (days.Length == 1)
             {
-                Append(days[0], fullName, shortName);
-                Append(Resources.Notes.To, "-", fullName, shortName);
-                Append(days.Last(), fullName, shortName, true);
-            }
-            else if (flags == 0x5F)
-            {
-                Append(Days[1], fullName, shortName);
-                Append(Resources.Notes.To, "-", fullName, shortName);
-                Append(Days[5], fullName, shortName, true);
-                Append(Resources.Notes.And, ",", fullName, shortName);
-                Append(Days[7], fullName, shortName, true);
+                fullName.Append(days[0].FullName);
+                shortName.Append(days[0].ShortName);
             }
             else
             {
-                foreach (var day in days)
+                var dayNumber = 0;
+                var lastDayNumber = days.Last().Number;
+                if (days.IsConsectutive())
                 {
-                    if (day.Number == lastDayNumber)
+                    Append(days[0], fullName, shortName);
+                    Append(Resources.Notes.To, "-", fullName, shortName);
+                    Append(days.Last(), fullName, shortName, true);
+                }
+                else if (flags == 0x5F)
+                {
+                    Append(Days[1], fullName, shortName);
+                    Append(Resources.Notes.To, "-", fullName, shortName);
+                    Append(Days[5], fullName, shortName, true);
+                    Append(Resources.Notes.And, ",", fullName, shortName);
+                    Append(Days[7], fullName, shortName, true);
+                }
+                else
+                {
+                    foreach (var day in days)
                     {
-                        Append(Resources.Notes.And, ",", fullName, shortName);
+                        if (day.Number == lastDayNumber)
+                        {
+                            Append(Resources.Notes.And, ",", fullName, shortName);
+                        }
+                        else if (dayNumber > 0)
+                        {
+                            Append(",", ",", fullName, shortName);
+                        }
+                        Append(day, fullName, shortName, day.Number > days[0].Number);
+                        dayNumber = day.Number;
                     }
-                    else if (dayNumber > 0)
-                    {
-                        Append(",", ",", fullName, shortName);
-                    }
-                    Append(day, fullName, shortName, day.Number > days[0].Number);
-                    dayNumber = day.Number;
                 }
             }
-            return new OperationDays { FullName = fullName.ToString(), ShortName = shortName.ToString() };
+            return new OperationDays
+            {
+                IsDaily = isDaily,
+                FullName = fullName.ToString(),
+                ShortName = shortName.ToString()
+            };
         }
 
         private static void Append(Day day, StringBuilder fullNames, StringBuilder shortNames, bool toLower = false)

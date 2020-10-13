@@ -40,13 +40,5 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 ReverseLoco = me.GetBool("ReverseLoco"),
                 TurnLoco = me.GetBool("TurnLoco")
             };
-
-        public static Loco AsLoco(this IDataRecord me) =>
-            new Loco
-            {
-                OperatorName = me.GetString("LocoOperator"),
-                Number = me.GetInt("LocoNumber"),
-                OperationDays = me.GetByte("LocoDays").OperationDays()
-            };
     }
 }

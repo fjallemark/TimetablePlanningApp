@@ -1,0 +1,27 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+@if (Departure != null)
+{
+    <div class="pocket frame">
+        <div class="departure" style="display: block; transform: rotate(180deg)">
+            <div class="departure station">@Departure.StationName @Localizer["Track"] @Departure.TrackNumber</div>
+            <div class="departure time">@Departure.DepartureTime.Time</div>
+            <div class="departure train">@Departure.Train.Prefix @Departure.Train.Number</div>
+            <div class="departure days">@Departure.Loco.OperationDays.ShortName</div>
+            <div class="departure loco">@Localizer["Loco"] @Departure.Loco.OperatorName @Departure.Loco.Number</div>
+        </div>
+        <div class="departure">
+            <div class="departure station">@Departure.StationName @Localizer["Track"] @Departure.TrackNumber</div>
+            <div class="departure time">@Departure.DepartureTime.Time</div>
+            <div class="departure train">@Departure.Train.Prefix @Departure.Train.Number</div>
+            <div class="departure days">@Departure.Loco.OperationDays.FullName</div>
+            <div class="departure loco">@Localizer["Loco"] @Departure.Loco.OperatorName @Departure.Loco.Number</div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public TrainDeparture? Departure { get; set; }
+}

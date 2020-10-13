@@ -13,7 +13,6 @@ namespace Tellurian.Trains.Planning.App.Contract
         public override string ToString() => Signature;
         public override bool Equals(object obj) => obj is Station other && other.Id == Id;
         public override int GetHashCode() => Id.GetHashCode();
-
     }
     public class Station : StationInfo
     {

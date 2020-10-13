@@ -32,8 +32,8 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             return booklet;
         }
 
-        public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
-            await Store.GetBlockDestinationsAsync(layoutId).ConfigureAwait(false);
+        public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
+            Store.GetBlockDestinationsAsync(layoutId);
 
         public async Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId)
         {
@@ -52,8 +52,16 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                     }
                 }
             }
+            foreach (var stretch in stretches)
+            {
+                stretch.StartHour = stretches.Min(s => s.FirstHour());
+                stretch.EndHour = stretches.Max(s => s.LastHour());
+            }
             return stretches;
         }
+
+        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
+            Store.GetTrainDeparturesAsync(layoutId);
     }
 
     internal static class TrainExtensions
