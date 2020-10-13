@@ -235,7 +235,8 @@
 
     .departure.station {
         height: auto;
-        font-size: 12pt
+        font-size: 12pt;
+        padding-top: 2mm;
     }
     .departure.loco {
         height: auto;
@@ -245,13 +246,13 @@
         height: auto;
         color: maroon;
         font-size: 18pt;
-        line-height: 19pt;
+        line-height: 22pt;
     }
     .departure.train {
         height: auto;
         font-size: 18pt;
         color: darkcyan;
-        line-height: 19pt;
+        line-height: 22pt;
     }
     .departure.days {
         height: auto;

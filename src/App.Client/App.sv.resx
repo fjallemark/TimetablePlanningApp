@@ -261,4 +261,10 @@
   <data name="Home" xml:space="preserve">
     <value>Hem</value>
   </data>
+  <data name="Not all trains take wagons to all block destinations" xml:space="preserve">
+    <value>Inte alla tåg tar vagnar till alla block destinationer!</value>
+  </data>
+  <data name="Read train instructions to see to which destinations" xml:space="preserve">
+    <value>Läs tåginstruktionen för vilka destinationer som tas med.</value>
+  </data>
 </root>

@@ -141,7 +141,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             while (reader.Read())
             {
                 var currentOriginStationName = reader.GetString("OriginStationName");
-                var currentTrackNumber = reader.GetString("TrackNumber");
+                var currentTrackNumber = currentOriginStationName+reader.GetString("TrackNumber");
                 if (currentOriginStationName != lastOriginStationName)
                 {
                     if (current != null) result.Add(current);
@@ -223,7 +223,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<TrainDeparture>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber");
             while (reader.Read())
             {
                 result.Add(reader.AsTrainDeparture());

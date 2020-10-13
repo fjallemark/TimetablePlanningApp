@@ -24,4 +24,8 @@
 @code {
     [Parameter]
     public TrainDeparture? Departure { get; set; }
+
+    private string Station =>
+        Departure is null ? string.Empty :
+        string.Format("{0}, {1} {2}",Departure.StationName, Localizer["Track"].Value.ToLowerInvariant(), Departure.TrackNumber);
 }
