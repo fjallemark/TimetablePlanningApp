@@ -6,25 +6,31 @@
 }
 else
 {
+<div class="pagebreak">
+    <h3>@Localizer["BlockDestinations"] @BlockDestinations.OriginStationName</h3>
     <div>
-        <h3>@BlockDestinations.OriginStationName</h3>
-        <div>@Localizer["Not all trains take wagons to all block destinations"] @Localizer["Read train instructions to see to which destinations"]</div>
-        <div>
-            @foreach (var track in BlockDestinations.TrackDestinations)
-            {
-                <div class="blocking track" style="display: flex; flex-direction: @track.FlexDirection(); justify-content:flex-start">
-                    <div class="blocking track number">@Localizer["Track"] @track.TrackNumber</div>
-                    <div class="blocking track loco">@Localizer["Loco"]</div>
-                    @foreach (var destination in track.BlockDestinations)
+        @foreach (var track in BlockDestinations.Tracks)
+        {
+            <div class="blocking track">
+                <div class="blocking track number">@Localizer["Track"] @track.TrackNumber</div>
+                <div style="display: flex; flex-direction: column">
+                    @foreach (var train in track.TrainBlocks)
                     {
-                        <div class="blocking track destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
-                            @destination.FinalDestinationNameWithMaxWagons
+                        <div style="display: flex; flex-direction: @train.FlexDirection(); justify-content:flex-start">
+                            <div class="blocking track train">@train.Train.Display() @train.DepartureTime.Time</div>
+                            @foreach (var destination in train.BlockDestinations)
+                            {
+                                <div class="blocking track destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
+                                    @destination.FinalDestinationNameWithMaxWagons
+                                </div>
+                            }
                         </div>
                     }
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+</div>
 }
 
 @code {

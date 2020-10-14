@@ -261,10 +261,4 @@
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
   </data>
-  <data name="Not all trains take wagons to all block destinations" xml:space="preserve">
-    <value>Nicht alle Züge fahren Mitwaggons zu allen Blockzielen!</value>
-  </data>
-  <data name="Read train instructions to see to which destinations" xml:space="preserve">
-    <value>Lesen Sie die Zuganweisungen, für die Ziele enthalten sind.</value>
-  </data>
 </root>

@@ -264,7 +264,6 @@
 }
 
     .blocking.track {
-        height: 12mm;
         font-size: 4mm;
         font-weight: bold;
         padding: 1mm 2mm 1mm 2mm;
@@ -277,14 +276,14 @@
             background-color: white;
             color: black;
             padding: 1mm 1mm 1mm 1mm;
-            margin: 0px 3px 0px 0px;
+            margin: 2px 3px 2px 0px;
             border: none;
         }
 
         .blocking.track.destination {
             height: 8mm;
             padding: 1mm 2mm 1mm 2mm;
-            margin: 0px 3px 0px 0px;
+            margin: 2px 3px 2px 0px;
             border: none;
         }
 
@@ -293,8 +292,13 @@
             background-color: red;
             color: white;
             padding: 1mm 1mm 1mm 1mm;
-            margin: 0px 3px 0px 0px;
+            margin: 2px 3px 2px 0px;
             border: none;
+        }
+        .blocking.track.train {
+            height: 8mm;
+            padding: 1mm 1mm 1mm 1mm;
+            margin: 2px 3px 2px 0px;
         }
 
 .graphictimetable {

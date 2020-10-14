@@ -134,14 +134,16 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<BlockDestinations>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM ShadowStationCargoDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, OrderInTrain");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, TrainNumber, OrderInTrain");
             BlockDestinations? current = null;
             var lastOriginStationName = "";
             var lastTrackNumber = "";
+            var lastTrainNumber = "";
             while (reader.Read())
             {
                 var currentOriginStationName = reader.GetString("OriginStationName");
-                var currentTrackNumber = currentOriginStationName+reader.GetString("TrackNumber");
+                var currentTrackNumber = currentOriginStationName + reader.GetString("TrackNumber");
+                var currentTrainNumber = currentOriginStationName + reader.GetInt("TrainNumber");
                 if (currentOriginStationName != lastOriginStationName)
                 {
                     if (current != null) result.Add(current);
@@ -149,12 +151,17 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 }
                 if (current != null && currentTrackNumber != lastTrackNumber)
                 {
-                    current.TrackDestinations.Add(reader.AsTrackDestination());
+                    current.Tracks.Add(reader.AsTrackDestination());
+                }
+                if(current != null && currentTrainNumber != lastTrainNumber)
+                {
+                    current.Tracks.Last().TrainBlocks.Add(reader.AsTrainBlocking());
                 }
                 if (current != null)
                 {
-                    current.TrackDestinations.Last().BlockDestinations.Add(reader.AsBlockDestination());
+                    current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(reader.AsBlockDestination());
                 }
+                lastTrainNumber = currentTrainNumber;
                 lastTrackNumber = currentTrackNumber;
                 lastOriginStationName = currentOriginStationName;
             }

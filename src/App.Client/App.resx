@@ -261,10 +261,4 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="Not all trains take wagons to all block destinations" xml:space="preserve">
-    <value>Not all trains take wagons to all block destinations!</value>
-  </data>
-  <data name="Read train instructions to see to which destinations" xml:space="preserve">
-    <value>Read the train instructions for which destinations are included.</value>
-  </data>
 </root>
