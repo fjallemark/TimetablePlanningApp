@@ -12,10 +12,10 @@ namespace Tellurian.Trains.Planning.App.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<App>("#app");
             builder.Services.AddLocalization();
-            builder.Services.AddTransient<LanguageService>();
-            builder.Services.AddTransient<PrintedReportsService>();
+            builder.Services.AddScoped<LanguageService>();
+            builder.Services.AddScoped<PrintedReportsService>();
             builder.Services.AddHttpClient<LanguageService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
             builder.Services.AddHttpClient<PrintedReportsService>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
             //builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

@@ -129,12 +129,12 @@
 }
 
     .duty.content h1 {
-        font-size: 24pt;
+        font-size: 18pt;
         font-weight: bold;
     }
 
     .duty.content h2 {
-        font-size: 14pt;
+        font-size: 12pt;
         font-weight: bold;
         line-height: 16pt;
     }
@@ -199,7 +199,7 @@
     .duty.call {
         vertical-align: text-top;
         font-family: 'Times New Roman', Times, serif;
-        font-size: 12pt;
+        font-size: 11pt;
     }
 
         .duty.call.part {
@@ -324,6 +324,7 @@
         font-weight: bold;
         font-size: 9pt;
         line-height: 12pt;
+        padding-bottom: 3px;
     }
 
     .graphictimetable.tracknumber {
