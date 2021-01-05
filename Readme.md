@@ -25,10 +25,10 @@ I you are interested of scheduling of model trains, especially for module meetin
 2. Give feedback on the idea and the documentation.
 3. Engage in design of functionality.
 4. Help with translations; add new or improve existing ones.
-5. Sumbit issues and suggestions.
-6. Constribute with pull requests.
+5. Submit issues and suggestions.
+6. Contribute with pull requests.
 
-All interaction takes place on GitHub and we use en english only.
+All interaction takes place on GitHub and we use en English only.
 So you will need a GitHub account and apply for membership in the project.
 
 Welcome to participate!
