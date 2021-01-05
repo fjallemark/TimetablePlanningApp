@@ -32,13 +32,5 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
             var actual = JsonSerializer.Deserialize<Train>(json, new JsonSerializerOptions { MaxDepth = 20 });
             Assert.AreEqual(target.Calls.Count, actual.Calls.Count);
         }
-
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            var json = File.ReadAllText("Testdata\\response.json");
-            var response = JsonSerializer.Deserialize<DriverDutyBooklet>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive=true, MaxDepth = 20 });
-            Assert.IsTrue(response.Duties.Count > 0);
-        }
     }
 }

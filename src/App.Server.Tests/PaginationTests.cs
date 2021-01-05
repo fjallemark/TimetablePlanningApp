@@ -34,15 +34,5 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
             var pages = target.Duties.First().GetDriverDutyPagesInBookletOrder();
             Assert.AreEqual(4, pages.Count());
         }
-
-        [TestMethod]
-        public void GetDriverDutyPagesInBookletOrderFromRealResponse()
-        {
-            var json = File.ReadAllText("Testdata\\response.json");
-            var response = JsonSerializer.Deserialize<DriverDutyBooklet>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
-            var actual = response.Duties.GetAllDriverDutyPagesInBookletOrder();
-
-            Assert.IsNotNull(actual);
-        }
     }
 }

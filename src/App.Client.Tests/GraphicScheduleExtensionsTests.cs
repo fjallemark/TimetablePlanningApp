@@ -14,7 +14,7 @@ namespace App.Client.Tests
         public void FirstStationIsAtYoffset()
         {
             var target = Target;
-            Assert.AreEqual(Options.Yoffset, target.YStation(target.Stations[0]));
+            Assert.AreEqual(Options.Yoffset + Options.HourHeight, target.YStation(target.Stations[0]));
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace App.Client.Tests
         public void SecondStationIsAtCorrectYoffset()
         {
             var target = Target;
-            Assert.AreEqual(Options.Yoffset+ 56 + 50, target.YStation(target.Stations[1]));
+            Assert.AreEqual(Options.Yoffset + Options.HourHeight + 66 + 50, target.YStation(target.Stations[1]));
 
         }
 
