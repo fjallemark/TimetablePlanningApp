@@ -35,6 +35,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 if (booklet is null)
                 {
                     booklet = reader.AsDriverDutyBooklet();
+                    booklet.Instructions.Add(reader.AsLayoutInstruction());
+                }
+                else
+                {
+                    booklet.Instructions.Add(reader.AsLayoutInstruction());
                 }
             }
             return Task.FromResult(booklet);

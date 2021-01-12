@@ -6,7 +6,7 @@ namespace Tellurian.Trains.Planning.App.Contract
     public sealed class DriverDutyBooklet
     {
         public string ScheduleName { get; set; } = string.Empty;
-        public string? InstructionsMarkdown { get; set; }
+        public IList<LayoutInstruction> Instructions { get; set; } = new List<LayoutInstruction>();
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Required for deserialization.")]
         public ICollection<DriverDuty> Duties { get; set; } = Array.Empty<DriverDuty>();

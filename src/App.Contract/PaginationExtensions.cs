@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Contract
@@ -20,12 +21,12 @@ namespace Tellurian.Trains.Planning.App.Contract
             return Enumerable.Range(1, totalPages).Select(page => me.Page(itemsPerPage, page));
         }
 
-        public static IEnumerable<DutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me, string? instructionsMarkdown = null) =>
-            me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder(instructionsMarkdown)).ToList();
+        public static IEnumerable<DutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me, IEnumerable<LayoutInstruction> instructions) =>
+            me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder(instructions)).ToList();
 
-        public static IEnumerable<DutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me, string? instructionsMarkdown = null)
+        public static IEnumerable<DutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me, IEnumerable<LayoutInstruction> instructions)
         {
-            var pages = me.GetDriverDutyPages(instructionsMarkdown).ToArray();
+            var pages = me.GetDriverDutyPages(instructions).ToArray();
             var bookletPageOrder = BookletPageOrder(pages.Length);
             var result = new List<DutyPage>();
             for (int i = 0; i < bookletPageOrder.Length; i++)
@@ -35,16 +36,25 @@ namespace Tellurian.Trains.Planning.App.Contract
             return result;
         }
 
-        public static IEnumerable<DutyPage> GetDriverDutyPages(this DriverDuty me, string? instructionsMarkdown = null)
+        public static IEnumerable<DutyPage> GetDriverDutyPages(this DriverDuty me, IEnumerable<LayoutInstruction> instructions)
         {
             var pageNumber = 1;
             var result = new List<DutyPage>
             {
                 DutyPage.Front(pageNumber++, me)
             };
-            if (! string.IsNullOrWhiteSpace(instructionsMarkdown))
+            if (instructions.Any())
             {
-                result.Add(DutyPage.Instructions(pageNumber++, instructionsMarkdown));
+                var languageInstruction = instructions.SingleOrDefault(i => i.Language is not null && i.Language.Equals(CultureInfo.CurrentCulture.TwoLetterISOLanguageName));
+                if (languageInstruction is null)
+                {
+                    result.Add(DutyPage.Instructions(pageNumber++, instructions.First().Markdown));
+
+                }
+                else
+                {
+                    result.Add(DutyPage.Instructions(pageNumber++, languageInstruction.Markdown));
+                }
             }
             var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
             dutyParts.Last().IsLastPart = true;

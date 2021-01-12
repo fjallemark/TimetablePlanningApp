@@ -58,7 +58,7 @@ else
         var result = await DataService.GetDriverDutiesAsync(Constants.LayoutId);
         if (result.statusCode.IsSuccess() && result.item != null)
         {
-            Pages = result.item.Duties.GetAllDriverDutyPagesInBookletOrder(result.item.InstructionsMarkdown).ToArray();
+            Pages = result.item.Duties.GetAllDriverDutyPagesInBookletOrder(result.item.Instructions).ToArray();
             IsLoaded = true;
         }
     }

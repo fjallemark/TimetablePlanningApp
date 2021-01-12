@@ -10,8 +10,14 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static DriverDutyBooklet AsDriverDutyBooklet(this IDataRecord me) =>
             new DriverDutyBooklet
             {
-                ScheduleName = me.GetString("LayoutName"),
-                InstructionsMarkdown = me.GetString("Markdown")
+                ScheduleName = me.GetString("LayoutName")
+            };
+
+        public static LayoutInstruction AsLayoutInstruction(this IDataRecord me) =>
+            new LayoutInstruction
+            {
+                Language = me.GetString("Language"),
+                Markdown = me.GetString("Markdown")
             };
 
         public static DriverDuty AsDuty(this IDataRecord me) =>
@@ -33,7 +39,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new DutyPart
             {
                 Train = train,
-                FromCallId  = me.GetInt("FromCallId"),
+                FromCallId = me.GetInt("FromCallId"),
                 GetLocoAtParking = me.GetBool("FromParking"),
                 ToCallId = me.GetInt("ToCallId"),
                 PutLocoAtParking = me.GetBool("ToParking"),
