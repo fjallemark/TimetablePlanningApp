@@ -138,6 +138,11 @@
         font-weight: bold;
         line-height: 16pt;
     }
+    .duty.content h3 {
+        line-height: 14pt;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
 
     .duty.frame {
         width: 148.1mm;
@@ -160,6 +165,10 @@
         .duty.content.frontpage {
             text-align: center;
             font-size: 28pt;
+        }
+        .duty.instruction {
+            font-size: 11pt;
+            font-family: 'Times New Roman', Times, serif;
         }
 
     .duty.schedulename {

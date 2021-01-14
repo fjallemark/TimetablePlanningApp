@@ -7,7 +7,7 @@
         <h1>@Localizer["Instructions"]</h1>
         @if (MarkdownContent != null)
         {
-            <div>
+            <div class="duty instruction">
                 @((MarkupString)Markdown.ToHtml(MarkdownContent))
             </div>
         }
