@@ -5,8 +5,6 @@ using System.Linq;
 using System.Xml;
 using Tellurian.Trains.Planning.App.Contract.Resources;
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
-
 namespace Tellurian.Trains.Planning.App.Contract
 {
     public class Note
@@ -15,7 +13,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public int DisplayOrder { get; set; }
         public override string ToString() => Text ?? "";
         public static Note[] SingleNote(int displayOrder, string text) => new[] { new Note { DisplayOrder = displayOrder, Text = text } };
-        public override bool Equals(object obj) => obj is Note other && other.Text.Equals(Text, StringComparison.OrdinalIgnoreCase);
+        public override bool Equals(object? obj) => obj is Note other && other.Text.Equals(Text, StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => Text.GetHashCode(StringComparison.OrdinalIgnoreCase);
     }
 
@@ -321,7 +319,7 @@ namespace Tellurian.Trains.Planning.App.Contract
             MaxNumberOfWagons == 0 ? TransferDestination  :
             $"{TransferDestination}×{MaxNumberOfWagons}";
 
-        public override bool Equals(object obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
+        public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
     }
 

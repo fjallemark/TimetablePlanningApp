@@ -30,7 +30,7 @@
                 <span>@Localizer["Ends"]</span>:
                 <span><strong>@Item.EndTime()</strong></span>
             </div>
-            <div style="font-size: 12pt">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"], DateTime.Now)</div>
+            <div style="font-size: 12pt">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"].Value, DateTime.Now)</div>
         }
     </div>
     <div class="duty pagenumber">- @PageNumber -</div>

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-#pragma warning disable CA2227 // Collection properties should be read only
-
 namespace Tellurian.Trains.Planning.App.Contract
 {
     public class TimetableStretch
@@ -38,7 +36,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public int DisplayOrder { get; set; }
         public double DistanceFromPrevious { get; set; }
         public Station Station { get; set; } = new Station();
-        public override bool Equals(object obj) => obj is TimetableStretchStation other && other.Station.Equals(Station);
+        public override bool Equals(object? obj) => obj is TimetableStretchStation other && other.Station.Equals(Station);
         public override int GetHashCode() => Station.GetHashCode();
         public override string ToString() => Station.Signature;
     }

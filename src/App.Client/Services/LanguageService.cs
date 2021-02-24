@@ -19,6 +19,6 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         private readonly HttpClient Http;
 
         public async Task<IEnumerable<LanguageLabels>> GetWaybillLabels() =>
-            await Http.GetFromJsonAsync<IEnumerable<LanguageLabels>>("api/languages/all/labels/waybills").ConfigureAwait(false);
+            await Http.GetFromJsonAsync<IEnumerable<LanguageLabels>>("api/languages/all/labels/waybills").ConfigureAwait(false) ?? Array.Empty<LanguageLabels>();
     }
 }

@@ -96,7 +96,9 @@
             localText = LanguageLabels.GetLabelText(langaugeCode, resourceKey);
             if (string.IsNullOrWhiteSpace(localText)) englishText = Localizer[resourceKey];
         }
-        if (englishText == localText || string.IsNullOrWhiteSpace(localText)) return englishText;
+        if (englishText == localText || string.IsNullOrWhiteSpace(localText)) return englishText!;
         return $"{englishText}/{localText}";
     }
+
+    private string EnglishText(string? text, string resourceKey) => text ?? resourceKey;
 }

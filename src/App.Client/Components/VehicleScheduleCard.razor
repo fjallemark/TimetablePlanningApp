@@ -11,13 +11,16 @@
             <div class="schedule header">
                 <div>@Localizer[Item.Type + "Turnus"]</div>
                 <div><strong>@Item.Operator @Item.Number&nbsp;@Item.OperationDays.ShortName</strong></div>
-                @if (Item.Class.HasValue() && Item.Class.Length >= 4)
+                @if (Item.Class.HasValue())
                 {
-                    <div>@Localizer["Wagons"]:&nbsp;<strong>@Item.Class</strong></div>
-                }
-                else if (Item.Class.HasValue())
-                {
-                    <div>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></div>
+                    @if (Item.IsLoco)
+                    {
+                        <div>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></div>
+                    }
+                    else if (Item.IsTrainset)
+                    {
+                        <div>@Localizer["Wagons"]:&nbsp;<strong>@Item.Class</strong></div>
+                    }
                 }
             </div>
             <div>
@@ -57,8 +60,6 @@
 }
 
 @code {
-    [Parameter]
-    public VehicleSchedule? Item { get; set; }
-    [Parameter]
-    public string CrossLineColor { get; set; } = "pink";
+    [Parameter] public VehicleSchedule? Item { get; set; }
+    [Parameter] public string CrossLineColor { get; set; } = "pink";
 }

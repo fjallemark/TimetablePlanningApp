@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
-using System.Text;
-#pragma warning disable CA2227 // Collection properties should be read only, but needed for desialization
 
 namespace Tellurian.Trains.Planning.App.Contract
 {
@@ -26,11 +24,11 @@ namespace Tellurian.Trains.Planning.App.Contract
         public static LanguageLabels CreateLabels(this string languageCode, IEnumerable<string> resourceKeys)
         {
             var culture = new CultureInfo(languageCode);
-            var resourceManager = new ResourceManager(typeof(Resources.Notes));
+            var resourceManager = Resources.Notes.ResourceManager;
             return new LanguageLabels
             {
                 LanguageCode = languageCode,
-                Labels = resourceKeys.Select(k => new Label { ResourceKey = k, Text = resourceManager.GetString(k, culture) }).ToArray()
+                Labels = resourceKeys.Select(k => new Label { ResourceKey = k, Text = resourceManager.GetString(k, culture) ?? k }).ToArray()
             };
         }
 

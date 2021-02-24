@@ -22,7 +22,7 @@ else
     protected async override Task OnInitializedAsync()
     {
         DataIsReady = false;
-        var result = await DataService.GetTimetableStretches(8);
+        var result = await DataService.GetTimetableStretches(Constants.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             TimetableStretches = result.items.ToArray();

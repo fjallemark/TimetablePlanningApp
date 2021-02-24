@@ -33,6 +33,8 @@ else
                     <text class="graphictimetable hour" x="@hour.XHourText()" y="@Data.YHour()">@hour.Text</text>
                 </text>
             }
+
+
             @foreach (var section in Data.TrainSections)
             {
                 @if (section.IsBetweenStations())

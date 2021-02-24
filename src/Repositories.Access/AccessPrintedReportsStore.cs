@@ -26,23 +26,27 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         public Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
         {
+            DriverDutyBooklet? booklet = null;
+
+            using var connection = CreateConnection;
+            var sql = $"SELECT Name AS LayoutName FROM Layout WHERE Id = {layoutId}";
+            var reader = ExecuteReader(connection, sql);
+            if (reader.Read())
+            {
+                booklet = reader.AsDriverDutyBooklet();
+                booklet.Instructions = LayoutInstructions(layoutId);
+            }
+            return Task.FromResult(booklet);
+        }
+        private IEnumerable<LayoutInstruction> LayoutInstructions(int layoutId)
+        {
             using var connection = CreateConnection;
             var sql = $"SELECT * FROM DutyInstructionsReport WHERE LayoutId = {layoutId}";
             var reader = ExecuteReader(connection, sql);
-            DriverDutyBooklet? booklet = null;
             while (reader.Read())
             {
-                if (booklet is null)
-                {
-                    booklet = reader.AsDriverDutyBooklet();
-                    booklet.Instructions.Add(reader.AsLayoutInstruction());
-                }
-                else
-                {
-                    booklet.Instructions.Add(reader.AsLayoutInstruction());
-                }
+                yield return reader.AsLayoutInstruction();
             }
-            return Task.FromResult(booklet);
         }
 
         public Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
@@ -158,7 +162,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     current.Tracks.Add(reader.AsTrackDestination());
                 }
-                if(current != null && currentTrainNumber != lastTrainNumber)
+                if (current != null && currentTrainNumber != lastTrainNumber)
                 {
                     current.Tracks.Last().TrainBlocks.Add(reader.AsTrainBlocking());
                 }
@@ -391,8 +395,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "n/a")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Is taken care in other place.")]
         private static IDataReader ExecuteReader(OdbcConnection connection, string sql)
         {
             var command = new OdbcCommand(sql, connection);

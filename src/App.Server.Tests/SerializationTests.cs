@@ -20,8 +20,8 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
 
             var json = JsonSerializer.Serialize(target);
             var actual = JsonSerializer.Deserialize<DriverDutyBooklet>(json, new JsonSerializerOptions {  MaxDepth=20});
-            Assert.IsNotNull(actual.Duties.First().Parts.First().Train.Calls, "Missing in actual");
-            Assert.AreEqual(target.Duties.First().Parts.First().Train.Calls.Count, actual.Duties.First().Parts.First().Train.Calls.Count);
+            Assert.IsNotNull(actual?.Duties.First().Parts.First().Train.Calls, "Missing in actual");
+            Assert.AreEqual(target.Duties.First().Parts.First().Train.Calls.Count, actual?.Duties.First().Parts.First().Train.Calls.Count);
         }
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
             var target = Train.Example;
             var json = JsonSerializer.Serialize(target);
             var actual = JsonSerializer.Deserialize<Train>(json, new JsonSerializerOptions { MaxDepth = 20 });
-            Assert.AreEqual(target.Calls.Count, actual.Calls.Count);
+            Assert.AreEqual(target.Calls.Count, actual?.Calls.Count);
         }
     }
 }

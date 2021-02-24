@@ -5,7 +5,7 @@
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     <AssemblyName>Tellurian.Trains.Planning.App.Client</AssemblyName>
     <RootNamespace>Tellurian.Trains.Planning.App.Client</RootNamespace>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Version>0.1.0</Version>
     <Platforms>AnyCPU</Platforms>

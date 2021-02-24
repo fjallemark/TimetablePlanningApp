@@ -12,7 +12,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Number = me.GetString("TimetableNumber"),
                 Name = me.GetString("TimetableName"),
                 Stations = new List<TimetableStretchStation>(),
-                TrainSections = new List<TimetableTrainSection>(200)
+                TrainSections = new List<TimetableTrainSection>(200),
+                StartHour = me.GetInt("StartHour"),
+                EndHour = me.GetInt("EndHour")
             };
 
         public static TimetableStretchStation AsTimetableStretchStation(this IDataRecord me) =>

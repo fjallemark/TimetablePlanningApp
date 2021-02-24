@@ -11,7 +11,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public string ShortName { get; set; } = string.Empty;
         public bool IsDaily { get; set; }
 
-        public override bool Equals(object obj) => obj is OperationDays other && other.ShortName.Equals(ShortName, StringComparison.OrdinalIgnoreCase);
+        public override bool Equals(object? obj) => obj is OperationDays other && other.ShortName.Equals(ShortName, StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ShortName.GetHashCode(StringComparison.OrdinalIgnoreCase);
         public override string ToString() => ShortName;
     }
@@ -117,8 +117,8 @@ namespace Tellurian.Trains.Planning.App.Contract
         public byte Number { get; }
         private string FullNameResourceKey { get; }
         private string ShortNameResourceKey { get; }
-        public string FullName => Resources.Notes.ResourceManager.GetString(FullNameResourceKey, CultureInfo.CurrentCulture);
-        public string ShortName => Resources.Notes.ResourceManager.GetString(ShortNameResourceKey, CultureInfo.CurrentCulture);
+        public string FullName => Resources.Notes.ResourceManager.GetString(FullNameResourceKey, CultureInfo.CurrentCulture) ?? FullNameResourceKey;
+        public string ShortName => Resources.Notes.ResourceManager.GetString(ShortNameResourceKey, CultureInfo.CurrentCulture) ?? ShortNameResourceKey;
     }
 
     internal static class DayExtensions

@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>Tellurian.Trains.Planning.App.Server</AssemblyName>
     <RootNamespace>Tellurian.Trains.Planning.App.Server</RootNamespace>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Version>0.1.0</Version>
     <Platforms>AnyCPU</Platforms>

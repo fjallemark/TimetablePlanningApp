@@ -15,7 +15,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public CallTime? Departure { get; set; }
         public int SequenceNumber { get; set; }
         public override string ToString() => $"{Id} {Station.Signature} {TrackNumber} Arr:{Arrival} Dep:{Departure}";
-        public override bool Equals(object obj) => obj is StationCall other && other.Id == Id;
+        public override bool Equals(object? obj) => obj is StationCall other && other.Id == Id;
         public override int GetHashCode() => Id.GetHashCode();
     }
 

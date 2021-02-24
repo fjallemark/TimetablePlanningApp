@@ -9,6 +9,8 @@ namespace Tellurian.Trains.Planning.App.Contract
     public abstract class VehicleSchedule
     {
         public abstract string Type { get; }
+        public virtual bool IsLoco => false;
+        public virtual bool IsTrainset => false;
         public string Number { get; set; } = string.Empty;
         public OperationDays OperationDays { get; set; } = new OperationDays();
         public string Operator { get; set; } = string.Empty;
@@ -21,11 +23,13 @@ namespace Tellurian.Trains.Planning.App.Contract
     public class LocoSchedule : VehicleSchedule
     {
         public override string Type => "Loco";
+        public override bool IsLoco => true;
     }
 
     public class TrainsetSchedule : VehicleSchedule
     {
         public override string Type => "Trainset";
+        public override bool IsTrainset => true;
     }
 
     public static class VehicleScheduleExtensions

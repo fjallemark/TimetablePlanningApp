@@ -6,7 +6,7 @@
         @if (Item != null && Duty != null)
         {
             <h1>
-                <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"], Item.Train.Number)</span>
+                <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.Number)</span>
                 <span>@Duty.TrainOperatingDay(Item.Train)</span>
             </h1>
             <div></div>

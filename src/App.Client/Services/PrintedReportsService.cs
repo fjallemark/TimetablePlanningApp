@@ -67,9 +67,9 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             new HttpRequestMessage(HttpMethod.Get, requestUri);
 
         private static async Task<IEnumerable<T>> Items<T>(HttpResponseMessage response) =>
-           await response.Content.ReadFromJsonAsync<IEnumerable<T>>(Options).ConfigureAwait(false);
+           await response.Content.ReadFromJsonAsync<IEnumerable<T>>(Options).ConfigureAwait(false) ?? Array.Empty<T>();
 
-        private static async Task<T> Item<T>(HttpResponseMessage response) =>
+        private static async Task<T?> Item<T>(HttpResponseMessage response) =>
             await response.Content.ReadFromJsonAsync<T>(Options).ConfigureAwait(false);
     }
 }
