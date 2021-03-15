@@ -17,7 +17,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             Http = http;
         }
         private readonly HttpClient Http;
-        private static JsonSerializerOptions Options => new JsonSerializerOptions
+        private static JsonSerializerOptions Options => new ()
         {
             PropertyNameCaseInsensitive = true,
             IgnoreReadOnlyProperties = true
@@ -64,7 +64,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         }
 
         private static HttpRequestMessage CreateRequest(string requestUri) =>
-            new HttpRequestMessage(HttpMethod.Get, requestUri);
+            new (HttpMethod.Get, requestUri);
 
         private static async Task<IEnumerable<T>> Items<T>(HttpResponseMessage response) =>
            await response.Content.ReadFromJsonAsync<IEnumerable<T>>(Options).ConfigureAwait(false) ?? Array.Empty<T>();

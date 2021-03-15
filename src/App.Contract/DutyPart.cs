@@ -18,7 +18,6 @@ namespace Tellurian.Trains.Planning.App.Contract
             if (loco != null) { Locos = new List<Loco> { loco }; }
         }
         public Train Train { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "Required for deserialization.")]
         public ICollection<Loco> Locos { get; set; } = Array.Empty<Loco>();
         public bool IsLastPart { get; set; }
         public int FromCallId { get; set; }

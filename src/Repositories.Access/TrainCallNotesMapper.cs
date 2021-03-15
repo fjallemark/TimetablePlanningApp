@@ -8,7 +8,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     internal static class TrainCallNotesMapper
     {
         public static ManualTrainCallNote AsManualTrainCallNote(this IDataRecord me) =>
-            new ManualTrainCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 Text = me.GetString("Note"),
                 DisplayOrder = me.GetInt("Row"),
@@ -25,7 +25,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             throw new InvalidOperationException();
 
         public static TrainContinuationNumberCallNote AsTrainContinuationNumberCallNote(this IDataRecord me) =>
-            new TrainContinuationNumberCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 LocoOperationDaysFlag = me.GetByte("LocoOperatingDaysFlag"),
                 ContinuingTrain = new OtherTrain
@@ -38,12 +38,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static TrainMeetCallNote AsTrainMeetCallNote(this IDataRecord me) =>
-            new TrainMeetCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 OperationDayFlag = me.GetByte("TrainDaysFlag")
             };
 
-        public static OtherTrain AsMeetingTrain(this IDataRecord me) => new OtherTrain
+        public static OtherTrain AsMeetingTrain(this IDataRecord me) => new()
         {
             CategoryPrefix = me.GetString("MeetTrainCategoryPrefix"),
             DestinationName = me.GetString("MeetTrainDestination"),
@@ -51,8 +51,20 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             OperationDayFlag = me.GetByte("MeetTrainDaysFlag")
         };
 
+        public static OtherTrainCall AsMeetingTrainCall(this IDataRecord me) => new()
+        {
+            CategoryPrefix = me.GetString("MeetTrainCategoryPrefix"),
+            DestinationName = me.GetString("MeetTrainDestination"),
+            TrainNumber = me.GetInt("MeetTrainNumber"),
+            OperationDayFlag = me.GetByte("MeetTrainDaysFlag"),
+            ArrivalTime = CallTime.Create(me.GetTime("ArrivalTime")),
+            DepartureTime = CallTime.Create(me.GetTime("DepartureTime")),
+            MeetArrivalTime = CallTime.Create(me.GetTime("MeetArrivalTime")),
+            MeetDepartureTime = CallTime.Create(me.GetTime("MeetDepartureTime"))
+        };
+
         public static LocoExchangeCallNote AsLocoExchangeCallNote(this IDataRecord me) =>
-            new LocoExchangeCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 ArrivingLoco = new Loco
                 {
@@ -75,7 +87,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static LocoDepartureCallNote AsLocoDepartureCallNote(this IDataRecord me) =>
-            new LocoDepartureCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 DepartingLoco = new Loco
                 {
@@ -89,7 +101,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static LocoArrivalCallNote AsLocoArrivalCallNote(this IDataRecord me) =>
-            new LocoArrivalCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 ArrivingLoco = new Loco
                 {
@@ -105,10 +117,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static BlockDestinationsCallNote AsBlockDestinationsCallNote(this IDataRecord me) =>
-            new BlockDestinationsCallNote(me.GetInt("CallId"));
+            new(me.GetInt("CallId"));
 
         public static BlockArrivalCallNote AsBlockArrivalCallNote(this IDataRecord me) =>
-            new BlockArrivalCallNote(me.GetInt("CallId"))
+            new(me.GetInt("CallId"))
             {
                 StationName = me.GetString("ArrivalStationName"),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
@@ -117,21 +129,27 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 OrderInTrain = me.GetInt("OrderInTrain")
             };
 
-        internal static BlockDestination AsBlockDestination(this IDataRecord me) =>
-            new BlockDestination
+        internal static BlockDestination AsBlockDestination(this IDataRecord me)
+        {
+            var item = new BlockDestination
             {
                 StationName = me.GetString("DestinationStationName"),
-                TransferDestination = me.GetString("TransferDestinationName", ""),
+                TransferDestinationName = me.GetString("TransferDestinationName", ""),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
                 AndBeyond = me.GetBool("AndBeyond"),
+                TransferAndBeyond = me.GetBool("TransferAndBeyond"),
                 OrderInTrain = me.GetInt("OrderInTrain"),
                 MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
                 ForeColor = me.GetString("ForeColor", "#000000"),
                 BackColor = me.GetString("BackColor", "#FFFFFF")
             };
+            return item;
+        }
+
+
 
         internal static NoteTrainset AsTrainset(this IDataRecord me) =>
-            new NoteTrainset
+            new()
             {
                 Class = me.GetString("Class"),
                 IsCargo = me.GetBool("IsCargo"),

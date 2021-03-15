@@ -33,7 +33,7 @@ namespace App.Client.Tests
         }
 
         private static TimetableStretch Target =>
-            new TimetableStretch
+            new ()
             {
                 Name = "Test",
                 Number = "1a",

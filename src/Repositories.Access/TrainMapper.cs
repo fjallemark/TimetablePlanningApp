@@ -10,12 +10,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private static ResourceManager Notes => App.Contract.Resources.Notes.ResourceManager;
 
         public static Train AsTrain(this IDataRecord me) =>
-             new Train
+             new ()
              {
                  OperatorName = me.GetString("TrainOperator"),
                  Prefix = me.GetString("TrainNumberPrefix"),
                  Number = me.GetInt("TrainNumber"),
-                 OperationDays = me.GetByte("TrainDays").OperationDays(),
+                 OperationDays = me.GetByte("TrainDays").And(me.GetByte("DutyDays")).OperationDays(),
                  CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                  Instruction = me.GetString("TrainInstruction"),
                  MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons"),
@@ -26,7 +26,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
              };
 
         public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber) =>
-            new StationCall
+            new ()
             {
                 Id = me.GetInt("CallId"),
                 TrackId = me.GetInt("TrackId", -1),

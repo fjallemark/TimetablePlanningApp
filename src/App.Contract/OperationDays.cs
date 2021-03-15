@@ -36,6 +36,8 @@ namespace Tellurian.Trains.Planning.App.Contract
 
         public static int DisplayOrder(this byte flags) => ~flags;
 
+        public static byte And(this byte flags, byte and) => (byte)(flags & and);
+
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
@@ -64,6 +66,12 @@ namespace Tellurian.Trains.Planning.App.Contract
                     Append(Days[5], fullName, shortName, true);
                     Append(Resources.Notes.And, ",", fullName, shortName);
                     Append(Days[7], fullName, shortName, true);
+                }
+                else if (flags == 0x4F)
+                {
+                    Append(Days[7], fullName, shortName);
+                    Append(Resources.Notes.To, "-", fullName, shortName);
+                    Append(Days[4], fullName, shortName, true);
                 }
                 else
                 {

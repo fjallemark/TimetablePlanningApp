@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Tellurian.Trains.Planning.App.Contract.Resources;
 
-#pragma warning disable CA2227 // Collection properties should be read only
-
 namespace Tellurian.Trains.Planning.App.Contract
 {
     public class BlockDestinations
@@ -38,7 +36,7 @@ namespace Tellurian.Trains.Planning.App.Contract
 
         public static string Display(this BlockDestination me) =>
                 me is null ? string.Empty :
-                string.IsNullOrWhiteSpace(me.TransferDestination) ? me.StationName :
-                me.TransferDestination;
+                string.IsNullOrWhiteSpace(me.TransferDestinationName) ? me.StationName :
+                me.TransferDestinationName;
     }
 }

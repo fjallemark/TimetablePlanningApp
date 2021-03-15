@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contract;
@@ -22,7 +23,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         }
 
         private readonly RepositoryOptions Options;
-        private OdbcConnection CreateConnection => new OdbcConnection(Options.ConnectionString);
+        private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
         public Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
         {
@@ -155,19 +156,19 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var currentTrainNumber = currentOriginStationName + reader.GetInt("TrainNumber");
                 if (currentOriginStationName != lastOriginStationName)
                 {
-                    if (current != null) result.Add(current);
+                    if (current is not null) result.Add(current);
                     current = reader.AsBlockDestinations();
                 }
-                if (current != null && currentTrackNumber != lastTrackNumber)
+                if (current is not null)
                 {
-                    current.Tracks.Add(reader.AsTrackDestination());
-                }
-                if (current != null && currentTrainNumber != lastTrainNumber)
-                {
-                    current.Tracks.Last().TrainBlocks.Add(reader.AsTrainBlocking());
-                }
-                if (current != null)
-                {
+                    if (currentTrackNumber != lastTrackNumber)
+                    {
+                        current.Tracks.Add(reader.AsTrackDestination());
+                    }
+                    if (currentTrainNumber != lastTrainNumber)
+                    {
+                        current.Tracks.Last().TrainBlocks.Add(reader.AsTrainBlocking());
+                    }
                     current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(reader.AsBlockDestination());
                 }
                 lastTrainNumber = currentTrainNumber;
@@ -318,7 +319,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     if (current != null) yield return current;
                     current = reader.AsTrainMeetCallNote();
                 }
-                current?.MeetingTrains.Add(reader.AsMeetingTrain());
+                current?.MeetingTrains.Add(reader.AsMeetingTrainCall());
                 lastCallId = currentCallId;
             }
             if (current != null) yield return current;
@@ -373,6 +374,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             while (reader.Read())
             {
                 var currentCallId = reader.GetInt("CallId");
+                var maxNumberOfWagons = reader.GetInt("MaxNumberOfWagons");
                 if (currentCallId != lastCallId)
                 {
                     if (current != null) yield return current;

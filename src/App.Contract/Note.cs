@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using Tellurian.Trains.Planning.App.Contract.Resources;
 
@@ -149,9 +150,13 @@ namespace Tellurian.Trains.Planning.App.Contract
             DisplayOrder = -500;
         }
         public byte OperationDayFlag { get; set; }
-        public IList<OtherTrain> MeetingTrains { get; } = new List<OtherTrain>();
+        public IList<OtherTrainCall> MeetingTrains { get; } = new List<OtherTrainCall>();
         public override IEnumerable<Note> ToNotes() =>
-            Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.MeetsOtherTrains, string.Join(", ", MeetingTrains.Distinct().Select(mt => mt.MeetingTrainInfo(OperationDayFlag)))));
+            Note.SingleNote(
+                DisplayOrder, 
+                string.Format(CultureInfo.CurrentCulture, Notes.MeetsOtherTrains, 
+                    string.Join(", ", MeetingTrains.Distinct()
+                        .OrderBy(mt => mt.MeetArrivalTime.OffsetMinutes()).Select(mt => mt.MeetingTrainInfo(OperationDayFlag)))));
     }
 
     public class LocoExchangeCallNote : TrainCallNote
@@ -239,8 +244,57 @@ namespace Tellurian.Trains.Planning.App.Contract
 
         public IList<BlockDestination> BlockDestinations { get; } = new List<BlockDestination>();
 
-        public override IEnumerable<Note> ToNotes() => Note.SingleNote(100,
-            string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, string.Join(", ", BlockDestinations.Distinct().Select(d => d.ToString()))));
+        public override IEnumerable<Note> ToNotes() => Note.SingleNote(100, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
+    }
+
+    public class BlockDestination
+    {
+        public string StationName { get; set; } = string.Empty;
+        public string? TransferDestinationName { get; set; }
+        public bool ToAllDestinations { get; set; }
+        public bool AndBeyond { get; set; }
+        public int OrderInTrain { get; set; }
+        public int MaxNumberOfWagons { get; set; }
+        public bool TransferAndBeyond { get; set; }
+        public string ForeColor { get; set; } = "#000000";
+        public string BackColor { get; set; } = "#FFFFFF";
+        public override string ToString() =>
+            ToAllDestinations ? Notes.AllDestinations.ToLowerInvariant() :
+            AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, FinalDestinationStationName) :
+            FinalDestinationStationName;
+
+        internal string FinalDestinationStationName => string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
+
+        public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
+        public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static class BlockDestinationsExtensions
+    {
+        public static string DestinationText(this IEnumerable<BlockDestination> me, bool useBrackets = false) =>
+            string.Join(", ", me.GroupText(useBrackets));
+        public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
+        {
+            var result = new List<string>();
+            var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd => bd.OrderInTrain);
+            foreach (var destinationGroup in destinationGroups)
+            {
+                var text = new StringBuilder(200);
+                var destinations = destinationGroup.OrderBy(dg => dg.MaxNumberOfWagons).ToArray();
+                var destinationTextsInGroup = destinations.Select(d => d.ToString());
+                if (useBrackets) text.Append('[');
+                text.Append(string.Join('|', destinationTextsInGroup));
+                if (useBrackets) text.Append(']');
+                var maxNumberOfWagons = destinations.Sum(d => d.MaxNumberOfWagons);
+                if (maxNumberOfWagons > 0)
+                {
+                    text.Append('×');
+                    text.Append(maxNumberOfWagons);
+                }
+                result.Add(text.ToString());
+            }
+            return result;
+        }
     }
 
     public class BlockArrivalCallNote : TrainCallNote
@@ -274,54 +328,12 @@ namespace Tellurian.Trains.Planning.App.Contract
 
         private string DisconnectNote =>
             ToAllDestinations ?
-            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations.ToLowerInvariant()) :
+            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations) :
             AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, StationName) :
             string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, StationName);
     }
 
-    public class BlockDestination
-    {
-        public string StationName { get; set; } = string.Empty;
-        public bool ToAllDestinations { get; set; }
-        public bool AndBeyond { get; set; }
-        public int OrderInTrain { get; set; }
-        public int MaxNumberOfWagons { get; set; }
-        public string? TransferDestination { get; set; }
-        public string ForeColor { get; set; } = "#000000";
-        public string BackColor { get; set; } = "#FFFFFF";
-        public override string ToString() =>
-            ToAllDestinations ? Notes.AllDestinations.ToLowerInvariant() :
-            AndBeyond ?
-            string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, FinalDestinationNameWithMaxWagons) :
-            FinalDestinationNameWithMaxWagons;
 
-        public string FinalDestinationNameWithTransfer =>
-            ToAllDestinations ? AllDestinationsWithMaxWagons :
-            string.IsNullOrWhiteSpace(TransferDestination) ? StationName :
-            string.Format(CultureInfo.CurrentCulture, Notes.TransferVia, TransferDestinationNameWithMaxWagons, StationName);
-
-        public string FinalDestinationName =>
-            ToAllDestinations ? AllDestinationsWithMaxWagons :
-            string.IsNullOrWhiteSpace(TransferDestination) ? StationName :
-            TransferDestination;
-
-        public string FinalDestinationNameWithMaxWagons =>
-            MaxNumberOfWagons == 0 ? FinalDestinationName :
-            $"{FinalDestinationName}×{MaxNumberOfWagons}";
-
-         private string AllDestinationsWithMaxWagons =>
-            MaxNumberOfWagons == 0 ?
-            Notes.AllDestinations.ToLowerInvariant() :
-            $"{Notes.AllDestinations.ToLowerInvariant()}×{MaxNumberOfWagons}";
-
-        private string TransferDestinationNameWithMaxWagons =>
-            string.IsNullOrWhiteSpace(TransferDestination) ? string.Empty :
-            MaxNumberOfWagons == 0 ? TransferDestination  :
-            $"{TransferDestination}×{MaxNumberOfWagons}";
-
-        public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
-        public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
-    }
 
     public class OtherTrain
     {
@@ -331,7 +343,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public string DestinationName { get; set; } = string.Empty;
         public string ContinuesAsTrainToDestination => string.Format(CultureInfo.CurrentCulture, Notes.ContinuesAsTrainToDestination, $"{CategoryPrefix} {TrainNumber}", DestinationName);
         public string ContinuesDaysAsTrainToDestination => string.Format(CultureInfo.CurrentCulture, Notes.ContinuesDaysAsTrainToDestination, $"{CategoryPrefix} {TrainNumber}", DestinationName, OperationDayFlag.OperationDays().ShortName);
-        public string MeetingTrainInfo(byte otherTrainDaysFlags)
+        public virtual string MeetingTrainInfo(byte otherTrainDaysFlags)
         {
             byte commonDaysFlag = (byte)(OperationDayFlag & otherTrainDaysFlags);
             return commonDaysFlag == otherTrainDaysFlags ?
@@ -340,6 +352,23 @@ namespace Tellurian.Trains.Planning.App.Contract
         }
 
         public override string ToString() => $"{OperationDayFlag.OperationDays().ShortName} {CategoryPrefix} {TrainNumber}";
+    }
+
+    public class OtherTrainCall : OtherTrain
+    {
+        public CallTime? ArrivalTime { get; set; }
+        public CallTime? DepartureTime { get; set; }
+        public CallTime? MeetArrivalTime { get; set; }
+        public CallTime? MeetDepartureTime { get; set; }
+        public override string MeetingTrainInfo(byte otherTrainDaysFlags)
+        {
+            byte commonDaysFlag = (byte)(OperationDayFlag & otherTrainDaysFlags);
+            var arrivalTime = ArrivalTime.OffsetMinutes() > MeetArrivalTime.OffsetMinutes() ? ArrivalTime : MeetArrivalTime;
+            var departureTime = DepartureTime.OffsetMinutes() < MeetDepartureTime.OffsetMinutes() ? DepartureTime : MeetDepartureTime;
+            return commonDaysFlag == otherTrainDaysFlags ?
+                $"{CategoryPrefix} {TrainNumber} {arrivalTime}-{departureTime}" :
+                $"{commonDaysFlag.OperationDays().ShortName} {CategoryPrefix} {TrainNumber} {arrivalTime}-{departureTime}";
+        }
     }
 
     public class NoteTrainset

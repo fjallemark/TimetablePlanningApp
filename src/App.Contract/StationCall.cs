@@ -22,7 +22,7 @@ namespace Tellurian.Trains.Planning.App.Contract
     public static class StationCallExtensions
     {
         public static CallAction AsArrival(this StationCall call) =>
-            new CallAction
+            new ()
             {
                 Station = call.Station,
                 Track = call.TrackNumber,
@@ -30,7 +30,7 @@ namespace Tellurian.Trains.Planning.App.Contract
             };
 
         public static CallAction AsDeparture(this StationCall call) =>
-            new CallAction
+            new ()
             {
                 Station = call.Station,
                 Track = call.TrackNumber,

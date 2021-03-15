@@ -9,20 +9,20 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     {
         private static ResourceManager Notes => App.Contract.Resources.Notes.ResourceManager;
         public static BlockDestinations AsBlockDestinations(this IDataRecord me) =>
-            new BlockDestinations
+            new()
             {
                 OriginStationName = me.GetString("OriginStationName")
             };
 
         public static TrackTrains AsTrackDestination(this IDataRecord me) =>
-            new TrackTrains
+            new()
             {
                 TrackNumber = me.GetString("TrackNumber"),
                 TrackDisplayOrder = me.GetInt("TrackDisplayOrder")
             };
 
         public static TrainBlocking AsTrainBlocking(this IDataRecord me) =>
-            new TrainBlocking
+            new()
             {
                 DepartureTime = new CallTime { IsStop = true, Time = me.GetTime("DepartureTime") },
                 Train = new TrainInfo
