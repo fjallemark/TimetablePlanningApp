@@ -64,7 +64,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var i = me.GetColumIndex(columnName);
             if (me.IsDBNull(i)) return defaultValue;
-            return me.GetDateTime(i).ToString("HH:mm", CultureInfo.CurrentCulture);
+            return me.GetDateTime(i).ToString("HH:mm", CultureInfo.InvariantCulture);
         }
 
         public static TimeSpan GetTimeAsTimespan(this IDataRecord me, string columnName)
