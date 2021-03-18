@@ -124,7 +124,7 @@
     <value>Diese Seite wurde absichtlich leer gelassen.</value>
   </data>
   <data name="Dep" xml:space="preserve">
-    <value>Von</value>
+    <value>Ab</value>
   </data>
   <data name="Difficulty" xml:space="preserve">
     <value>Schwierigkeitsgrad</value>
@@ -136,25 +136,25 @@
     <value>Endet</value>
   </data>
   <data name="EndsAt" xml:space="preserve">
-    <value>Endet am</value>
+    <value>Endet in</value>
   </data>
   <data name="Loco" xml:space="preserve">
-    <value>Loco</value>
+    <value>Lok</value>
   </data>
   <data name="Notes" xml:space="preserve">
     <value>Notizen</value>
   </data>
   <data name="Operator" xml:space="preserve">
-    <value>Operator</value>
+    <value>Betreiber</value>
   </data>
   <data name="ServiceInTrain" xml:space="preserve">
-    <value>Dienst im Zug {0}</value>
+    <value>Zugdienst {0}</value>
   </data>
   <data name="Starts" xml:space="preserve">
     <value>Startet</value>
   </data>
   <data name="StartsAt" xml:space="preserve">
-    <value>Beginnt am</value>
+    <value>Beginnt in</value>
   </data>
   <data name="Station" xml:space="preserve">
     <value>Station</value>
@@ -163,13 +163,13 @@
     <value>Zeit</value>
   </data>
   <data name="Track" xml:space="preserve">
-    <value>Spür</value>
+    <value>Gleis</value>
   </data>
   <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
-    <value>HINWEIS: Der Dienst wird auf der nächsten Seite fortgesetzt.</value>
+    <value>HINWEIS: Dieser Dienst wird auf der nächsten Seite fortgesetzt.</value>
   </data>
   <data name="NoMorePagesInDuty" xml:space="preserve">
-    <value>HINWEIS: Keine Seiten mehr im Dienst.</value>
+    <value>HINWEIS: Keine weiteren Seiten.</value>
   </data>
   <data name="MaxSpeed" xml:space="preserve">
     <value>Max. Geschwindigkeit</value>
@@ -193,13 +193,13 @@
     <value>Ziel</value>
   </data>
   <data name="Epoch" xml:space="preserve">
-    <value>Epoch</value>
+    <value>Epoche</value>
   </data>
   <data name="Origin" xml:space="preserve">
     <value>Versandstation</value>
   </data>
   <data name="Shipper" xml:space="preserve">
-    <value>Versander</value>
+    <value>Versender</value>
   </data>
   <data name="Instructions" xml:space="preserve">
     <value>Anweisungen</value>
@@ -208,7 +208,7 @@
     <value>Von</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>An</value>
+    <value>Bis</value>
   </data>
   <data name="Train" xml:space="preserve">
     <value>Zug</value>
@@ -229,7 +229,7 @@
     <value>Daten werden abgerufen...</value>
   </data>
   <data name="PrintedTime" xml:space="preserve">
-    <value>Gedrückt {0:d} {0:t}</value>
+    <value>Gedruckt {0:d} {0:t}</value>
   </data>
   <data name="CreatingReport" xml:space="preserve">
     <value>Bericht wird erstellt...</value>
@@ -244,19 +244,19 @@
     <value>Grafische Fahrpläne</value>
   </data>
   <data name="BlockDestinations" xml:space="preserve">
-    <value>Güterzüge ausrichten</value>
+    <value>Rangierauftrag Güterzüge</value>
   </data>
   <data name="DriverDuties" xml:space="preserve">
-    <value>Fahrerservice</value>
+    <value>Dienstplan Lokführer</value>
   </data>
   <data name="Waybills" xml:space="preserve">
     <value>Frachtbriefe</value>
   </data>
   <data name="Trainsets" xml:space="preserve">
-    <value>Wagonplans</value>
+    <value>Zugreihungen</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
-    <value>Lokpläne</value>
+    <value>Lokdienste </value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
