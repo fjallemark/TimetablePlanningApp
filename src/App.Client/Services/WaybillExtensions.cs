@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Resources;
-using Tellurian.Trains.Planning.App.Contract;
+﻿using Tellurian.Trains.Planning.App.Contract;
 
 namespace Tellurian.Trains.Planning.App.Client.Services
 {

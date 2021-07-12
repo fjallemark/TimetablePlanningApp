@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tellurian.Trains.Planning.App.Contract
+﻿namespace Tellurian.Trains.Planning.App.Contract
 {
     public class TrainDeparture
     {

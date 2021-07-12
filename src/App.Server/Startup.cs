@@ -7,7 +7,6 @@ using Tellurian.Trains.Planning.Repositories.Access;
 using Microsoft.AspNetCore.Localization;
 using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Server.Services;
-using System.Text.Json;
 
 namespace Tellurian.Trains.Planning.App.Server
 {

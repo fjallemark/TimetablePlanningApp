@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tellurian.Trains.Planning.App.Contract;
 using Tellurian.Trains.Planning.App.Client.Services;
-using System.Linq;
 
 namespace App.Client.Tests
 {

@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contract;
@@ -186,7 +184,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var lastTimetableNumber = "";
             var lastStationId = 0;
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} ORDER BY TimetableNumber, StationDisplayOrder, TrackDisplayOrder");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder");
             while (reader.Read())
             {
                 var currentTimetableNumber = reader.GetString("TimetableNumber");
