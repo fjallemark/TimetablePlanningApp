@@ -97,6 +97,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brings no wagons from this station.
+        /// </summary>
+        public static string BringsNoWagonsFromThisStation {
+            get {
+                return ResourceManager.GetString("BringsNoWagonsFromThisStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Brings wagons to {0}..
         /// </summary>
         public static string BringsWaggonsToDestinations {
@@ -246,6 +255,15 @@ namespace Tellurian.Trains.Planning.App.Contract.Resources {
         public static string Destination {
             get {
                 return ResourceManager.GetString("Destination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} in {1}.
+        /// </summary>
+        public static string DestinationInCountry {
+            get {
+                return ResourceManager.GetString("DestinationInCountry", resourceCulture);
             }
         }
         

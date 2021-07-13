@@ -346,4 +346,10 @@
   <data name="Track" xml:space="preserve">
     <value>Spor</value>
   </data>
+  <data name="DestinationInCountry" xml:space="preserve">
+    <value>{0} i {1}</value>
+  </data>
+  <data name="BringsNoWagonsFromThisStation" xml:space="preserve">
+    <value>Bringer ingen vogne fra denne station</value>
+  </data>
 </root>

@@ -140,6 +140,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 TransferAndBeyond = me.GetBool("TransferAndBeyond"),
                 OrderInTrain = me.GetInt("OrderInTrain"),
                 MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
+                DestinationCountryName = me.GetString("CountryLocalName"),
+                IsInternational = me.GetBool("IsInternational"),
+                HasCouplingNote = me.GetBool("HasCoupleNote"),
+                HasUncouplingNote = me.GetBool("HasUncoupleNote"),
                 ForeColor = me.GetString("ForeColor", "#000000"),
                 BackColor = me.GetString("BackColor", "#FFFFFF")
             };

@@ -255,14 +255,22 @@ namespace Tellurian.Trains.Planning.App.Contract
         public int OrderInTrain { get; set; }
         public int MaxNumberOfWagons { get; set; }
         public bool TransferAndBeyond { get; set; }
+        public string DestinationCountryName { get; set; } = string.Empty;
+        public bool IsInternational { get; set; }
+        public bool HasCouplingNote { get; set; }
+        public bool HasUncouplingNote { get; set; }
         public string ForeColor { get; set; } = "#000000";
         public string BackColor { get; set; } = "#FFFFFF";
         public override string ToString() =>
-            ToAllDestinations ? Notes.AllDestinations.ToLowerInvariant() :
-            AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, FinalDestinationStationName) :
-            FinalDestinationStationName;
+            ToAllDestinations ? AllDestinations :
+            AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationText) :
+            DestinationText;
 
+        internal string AllDestinations => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, Notes.AllDestinations, DestinationCountryName) : Notes.AllDestinations;
+        internal bool UseDestinationCountry => HasDestinationCountry && IsInternational;
+        internal bool HasDestinationCountry => !string.IsNullOrWhiteSpace(DestinationCountryName);
         internal string FinalDestinationStationName => string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
+        internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
 
         public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);

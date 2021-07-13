@@ -142,7 +142,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<BlockDestinations>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, TrainNumber, OrderInTrain");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain");
             BlockDestinations? current = null;
             var lastOriginStationName = "";
             var lastTrackNumber = "";
@@ -167,7 +167,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     {
                         current.Tracks.Last().TrainBlocks.Add(reader.AsTrainBlocking());
                     }
-                    current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(reader.AsBlockDestination());
+                    var destination = reader.AsBlockDestination();
+                    if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
                 }
                 lastTrainNumber = currentTrainNumber;
                 lastTrackNumber = currentTrackNumber;

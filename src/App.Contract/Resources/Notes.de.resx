@@ -346,4 +346,10 @@
   <data name="Track" xml:space="preserve">
     <value>Gleis</value>
   </data>
+  <data name="DestinationInCountry" xml:space="preserve">
+    <value>{0} in {1}</value>
+  </data>
+  <data name="BringsNoWagonsFromThisStation" xml:space="preserve">
+    <value>Bringt keine Waggons von diesem Bahnhof</value>
+  </data>
 </root>
