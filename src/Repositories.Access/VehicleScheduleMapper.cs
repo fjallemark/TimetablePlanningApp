@@ -7,7 +7,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     public static class VehicleScheduleMapper
     {
         public static LocoSchedule AsLocoSchedule(this IDataRecord me) =>
-            new LocoSchedule
+            new()
             {
                 OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
                 Number = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
@@ -18,7 +18,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static TrainsetSchedule AsTrainsetSchedule(this IDataRecord me) =>
-            new TrainsetSchedule
+            new()
             {
                 OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
                 Number = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
