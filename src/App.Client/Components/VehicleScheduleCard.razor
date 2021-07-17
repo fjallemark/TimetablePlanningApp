@@ -13,14 +13,20 @@
                 <div><strong>@Item.Operator @Item.Number&nbsp;@OperationDays(Item)</strong></div>
                 @if (Item.Class.HasValue())
                 {
-                    @if (Item.IsLoco)
-                    {
-                        <div>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></div>
-                    }
-                    else if (Item.IsTrainset)
-                    {
-                        <div>@Localizer["Wagons"]:&nbsp;<strong>@Item.Class</strong></div>
-                    }
+                    <div>
+                        @if (Item.IsLoco)
+                        {
+                            <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
+                        }
+                        else if (Item.IsTrainset)
+                        {
+                            <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
+                        }
+                        @if (Item.NumberOfUnits > 1)
+                        {
+                            <span>&times;@Item.NumberOfUnits</span>
+                        }
+                    </div>
                 }
             </div>
             <div>

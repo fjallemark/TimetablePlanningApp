@@ -253,7 +253,7 @@
     <value>Regiontog</value>
   </data>
   <data name="Shunting" xml:space="preserve">
-    <value>Veksling</value>
+    <value>Skifting</value>
   </data>
   <data name="SpecialFreightTrain" xml:space="preserve">
     <value>Spesialgodstog</value>
@@ -307,7 +307,7 @@
     <value>Koble fra vogner der skal videre.</value>
   </data>
   <data name="SwitchWagonsToCustomers" xml:space="preserve">
-    <value>Veksle vogner til godskunder.</value>
+    <value>Skift vogner til godskunder.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
     <value>Koble fra vogner til {0} og videre.</value>
@@ -328,7 +328,7 @@
     <value>Speditør</value>
   </data>
   <data name="Class" xml:space="preserve">
-    <value>Klasse</value>
+    <value>Type</value>
   </data>
   <data name="Consignee" xml:space="preserve">
     <value>Mottaker</value>

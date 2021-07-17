@@ -2,8 +2,8 @@
 @page "/trainsetschedules"
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
-
 
 @if (Items == null)
 {
@@ -23,11 +23,22 @@ else
 }
 
 @code {
+    string? Operator { get; set; }
     private IEnumerable<TrainsetSchedule>? Items { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         var result = await DataService.GetTrainsetSchedulesAsync(Constants.LayoutId);
-        if (result.statusCode.IsSuccess()) Items = result.items.Cast<TrainsetSchedule>();
+        if (result.statusCode.IsSuccess())
+        {
+            SetQueryStringParameters();
+            Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        Operator = q["operator"];
     }
 }

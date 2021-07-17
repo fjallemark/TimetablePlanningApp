@@ -25,6 +25,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Operator = me.GetString("TrainsetOperator"),
                 Class = me.GetString("TrainsetClass"),
                 TurnForNextDay = me.GetBool("TurnForNextDay"),
+                NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
                 Note = me.GetString("Note")
             };
 

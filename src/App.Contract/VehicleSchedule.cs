@@ -16,6 +16,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public string Note { get; set; } = string.Empty;
         public bool TurnForNextDay { get; set; }
         public string Class { get; set; } = string.Empty;
+        public int NumberOfUnits { get; set; } = 1;
         public IList<TrainPart> TrainParts { get; set; } = new List<TrainPart>();
     }
 
