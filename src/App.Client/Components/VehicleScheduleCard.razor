@@ -10,7 +10,7 @@
         <div>
             <div class="schedule header">
                 <div>@Localizer[Item.Type + "Turnus"]</div>
-                <div><strong>@Item.Operator @Item.Number&nbsp;@Item.OperationDays.ShortName</strong></div>
+                <div><strong>@Item.Operator @Item.Number&nbsp;@OperationDays(Item)</strong></div>
                 @if (Item.Class.HasValue())
                 {
                     @if (Item.IsLoco)
@@ -62,4 +62,6 @@
 @code {
     [Parameter] public VehicleSchedule? Item { get; set; }
     [Parameter] public string CrossLineColor { get; set; } = "pink";
+
+    string OperationDays(VehicleSchedule schedule) => schedule.OperationDays.IsSingleDay ? schedule.OperationDays.FullName : schedule.OperationDays.ShortName;
 }

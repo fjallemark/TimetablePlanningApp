@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tellurian.Trains.Planning.Repositories.Access;
 using Microsoft.AspNetCore.Localization;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Server.Services;
 
 namespace Tellurian.Trains.Planning.App.Server

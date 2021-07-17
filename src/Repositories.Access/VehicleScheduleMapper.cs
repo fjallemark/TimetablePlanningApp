@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using System.Globalization;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {

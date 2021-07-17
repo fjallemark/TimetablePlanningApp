@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Tellurian.Trains.Planning.App.Contract.Resources;
+using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 #pragma warning disable CA2227 // Collection properties should be read only
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public abstract class VehicleSchedule
     {

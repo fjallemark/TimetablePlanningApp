@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class StationInfo
     {

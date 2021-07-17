@@ -235,7 +235,7 @@
     <value>Skapar rapport...</value>
   </data>
   <data name="TurnForNextDay" xml:space="preserve">
-    <value>Vänd till nästa dag?</value>
+    <value>Byt till nästa dag?</value>
   </data>
   <data name="TrainInitialDepartures" xml:space="preserve">
     <value>Tåg startetiketter</value>

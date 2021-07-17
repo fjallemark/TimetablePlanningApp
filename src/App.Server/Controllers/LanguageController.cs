@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Controllers
 {

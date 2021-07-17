@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Services
 {
@@ -66,7 +66,6 @@ namespace Tellurian.Trains.Planning.App.Server.Services
 
     internal static class TrainExtensions
     {
-#pragma warning disable CS8604 // Possible null reference argument.
         public static IEnumerable<TimetableTrainSection> GetTimetableTrainSections(this Train me)
         {
             var result = new List<TimetableTrainSection>(50);
@@ -81,7 +80,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                 StartTime = c.Arrival.OffsetMinutes(),
                 EndTime = c.Departure.OffsetMinutes(),
                 TrainNumber = me.Number,
-                OperationDays = me.OperationDays
+                OperationDays = me.OperationDays()
             }));
             for(var i = 0; i < me.Calls.Count-1; i++)
             {
@@ -96,7 +95,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                     StartTime = me.Calls[i].Departure.OffsetMinutes(),
                     EndTime = me.Calls[i+1].Arrival.OffsetMinutes(),
                     TrainNumber = me.Number,
-                    OperationDays = me.OperationDays
+                    OperationDays = me.OperationDays()
                 });
             }
             return result;

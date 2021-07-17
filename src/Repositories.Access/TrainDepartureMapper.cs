@@ -1,15 +1,15 @@
 ﻿using System.Data;
 using System.Resources;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
     internal static class TrainDepartureMapper
     {
-        private static ResourceManager Notes => App.Contract.Resources.Notes.ResourceManager;
+        private static ResourceManager Notes => App.Contracts.Resources.Notes.ResourceManager;
 
         public static TrainDeparture AsTrainDeparture(this IDataRecord me) =>
-            new TrainDeparture
+            new()
             {
                 DepartureTime = new CallTime { IsStop = true, Time = me.GetTime("DepartureTime") },
                 Loco = new Loco
@@ -17,7 +17,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     Class = me.GetString("LocoClass"),
                     IsRailcar = me.GetBool("IsRailcar"),
                     Number = me.GetInt("LocoNumber"),
-                    OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
+                    OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
                     OperatorName = me.GetString("LocoOperatorName")
                 },
                 StationName = me.GetString("StationName"),
@@ -28,7 +28,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     IsCargo = me.GetBool("IsCargo"),
                     IsPassenger = me.GetBool("IsPassenger"),
                     Number = me.GetInt("TrainNumber"),
-                    OperationDays = me.GetByte("TrainOperationDaysFlag").OperationDays(),
+                    OperationDaysFlags = me.GetByte("TrainOperationDaysFlag"),
                     OperatorName = me.GetString("TrainOperatorName"),
                     Prefix = me.GetString("TrainCategoryPrefix")
                 }

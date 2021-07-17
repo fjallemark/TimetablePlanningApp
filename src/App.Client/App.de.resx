@@ -235,7 +235,7 @@
     <value>Bericht wird erstellt...</value>
   </data>
   <data name="TurnForNextDay" xml:space="preserve">
-    <value>Zum nächsten Tag wenden?</value>
+    <value>Ersetzen zum nächsten Tag?</value>
   </data>
   <data name="TrainInitialDepartures" xml:space="preserve">
     <value>Startetiketten Zug</value>
@@ -256,7 +256,7 @@
     <value>Zugreihungen</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
-    <value>Lokdienste </value>
+    <value>Lokdienst</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>

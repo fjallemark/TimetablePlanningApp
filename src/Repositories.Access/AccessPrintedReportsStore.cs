@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Odbc;
 using System.Linq;
 using System.Threading.Tasks;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {

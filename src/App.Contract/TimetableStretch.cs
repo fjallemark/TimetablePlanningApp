@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class TimetableStretch
     {

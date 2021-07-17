@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
     internal static class DutyMapper
     {
         public static DriverDutyBooklet AsDriverDutyBooklet(this IDataRecord me) =>
-            new DriverDutyBooklet
+            new()
             {
                 ScheduleName = me.GetString("LayoutName")
             };
 
         public static LayoutInstruction AsLayoutInstruction(this IDataRecord me) =>
-            new LayoutInstruction
+            new()
             {
                 Language = me.GetString("Language"),
                 Markdown = me.GetString("Markdown")
             };
 
         public static DriverDuty AsDuty(this IDataRecord me) =>
-            new DriverDuty
+            new()
             {
                 OperationDays = me.GetByte("DutyDays").OperationDays(),
                 Difficulty = me.GetInt("DutyDifficulty"),
@@ -35,7 +35,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static DutyPart AsDutyPart(this IDataRecord me, Train train) =>
-            new DutyPart
+            new()
             {
                 Train = train,
                 FromCallId = me.GetInt("FromCallId"),

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tellurian.Trains.Planning.App.Contract.Resources;
+using Tellurian.Trains.Planning.App.Contracts.Resources;
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class BlockDestinations
     {

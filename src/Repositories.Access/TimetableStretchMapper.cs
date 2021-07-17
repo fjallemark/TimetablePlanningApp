@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
     internal static class TimetableStretchMapper
     {
         public static TimetableStretch AsTimetableStretch(this IDataRecord me) =>
-            new TimetableStretch
+            new()
             {
                 Number = me.GetString("TimetableNumber"),
                 Name = me.GetString("TimetableName"),
@@ -18,7 +18,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static TimetableStretchStation AsTimetableStretchStation(this IDataRecord me) =>
-            new TimetableStretchStation
+            new()
             {
                 DisplayOrder = me.GetInt("StationDisplayOrder"),
                 DistanceFromPrevious = me.GetDouble("DistanceFromPrevious"),

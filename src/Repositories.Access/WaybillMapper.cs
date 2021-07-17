@@ -1,16 +1,16 @@
 ﻿using System.Data;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
     public static class WaybillMapper
     {
         public static Waybill AsWaybill(IDataRecord me) =>
-            new Waybill
+            new()
             {
                 Cargo = me.GetString("CargoName"),
                 Class = me.GetString("Class", "-"),
-                OperationDays = me.GetByte("OperationDaysFlag").OperationDays(),
+                OperationDaysFlags = me.GetByte("OperationDaysFlag"),
                 Epoch = "-",
                 OperatorName = me.GetString("Operator", "-"),
                 Origin = new CargoCustomer

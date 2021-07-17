@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class Waybill
     {
@@ -11,9 +11,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public string OperatorName { get; set; } = string.Empty;
         public string Epoch { get; set; } = string.Empty;
         public string Class { get; set; } = string.Empty;
-        [Obsolete("Use " + nameof(OperationDays))]
-        public string Days { get; set; } = string.Empty;
-        public OperationDays OperationDays { get; set; } = new OperationDays();
+        public byte OperationDaysFlags { get; set; } 
     }
 
     public static class WaybillExtensions

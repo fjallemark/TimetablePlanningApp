@@ -217,7 +217,7 @@
     <value>Trainset turnus</value>
   </data>
   <data name="TurnForNextDay" xml:space="preserve">
-    <value>Turn for next day?</value>
+    <value>Replace to next day?</value>
   </data>
   <data name="Wagons" xml:space="preserve">
     <value>Wagons</value>

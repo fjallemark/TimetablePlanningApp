@@ -215,7 +215,7 @@
     <value>Opretter rapport...</value>
   </data>
   <data name="TurnForNextDay" xml:space="preserve">
-    <value>Vend til næste dag?</value>
+    <value>Skift til den næste dag?</value>
   </data>
   <data name="TrainInitialDepartures" xml:space="preserve">
     <value>Tog startetiketter</value>

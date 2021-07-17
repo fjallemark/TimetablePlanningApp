@@ -1,4 +1,4 @@
-﻿namespace Tellurian.Trains.Planning.App.Contract
+﻿namespace Tellurian.Trains.Planning.App.Contracts
 {
     public static class Constants
     {

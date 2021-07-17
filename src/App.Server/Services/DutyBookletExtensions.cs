@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Services
 {
@@ -59,7 +59,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                     foreach (var call in part.Calls())
                     {
                         call.AddAutomaticNotes();
-                        call.AddGeneratedNotes(part, notes.Item(call.Id));
+                        call.AddGeneratedNotes(duty, part, notes.Item(call.Id));
                     }
                 }
             }

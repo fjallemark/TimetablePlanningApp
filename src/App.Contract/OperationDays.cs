@@ -3,17 +3,21 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class OperationDays
     {
         public string FullName { get; set; } = string.Empty;
         public string ShortName { get; set; } = string.Empty;
         public bool IsDaily { get; set; }
+        public bool IsSingleDay { get; set; }
+        public byte Flags { get; set; }
 
         public override bool Equals(object? obj) => obj is OperationDays other && other.ShortName.Equals(ShortName, StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ShortName.GetHashCode(StringComparison.OrdinalIgnoreCase);
         public override string ToString() => ShortName;
+
+        public const byte AllDays = 0x7F;
     }
 
     public static class OperationDaysExtensions
@@ -38,10 +42,14 @@ namespace Tellurian.Trains.Planning.App.Contract
 
         public static byte And(this byte flags, byte and) => (byte)(flags & and);
 
+        public static bool IsAnyOtherDays(this byte it, byte other) => And(it, other) > 0;
+        public static bool IsAllOtherDays(this byte it, byte other) => And(it, other) == it;
+        public static bool IsAllDays(this byte it) => it == Contracts.OperationDays.AllDays;
+
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
-            var isDaily = flags == 0x7F;
+            var isDaily = flags.IsAllDays();
             var fullName = new StringBuilder(20);
             var shortName = new StringBuilder(10);
             if (days.Length == 1)
@@ -93,8 +101,10 @@ namespace Tellurian.Trains.Planning.App.Contract
             return new OperationDays
             {
                 IsDaily = isDaily,
+                IsSingleDay = days.Length == 1,
                 FullName = fullName.ToString(),
-                ShortName = shortName.ToString()
+                ShortName = shortName.ToString(),
+                Flags = flags
             };
         }
 

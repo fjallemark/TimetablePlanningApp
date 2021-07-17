@@ -1,13 +1,18 @@
-﻿namespace Tellurian.Trains.Planning.App.Contract
+﻿namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class Loco
     {
         public string OperatorName { get; set; } = string.Empty;
         public int Number { get; set; }
-        public OperationDays OperationDays { get; set; } = new OperationDays();
+        public byte OperationDaysFlags { get; set; } 
         public string Class { get; set; } = string.Empty;
         public bool IsRailcar { get; set; }
-        public override string ToString() => $"{OperationDays} {OperatorName} {Number}".TrimStart();
+        public override string ToString() => $"{OperationDaysFlags.OperationDays()} {OperatorName} {Number}".TrimStart();
         public static Loco Empty { get; } = new Loco();
+    }
+
+    public static class LocoExtensions
+    {
+        public static OperationDays OperationDays(this Loco me) => me.OperationDaysFlags.OperationDays();
     }
 }

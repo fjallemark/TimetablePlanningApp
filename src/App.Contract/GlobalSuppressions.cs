@@ -5,8 +5,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~M:Tellurian.Trains.Planning.App.Contract.BlockDestination.ToString~System.String")]
-[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~P:Tellurian.Trains.Planning.App.Contract.BlockArrivalCallNote.DisconnectNote")]
-[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~P:Tellurian.Trains.Planning.App.Contract.LocoDepartureCallNote.LocoDescription")]
-[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~P:Tellurian.Trains.Planning.App.Contract.BlockDestination.FinalDestinationName")]
-[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~M:Tellurian.Trains.Planning.App.Contract.OperationDaysExtensions.Append(Tellurian.Trains.Planning.App.Contract.Day,System.Text.StringBuilder,System.Text.StringBuilder,System.Boolean)")]
+[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~M:Tellurian.Trains.Planning.App.Contracts.BlockDestination.ToString~System.String")]
+[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~P:Tellurian.Trains.Planning.App.Contracts.BlockArrivalCallNote.DisconnectNote")]
+[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~P:Tellurian.Trains.Planning.App.Contracts.LocoDepartureCallNote.LocoDescription")]
+[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~P:Tellurian.Trains.Planning.App.Contracts.BlockDestination.FinalDestinationName")]
+[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~M:Tellurian.Trains.Planning.App.Contracts.OperationDaysExtensions.Append(Tellurian.Trains.Planning.App.Contract.Day,System.Text.StringBuilder,System.Text.StringBuilder,System.Boolean)")]

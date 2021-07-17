@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class StationCall
     {
@@ -71,14 +71,14 @@ namespace Tellurian.Trains.Planning.App.Contract
             if (!me.IsStop && me.IsDepartureInDuty) me.AddDepartureNote(new Note { DisplayOrder = -30001, Text = Resources.Notes.NoStop });
         }
 
-        public static void AddGeneratedNotes(this DutyStationCall me, DutyPart part, IEnumerable<TrainCallNote> notes)
+        public static void AddGeneratedNotes(this DutyStationCall me,DriverDuty duty, DutyPart part, IEnumerable<TrainCallNote> notes)
         {
             var train = part.Train;
             foreach (var note in notes)
             {
                 note.TrainInfo = train;
-                if (note.IsForArrival && me.IsArrivalInDuty) foreach (var n in note.ToNotes()) me.AddArrivalNote(n);
-                if (note.IsForDeparture && me.IsDepartureInDuty) foreach (var n in note.ToNotes()) me.AddDepartureNote(n);
+                if (note.IsForArrival && me.IsArrivalInDuty) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddArrivalNote(n);
+                if (note.IsForDeparture && me.IsDepartureInDuty) foreach (var n in note.ToNotes(duty.OperationDays.Flags))  me.AddDepartureNote(n);
             }
         }
 

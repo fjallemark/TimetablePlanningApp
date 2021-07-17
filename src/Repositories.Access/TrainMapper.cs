@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Resources;
-using Tellurian.Trains.Planning.App.Contract;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
     internal static class TrainMapper
     {
-        private static ResourceManager Notes => App.Contract.Resources.Notes.ResourceManager;
+        private static ResourceManager Notes => App.Contracts.Resources.Notes.ResourceManager;
 
         public static Train AsTrain(this IDataRecord me) =>
              new ()
@@ -15,7 +15,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                  OperatorName = me.GetString("TrainOperator"),
                  Prefix = me.GetString("TrainNumberPrefix"),
                  Number = me.GetInt("TrainNumber"),
-                 OperationDays = me.GetByte("TrainDays").And(me.GetByte("DutyDays")).OperationDays(),
+                 OperationDaysFlags = me.GetByte("TrainDays").And(me.GetByte("DutyDays")),
                  CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                  Instruction = me.GetString("TrainInstruction"),
                  MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons"),

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#pragma warning disable CA2227 // Collection properties should be read only
-
-namespace Tellurian.Trains.Planning.App.Contract
+namespace Tellurian.Trains.Planning.App.Contracts
 {
+    public static class TrainInfoExtensions
+    {
+        public static OperationDays OperationDays(this TrainInfo me) => me.OperationDaysFlags.OperationDays();
+    }
     public class TrainInfo
     {
         public string Prefix { get; set; } = string.Empty;
@@ -13,8 +15,8 @@ namespace Tellurian.Trains.Planning.App.Contract
         public string CategoryName { get; set; } = string.Empty;
         public bool IsCargo { get; set; }
         public bool IsPassenger { get; set; }
-        public OperationDays OperationDays { get; set; } = new OperationDays();
-        public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDays.ShortName}";
+        public byte OperationDaysFlags { get; set; } 
+        public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDaysFlags.OperationDays().ShortName}";
     }
 
     public class Train : TrainInfo
@@ -24,7 +26,7 @@ namespace Tellurian.Trains.Planning.App.Contract
         public string Instruction { get; set; } = string.Empty;
         public IList<StationCall> Calls { get; set; } = Array.Empty<StationCall>();
         public override string ToString() => $"{base.ToString()} {Calls.Count} calls";
-        public static Train Example => new Train
+        public static Train Example => new()
         {
             OperatorName = "GC",
             Prefix = "G",
