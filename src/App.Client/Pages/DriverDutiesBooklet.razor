@@ -2,10 +2,11 @@
 @layout PrintLayout
 @page "/driverdutiesbooklet"
 @inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
 
 @if (!IsLoaded)
-{ 
+{
     <div class="print creatingreport">@Localizer["CreatingReport"]</div>
 }
 else
@@ -51,16 +52,27 @@ else
     private DutyPage[] Pages = Array.Empty<DutyPage>();
     private int pageNumber;
     private bool IsLoaded;
+    string? Operator { get; set; }
 
     override protected async Task OnInitializedAsync()
     {
+        SetQueryStringParameters();
         IsLoaded = false;
         var result = await DataService.GetDriverDutiesAsync(Constants.LayoutId);
         if (result.statusCode.IsSuccess() && result.item != null)
         {
-            Pages = result.item.Duties.GetAllDriverDutyPagesInBookletOrder(result.item.Instructions).ToArray();
+            var duties = result.item.Duties;
+            if (Operator is not null) 
+                duties = duties.Where(d => d.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase)).ToArray(); 
+            Pages = duties.GetAllDriverDutyPagesInBookletOrder(result.item.Instructions).ToArray();
             IsLoaded = true;
         }
+    }
+
+    void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        Operator = q["operator"];
     }
 
     private string PagebreakCss()

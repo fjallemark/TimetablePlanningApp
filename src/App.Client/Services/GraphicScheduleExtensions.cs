@@ -152,7 +152,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
     {
         public int Yoffset { get; set; } = 20;
         public int TrackHeight { get; set; } = 8;
-        public int MinDistanceBeweenStations { get; set; } = 60;
+        public int MinDistanceBeweenStations { get; set; } = 100;
         public int FirstHourOffset { get; set; } = 60;
         public int HourWidth { get; set; } = 180;
         public int DistanceFactor { get; set; } = 10;

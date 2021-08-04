@@ -52,7 +52,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<DriverDuty>(100);
             using var connection = CreateConnection;
-            var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutId = {layoutId} ORDER BY DutyId, LocoScheduleTrainId, DepartureTime";
+
+            var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutId = {layoutId} ORDER BY DutyId, LocoScheduleTrainId, DepartureTime" ;
             var reader = ExecuteReader(connection, sql);
             var lastDutyId = 0;
             var lastLocoScheduleTrainId = 0;
