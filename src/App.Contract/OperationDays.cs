@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public override string ToString() => ShortName;
 
         public const byte AllDays = 0x7F;
+        public const byte OnDemand = 0x80;
     }
 
     public static class OperationDaysExtensions
@@ -40,7 +42,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public static int DisplayOrder(this byte flags) => ~flags;
 
-        public static byte And(this byte flags, byte and) => (byte)(flags & and);
+        public static byte And(this byte flags, byte and) => flags == Contracts.OperationDays.OnDemand ? flags : (byte)(flags & and);
 
         public static bool IsAnyOtherDays(this byte it, byte other) => And(it, other) > 0;
         public static bool IsAllOtherDays(this byte it, byte other) => And(it, other) == it;
@@ -49,6 +51,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
+            if (days.Length == 0) Debugger.Break();
             var isDaily = flags.IsAllDays();
             var fullName = new StringBuilder(20);
             var shortName = new StringBuilder(10);

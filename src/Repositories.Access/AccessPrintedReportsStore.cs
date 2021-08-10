@@ -368,7 +368,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private IEnumerable<BlockDestinationsCallNote> GetBlockDestinationsCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM BlockDestinationsCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
+            var reader = ExecuteReader(connection, $"SELECT DISTINCT * FROM BlockDestinationsCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, DestinationStationName, OrderInTrain DESC");
             var lastCallId = 0;
             BlockDestinationsCallNote? current = null;
             while (reader.Read())

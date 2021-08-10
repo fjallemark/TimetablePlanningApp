@@ -331,10 +331,11 @@ namespace Tellurian.Trains.Planning.App.Contracts
     {
         public static string DestinationText(this IEnumerable<BlockDestination> me, bool useBrackets = false) =>
             string.Join(", ", me.GroupText(useBrackets));
+
         public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
         {
             var result = new List<string>();
-            var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd => bd.OrderInTrain);
+            var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd => bd.FinalDestinationStationName);
             foreach (var destinationGroup in destinationGroups)
             {
                 var text = new StringBuilder(200);

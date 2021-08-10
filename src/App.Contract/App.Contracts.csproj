@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Tellurian.Trains.Planning.App.Contract</AssemblyName>
-    <RootNamespace>Tellurian.Trains.Planning.App.Contract</RootNamespace>
+    <AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
+    <RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Version>0.1.0</Version>

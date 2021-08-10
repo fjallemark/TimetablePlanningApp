@@ -136,13 +136,13 @@
     <value>Daglig</value>
   </data>
   <data name="Friday" xml:space="preserve">
-    <value>fredag</value>
+    <value>Fredag</value>
   </data>
   <data name="Monday" xml:space="preserve">
     <value>mandag</value>
   </data>
   <data name="OnDemand" xml:space="preserve">
-    <value>På forespørsel</value>
+    <value>Etter behov</value>
   </data>
   <data name="Sunday" xml:space="preserve">
     <value>Søndag</value>
