@@ -14,7 +14,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Operator = me.GetString("LocoOperator"),
                 Class = me.GetString("LocoClass"),
                 TurnForNextDay = me.GetBool("TurnForNextDay"),
-                Note = me.GetString("Note")
+                Note = me.GetString("Note"),
+                IsRailcar = me.GetBool("IsRailcar")
             };
 
         public static TrainsetSchedule AsTrainsetSchedule(this IDataRecord me) =>

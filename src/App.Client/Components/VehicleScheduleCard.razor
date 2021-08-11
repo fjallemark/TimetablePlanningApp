@@ -22,15 +22,11 @@
                         {
                             <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
                         }
-                        @if (Item.NumberOfUnits > 1)
-                        {
-                            <span>&times;@Item.NumberOfUnits</span>
-                        }
                     </div>
                 }
             </div>
             <div>
-                @Item.Note
+                @Item.Note()
             </div>
             <div class="schedule item">
                 <table width="100%" style="border-collapse: collapse">

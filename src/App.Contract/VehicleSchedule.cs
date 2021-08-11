@@ -24,6 +24,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     {
         public override string Type => "Loco";
         public override bool IsLoco => true;
+        public bool IsRailcar { get; set; }
     }
 
     public class TrainsetSchedule : VehicleSchedule
@@ -43,6 +44,13 @@ namespace Tellurian.Trains.Planning.App.Contracts
             if (!string.IsNullOrWhiteSpace(me.Operator)) result.Add((Notes.Operator, me.Operator));
             return result;
         }
+
+        public static string TypeName(this LocoSchedule me) =>
+            me.IsRailcar ? Notes.Railcar: Notes.Loco;
+
+        public static string? Note(this VehicleSchedule me) =>
+            me is LocoSchedule loco ? string.IsNullOrWhiteSpace(me.Note) ? loco.TypeName() : me.Note :
+            me.NumberOfUnits>1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
     }
 }
 

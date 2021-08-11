@@ -36,11 +36,15 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public TrainInfo? TrainInfo { get; set; }
         public abstract IEnumerable<Note> ToNotes(byte onlyDays);
 
-        public bool IsAnyDay(byte days, byte dutyDays = OperationDays.AllDays) => Days(days, dutyDays) > 0;
+        public bool IsAnyDay(byte days, byte dutyDays = OperationDays.AllDays) => 
+            TrainInfo?.OperationDaysFlags == OperationDays.OnDemand || Days(days, dutyDays) > 0;
         public bool IsNoDay(byte days, byte dutyDays = OperationDays.AllDays) => !IsAnyDay(days, dutyDays);
-        public bool IsAllDays(byte days, byte dutyDays = OperationDays.AllDays) => Days(days, dutyDays) == dutyDays;
+        public bool IsAllDays(byte days, byte dutyDays = OperationDays.AllDays) =>
+            TrainInfo?.OperationDaysFlags == OperationDays.OnDemand || Days(days, dutyDays) == dutyDays;
         public byte Days(byte days, byte dutyDays = OperationDays.AllDays) => Days(days, TrainInfo!.OperationDaysFlags, dutyDays);
-        public static byte Days(byte days, byte trainDays, byte dutyDays = OperationDays.AllDays) => (byte)(days & trainDays & dutyDays);
+        public static byte Days(byte days, byte trainDays, byte dutyDays = OperationDays.AllDays) => 
+            trainDays == OperationDays.OnDemand ? OperationDays.OnDemand :
+            (byte)(days & trainDays & dutyDays);
     }
 
     public sealed class ManualTrainCallNote : TrainCallNote
@@ -98,7 +102,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         protected abstract string Text(IEnumerable<NoteTrainset> t);
 
         protected static string TrainsetTexts(IEnumerable<NoteTrainset> trainsets) => string.Join(" ", trainsets.Select(ts => TrainsetFormat(ts)));
-        private static string TrainsetFormat(NoteTrainset ts) => $"[{ts.Operator}{ts.Number}]";
+        private static string TrainsetFormat(NoteTrainset ts) => $"[{ts.Operator}{ts.Number} {ts.Note}]";
     }
 
     public class TrainsetsDepartureCallNote : TrainsetsCallNote
@@ -207,7 +211,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
         {
             var days = (byte)(ArrivingLoco.OperationDaysFlags & DepartingLoco.OperationDaysFlags & onlyDays);
-            return days == 0 ? Array.Empty<Note>() : 
+            return days == 0 ? Array.Empty<Note>() :
                 Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChange, ArrivingLoco, DepartingLoco), days);
         }
     }
@@ -234,14 +238,15 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         private string FormatText(byte days, byte onlydays) => IsAllDays(days, onlydays) ?
             IsFromParking ?
-            string.Format(CultureInfo.CurrentCulture, Notes.GetLocoAtParking, LocoDescription, DepartingLoco.OperatorName, DepartingLoco.Number) :
-            string.Format(CultureInfo.CurrentCulture, Notes.UseLoco, LocoDescription, DepartingLoco.OperatorName, DepartingLoco.Number) :
+            LocoFormat(Notes.GetLocoAtParking) :
+            LocoFormat(Notes.UseLoco) :
             IsFromParking ?
-            string.Format(CultureInfo.CurrentCulture, Notes.GetLocoAtParkingOnDays, LocoDescription, DepartingLoco.OperatorName, DepartingLoco.Number, DepartingLoco.OperationDaysFlags.OperationDays()) :
-            string.Format(CultureInfo.CurrentCulture, Notes.UseLocoAtDays, LocoDescription, DepartingLoco.OperatorName, DepartingLoco.Number, DepartingLoco.OperationDaysFlags.OperationDays());
+            LocoFormat(Notes.GetLocoAtParkingOnDays) :
+            LocoFormat(Notes.UseLocoAtDays);
 
-        private string LocoDescription =>
-            DepartingLoco.IsRailcar ? Notes.Railcar.ToLowerInvariant() : Notes.Loco.ToLowerInvariant();
+        private string LocoFormat(string format) =>
+                        string.Format(CultureInfo.CurrentCulture, format, DepartingLoco.OperatorName, DepartingLoco.TypeName(), DepartingLoco.Number, DepartingLoco.OperationDays());
+
     }
 
     public class LocoArrivalCallNote : TrainCallNote

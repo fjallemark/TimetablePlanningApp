@@ -1,4 +1,6 @@
-﻿namespace Tellurian.Trains.Planning.App.Contracts
+﻿using Tellurian.Trains.Planning.App.Contracts.Resources;
+
+namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class Loco
     {
@@ -14,5 +16,7 @@
     public static class LocoExtensions
     {
         public static OperationDays OperationDays(this Loco me) => me.OperationDaysFlags.OperationDays();
+        public static string TypeName(this Loco me) =>
+            me.IsRailcar ? Notes.Railcar.ToLowerInvariant() : Notes.Loco.ToLowerInvariant();
     }
 }

@@ -20,7 +20,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
         {
             if (language is null) return key;
             if (englishText is null) englishText = key;
-            var r = new ResourceManager("Tellurian.Trains.Planning.App.Contract.Resources.Notes", Assembly.GetAssembly(typeof(Contracts.Resources.Notes))! );
+            var r = new ResourceManager("Tellurian.Trains.Planning.App.Contracts.Resources.Notes", Assembly.GetAssembly(typeof(Contracts.Resources.Notes))! );
             var c = new CultureInfo(language);
 
             var v = r.GetString(key, c);
