@@ -30,6 +30,7 @@ else
             {
                 <DutyInstructionsPage PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown"></DutyInstructionsPage>
             }
+
             @if (PageRight(i).IsBlank)
             {
                 <BlankDutyPage PageNumber="PageRight(i).Number"></BlankDutyPage>

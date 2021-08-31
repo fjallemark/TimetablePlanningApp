@@ -77,10 +77,8 @@
 }
 
 @code {
-    [Parameter]
-    public Waybill? Item { get; set; }
-    [Parameter]
-    public IEnumerable<LanguageLabels>? LanguageLabels { get; set; }
+    [Parameter] public Waybill? Item { get; set; }
+    [Parameter] public IEnumerable<LanguageLabels>? LanguageLabels { get; set; }
 
     private string OriginLabel(Waybill item, string resourceKey, string? englishText = null) =>
         Label(item.Origin?.Language, resourceKey, englishText);
@@ -99,6 +97,4 @@
         if (englishText == localText || string.IsNullOrWhiteSpace(localText)) return englishText!;
         return $"{englishText}/{localText}";
     }
-
-    private string EnglishText(string? text, string resourceKey) => text ?? resourceKey;
 }

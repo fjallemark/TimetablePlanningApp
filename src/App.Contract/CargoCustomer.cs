@@ -9,12 +9,12 @@
         public string Language { get; set; } = string.Empty;
 
         public static CargoCustomer Origin(string name, string station, string instruction = "-") =>
-            new CargoCustomer { Name = name, Station = station, Instruction = instruction, Region = Region.OriginDefault };
+            new() { Name = name, Station = station, Instruction = instruction, Region = Region.OriginDefault };
         public static CargoCustomer Origin(string name, string station, Region region, string instruction = "-") =>
-            new CargoCustomer { Name = name, Station = station, Instruction = instruction, Region = region };
+            new() { Name = name, Station = station, Instruction = instruction, Region = region };
         public static CargoCustomer Destination(string name, string station, string instruction = "-") =>
-           new CargoCustomer { Name = name, Station = station, Instruction = instruction, Region = Region.DestinationDefault };
+           new() { Name = name, Station = station, Instruction = instruction, Region = Region.DestinationDefault };
         public static CargoCustomer Destination(string name, string station, Region region, string instruction = "-") =>
-           new CargoCustomer { Name = name, Station = station, Instruction = instruction, Region = region };
+           new() { Name = name, Station = station, Instruction = instruction, Region = region };
     }
 }

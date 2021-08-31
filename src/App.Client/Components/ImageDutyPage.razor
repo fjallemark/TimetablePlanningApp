@@ -1,0 +1,17 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+<div class="duty frame">
+    <img src="@ImageUrl" />
+
+    <div class="duty pagenumber">
+        - @PageNumber -
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int PageNumber { get; set; }
+    [Parameter]
+    public string ImageUrl { get; set; }
+
+}
