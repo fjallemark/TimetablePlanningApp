@@ -53,7 +53,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var result = new List<DriverDuty>(100);
             using var connection = CreateConnection;
 
-            var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutId = {layoutId} ORDER BY DutyId, LocoScheduleTrainId, DepartureTime" ;
+            var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutId = {layoutId} ORDER BY DutyId, LocoScheduleTrainId, DepartureTime";
             var reader = ExecuteReader(connection, sql);
             var lastDutyId = 0;
             var lastLocoScheduleTrainId = 0;
@@ -143,7 +143,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<BlockDestinations>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
             BlockDestinations? current = null;
             var lastOriginStationName = "";
             var lastTrackNumber = "";
@@ -391,9 +391,23 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM BlockArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
+            var lastCallId = 0;
+            BlockArrivalCallNote? current = null;
             while (reader.Read())
             {
-                yield return reader.AsBlockArrivalCallNote();
+                var currentCallId = reader.GetInt("CallId");
+                if (currentCallId != lastCallId)
+                {
+                    if (current is not null) yield return current;
+                    current = reader.AsBlockArrivalCallNote();
+                }
+                if (current is not null)
+                {
+                    var stationName = reader.GetString("ArrivalStationName");
+                    if (!current.StationNames.Contains(stationName))
+                        current.StationNames.Add(reader.GetString("ArrivalStationName"));
+                    lastCallId = currentCallId;
+                }
             }
         }
 

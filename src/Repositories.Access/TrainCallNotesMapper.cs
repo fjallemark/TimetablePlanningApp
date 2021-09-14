@@ -122,7 +122,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static BlockArrivalCallNote AsBlockArrivalCallNote(this IDataRecord me) =>
             new(me.GetInt("CallId"))
             {
-                StationName = me.GetString("ArrivalStationName"),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
                 AndBeyond = me.GetBool("AndBeyond"),
                 AlsoSwitch = me.GetBool("AlsoSwitch"),
@@ -142,6 +141,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
                 DestinationCountryName = me.GetString("CountryLocalName"),
                 IsInternational = me.GetBool("IsInternational"),
+                IsRegion = me.GetBool("IsRegion"),
                 HasCouplingNote = me.GetBool("HasCoupleNote"),
                 HasUncouplingNote = me.GetBool("HasUncoupleNote"),
                 ForeColor = me.GetString("ForeColor", "#000000"),

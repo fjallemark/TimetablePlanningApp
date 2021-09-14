@@ -24,14 +24,23 @@ else
                                     <div class="blocking track destination">
                                         @foreach (var destination in destinationGroup.OrderBy(dg => dg.MaxNumberOfWagons))
                                         {
-                                            <div class="destination item" style="color : @destination.ForeColor; background-color: @destination.BackColor">
-                                                @destination.ToString()
-                                            </div>
+                                            @if (destination.IsRegion)
+                                            {
+                                                <div class="destination item" style="color : @destination.ForeColor; background-color: @destination.BackColor">
+                                                    @destination.ToString()
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="destination item" style="color : #FFFFFF; background-color: #777777">
+                                                    @destination.ToString()
+                                                </div>
+                                            }
                                         }
                                         @NumberOfWagons(destinationGroup)
                                     </div>
                                 }
-                               
+
                             </div>
                         }
                     </div>

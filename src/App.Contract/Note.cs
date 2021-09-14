@@ -313,11 +313,13 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool TransferAndBeyond { get; set; }
         public string DestinationCountryName { get; set; } = string.Empty;
         public bool IsInternational { get; set; }
+        public bool IsRegion { get; set; }
         public bool HasCouplingNote { get; set; }
         public bool HasUncouplingNote { get; set; }
         public string ForeColor { get; set; } = "#000000";
         public string BackColor { get; set; } = "#FFFFFF";
         public override string ToString() =>
+            IsRegion ? DestinationText :
             ToAllDestinations ? AllDestinations :
             AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationText) :
             DestinationText;
@@ -325,7 +327,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         internal string AllDestinations => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, Notes.AllDestinations, DestinationCountryName) : Notes.AllDestinations;
         internal bool UseDestinationCountry => HasDestinationCountry && IsInternational;
         internal bool HasDestinationCountry => !string.IsNullOrWhiteSpace(DestinationCountryName);
-        internal string FinalDestinationStationName => string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
+        internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
         internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
 
         public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
@@ -369,7 +371,8 @@ namespace Tellurian.Trains.Planning.App.Contracts
             IsDriverNote = true;
             IsForArrival = true;
         }
-        public string StationName { get; set; } = string.Empty;
+        public string StationName => StationNames.Count > 0 ? StationNames[0] : string.Empty;
+        public IList<string> StationNames {  get; } = new List<string>();
         public bool ToAllDestinations { get; set; }
         public bool AndBeyond { get; set; }
         public bool AlsoSwitch { get; set; }
@@ -394,7 +397,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             ToAllDestinations ?
             string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations) :
             AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, StationName) :
-            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, StationName);
+            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, string.Join(", ", StationNames));
     }
 
 
