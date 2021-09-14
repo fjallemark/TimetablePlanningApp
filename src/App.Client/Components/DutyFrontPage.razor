@@ -21,7 +21,11 @@
 
                 </div>
             }
-            <div class="duty text">@Item.Description()</div>
+            @if (Item.Description.HasValue())
+            {
+             <div class="duty text">@Item.Description</div>               
+            }
+            <div class="duty text">@Item.TrainTypes()</div>
             <div class="duty text">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
             <div>
                 <span>@Localizer["Starts"]</span>:

@@ -261,4 +261,7 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
+    <value>Number of wagons per block indicates max that may be sent from this station</value>
+  </data>
 </root>

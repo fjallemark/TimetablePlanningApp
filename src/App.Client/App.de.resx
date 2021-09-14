@@ -261,4 +261,7 @@
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
   </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
+    <value>Die Anzahl der Wagen pro Block gibt die maximale Anzahl an, die von diesem Bahnhof gesendet werden dürfen</value>
+  </data>
 </root>

@@ -26,7 +26,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Difficulty = me.GetInt("DutyDifficulty"),
                 EndTime = me.GetTime("DutyEndsTime"),
                 LayoutName = me.GetString("LayoutName"),
-                Name = me.GetString("DutyName"),
+                Description = me.GetString("DutyName"),
                 Number = me.GetInt("DutyNumber"),
                 Operator = me.GetString("DutyOperator"),
                 RemoveOrder = me.GetInt("DutyRemoveOrder"),

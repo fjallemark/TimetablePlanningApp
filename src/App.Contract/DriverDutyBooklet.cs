@@ -19,7 +19,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                     Operator = "Green Cargo",
                          OperationDays = ((byte)31).OperationDays(),
                          Difficulty = 2,
-                         Name = "Chemicals transport",
+                         Description = "Chemicals transport",
                          Number=22,
                          StartTime = "11:40",
                          EndTime = "15:38",

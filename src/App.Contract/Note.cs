@@ -78,7 +78,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 .GroupBy(t => Days(t.OperationDaysFlag, dutyDays))
                 .Select(t => new Note
                 {
-                    DisplayOrder = 10000 + t.Key.DisplayOrder(),
+                    DisplayOrder = 1000 + t.Key.DisplayOrder(),
                     Text = Text(t.Key, dutyDays, t)
                 });
         }
@@ -156,7 +156,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
             ContinuingTrain is null || IsNoDay(ContinuingTrain.OperationDayFlag, onlyDays) ?
             Array.Empty<Note>() :
-            Note.SingleNote(32000, FormatText(ContinuingTrain.OperationDayFlag, onlyDays));
+            Note.SingleNote(320, FormatText(ContinuingTrain.OperationDayFlag, onlyDays));
 
 
         private string FormatText(byte days, byte onlyDays) =>
@@ -203,7 +203,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             IsStationNote = true;
             IsDriverNote = true;
             IsForArrival = true;
-            DisplayOrder = -1000;
+            DisplayOrder = -100;
         }
 
         public Loco ArrivingLoco { get; set; } = Loco.Empty;
@@ -223,7 +223,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             IsDriverNote = true;
             IsStationNote = true;
             IsForDeparture = true;
-            DisplayOrder = -30003;
+            DisplayOrder = -303;
         }
 
         public Loco DepartingLoco { get; set; } = Loco.Empty;
@@ -269,13 +269,13 @@ namespace Tellurian.Trains.Planning.App.Contracts
             var parkingNote = ToParkingNote(ArrivingLoco.OperationDaysFlags, onlyDays);
             if (parkingNote != null)
             {
-                result.Add(new Note { DisplayOrder = 3000, Text = TurnLoco ? $"{parkingNote} {Notes.TurnLoco}" : parkingNote });
+                result.Add(new Note { DisplayOrder = 300, Text = TurnLoco ? $"{parkingNote} {Notes.TurnLoco}" : parkingNote });
             }
             else
             {
-                if (TurnLoco) result.Add(new Note { DisplayOrder = 3001, Text = Notes.TurnLoco });
+                if (TurnLoco) result.Add(new Note { DisplayOrder = 301, Text = Notes.TurnLoco });
             }
-            if (CirculateLoco) result.Add(new Note { DisplayOrder = 3002, Text = Notes.CirculateLoco });
+            if (CirculateLoco) result.Add(new Note { DisplayOrder = 302, Text = Notes.CirculateLoco });
             return result;
         }
 
