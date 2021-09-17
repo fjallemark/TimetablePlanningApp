@@ -35,10 +35,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var value = me.GetValue(i);
             if (value is byte a) return a;
             if (value is double b) return (byte)b;
-            throw new InvalidOperationException(columnName);
+            throw TypeErrorException(value, columnName);
         }
 
-         public static int GetInt(this IDataRecord me, string columnName, short defaultValue = 0)
+        public static int GetInt(this IDataRecord me, string columnName, short defaultValue = 0)
         {
             var i = me.GetColumIndex(columnName, false);
             if (i < 0) return defaultValue;
@@ -46,7 +46,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var value = me.GetValue(i);
             if (value is int b) return b;
             if (value is short a) return a;
-            throw new InvalidOperationException(columnName);
+            throw TypeErrorException(value, columnName);
         }
 
         public static double GetDouble(this IDataRecord me, string columnName, double defaultValue = 0)
@@ -56,7 +56,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var value = me.GetValue(i);
             if (value is double b) return b;
             if (value is float a) return a;
-            throw new InvalidOperationException(columnName);
+            throw TypeErrorException(value, columnName);
         }
 
         public static string GetTime(this IDataRecord me, string columnName, string defaultValue = "")
@@ -72,7 +72,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             if (me.IsDBNull(i)) return TimeSpan.MinValue;
             var value = me.GetValue(i);
             if (value is DateTime d) return new TimeSpan(d.Hour, d.Minute, 0);
-            throw new InvalidOperationException(columnName);
+            throw TypeErrorException(value, columnName);
         }
 
         public static double GetTimeAsDouble(this IDataRecord me, string columnName)
@@ -87,9 +87,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             if (me.IsDBNull(i)) return false;
             var value = me.GetValue(i);
             if (value is bool a) return a;
-            if (value is Int16 b) return b != 0;
-            if (value is double c) return c != 0;
-            throw new InvalidOperationException(columnName);
+            if (value is short b) return b != 0;
+            if (value is int c) return c != 0;
+            if (value is double d) return d != 0;
+            throw TypeErrorException(value, columnName);
         }
 
         public static bool IsDBNull(this IDataRecord me, string columnName)
@@ -103,9 +104,15 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var i = -1;
             try { i = me.GetOrdinal(columnName); }
             catch (IndexOutOfRangeException) {
-                if (throwOnNotFound) throw new InvalidOperationException(columnName);
+                if (throwOnNotFound) throw new InvalidOperationException($"No column '{columnName}' found in data.");
             }
             return i;
+        }
+
+        private static Exception TypeErrorException(object value, string columnName)
+        {
+            var type = value.GetType();
+            return new InvalidOperationException($"{columnName} has unsupported value type {type.Name}");
         }
     }
 }

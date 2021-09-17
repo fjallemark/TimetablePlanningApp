@@ -90,7 +90,8 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         #region Station Track
 
         public static string Style(this StationTrack me) =>
-            me.IsScheduledTrack ? "stroke: gray; stroke-width:1px" : "stroke: lightgray; stroke-width:1px;";
+            me.HasPlatform ? "stroke: #404040; stroke-width:1px" :
+            me.IsScheduledTrack ? "stroke: #bfbfbf; stroke-width:1px" : "stroke: #ffb3b3; stroke-width:1px;";
 
         public static IEnumerable<StationTrack> Tracks(this TimetableStretchStation me) =>
             Options.OnlyScheduledTracks ?
@@ -139,6 +140,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             me.OperationDays.IsDaily ? $"{me.TrainNumber}" : $"{me.TrainNumber} {me.OperationDays.ShortName}";
 
         public static string CssClass(this TimetableTrainSection me) =>
+            me.IsCargo && me.IsPassenger ? "stroke: #cc00cc; stroke-width:3px" :
             me.IsCargo ? "stroke: #0066cc; stroke-width:3px" :
             me.IsPassenger ? "stroke: #cc3300; stroke-width:3px" :
             "stroke: #006600; stroke-width:3px";

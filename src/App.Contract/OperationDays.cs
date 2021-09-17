@@ -46,7 +46,8 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public static bool IsAnyOtherDays(this byte it, byte other) => And(it, other) > 0;
         public static bool IsAllOtherDays(this byte it, byte other) => And(it, other) == it;
-        public static bool IsAllDays(this byte it) => it == Contracts.OperationDays.AllDays;
+        public static bool IsAllDays(this byte it) => it == Contracts.OperationDays.AllDays || it.IsOnDemand();
+        public static bool IsOnDemand(this byte it) => it == Contracts.OperationDays.OnDemand;
 
         public static OperationDays OperationDays(this byte flags)
         {

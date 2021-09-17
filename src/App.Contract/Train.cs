@@ -6,6 +6,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     public static class TrainInfoExtensions
     {
         public static OperationDays OperationDays(this TrainInfo me) => me.OperationDaysFlags.OperationDays();
+        public static bool IsOnDemand(this TrainInfo? me) => me is not null && me.OperationDaysFlags.IsOnDemand();
     }
     public class TrainInfo
     {

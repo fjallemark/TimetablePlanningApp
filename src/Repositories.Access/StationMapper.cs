@@ -21,7 +21,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Id = me.GetInt("StationTrackId"),
                 Number = me.GetString("TrackNumber"),
                 DisplayOrder = me.GetInt("TrackDisplayOrder"),
-                IsScheduledTrack = me.GetBool("IsScheduledTrack")
+                IsScheduledTrack = me.GetBool("IsScheduledTrack"),
+                HasPlatform = me.GetBool("HasPlatform")
             };
     }
 }

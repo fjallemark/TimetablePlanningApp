@@ -132,6 +132,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var item = new BlockDestination
             {
+                StationId = me.GetInt("DestinationStationId"),
                 StationName = me.GetString("DestinationStationName"),
                 TransferDestinationName = me.GetString("TransferDestinationName", ""),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
