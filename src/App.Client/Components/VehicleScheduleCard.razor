@@ -9,19 +9,12 @@
         </svg>
         <div>
             <div class="schedule header">
-                <div>@Localizer[Item.Type + "Turnus"]</div>
-                <div><strong>@Item.Operator @Item.Number&nbsp;@OperationDays(Item)</strong></div>
+                <div><strong>@Item.Operator</strong> @Item.TurnusTypeName()</div>
+                <div>@Localizer["VehicleScheduleNumber"]:&nbsp;<strong>@Item.Number&nbsp;@OperationDays(Item)</strong></div>
                 @if (Item.Class.HasValue())
                 {
                     <div>
-                        @if (Item.IsLoco)
-                        {
-                            <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
-                        }
-                        else if (Item.IsTrainset)
-                        {
-                            <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
-                        }
+                        <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
                     </div>
                 }
             </div>
@@ -66,4 +59,5 @@
     [Parameter] public string CrossLineColor { get; set; } = "pink";
 
     string OperationDays(VehicleSchedule schedule) => schedule.OperationDays.IsSingleDay ? schedule.OperationDays.FullName : schedule.OperationDays.ShortName;
+
 }

@@ -10,8 +10,8 @@
             <div>
                 <div>@Localizer["Duty"]</div>
                 <div class="duty number">@Item.Number</div>
-
             </div>
+            <div class="validity">@Item.ValidPeriod()</div>
             <div><strong>@Item.OperationDays.FullName</strong></div>
             @if (Item.Operator.HasValue())
             {
@@ -23,7 +23,7 @@
             }
             @if (Item.Description.HasValue())
             {
-             <div class="duty text">@Item.Description</div>               
+                <div class="duty text">@Item.Description</div>
             }
             <div class="duty text">@Item.TrainTypes()</div>
             <div class="duty text">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>

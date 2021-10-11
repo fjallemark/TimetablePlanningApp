@@ -139,6 +139,7 @@
         font-weight: bold;
         line-height: 14pt;
     }
+
     .duty.content h3 {
         line-height: 10pt;
         padding-bottom: 0px;
@@ -167,12 +168,13 @@
             text-align: center;
             font-size: 28pt;
         }
-        .duty.instruction {
-            font-size: 10pt;
-            line-height: 12pt;
-            font-family: 'Times New Roman', Times, serif;
-            padding: 0px 0px 0px 0px;
-        }
+
+    .duty.instruction {
+        font-size: 10pt;
+        line-height: 12pt;
+        font-family: 'Times New Roman', Times, serif;
+        padding: 0px 0px 0px 0px;
+    }
 
     .duty.schedulename {
         font-weight: 900;
@@ -186,6 +188,7 @@
         text-align: center;
         font-size: 144pt;
     }
+
 
     .duty.pagenumber {
         padding: 0pt;
@@ -251,22 +254,26 @@
         font-size: 12pt;
         padding-top: 2mm;
     }
+
     .departure.loco {
         height: auto;
         font-size: 12pt
     }
+
     .departure.time {
         height: auto;
         color: maroon;
         font-size: 18pt;
         line-height: 22pt;
     }
+
     .departure.train {
         height: auto;
         font-size: 18pt;
         color: darkcyan;
         line-height: 22pt;
     }
+
     .departure.days {
         height: auto;
         font-size: 12pt;
@@ -282,7 +289,7 @@
         padding: 1mm 2mm 1mm 2mm;
         margin: 0px;
         border: 1px solid lightgray;
-        white-space: nowrap; 
+        white-space: nowrap;
         display: block;
     }
 
@@ -303,22 +310,23 @@
             margin: 2px 3px 2px 0px;
         }
 
-            .destination.item {
-                padding:  0pt 3pt 0pt 3pt;
-                display: inline-block;
-            }
+.destination.item {
+    padding: 0pt 3pt 0pt 3pt;
+    display: inline-block;
+}
 
-        .blocking.track.loco {
-            height: 8mm;
-            background-color: red;
-            color: white;
-            border: none;
-        }
-        .blocking.track.train {
-            height: 8mm;
-            padding: 1mm 1mm 1mm 1mm;
-            margin: 2px 3px 2px 0px;
-        }
+.blocking.track.loco {
+    height: 8mm;
+    background-color: red;
+    color: white;
+    border: none;
+}
+
+.blocking.track.train {
+    height: 8mm;
+    padding: 1mm 1mm 1mm 1mm;
+    margin: 2px 3px 2px 0px;
+}
 
 .graphictimetable {
 }

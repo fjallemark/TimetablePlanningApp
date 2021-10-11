@@ -59,6 +59,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             throw TypeErrorException(value, columnName);
         }
 
+        public static DateTime GetDate(this IDataRecord me, string columnName)
+        {
+            var i = me.GetColumIndex(columnName);
+            return me.GetDateTime(i).Date;
+        }
+
         public static string GetTime(this IDataRecord me, string columnName, string defaultValue = "")
         {
             var i = me.GetColumIndex(columnName);

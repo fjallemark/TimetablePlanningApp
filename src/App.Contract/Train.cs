@@ -17,6 +17,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsCargo { get; set; }
         public bool IsPassenger { get; set; }
         public byte OperationDaysFlags { get; set; } 
+        public string Color {  get; set; } = string.Empty;
         public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDaysFlags.OperationDays().ShortName}";
     }
 

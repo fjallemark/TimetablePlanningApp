@@ -11,7 +11,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static BlockDestinations AsBlockDestinations(this IDataRecord me) =>
             new()
             {
-                OriginStationName = me.GetString("OriginStationName")
+                OriginStationName = me.GetString("OriginStationName"),
+                BlockIsMaxInTrain = me.GetBool("BlockIsMaxInTrain")
             };
 
         public static TrackTrains AsTrackDestination(this IDataRecord me) =>

@@ -35,23 +35,23 @@ else
             }
 
 
-            @foreach (var section in Data.TrainSections)
+            @foreach (var trainSection in Data.TrainSections)
             {
-                @if (section.IsBetweenStations())
+                @if (trainSection.IsBetweenStations())
                 {
-                    <path id="@Data.PathId(section)" fill="none" style="@section.CssClass()"  fill-opacity="0"
-                          d="M @Data.XStartTime(section),@Data.YStartTime(section) L @Data.XEndTime(section), @Data.YEndTime(section) " />
+                    <path id="@Data.PathId(trainSection)" fill="none" style="@trainSection.CssClass()"  fill-opacity="0"
+                          d="M @Data.XStartTime(trainSection),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection), @Data.YEndTime(trainSection) " />
                     <text>
                         <text class="graphictimetable train" text-anchor="middle">
-                            <textPath href="#@Data.PathId(section)" startOffset="50%">
-                                @section.TrainLabel()
+                            <textPath href="#@Data.PathId(trainSection)" startOffset="50%">
+                                @trainSection.TrainLabel()
                             </textPath>
                         </text>
                     </text>
                 }
                 else
                 {
-                    <line x1="@Data.XStartTime(section)" x2="@Data.XEndTime(section)" y1="@Data.YStartTime(section)" y2="@Data.YEndTime(section)" style="@section.CssClass()"></line>
+                    <line x1="@Data.XStartTime(trainSection)" x2="@Data.XEndTime(trainSection)" y1="@Data.YStartTime(trainSection)" y2="@Data.YEndTime(trainSection)" style="@trainSection.CssClass()"></line>
                 }
             }
         </svg>

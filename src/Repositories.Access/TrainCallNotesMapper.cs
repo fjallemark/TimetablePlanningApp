@@ -153,7 +153,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
 
 
-        internal static NoteTrainset AsTrainset(this IDataRecord me) =>
+        internal static Trainset AsTrainset(this IDataRecord me) =>
             new()
             {
                 Class = me.GetString("Class"),
@@ -161,7 +161,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 HasCoupleNote = me.GetBool("HasCoupleNote"),
                 HasUncoupleNote = me.GetBool("HasUncoupleNote"),
                 MaxNumberOfWaggons = me.GetInt("MaxNumberOfWagons"),
-                Note = me.GetString("Description"),
+                WagonTypes = me.GetString("Description"),
                 Number = me.GetInt("Number"),
                 OperationDaysFlag = me.GetByte("OperatingDaysFlag"),
                 Operator = me.GetString("Operator"),

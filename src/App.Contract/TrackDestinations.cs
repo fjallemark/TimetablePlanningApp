@@ -9,6 +9,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     {
         public string OriginStationName { get; set; } = string.Empty;
         public IList<TrackTrains> Tracks { get; set; } = new List<TrackTrains>();
+        public bool BlockIsMaxInTrain {  get; set; }    
     }
 
     public class TrackTrains

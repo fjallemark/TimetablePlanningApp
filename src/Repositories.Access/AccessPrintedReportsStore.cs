@@ -28,7 +28,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             DriverDutyBooklet? booklet = null;
 
             using var connection = CreateConnection;
-            var sql = $"SELECT Name AS LayoutName FROM Layout WHERE Id = {layoutId}";
+            var sql = $"SELECT Name AS LayoutName, ValidFromDate, ValidToDate FROM Layout WHERE Id = {layoutId}";
             var reader = ExecuteReader(connection, sql);
             if (reader.Read())
             {

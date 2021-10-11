@@ -376,7 +376,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get {0} {1} {2} at parking area..
+        ///   Looks up a localized string similar to Get {0} at parking area..
         /// </summary>
         public static string GetLocoAtParking {
             get {
@@ -385,7 +385,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {3}: Get {0} {1} {2} at parking area..
+        ///   Looks up a localized string similar to {1}: Get {0} at parking area..
         /// </summary>
         public static string GetLocoAtParkingOnDays {
             get {
@@ -462,6 +462,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string LocoTransport {
             get {
                 return ResourceManager.GetString("LocoTransport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loco turnus.
+        /// </summary>
+        public static string LocoTurnus {
+            get {
+                return ResourceManager.GetString("LocoTurnus", resourceCulture);
             }
         }
         
@@ -592,7 +601,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drive loco {0} {1} to parking area..
+        ///   Looks up a localized string similar to Drive {0} to parking area..
         /// </summary>
         public static string PutLocoAtParking {
             get {
@@ -601,7 +610,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {2}: Drive loco {0} {1} to parking area..
+        ///   Looks up a localized string similar to {1}: Drive {0} to parking area..
         /// </summary>
         public static string PutLocoAtParkingAtDays {
             get {
@@ -615,6 +624,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string Railcar {
             get {
                 return ResourceManager.GetString("Railcar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Railcar turnus.
+        /// </summary>
+        public static string RailcarTurnus {
+            get {
+                return ResourceManager.GetString("RailcarTurnus", resourceCulture);
             }
         }
         
@@ -754,6 +772,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trainset turnus.
+        /// </summary>
+        public static string TrainsetTurnus {
+            get {
+                return ResourceManager.GetString("TrainsetTurnus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} (via {1}).
         /// </summary>
         public static string TransferVia {
@@ -790,7 +817,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use {0} {1} {2}..
+        ///   Looks up a localized string similar to Use {0}..
         /// </summary>
         public static string UseLoco {
             get {
@@ -799,11 +826,29 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {3}: Use {0} {1} {2}..
+        ///   Looks up a localized string similar to {1}: Use {0}..
         /// </summary>
         public static string UseLocoAtDays {
             get {
                 return ResourceManager.GetString("UseLocoAtDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid {0:d} - {1:d}.
+        /// </summary>
+        public static string ValidPeriod {
+            get {
+                return ResourceManager.GetString("ValidPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string VehicleScheduleNumber {
+            get {
+                return ResourceManager.GetString("VehicleScheduleNumber", resourceCulture);
             }
         }
         

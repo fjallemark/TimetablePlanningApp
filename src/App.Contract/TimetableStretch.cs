@@ -54,5 +54,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public OperationDays OperationDays { get; set; } = new OperationDays();
         public bool IsCargo { get; set; }
         public bool IsPassenger { get; set; }
+        public string Color { get; set; } = string.Empty;
     }
 }

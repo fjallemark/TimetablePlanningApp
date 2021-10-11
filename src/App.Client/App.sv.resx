@@ -264,4 +264,10 @@
   <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
     <value>Antal vagnar per block indikerar max som kan skickas från denna station</value>
   </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxInTrain" xml:space="preserve">
+    <value>Antal vagnar per block indikerar totalt max.</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Omlopp</value>
+  </data>
 </root>

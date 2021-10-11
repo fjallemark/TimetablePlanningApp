@@ -22,6 +22,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                  MaxSpeed = me.GetInt("TrainMaxSpeed"),
                  IsCargo = me.GetBool("IsCargo"),
                  IsPassenger = me.GetBool("IsPassenger"),
+                 Color = me.GetString("Color"),
                  Calls = new List<StationCall>()
              };
 

@@ -98,10 +98,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Holen Sie sich {0} {1} {2} auf dem Parkplatz.</value>
+    <value>Holen Sie sich {0} auf dem Parkplatz.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
-    <value>Fahren Sie die Lok {0} {1} zum Parkplatz.</value>
+    <value>{0} zum Parkplatz fahren.</value>
   </data>
   <data name="CirculateLoco" xml:space="preserve">
     <value>Umlauf lassen.</value>
@@ -266,16 +266,16 @@
     <value>Motorwechsel von {0} auf {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{3}: Holen Sie sich {0} {1} {2} auf dem Parkplatz.</value>
+    <value>{1}: Holen Sie sich {0} auf dem Parkplatz.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Vervenden Sie {0} {1} {2}.</value>
+    <value>Verwenden Sie {0}.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{3}: Verwenden Sie {0} {1} {2}.</value>
+    <value>{1}: Verwenden Sie {0}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
-    <value>{2}: Lok {0} {1} zum Parkplatz fahren.</value>
+    <value>{1}: {0} zum Parkplatz fahren.</value>
   </data>
   <data name="BringsWaggonsToDestinations" xml:space="preserve">
     <value>Bringt Wagen auf {0}.</value>
@@ -351,5 +351,20 @@
   </data>
   <data name="BringsNoWagonsFromThisStation" xml:space="preserve">
     <value>Bringt keine Waggons von diesem Bahnhof</value>
+  </data>
+  <data name="TrainsetTurnus" xml:space="preserve">
+    <value>Wagen Turnus</value>
+  </data>
+  <data name="LocoTurnus" xml:space="preserve">
+    <value>Lokdienst</value>
+  </data>
+  <data name="RailcarTurnus" xml:space="preserve">
+    <value>Triebwagendienst</value>
+  </data>
+  <data name="ValidPeriod" xml:space="preserve">
+    <value>Gültig {0:d} - {1:d}</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Turnus</value>
   </data>
 </root>

@@ -140,9 +140,10 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             me.OperationDays.IsDaily ? $"{me.TrainNumber}" : $"{me.TrainNumber} {me.OperationDays.ShortName}";
 
         public static string CssClass(this TimetableTrainSection me) =>
-            me.IsCargo && me.IsPassenger ? "stroke: #cc00cc; stroke-width:3px" :
-            me.IsCargo ? "stroke: #0066cc; stroke-width:3px" :
-            me.IsPassenger ? "stroke: #cc3300; stroke-width:3px" :
+            me.Color.HasValue() ? $"stroke: {me.Color}; stroke-width: 3px" :
+            me.IsCargo && me.IsPassenger ? "stroke: #cc00cc; stroke-width: 3px" :
+            me.IsCargo ? "stroke: #0066cc; stroke-width: 3px" :
+            me.IsPassenger ? "stroke: #cc3300; stroke-width: 3px" :
             "stroke: #006600; stroke-width:3px";
 
         public static string PathId(this TimetableStretch me, TimetableTrainSection section) => $"{me.Number}-{section.TrainNumber}-{section.FromTrackId}-{section.ToTrackId}";

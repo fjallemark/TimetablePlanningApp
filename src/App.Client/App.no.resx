@@ -264,4 +264,10 @@
   <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
     <value>Antall vogner per blokk indikerer maks som kan sendes fra denne stasjonen</value>
   </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxInTrain" xml:space="preserve">
+    <value>Antall vogner per blokk indikerer totalt maksimum.</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Tur nr</value>
+  </data>
 </root>

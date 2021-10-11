@@ -69,7 +69,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
         public static IEnumerable<TimetableTrainSection> GetTimetableTrainSections(this Train me)
         {
             var result = new List<TimetableTrainSection>(50);
-            result.AddRange( me.Calls.Select(c => new TimetableTrainSection
+            result.AddRange(me.Calls.Select(c => new TimetableTrainSection
             {
                 FromStationId = c.Station.Id,
                 FromTrackId = c.TrackId,
@@ -80,22 +80,24 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                 StartTime = c.Arrival.OffsetMinutes(),
                 EndTime = c.Departure.OffsetMinutes(),
                 TrainNumber = me.Number,
-                OperationDays = me.OperationDays()
+                OperationDays = me.OperationDays(),
+                Color = me.Color
             }));
-            for(var i = 0; i < me.Calls.Count-1; i++)
+            for (var i = 0; i < me.Calls.Count - 1; i++)
             {
                 result.Add(new TimetableTrainSection
                 {
                     FromStationId = me.Calls[i].Station.Id,
                     FromTrackId = me.Calls[i].TrackId,
-                    ToStationId = me.Calls[i+1].Station.Id,
-                    ToTrackId = me.Calls[i+1].TrackId,
+                    ToStationId = me.Calls[i + 1].Station.Id,
+                    ToTrackId = me.Calls[i + 1].TrackId,
                     IsCargo = me.IsCargo,
                     IsPassenger = me.IsPassenger,
                     StartTime = me.Calls[i].Departure.OffsetMinutes(),
-                    EndTime = me.Calls[i+1].Arrival.OffsetMinutes(),
+                    EndTime = me.Calls[i + 1].Arrival.OffsetMinutes(),
                     TrainNumber = me.Number,
-                    OperationDays = me.OperationDays()
+                    OperationDays = me.OperationDays(),
+                    Color = me.Color
                 });
             }
             return result;

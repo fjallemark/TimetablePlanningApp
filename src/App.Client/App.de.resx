@@ -264,4 +264,10 @@
   <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
     <value>Die Anzahl der Wagen pro Block gibt die maximale Anzahl an, die von diesem Bahnhof gesendet werden dürfen</value>
   </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxInTrain" xml:space="preserve">
+    <value>Die Anzahl der Wagen pro Block gibt das Gesamtmaximum an.</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Turnus</value>
+  </data>
 </root>

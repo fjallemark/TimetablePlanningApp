@@ -256,12 +256,18 @@
     <value>Trainsets</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
-    <value>Loco schedules</value>
+    <value>Loco turnus</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
   <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
     <value>Number of wagons per block indicates max that may be sent from this station</value>
+  </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxInTrain" xml:space="preserve">
+    <value>Number of wagons per block indicates total maximum.</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Schedule</value>
   </data>
 </root>

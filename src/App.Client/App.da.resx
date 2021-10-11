@@ -242,6 +242,12 @@
     <value>Hjem</value>
   </data>
   <data name="NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation" xml:space="preserve">
-    <value>Antal vogne pr. blok angiver max, der må sendes fra denne station</value>
+    <value>Antal vogne pr. blok angiver maks., der må sendes fra denne station</value>
+  </data>
+  <data name="NumberOfWagonsPerBlockIndicatesMaxInTrain" xml:space="preserve">
+    <value>Antal vogne pr. blok angiver det samlede maksimum.</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Omløb</value>
   </data>
 </root>

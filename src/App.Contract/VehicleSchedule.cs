@@ -45,11 +45,13 @@ namespace Tellurian.Trains.Planning.App.Contracts
             return result;
         }
 
-        public static string TypeName(this LocoSchedule me) =>
-            me.IsRailcar ? Notes.Railcar: Notes.Loco;
+
+        public static string TurnusTypeName(this VehicleSchedule me) =>
+            me is LocoSchedule loco ?
+            loco.IsRailcar ? Notes.RailcarTurnus : Notes.LocoTurnus :
+            Notes.TrainsetTurnus;
 
         public static string? Note(this VehicleSchedule me) =>
-            me is LocoSchedule loco ? string.IsNullOrWhiteSpace(me.Note) ? loco.TypeName() : me.Note :
             me.NumberOfUnits>1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
     }
 }

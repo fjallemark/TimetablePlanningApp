@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Hämta {0} {1} {2}  från uppställning.</value>
+    <value>Hämta {0} från uppställning.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
-    <value>Kör lok {0} {1} till uppställningsplats.</value>
+    <value>Kör {0} till uppställningsplats.</value>
   </data>
   <data name="CirculateLoco" xml:space="preserve">
     <value>Gör rundgång.</value>
@@ -286,16 +286,16 @@
     <value>Lokbyte från {0} till {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{3}: Hämta {0} {1} {2} från uppställning.</value>
+    <value>{1}: Hämta {0} från uppställning.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{3}: Använd {0} {1} {2}.</value>
+    <value>{1}: Använd {0}.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Använd {0} {1} {2}.</value>
+    <value>Använd {0}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
-    <value>{2}: Kör lok {0} {1} till uppställningsplats.</value>
+    <value>{1}: Kör {0} till uppställningsplats.</value>
   </data>
   <data name="BringsWaggonsToDestinations" xml:space="preserve">
     <value>Medtar vagnar till {0}.</value>
@@ -371,5 +371,20 @@
   </data>
   <data name="BringsNoWagonsFromThisStation" xml:space="preserve">
     <value>Medtar inga vagnar från denna station</value>
+  </data>
+  <data name="TrainsetTurnus" xml:space="preserve">
+    <value>Vagnomlopp</value>
+  </data>
+  <data name="LocoTurnus" xml:space="preserve">
+    <value>Lokomlopp</value>
+  </data>
+  <data name="RailcarTurnus" xml:space="preserve">
+    <value>Motorvagnsomlopp</value>
+  </data>
+  <data name="ValidPeriod" xml:space="preserve">
+    <value>Gäller {0:d} - {1:d}</value>
+  </data>
+  <data name="VehicleScheduleNumber" xml:space="preserve">
+    <value>Omlopp</value>
   </data>
 </root>

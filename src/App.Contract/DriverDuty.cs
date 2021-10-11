@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contracts
 {
     public class DriverDuty
     {
         public string LayoutName { get; set; } = string.Empty;
+        public DateTime ValidFromDate { get; set; }
+        public DateTime ValidToDate { get; set; }
+
         public string Operator { get; set; } = string.Empty;
         public int Number { get; set; }
         public string Description { get; set; } = string.Empty;
@@ -27,5 +33,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
             train.OperationDaysFlags.OperationDays().ShortName;
 
         public static string TrainTypes(this DriverDuty me) => string.Join(", ", me.Parts.Select(p => p.Train.CategoryName).Distinct());
+
+        public static string ValidPeriod(this DriverDuty me) =>
+            string.Format(CultureInfo.CurrentCulture, Notes.ValidPeriod, me.ValidFromDate, me.ValidToDate);
+
     }
 }

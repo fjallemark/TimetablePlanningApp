@@ -23,6 +23,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new()
             {
                 OperationDays = me.GetByte("DutyDays").OperationDays(),
+                ValidFromDate = me.GetDate("ValidFromDate"),
+                ValidToDate = me.GetDate("ValidToDate"),
                 Difficulty = me.GetInt("DutyDifficulty"),
                 EndTime = me.GetTime("DutyEndsTime"),
                 LayoutName = me.GetString("LayoutName"),
