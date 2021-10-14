@@ -1,0 +1,30 @@
+﻿
+.schedule {
+    font-weight: 500;
+}
+
+    .schedule.header {
+        line-height: 17pt;
+        font-size: 13pt;
+    }
+
+    .schedule.item {
+        line-height: 14pt;
+        font-size: 11pt;
+    }
+
+    .schedule.alert {
+        margin: 0px;
+        padding: 0px;
+        font-size: 11pt;
+        line-height: 12pt;
+        color: red;
+    }
+
+svg {
+    stroke-width: 5;
+    z-index: -2;
+    position: absolute;
+    height: 90mm;
+    width: 52mm;
+}

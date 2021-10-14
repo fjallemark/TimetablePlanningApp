@@ -1,0 +1,21 @@
+﻿table {
+    page-break-inside: auto;
+}
+
+caption {
+    text-align:left;
+    font-size: 18pt;
+}
+
+tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tfoot {
+    display: table-footer-group;
+}

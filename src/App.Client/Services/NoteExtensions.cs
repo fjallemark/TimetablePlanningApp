@@ -6,7 +6,7 @@ namespace Tellurian.Trains.Planning.App.Client
     {
         public static string CssClass(this Note me) =>
             me.Text.Length > 40 ?
-            "duty call longnote" :
-            "duty call shortnote";
+            "train call longnote" :
+            "train call shortnote";
     }
 }

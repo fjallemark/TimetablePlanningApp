@@ -270,4 +270,7 @@
   <data name="VehicleScheduleNumber" xml:space="preserve">
     <value>Tur nr</value>
   </data>
+  <data name="StationInstructions" xml:space="preserve">
+    <value>Stasjonsinstruksjoner</value>
+  </data>
 </root>

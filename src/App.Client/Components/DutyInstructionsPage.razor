@@ -1,21 +1,15 @@
 ﻿@using Markdig
 @inject IStringLocalizer<App> Localizer
 
-<div class="duty frame">
-    <div class="duty content">
-
-        <h1>@Localizer["Instructions"]</h1>
-        @if (MarkdownContent != null)
-        {
-            <div class="duty instruction">
-                @((MarkupString)Markdown.ToHtml(MarkdownContent))
-            </div>
-        }
-    </div>
-    <div class="duty pagenumber">
-        - @PageNumber -
-    </div>
-</div>
+<A5Page PageNumber=PageNumber>
+    <h1>@Localizer["Instructions"]</h1>
+    @if (MarkdownContent != null)
+    {
+        <div class="instructions">
+            @((MarkupString)Markdown.ToHtml(MarkdownContent))
+        </div>
+    }
+</A5Page>
 
 @code {
     [Parameter]

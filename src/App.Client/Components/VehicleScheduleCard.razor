@@ -2,10 +2,9 @@
 
 @if (Item != null)
 {
-    <div class="pocket frame">
-
+    <PocketCard>
         <svg>
-            <line style="stroke:@CrossLineColor;stroke-width:5" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
+            <line style="stroke: @CrossLineColor;" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
         </svg>
         <div>
             <div class="schedule header">
@@ -44,14 +43,14 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pocket alert">
+            <div class="schedule alert">
                 @if (Item.TurnForNextDay)
                 {
                     <span>@Localizer["TurnForNextDay"]</span>
                 }
             </div>
         </div>
-    </div>
+    </PocketCard>
 }
 
 @code {

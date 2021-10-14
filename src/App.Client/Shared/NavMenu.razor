@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
-<div class="top-row pl-4 navbar navbar-dark">
+<div class="top-row navbar navbar-dark">
     <a class="navbar-brand" href="">@Localizer["TimetablePlanningApp"]</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -9,42 +9,47 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span>@Localizer["Home"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="locoschedules">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["LocoSchedules"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="trainsetschedules">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["Trainsets"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="waybills">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["Waybills"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="driverdutiesbooklet">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["DriverDuties"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+         <li class="nav-item">
+            <NavLink class="nav-link" href="stationinstructions">
+                <span class="oi oi-document" aria-hidden="true"></span>@Localizer["StationInstructions"]
+            </NavLink>
+        </li>
+       <li class="nav-item">
             <NavLink class="nav-link" href="blockdestinations">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["BlockDestinations"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="graphictimetables">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["GraphicTimetables"]
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="traininitialdepartures">
                 <span class="oi oi-document" aria-hidden="true"></span>@Localizer["TrainInitialDepartures"]
             </NavLink>

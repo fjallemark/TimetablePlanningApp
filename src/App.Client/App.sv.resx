@@ -270,4 +270,7 @@
   <data name="VehicleScheduleNumber" xml:space="preserve">
     <value>Omlopp</value>
   </data>
+  <data name="StationInstructions" xml:space="preserve">
+    <value>Stationsinstruktioner</value>
+  </data>
 </root>

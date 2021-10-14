@@ -1,0 +1,11 @@
+﻿
+.print {
+    margin: 0cm 0cm 0cm 0cm;
+}
+
+    .print.creatingreport {
+        padding: 1cm;
+        font-size: 18pt;
+        font-weight: bold;
+        text-align: center;
+    }

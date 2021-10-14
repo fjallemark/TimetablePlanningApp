@@ -1,11 +1,11 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
-<div class="duty frame">
+<A5Page PageNumber=PageNumber>
 
-    <div class="duty content frontpage">
+    <div class="frontpage">
         @if (Item != null)
         {
-            <div class="duty schedulename">@Item.LayoutName</div>
+            <div class="schedulename">@Item.LayoutName</div>
 
             <div>
                 <div>@Localizer["Duty"]</div>
@@ -23,10 +23,10 @@
             }
             @if (Item.Description.HasValue())
             {
-                <div class="duty text">@Item.Description</div>
+                <div>@Item.Description</div>
             }
-            <div class="duty text">@Item.TrainTypes()</div>
-            <div class="duty text">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
+            <div>@Item.TrainTypes()</div>
+            <div>@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
             <div>
                 <span>@Localizer["Starts"]</span>:
                 <span><strong>@Item.StartTime()</strong></span>
@@ -37,8 +37,7 @@
             <div style="font-size: 12pt">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"].Value, DateTime.Now)</div>
         }
     </div>
-    <div class="duty pagenumber">- @PageNumber -</div>
-</div>
+</A5Page>
 
 @code {
     [Parameter]

@@ -1,0 +1,46 @@
+﻿
+
+.track {
+    font-size: 4mm;
+    font-weight: bold;
+    padding: 1mm 2mm 1mm 2mm;
+    margin: 0px;
+    border: 1px solid lightgray;
+    white-space: nowrap;
+    display: block;
+}
+
+    .track.number {
+        height: 8mm;
+        background-color: white;
+        color: black;
+        border: none;
+    }
+
+    .track.destination {
+        height: 8mm;
+        border: none;
+        background-color: gray;
+        color: white;
+        display: block;
+        padding: 1mm 1mm 1mm 1mm;
+        margin: 2px 3px 2px 0px;
+    }
+
+    .track.train {
+        height: 8mm;
+        padding: 1mm 1mm 1mm 1mm;
+        margin: 2px 3px 2px 0px;
+    }
+
+    .track.loco {
+        height: 8mm;
+        background-color: red;
+        color: white;
+        border: none;
+    }
+
+.block.destination {
+    padding: 0pt 3pt 0pt 3pt;
+    display: inline-block;
+}

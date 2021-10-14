@@ -1,0 +1,56 @@
+﻿@typeparam TItem
+@inject IStringLocalizer<App> Localizer
+
+@if (Items is null)
+{
+    <p>@Localizer["GettingData"]...</p>
+}
+else if (ShowNoRecordsToDisplay && Items.Count() == 0)
+{
+    <p>@Localizer["NoRecordsToDisplay"]</p>
+}
+else
+{
+
+    <table>
+        @if (Caption is not null)
+        {
+            <caption>
+                @Caption
+            </caption>
+        }
+        <thead>
+            <tr>
+                @HeaderTemplate
+            </tr>
+        </thead>
+        <tbody>
+            @if (RowTemplate is not null)
+            {
+                @foreach (var item in Items)
+                {
+                    <tr @key="ItemKey(item)">
+                        @RowTemplate(item)
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            @FooterTemplate
+        </tfoot>
+    </table>
+}
+
+@code {
+    [Parameter] public RenderFragment? Caption { get; set; }
+    [Parameter] public RenderFragment? HeaderTemplate { get; set; }
+    [Parameter] public RenderFragment? FooterTemplate { get; set; }
+    [Parameter] public RenderFragment<TItem>? RowTemplate { get; set; }
+
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public bool ShowNoRecordsToDisplay { get; set; } = true;
+    [Parameter] public Func<TItem, string>? Key { get; set; }
+
+    string ItemKey(TItem item) => Key is null ? item.GetHashCode().ToString() : Key(item);
+
+}

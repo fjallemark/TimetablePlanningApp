@@ -1,0 +1,29 @@
+﻿.graphictimetable {
+}
+
+    .graphictimetable.heading {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16pt
+    }
+
+    .graphictimetable.station {
+        font-weight: bold;
+        font-size: 12pt;
+    }
+
+    .graphictimetable.hour {
+        font-weight: bold;
+        font-size: 12pt;
+    }
+
+    .graphictimetable.train {
+        font-weight: bold;
+        font-size: 9pt;
+        line-height: 12pt;
+        padding-bottom: 3px;
+    }
+
+    .graphictimetable.tracknumber {
+        font-size: 7pt;
+    }

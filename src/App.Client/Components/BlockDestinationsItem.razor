@@ -20,27 +20,27 @@ else
         <div>
             @foreach (var track in BlockDestinations.Tracks)
             {
-                <div class="blocking track">
-                    <div class="blocking track number">@Localizer["Track"] @track.TrackNumber</div>
+                <div class="track">
+                    <div class="track number">@Localizer["Track"] @track.TrackNumber</div>
                     <div style="display: flex; flex-direction: column">
                         @foreach (var train in track.TrainBlocks)
                         {
                             <div style="display: flex; flex-direction: @train.FlexDirection(); justify-content:flex-start">
-                                <div class="blocking track train">@train.Train.Display() @train.DepartureTime.Time</div>
+                                <div class="track train">@train.Train.Display() @train.DepartureTime.Time</div>
                                 @foreach (var destinationGroup in train.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
                                 {
-                                    <div class="blocking track destination">
+                                    <div class=" track destination">
                                         @foreach (var destination in destinationGroup.OrderBy(dg => dg.MaxNumberOfWagons))
                                         {
                                             @if (destination.IsRegion)
                                             {
-                                                <div class="destination item" style="color : @destination.ForeColor; background-color: @destination.BackColor">
+                                                <div class="block destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
                                                     @destination.ToString()
                                                 </div>
                                             }
                                             else
                                             {
-                                                <div class="destination item" style="color : #FFFFFF; background-color: #777777">
+                                                <div class="block destination" style="color : #FFFFFF; background-color: #777777">
                                                     @destination.ToString()
                                                 </div>
                                             }
