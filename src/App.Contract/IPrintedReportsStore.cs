@@ -17,7 +17,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId);
         Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId);
         Task<IEnumerable<Train>> GetTrainsAsync(int layoutId);
-        Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId);
+        Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = false);
     }
 
     public class RepositoryOptions

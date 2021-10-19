@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -62,6 +63,29 @@ namespace Tellurian.Trains.Planning.App.Server.Services
 
         public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
             Store.GetTrainDeparturesAsync(layoutId);
+
+        public async Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId)
+        {
+            var result = new List<StationInstruction>(50);
+            var trains = await Store.GetTrainsAsync(layoutId);
+            var notes = await Store.GetTrainCallNotesAsync(layoutId);
+            trains.AddGereratedNotes(notes);
+            var stationCalls = trains.SelectMany(t => t.Calls).GroupBy(c => c.Station.Id);
+            foreach (var calls in stationCalls)
+            {
+                if (calls.Any())
+                {
+                    var si = new StationInstruction
+                    {
+                        Calls = calls,
+                        StationInfo = calls.First().Station
+                    };
+                    result.Add(si);
+
+                }
+            }
+            return result;
+        }
     }
 
     internal static class TrainExtensions

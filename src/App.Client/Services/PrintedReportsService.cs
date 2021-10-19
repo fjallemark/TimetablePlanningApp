@@ -9,14 +9,14 @@ using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Client.Services
 {
-    public class PrintedReportsService
+    public class PrintedReportsService : IPrintedReportsService
     {
         public PrintedReportsService(HttpClient http)
         {
             Http = http;
         }
         private readonly HttpClient Http;
-        private static JsonSerializerOptions Options => new ()
+        private static JsonSerializerOptions Options => new()
         {
             PropertyNameCaseInsensitive = true,
             IgnoreReadOnlyProperties = true
@@ -46,6 +46,8 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
         public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDepartures(int layoutId) =>
             GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/traininitialdepartures");
+        public Task<(HttpStatusCode statusCode, IEnumerable<StationInstruction> items)> GetStationInstructions(int layoutId) =>
+            GetItems<StationInstruction>($"api/layouts/{layoutId}/reports/stationinstructions");
 
         private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
         {
@@ -63,7 +65,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         }
 
         private static HttpRequestMessage CreateRequest(string requestUri) =>
-            new (HttpMethod.Get, requestUri);
+            new(HttpMethod.Get, requestUri);
 
         private static async Task<IEnumerable<T>> Items<T>(HttpResponseMessage response) =>
            await response.Content.ReadFromJsonAsync<IEnumerable<T>>(Options).ConfigureAwait(false) ?? Array.Empty<T>();

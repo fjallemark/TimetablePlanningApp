@@ -1,6 +1,14 @@
 ﻿.duty {
 }
 
+    .duty.train {
+    }
+
+    .duty.train h1 {
+        padding: 0px;
+        margin: 0px;
+    }
+
     .duty.continuenextpage {
         text-align: center;
         font-size: 12pt;
@@ -29,15 +37,17 @@
 }
 
 
-.train {
-
-}
-
 .train.call {
     vertical-align: text-top;
     font-family: 'Times New Roman', Times, serif;
     font-size: 11pt;
+    line-height: 15pt;
 }
+
+    .train.call.header {
+        font-weight: bold;
+        border-bottom: solid 1px black
+    }
 
     .train.call.part {
         color: black;
@@ -62,4 +72,3 @@
         display: inline-block;
         vertical-align: top;
     }
-

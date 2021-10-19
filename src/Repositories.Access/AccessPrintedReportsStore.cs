@@ -83,6 +83,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
+
         public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId)
         {
             var result = new List<Waybill>(100);
@@ -236,7 +237,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
-        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId)
+ 
+        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true )
         {
             var result = new List<TrainDeparture>(100);
             using var connection = CreateConnection;
@@ -252,8 +254,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<TrainCallNote>(500);
             result.AddRange(GetManualTrainStationCallNotes(layoutId));
-            result.AddRange(GetDepartureTrainsetsCallNotes(layoutId));
-            result.AddRange(GetArrivalTrainsetsCallNotes(layoutId));
+            result.AddRange(GetTrainsetsDepartureCallNotes(layoutId));
+            result.AddRange(GetTrainsetsArrivalCallNotes(layoutId));
             result.AddRange(GetTrainContinuationNumberCallNotes(layoutId));
             result.AddRange(GetTrainMeetCallNotes(layoutId));
             result.AddRange(GetLocoExchangeCallNotes(layoutId));
@@ -274,20 +276,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             }
         }
 
-        private IEnumerable<TrainsetsCallNote> GetDepartureTrainsetsCallNotes(int layoutId)
-        {
-            var sql = $"SELECT * FROM TrainsetsDepartureNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
-            return GetTrainsetsCallNotes(sql, true, false);
-        }
-        private IEnumerable<TrainsetsCallNote> GetArrivalTrainsetsCallNotes(int layoutId)
-        {
-            var sql = $"SELECT * FROM TrainsetsArrivalNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
-            return GetTrainsetsCallNotes(sql, false, true);
-        }
-
-        private IEnumerable<TrainsetsCallNote> GetTrainsetsCallNotes(string sql, bool isForDeparture, bool isForArrival)
+        private IEnumerable<TrainsetsCallNote> GetTrainsetsArrivalCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
+            var sql = $"SELECT * FROM TrainsetsArrivalNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
             var reader = ExecuteReader(connection, sql);
             var lastCallId = 0;
             TrainsetsCallNote? current = null;
@@ -297,7 +289,28 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 if (currentCallId != lastCallId)
                 {
                     if (current != null) yield return current;
-                    current = reader.AsTrainsetsCallNote(isForDeparture, isForArrival);
+                    current = reader.AsTrainsetArrivalCallNote();
+                }
+                current?.AddTrainset(reader.AsTrainset());
+                lastCallId = currentCallId;
+            }
+            if (current != null) yield return current;
+        }
+
+        private IEnumerable<TrainsetsCallNote> GetTrainsetsDepartureCallNotes(int layoutId)
+        {
+            using var connection = CreateConnection;
+            var sql = $"SELECT * FROM TrainsetsDepartureNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
+            var reader = ExecuteReader(connection, sql);
+            var lastCallId = 0;
+            TrainsetsCallNote? current = null;
+            while (reader.Read())
+            {
+                var currentCallId = reader.GetInt("CallId");
+                if (currentCallId != lastCallId)
+                {
+                    if (current != null) yield return current;
+                    current = reader.AsTrainsetDepartureCallNote();
                 }
                 current?.AddTrainset(reader.AsTrainset());
                 lastCallId = currentCallId;

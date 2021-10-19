@@ -2,7 +2,7 @@
 
 @if (Departure != null)
 {
-    <div class="pocket frame">
+    <PocketCard>
         <div class="departure" style="display: block; transform: rotate(180deg)">
             <div class="departure station">@Departure.StationName @Localizer["Track"] @Departure.TrackNumber</div>
             <div class="departure time">@Departure.DepartureTime.Time</div>
@@ -17,7 +17,7 @@
             <div class="departure days">@Departure.Loco.OperationDays().FullName</div>
             <div class="departure loco">@Localizer["Loco"] @Departure.Loco.OperatorName @Departure.Loco.Number</div>
         </div>
-    </div>
+    </PocketCard>
 }
 
 

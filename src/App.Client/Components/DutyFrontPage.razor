@@ -6,35 +6,37 @@
         @if (Item != null)
         {
             <div class="schedulename">@Item.LayoutName</div>
+            <div class="validity">@Item.ValidPeriod()</div>
 
-            <div>
+            <div style="padding-top: 2cm">
                 <div>@Localizer["Duty"]</div>
                 <div class="duty number">@Item.Number</div>
             </div>
-            <div class="validity">@Item.ValidPeriod()</div>
-            <div><strong>@Item.OperationDays.FullName</strong></div>
+            <div class="duty days"><strong>@Item.OperationDays.FullName</strong></div>
             @if (Item.Operator.HasValue())
             {
-                <div>
+                <div class="duty operator">
                     <span>@Localizer["Operator"]</span>:
                     <span><strong>@Item.Operator</strong></span>
-
                 </div>
             }
-            @if (Item.Description.HasValue())
-            {
-                <div>@Item.Description</div>
-            }
-            <div>@Item.TrainTypes()</div>
-            <div>@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
-            <div>
+            <div class="duty time">
                 <span>@Localizer["Starts"]</span>:
                 <span><strong>@Item.StartTime()</strong></span>
 
                 <span>@Localizer["Ends"]</span>:
                 <span><strong>@Item.EndTime()</strong></span>
             </div>
-            <div style="font-size: 12pt">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"].Value, DateTime.Now)</div>
+             @if (Item.Description.HasValue())
+            {
+                <div class="duty description">@Item.Description</div>
+            }
+            <div class="duty description">@Item.TrainTypes()</div>
+            @if (Item.Difficulty > 0)
+            {
+                <div class="duty difficulty" style="color: @DifficultyColor(Item.Difficulty)">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
+            }
+           <div class="printtime">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"].Value, DateTime.Now)</div>
         }
     </div>
 </A5Page>
@@ -44,4 +46,13 @@
     public int PageNumber { get; set; }
     [Parameter]
     public DriverDuty? Item { get; set; }
+
+    string DifficultyColor(int difficulty) => difficulty switch
+    {
+        0 => "black",
+        1 => "green",
+        2 => "orange",
+        3 => "red",
+        _ => "green"
+    };
 }

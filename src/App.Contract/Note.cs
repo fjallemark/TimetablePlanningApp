@@ -34,7 +34,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsForArrival { get; set; }
         public bool IsForDeparture { get; set; }
         public TrainInfo? TrainInfo { get; set; }
-        public abstract IEnumerable<Note> ToNotes(byte onlyDays);
+        public abstract IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays);
 
         public bool IsAnyDay(byte days, byte dutyDays = OperationDays.AllDays) =>
            dutyDays.IsOnDemand() || TrainInfo.IsOnDemand() || Days(days, dutyDays) > 0;
@@ -102,13 +102,15 @@ namespace Tellurian.Trains.Planning.App.Contracts
                     HasUncoupleNote = ts.First().HasUncoupleNote
                 });
         }
-        protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> t) =>
-             IsAllDays(days, dutyDays) ? Text(t) : $"{days.OperationDays()}: {Text(t)}";
+        protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
+             IsAllDays(days, dutyDays) ? Text(trainsets) : $"{days.OperationDays()}: {Text(trainsets)}";
 
         protected abstract string Text(IEnumerable<Trainset> t);
 
         protected static string TrainsetTexts(IEnumerable<Trainset> trainsets) =>
             string.Join(" ", trainsets.Select(ts => TrainsetFormat(ts)));
+
+        // TODO: Add final destination and note about exchange trainset under way.
         private static string TrainsetFormat(Trainset ts) =>
             ts.Operator.HasValue() ? $"{ts.Operator} {ts.WagonTypes.ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}" :
             $"[{ts.WagonTypes} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}]";
@@ -431,8 +433,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
             string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, string.Join(", ", StationNames));
     }
 
-
-
     public class OtherTrain
     {
         public string? CategoryPrefix { get; set; }
@@ -448,7 +448,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 $"{CategoryPrefix} {TrainNumber}" :
                 $"{commonDaysFlag.OperationDays().ShortName} {CategoryPrefix} {TrainNumber}";
         }
-
         public override string ToString() => $"{OperationDayFlag.OperationDays().ShortName} {CategoryPrefix} {TrainNumber}";
     }
 
@@ -482,6 +481,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public byte OperationDaysFlag { get; set; }
         public bool HasCoupleNote { get; set; }
         public bool HasUncoupleNote { get; set; }
+        public string Destination { get; set; } = string.Empty;
+        public string FinalDestination { get; set; } = string.Empty;
+        public bool HasFinalDestination => FinalDestination.HasValue() && FinalDestination != Destination;
         public override string ToString() => $"{Operator} {Number} {WagonTypes}".TrimEnd();
     }
 }

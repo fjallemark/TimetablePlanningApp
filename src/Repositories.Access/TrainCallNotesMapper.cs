@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
@@ -19,10 +18,14 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 IsForDeparture = me.GetBool("IsForDeparture")
             };
 
-        public static TrainsetsCallNote AsTrainsetsCallNote(this IDataRecord me, bool isForDeparture, bool isForArrival) =>
-            isForDeparture ? new TrainsetsDepartureCallNote(me.GetInt("CallId")) :
-            isForArrival ? new TrainsetsArrivalCallNote(me.GetInt("CallId")) :
-            throw new InvalidOperationException();
+        public static TrainsetsCallNote AsTrainsetDepartureCallNote(this IDataRecord me) =>
+            new TrainsetsDepartureCallNote(me.GetInt("CallId")) ;
+
+        public static TrainsetsArrivalCallNote AsTrainsetArrivalCallNote(this IDataReader me) =>
+            new(me.GetInt("CallId"))
+            {
+            };
+
 
         public static TrainContinuationNumberCallNote AsTrainContinuationNumberCallNote(this IDataRecord me) =>
             new(me.GetInt("CallId"))
@@ -151,8 +154,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return item;
         }
 
-
-
         internal static Trainset AsTrainset(this IDataRecord me) =>
             new()
             {
@@ -165,7 +166,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Number = me.GetInt("Number"),
                 OperationDaysFlag = me.GetByte("OperatingDaysFlag"),
                 Operator = me.GetString("Operator"),
-                PositionInTrain = me.GetInt("OrderInTrain")
+                PositionInTrain = me.GetInt("OrderInTrain"),
+                Destination = me.GetString("Destination"),
+                FinalDestination = me.GetString("FinalDestination")
             };
     }
 }

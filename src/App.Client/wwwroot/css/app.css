@@ -51,3 +51,38 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.markdown {
+    font-size: 10pt;
+    line-height: 14pt;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0px;
+}
+
+    .markdown p {
+        padding: 2pt 0pt 2pt 0pt;
+        margin: 0px;
+    }
+
+    .markdown ul {
+        margin: 0px;
+    }
+
+    .markdown h1 {
+        margin: 0px;
+        padding: 2pt 0pt 6pt 0pt;
+        font-size: 18pt;
+    }
+
+    .markdown h2 {
+        margin: 0px;
+        padding: 4pt 0pt 2pt 0pt;
+        font-size: 14pt;
+    }
+
+    .markdown h3 {
+        margin: 0px;
+        padding: 4pt 0pt 2pt 0pt;
+        font-size: 10pt;
+    }
+}

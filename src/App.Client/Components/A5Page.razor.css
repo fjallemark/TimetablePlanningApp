@@ -1,44 +1,27 @@
 ﻿.page {
-    width: 148.1mm;
-    height: 209.5mm;
+    width: 147.5mm;
+    height: 208.5mm;
     padding: 0pt;
     margin: 0pt;
+    display: inline-block;
+    /*    
     border-color: aliceblue;
     border-width: 1px;
     border-style: solid;
-    padding: 2pt;
-    display: inline-block;
+    */
 }
 
-    .page.content {
-        padding: 0.5cm;
-        margin: 0cm;
-        height: 198mm;
-    }
-
-
-    .page.number {
-        padding: 0pt;
-        margin: 0pt;
-        height: 8mm;
-        vertical-align: text-bottom;
-        text-align: center
-    }
-
-h1 {
-    font-size: 16pt;
-    font-weight: bold;
-    line-height: 18pt;
+.content {
+    height: 198mm;
+    padding-left: 0.5cm;
+    padding-right: 0.5cm;
 }
 
-h2 {
-    font-size: 12pt;
-    font-weight: bold;
-    line-height: 14pt;
-}
 
-h3 {
-    line-height: 10pt;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
+.number {
+    padding: 0pt;
+    margin: 0pt;
+    height: 8mm;
+    vertical-align: text-bottom;
+    text-align: center
 }

@@ -1,4 +1,9 @@
 ﻿
+.body {
+    margin: 0px;
+    padding: 0px;
+}
+
 .duty {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
@@ -8,6 +13,12 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+table {
+    border-collapse: collapse;
+}
+
+
 
 
 @media print {
@@ -25,6 +36,7 @@
         page-break-after: always;
     }
 }
+
 
 .departure {
     height: 46mm;

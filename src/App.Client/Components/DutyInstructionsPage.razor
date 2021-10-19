@@ -2,13 +2,13 @@
 @inject IStringLocalizer<App> Localizer
 
 <A5Page PageNumber=PageNumber>
-    <h1>@Localizer["Instructions"]</h1>
-    @if (MarkdownContent != null)
-    {
-        <div class="instructions">
+    <div class="markdown">
+        <h1>@Localizer["Instructions"]</h1>
+        @if (MarkdownContent != null)
+        {
             @((MarkupString)Markdown.ToHtml(MarkdownContent))
-        </div>
-    }
+        }
+    </div>
 </A5Page>
 
 @code {
