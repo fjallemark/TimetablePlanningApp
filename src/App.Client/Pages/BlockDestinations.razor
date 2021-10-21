@@ -13,7 +13,8 @@ else
     <div>
         @foreach (var item in Items)
         {
-            <BlockDestinationsItem BlockDestinations="item"></BlockDestinationsItem>
+            <BlockDestinationsItem BlockDestinations="item" ReverseBlockDestinations=false></BlockDestinationsItem>
+            <BlockDestinationsItem BlockDestinations="item" ReverseBlockDestinations=true></BlockDestinationsItem>
         }
     </div>
 }
