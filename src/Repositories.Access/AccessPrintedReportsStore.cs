@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -427,8 +428,18 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private static IDataReader ExecuteReader(OdbcConnection connection, string sql)
         {
             var command = new OdbcCommand(sql, connection);
+            try
+            {
             connection.Open();
             return command.ExecuteReader(CommandBehavior.CloseConnection);
-        }
+ 
+            }
+            catch (System.Exception ex)
+            {
+                var message = ex.Message;
+                Debugger.Break();
+                throw;
+            }
+       }
     }
 }
