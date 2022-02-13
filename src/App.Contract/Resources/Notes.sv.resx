@@ -385,6 +385,15 @@
     <value>Gäller {0:d} - {1:d}</value>
   </data>
   <data name="VehicleScheduleNumber" xml:space="preserve">
-    <value>Omlopp</value>
+    <value>Tur</value>
+  </data>
+  <data name="CargoTurnus" xml:space="preserve">
+    <value>Godsomlopp</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Lasta {0}.</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Lasta av {0}.</value>
   </data>
 </root>

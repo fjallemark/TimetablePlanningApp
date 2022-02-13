@@ -14,7 +14,7 @@
 }
 
 .printtime {
-        padding-top: 2cm;
+    padding-top: 1cm;
     font-size: 12pt;
 }
 
@@ -24,10 +24,10 @@
 }
 
     .duty.number {
-        line-height: 4cm;
+        line-height: 3cm;
         font-weight: 900;
         color: cadetblue;
-        font-size: 144pt;
+        font-size: 3cm;
     }
 
     .duty.days {
@@ -51,4 +51,5 @@
     text-align: center;
     font-size: 16pt;
     margin-top: 4pt;
+    margin-bottom: 2cm;
 }

@@ -4,16 +4,16 @@
 {
     <PocketCard>
         <svg>
-            <line style="stroke: @CrossLineColor;" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
+            <line style="stroke: @Item.CrossLineColor();" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
         </svg>
         <div>
             <div class="schedule header">
                 <div><strong>@Item.Operator</strong> @Item.TurnusTypeName()</div>
-                <div>@Localizer["VehicleScheduleNumber"]:&nbsp;<strong>@Item.Number&nbsp;@OperationDays(Item)</strong></div>
+                <div>@ScheduleHeader(Item):&nbsp;<strong>@Item.Number&nbsp;@OperationDays(Item)</strong></div>
                 @if (Item.Class.HasValue())
                 {
                     <div>
-                        <span>@Localizer["Class"]:&nbsp;<strong>@Item.Class</strong></span>
+                        <span>@ClassOrContent(Item):&nbsp;<strong>@Item.Class</strong></span>
                     </div>
                 }
             </div>
@@ -55,8 +55,11 @@
 
 @code {
     [Parameter] public VehicleSchedule? Item { get; set; }
-    [Parameter] public string CrossLineColor { get; set; } = "pink";
 
     string OperationDays(VehicleSchedule schedule) => schedule.OperationDays.IsSingleDay ? schedule.OperationDays.FullName : schedule.OperationDays.ShortName;
+
+    LocalizedString ScheduleHeader(VehicleSchedule schedule) => schedule.IsCargoOnly ? Localizer["Turnus"] : @Localizer["VehicleScheduleNumber"];
+    LocalizedString ClassOrContent(VehicleSchedule it) => it.IsCargoOnly ? Localizer["Content"] : Localizer["Class"];
+
 
 }

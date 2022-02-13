@@ -19,11 +19,15 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static TrainsetsCallNote AsTrainsetDepartureCallNote(this IDataRecord me) =>
-            new TrainsetsDepartureCallNote(me.GetInt("CallId")) ;
+            new TrainsetsDepartureCallNote(me.GetInt("CallId"))
+            {
+                IsCargoOnly = me.GetBool("IsLoadOnly")
+            };
 
         public static TrainsetsArrivalCallNote AsTrainsetArrivalCallNote(this IDataReader me) =>
             new(me.GetInt("CallId"))
             {
+                IsCargoOnly = me.GetBool("IsLoadOnly")
             };
 
 
@@ -72,12 +76,14 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 ArrivingLoco = new Loco
                 {
                     Number = me.GetInt("ArrivingLocoScheduleNumber"),
-                    OperatorName = me.GetString("ArrivingLocoOperator")
+                    OperatorName = me.GetString("ArrivingLocoOperator"),
+                     OperationDaysFlags= me.GetByte("TrainOperationDaysFlag")
                 },
                 DepartingLoco = new Loco
                 {
                     Number = me.GetInt("DepartingLocoScheduleNumber"),
-                    OperatorName = me.GetString("DepartingLocoOperator")
+                    OperatorName = me.GetString("DepartingLocoOperator"),
+                    OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
                 },
                 TrainInfo = new TrainInfo
                 {

@@ -124,6 +124,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cargo turnus.
+        /// </summary>
+        public static string CargoTurnus {
+            get {
+                return ResourceManager.GetString("CargoTurnus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Carrier.
         /// </summary>
         public static string Carrier {
@@ -426,6 +435,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string InterRegio {
             get {
                 return ResourceManager.GetString("InterRegio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load {0}..
+        /// </summary>
+        public static string Load {
+            get {
+                return ResourceManager.GetString("Load", resourceCulture);
             }
         }
         
@@ -813,6 +831,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string TurnLoco {
             get {
                 return ResourceManager.GetString("TurnLoco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unload {0}..
+        /// </summary>
+        public static string Unload {
+            get {
+                return ResourceManager.GetString("Unload", resourceCulture);
             }
         }
         

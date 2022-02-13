@@ -119,20 +119,22 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
-        public Task<IEnumerable<TrainsetSchedule>> GetTrainsetSchedulesAsync(int layoutId)
+        public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId)
         {
-            var result = new List<TrainsetSchedule>(100);
+            var result = new List<VehicleSchedule>(100);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetNumber, TrainsetDays, DepartureTime");
             var lastUnique = "";
-            TrainsetSchedule? schedule = null;
+            VehicleSchedule? schedule = null;
             while (reader.Read())
             {
                 var currentUnique = $"{reader.GetInt("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
                 if (currentUnique != lastUnique)
                 {
                     if (schedule != null) result.Add(schedule);
-                    schedule = reader.AsTrainsetSchedule();
+                    var isCargoOnly = reader.GetBool("IsLoadOnly");
+
+                    schedule = isCargoOnly ? reader.AsCargoOnlySchedule() : reader.AsTrainsetSchedule();
                 }
                 if (schedule != null) reader.AddTrainPart(schedule);
                 lastUnique = currentUnique;
@@ -423,6 +425,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     lastCallId = currentCallId;
                 }
             }
+            if (current != null) yield return current;
         }
 
         private static IDataReader ExecuteReader(OdbcConnection connection, string sql)

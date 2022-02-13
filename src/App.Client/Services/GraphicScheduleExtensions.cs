@@ -8,7 +8,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
 {
     public static class GraphicScheduleExtensions
     {
-        public static readonly GraphicScheduleOptions Options = new GraphicScheduleOptions();
+        public static readonly GraphicScheduleOptions Options = new();
 
         public static string Heading(this TimetableStretch me) =>
             $"{me.Number} {me.Name} : {me.Stations[0].Station.Name} - {me.Stations.Last().Station.Name}";
@@ -155,7 +155,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
     {
         public int Yoffset { get; set; } = 20;
         public int TrackHeight { get; set; } = 8;
-        public int MinDistanceBeweenStations { get; set; } = 100;
+        public int MinDistanceBeweenStations { get; set; } = 50;
         public int FirstHourOffset { get; set; } = 60;
         public int HourWidth { get; set; } = 180;
         public int DistanceFactor { get; set; } = 10;

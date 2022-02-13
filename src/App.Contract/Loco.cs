@@ -18,5 +18,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static OperationDays OperationDays(this Loco me) => me.OperationDaysFlags.OperationDays();
         public static string TypeName(this Loco me) =>
             me.IsRailcar ? Notes.Railcar : Notes.Loco;
+
+        public static string DisplayFormat(this Loco me) => me.OperatorName.HasValue() ? 
+            $"[{me.OperatorName} {me.TypeName().ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.Number}]" :
+            $"[{me.TypeName()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.Number}]";
     }
 }

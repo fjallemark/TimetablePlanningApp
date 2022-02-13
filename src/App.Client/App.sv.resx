@@ -220,7 +220,7 @@
     <value>Vagnomlopp</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
-    <value>Lokomlopp</value>
+    <value>Tur</value>
   </data>
   <data name="Wait" xml:space="preserve">
     <value>Vänta...</value>
@@ -256,7 +256,7 @@
     <value>Vagnomlopp</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
-    <value>Lokomlopp</value>
+    <value>Lokturer</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Hem</value>
@@ -268,9 +268,15 @@
     <value>Antal vagnar per block indikerar totalt max.</value>
   </data>
   <data name="VehicleScheduleNumber" xml:space="preserve">
-    <value>Omlopp</value>
+    <value>Tur</value>
   </data>
   <data name="StationInstructions" xml:space="preserve">
     <value>Stationsinstruktioner</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Innehåll</value>
+  </data>
+  <data name="Turnus" xml:space="preserve">
+    <value>Tur</value>
   </data>
 </root>

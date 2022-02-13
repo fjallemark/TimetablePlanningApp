@@ -18,7 +18,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
         public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId) =>
             Store.GetLocoSchedulesAsync(layoutId);
 
-        public Task<IEnumerable<TrainsetSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>
+        public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>
             Store.GetTrainsetSchedulesAsync(layoutId);
 
         public async Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)

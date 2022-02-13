@@ -387,4 +387,13 @@
   <data name="VehicleScheduleNumber" xml:space="preserve">
     <value>Tur nr</value>
   </data>
+  <data name="CargoTurnus" xml:space="preserve">
+    <value>Godsomløp</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Last {0}.</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Lesse {0}.</value>
+  </data>
 </root>

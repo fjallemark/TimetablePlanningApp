@@ -253,4 +253,10 @@
   <data name="StationInstructions" xml:space="preserve">
     <value>Stationsvejledning</value>
   </data>
+  <data name="Content" xml:space="preserve">
+    <value>Indhold</value>
+  </data>
+  <data name="Turnus" xml:space="preserve">
+    <value>Turnus</value>
+  </data>
 </root>

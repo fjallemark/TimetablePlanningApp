@@ -52,6 +52,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     IsStop = me.GetBool("IsStop"),
                     Time = me.GetTime("DepartureTime", "")
                 }
-            };
+            }; 
     }
 }

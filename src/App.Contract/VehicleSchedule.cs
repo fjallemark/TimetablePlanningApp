@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
-#pragma warning disable CA2227 // Collection properties should be read only
-
 namespace Tellurian.Trains.Planning.App.Contracts
 {
     public abstract class VehicleSchedule
     {
         public abstract string Type { get; }
-        public virtual bool IsLoco => false;
-        public virtual bool IsTrainset => false;
+        public bool IsLoco { init; get; }
+        public bool IsTrainset { init; get; }
+        public bool IsCargoOnly { init; get; }
         public string Number { get; set; } = string.Empty;
         public OperationDays OperationDays { get; set; } = new OperationDays();
         public string Operator { get; set; } = string.Empty;
@@ -22,15 +21,21 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
     public class LocoSchedule : VehicleSchedule
     {
+        public LocoSchedule() => IsLoco = true;
         public override string Type => "Loco";
-        public override bool IsLoco => true;
         public bool IsRailcar { get; set; }
     }
 
     public class TrainsetSchedule : VehicleSchedule
     {
+        public TrainsetSchedule() => IsTrainset = true;
         public override string Type => "Trainset";
-        public override bool IsTrainset => true;
+    }
+
+    public class CargoOnlySchedule : VehicleSchedule
+    {
+        public CargoOnlySchedule() => IsCargoOnly = true;
+        public override string Type => "CargoOnly";
     }
 
     public static class VehicleScheduleExtensions
@@ -49,10 +54,18 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static string TurnusTypeName(this VehicleSchedule me) =>
             me is LocoSchedule loco ?
             loco.IsRailcar ? Notes.RailcarTurnus : Notes.LocoTurnus :
+            me.IsCargoOnly ? Notes.CargoTurnus :
             Notes.TrainsetTurnus;
 
         public static string? Note(this VehicleSchedule me) =>
             me.NumberOfUnits>1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
+
+        public static string CrossLineColor(this VehicleSchedule me) =>
+            me.IsLoco ? "#ffc0cb" :
+            me.IsCargoOnly ? "#ffff99" :
+            me.IsTrainset ? "#66ff99" :
+            "#cccccc";
+
     }
 }
 

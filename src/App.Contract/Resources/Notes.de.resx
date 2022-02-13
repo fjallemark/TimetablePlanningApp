@@ -367,4 +367,13 @@
   <data name="VehicleScheduleNumber" xml:space="preserve">
     <value>Turnus</value>
   </data>
+  <data name="CargoTurnus" xml:space="preserve">
+    <value>Fracht Umlauf</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Laden {0}.</value>
+  </data>
+  <data name="Unload" xml:space="preserve">
+    <value>Entladen {0}.</value>
+  </data>
 </root>

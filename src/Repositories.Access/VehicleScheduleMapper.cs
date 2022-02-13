@@ -30,6 +30,19 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 Note = me.GetString("Note")
             };
 
+        public static CargoOnlySchedule AsCargoOnlySchedule(this IDataRecord me) =>
+            new()
+            {
+                OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
+                Number = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+                Operator = me.GetString("TrainsetOperator"),
+                Class = me.GetString("TrainsetClass"),
+                TurnForNextDay = me.GetBool("TurnForNextDay"),
+                NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
+                Note = me.GetString("Note")
+            };
+
+
         public static void AddTrainPart(this IDataReader me, VehicleSchedule schedule)
         {
             var trainPart = new TrainPart
