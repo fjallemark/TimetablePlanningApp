@@ -3,7 +3,7 @@
 
 <A5Page PageNumber=PageNumber>
     <div class="markdown">
-        <h1>@Localizer["Instructions"]</h1>
+        <h1>@HeadingText</h1>
         @if (MarkdownContent != null)
         {
             @((MarkupString)Markdown.ToHtml(MarkdownContent))
@@ -16,4 +16,8 @@
     public int PageNumber { get; set; }
     [Parameter]
     public string? MarkdownContent { get; set; }
+    [Parameter]
+    public string? Heading { get; set; }
+
+    string HeadingText => Heading.HasValue() ? Heading : Localizer["Instructions"];
 }

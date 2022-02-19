@@ -38,7 +38,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     Id = me.GetInt("StationId"),
                     Name = me.GetString("StationName"),
-                    Signature = me.GetString("StationSignature")
+                    Signature = me.GetString("StationSignature"),
+                    HasCombinedInstructions = me.GetBool("HasCombinedInstructions")
                 },
                 Arrival = new CallTime
                 {

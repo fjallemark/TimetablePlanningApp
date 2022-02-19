@@ -6,18 +6,22 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 {
     internal static class DutyMapper
     {
-        public static DriverDutyBooklet AsDriverDutyBooklet(this IDataRecord me) =>
-            new()
-            {
-                ScheduleName = me.GetString("LayoutName")
-            };
+        public static DutyBooklet AsDutyBooklet(this IDataRecord me, DutyBooklet it)
+        {
+            it.ScheduleName = me.GetString("LayoutName");
+            it.ValidFromDate = me.GetDate("ValidFromDate");
+            it.ValidToDate = me.GetDate("ValidToDate");
+            return it;
+        }
 
-        public static LayoutInstruction AsLayoutInstruction(this IDataRecord me) =>
+        public static Instruction AsInstruction(this IDataRecord me, string markdownColumnName) =>
             new()
             {
                 Language = me.GetString("Language"),
-                Markdown = me.GetString("Markdown")
+                Markdown = me.GetString(markdownColumnName)
             };
+
+
 
         public static DriverDuty AsDuty(this IDataRecord me) =>
             new()
@@ -29,14 +33,14 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 EndTime = me.GetTime("DutyEndsTime"),
                 LayoutName = me.GetString("LayoutName"),
                 Description = me.GetString("DutyName"),
-                Number = me.GetInt("DutyNumber"),
+                Number = me.GetInt("DutyNumber").ToString(),
                 Operator = me.GetString("DutyOperator"),
                 RemoveOrder = me.GetInt("DutyRemoveOrder"),
                 StartTime = me.GetTime("DutyStartsTime"),
-                Parts = new List<DutyPart>()
+                Parts = new List<DriverDutyPart>()
             };
 
-        public static DutyPart AsDutyPart(this IDataRecord me, Train train) =>
+        public static DriverDutyPart AsDutyPart(this IDataRecord me, Train train) =>
             new()
             {
                 Train = train,
@@ -47,5 +51,26 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 ReverseLoco = me.GetBool("ReverseLoco"),
                 TurnLoco = me.GetBool("TurnLoco")
             };
+
+        public static StationDutyData AsStationDutyData(this IDataRecord me) =>
+            new()
+            {
+                LayoutName = me.GetString("LayoutName"),
+                StationId = me.GetInt("StationId"),
+                Name = me.GetString("Name"),
+                Signature = me.GetString("Signature"),
+                Difficulty = me.GetInt("Difficulty"),
+                EndHour = me.GetInt("EndHour"),
+                StartHour = me.GetInt("StartHour"),
+                ValidFromDate = me.GetDate("ValidFromDate"),
+                ValidToDate = me.GetDate("ValidToDate"),
+                HasCombinedInstructions = me.GetBool("HasCombinedInstructions"),
+            };
+
+        public static void AddStationInstructions(this IDataRecord me, StationDutyData it)
+        {
+            it.StationInstructions.Add(me.AsInstruction("StationInstructions"));
+            it.ShuntingInstructions.Add(me.AsInstruction("ShuntingInstructions"));
+        }
     }
 }

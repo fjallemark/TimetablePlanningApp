@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -137,7 +138,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             me.FromStationId != me.ToStationId;
 
         public static string TrainLabel(this TimetableTrainSection me) =>
-            me.OperationDays.IsDaily ? $"{me.TrainNumber}" : $"{me.TrainNumber} {me.OperationDays.ShortName}";
+            me.OperationDays.IsDaily ? $"{me.TrainNumber}" : $"{me.TrainNumber}\n{me.OperationDays.ShortName}";
 
         public static string CssClass(this TimetableTrainSection me) =>
             me.Color.HasValue() ? $"stroke: {me.Color}; stroke-width: 3px" :
@@ -149,12 +150,20 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         public static string PathId(this TimetableStretch me, TimetableTrainSection section) => $"{me.Number}-{section.TrainNumber}-{section.FromTrackId}-{section.ToTrackId}";
 
         #endregion
+
+        #region Font Sizes
+        public static int TrainNumberSize(this string? value, int minSize = 9, int maxSize = 16) =>
+            string.IsNullOrWhiteSpace(value) ? minSize :
+            value.Length <= 4 ? maxSize :
+            Math.Max(maxSize + 4 - value.Length, minSize);
+
+        #endregion
     }
 
     public class GraphicScheduleOptions
     {
         public int Yoffset { get; set; } = 20;
-        public int TrackHeight { get; set; } = 8;
+        public int TrackHeight { get; set; } = 10;
         public int MinDistanceBeweenStations { get; set; } = 50;
         public int FirstHourOffset { get; set; } = 60;
         public int HourWidth { get; set; } = 180;

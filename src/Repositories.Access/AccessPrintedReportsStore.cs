@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
@@ -24,28 +25,50 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private readonly RepositoryOptions Options;
         private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
-        public Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
-        {
-            DriverDutyBooklet? booklet = null;
+        public Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
+            ReadDutyBooklet<StationDutyBooklet>(layoutId);
 
+        public Task<IEnumerable<StationDutyData>> GetStationDutiesDataAsync(int layoutId)
+        {
+            var result = new List<StationDutyData>(30);
             using var connection = CreateConnection;
-            var sql = $"SELECT Name AS LayoutName, ValidFromDate, ValidToDate FROM Layout WHERE Id = {layoutId}";
+            var sql = $"SELECT * FROM StationDutyBookletReport WHERE LayoutId = {layoutId}";
             var reader = ExecuteReader(connection, sql);
+            while (reader.Read())
+            {
+                var data = reader.AsStationDutyData();
+                reader.AddStationInstructions(data);
+                result.Add( data);
+            }
+            return Task.FromResult(result.AsEnumerable());
+        }
+
+        public Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId) =>
+            ReadDutyBooklet<DriverDutyBooklet>(layoutId);
+
+        private Task<T?> ReadDutyBooklet<T>(int layoutId) where T : DutyBooklet
+        {
+            using var connection = CreateConnection;
+            var sql = $"SELECT Name AS LayoutName, ValidFromDate, ValidToDate, StartHour, EndHour FROM Layout WHERE Id = {layoutId}";
+            var reader = ExecuteReader(connection, sql);
+            DutyBooklet? booklet = null;
             if (reader.Read())
             {
-                booklet = reader.AsDriverDutyBooklet();
+                booklet = Activator.CreateInstance<T>();
+                reader.AsDutyBooklet(booklet);
                 booklet.Instructions = LayoutInstructions(layoutId);
             }
-            return Task.FromResult(booklet);
+            return Task.FromResult((T?)booklet);
+
         }
-        private IEnumerable<LayoutInstruction> LayoutInstructions(int layoutId)
+        private IEnumerable<Instruction> LayoutInstructions(int layoutId)
         {
             using var connection = CreateConnection;
             var sql = $"SELECT * FROM DutyInstructionsReport WHERE LayoutId = {layoutId}";
             var reader = ExecuteReader(connection, sql);
             while (reader.Read())
             {
-                yield return reader.AsLayoutInstruction();
+                yield return reader.AsInstruction("Markdown");
             }
         }
 
@@ -84,18 +107,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
-
-        public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId)
-        {
-            var result = new List<Waybill>(100);
-            using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM WaybillsReport WHERE LayoutId = {layoutId} ORDER BY ToRegionName, ToStationName");
-            while (reader.Read())
-            {
-                result.Add(WaybillMapper.AsWaybill(reader));
-            }
-            return Task.FromResult(result.AsEnumerable());
-        }
 
         public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId)
         {
@@ -183,14 +194,14 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
-        public Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId)
+        public Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId, string? stretchNumber)
         {
             var result = new List<TimetableStretch>();
             TimetableStretch? current = null;
             var lastTimetableNumber = "";
             var lastStationId = 0;
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder");
+            var reader = ExecuteReader(connection, SQL(layoutId, stretchNumber));
             while (reader.Read())
             {
                 var currentTimetableNumber = reader.GetString("TimetableNumber");
@@ -214,6 +225,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             if (current != null) { result.Add(current); }
 
             return Task.FromResult(result.AsEnumerable());
+
+            static string SQL(int layoutId, string? stretchNumber) => string.IsNullOrWhiteSpace(stretchNumber) ?
+                $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder" :
+                $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} AND TimetableNumber = '{stretchNumber}' ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder";
         }
 
         public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
@@ -240,8 +255,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
- 
-        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true )
+
+        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true)
         {
             var result = new List<TrainDeparture>(100);
             using var connection = CreateConnection;
@@ -249,6 +264,17 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             while (reader.Read())
             {
                 result.Add(reader.AsTrainDeparture());
+            }
+            return Task.FromResult(result.AsEnumerable());
+        }
+        public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId)
+        {
+            var result = new List<Waybill>(100);
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM WaybillsReport WHERE LayoutId = {layoutId} ORDER BY ToRegionName, ToStationName");
+            while (reader.Read())
+            {
+                result.Add(WaybillMapper.AsWaybill(reader));
             }
             return Task.FromResult(result.AsEnumerable());
         }
@@ -433,16 +459,17 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var command = new OdbcCommand(sql, connection);
             try
             {
-            connection.Open();
-            return command.ExecuteReader(CommandBehavior.CloseConnection);
- 
+                connection.Open();
+                return command.ExecuteReader(CommandBehavior.CloseConnection);
+
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                var message = ex.Message;
+                _ = ex.Message;
                 Debugger.Break();
                 throw;
             }
-       }
+        }
+
     }
 }

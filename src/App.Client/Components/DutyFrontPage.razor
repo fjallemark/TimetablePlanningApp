@@ -8,17 +8,28 @@
             <div class="schedulename">@Item.LayoutName</div>
             <div class="validity">@Item.ValidPeriod()</div>
 
-            <div >
+            <div>
                 <div>@Localizer["Duty"]</div>
                 <div class="duty number">@Item.Number</div>
             </div>
-            <div class="duty days"><strong>@Item.OperationDays.FullName</strong></div>
-            @if (Item.Operator.HasValue())
+            @if (Item is DriverDuty d1)
             {
-                <div class="duty operator">
-                    <span>@Localizer["Operator"]</span>:
-                    <span><strong>@Item.Operator</strong></span>
-                </div>
+                <div class="duty days"><strong>@d1.OperationDays.FullName</strong></div>
+                @if (d1.Operator.HasValue())
+                {
+                    <div class="duty operator">
+                        <span>@Localizer["Operator"]</span>:
+                        <span><strong>@d1.Operator</strong></span>
+                    </div>
+                }
+            }
+            @if (Item.Description.HasValue())
+            {
+                <div class="duty description">@Item.Description</div>
+            }
+            @if (Item is DriverDuty d2)
+            {
+                <div class="duty description">@d2.TrainTypes()</div>               
             }
             <div class="duty time">
                 <span>@Localizer["Starts"]</span>:
@@ -27,16 +38,11 @@
                 <span>@Localizer["Ends"]</span>:
                 <span><strong>@Item.EndTime()</strong></span>
             </div>
-             @if (Item.Description.HasValue())
-            {
-                <div class="duty description">@Item.Description</div>
-            }
-            <div class="duty description">@Item.TrainTypes()</div>
             @if (Item.Difficulty > 0)
             {
                 <div class="duty difficulty" style="color: @DifficultyColor(Item.Difficulty)">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>
             }
-           <div class="printtime">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"].Value, DateTime.Now)</div>
+            <div class="printtime">@string.Format(CultureInfo.CurrentCulture, Localizer["PrintedTime"].Value, DateTime.Now)</div>
         }
     </div>
 </A5Page>
@@ -45,7 +51,7 @@
     [Parameter]
     public int PageNumber { get; set; }
     [Parameter]
-    public DriverDuty? Item { get; set; }
+    public Duty? Item { get; set; }
 
     string DifficultyColor(int difficulty) => difficulty switch
     {

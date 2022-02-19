@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Contracts
 {
-    public class DutyPart
+    public class DriverDutyPart
     {
-        public DutyPart(Train train) : this(train, null, 0, train.Calls.Count - 1) { }
-        public DutyPart(Train train, int fromCallId, int toCallId) : this(train, null, fromCallId, toCallId) { }
-        public DutyPart(Train train, Loco? loco) : this(train, loco, 0, train.Calls.Count - 1) { }
+        public DriverDutyPart(Train train) : this(train, null, 0, train.Calls.Count - 1) { }
+        public DriverDutyPart(Train train, int fromCallId, int toCallId) : this(train, null, fromCallId, toCallId) { }
+        public DriverDutyPart(Train train, Loco? loco) : this(train, loco, 0, train.Calls.Count - 1) { }
 
-        public DutyPart(Train train, Loco? loco, int fromCallId, int toCallId)
+        public DriverDutyPart(Train train, Loco? loco, int fromCallId, int toCallId)
         {
             Train = train;
             FromCallId = fromCallId;
@@ -29,31 +29,31 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public int FromCallIndex { get; set; } = -1;
         public int ToCallIndex { get; set; } = -1;
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
-        public DutyPart() { } // For deserlialization only.
+        public DriverDutyPart() { } // For deserlialization only.
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     }
 
     public static class DutyPartExtensions
     {
-        public static StationInfo StartStation(this DutyPart me) => me.Train.Calls[me.FromCallIndex()].Station;
-        public static StationInfo EndStation(this DutyPart me) => me.Train.Calls[me.ToCallIndex()].Station;
-        public static string? StartTime(this DutyPart me) => me.Train.Calls[me.FromCallIndex()].Arrival?.Time ?? me.Train.Calls[me.FromCallIndex()].Departure?.Time;
-        public static string? EndTime(this DutyPart me) => me.Train.Calls[me.ToCallIndex()].Departure?.Time ?? me.Train.Calls[me.ToCallIndex()].Arrival?.Time;
-        public static bool IsFirstDutyCall(this DutyPart me, StationCall call) => me.FromCallId == call.Id;
-        public static bool IsLastDutyCall(this DutyPart me, StationCall call) => me.ToCallId == call.Id;
+        public static StationInfo StartStation(this DriverDutyPart me) => me.Train.Calls[me.FromCallIndex()].Station;
+        public static StationInfo EndStation(this DriverDutyPart me) => me.Train.Calls[me.ToCallIndex()].Station;
+        public static string? StartTime(this DriverDutyPart me) => me.Train.Calls[me.FromCallIndex()].Arrival?.Time ?? me.Train.Calls[me.FromCallIndex()].Departure?.Time;
+        public static string? EndTime(this DriverDutyPart me) => me.Train.Calls[me.ToCallIndex()].Departure?.Time ?? me.Train.Calls[me.ToCallIndex()].Arrival?.Time;
+        public static bool IsFirstDutyCall(this DriverDutyPart me, StationCall call) => me.FromCallId == call.Id;
+        public static bool IsLastDutyCall(this DriverDutyPart me, StationCall call) => me.ToCallId == call.Id;
 
-        internal static int FromCallIndex(this DutyPart me)
+        internal static int FromCallIndex(this DriverDutyPart me)
         {
             if (me.FromCallIndex == -1) me.FromCallIndex = me.FromCallId == 0 ? 0 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.FromCallId));
             return me.FromCallIndex;
         }
-        internal static int ToCallIndex(this DutyPart me)
+        internal static int ToCallIndex(this DriverDutyPart me)
         {
             if (me.ToCallIndex == -1) me.ToCallIndex = me.ToCallId == 0 ? me.Train.Calls.Count - 1 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.ToCallId));
             return me.ToCallIndex;
         }
 
-        public static IEnumerable<DutyStationCall> Calls(this DutyPart me) => me.Train.Calls.Select((c, i) => new DutyStationCall
+        public static IEnumerable<DutyStationCall> Calls(this DriverDutyPart me) => me.Train.Calls.Select((c, i) => new DutyStationCall
         {
             Id = c.Id,
             IsArrivalInDuty = i > me.FromCallIndex() && i <= me.ToCallIndex(),

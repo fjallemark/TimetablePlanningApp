@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
     <ProjectReference Include="..\App.Server\App.Server.csproj" />
+    <ProjectReference Include="..\Repositories.Access\Repositories.Access.csproj" />
   </ItemGroup>
 
   <ItemGroup>

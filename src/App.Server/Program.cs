@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-#pragma warning disable CA1819 // Properties should not return arrays
-
 namespace Tellurian.Trains.Planning.App.Server
 {
     public static class Program

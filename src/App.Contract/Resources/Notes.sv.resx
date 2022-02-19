@@ -396,4 +396,7 @@
   <data name="Unload" xml:space="preserve">
     <value>Lasta av {0}.</value>
   </data>
+  <data name="TrainClearance" xml:space="preserve">
+    <value>Tågklarering</value>
+  </data>
 </root>

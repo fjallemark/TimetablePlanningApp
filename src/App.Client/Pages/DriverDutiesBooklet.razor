@@ -50,11 +50,11 @@ else
 
 @code
 {
-    private DutyPage[] Pages = Array.Empty<DutyPage>();
+    private DriverDutyPage[] Pages = Array.Empty<DriverDutyPage>();
     private int pageNumber;
     private bool IsLoaded;
-    string? SelectedOperator { get; set; }
-    int SelectedDutyNumber;
+    string? SelectedOperator;
+    string? SelectedDutyNumber;
 
     override protected async Task OnInitializedAsync()
     {
@@ -71,8 +71,8 @@ else
 
     private ICollection<DriverDuty> FilterDuties(ICollection<DriverDuty> duties)
     {
-        if (SelectedDutyNumber > 0) return duties.Where(d => d.Number == SelectedDutyNumber).ToArray();
-        if (SelectedOperator is not null) return duties.Where(d => d.Operator.Equals(SelectedOperator, StringComparison.OrdinalIgnoreCase)).ToArray();
+        if (SelectedDutyNumber.HasValue()) return duties.Where(d => d.Number.Equals(SelectedDutyNumber, StringComparison.OrdinalIgnoreCase)).ToArray();
+        if (SelectedOperator.HasValue()) return duties.Where(d => d.Operator.Equals(SelectedOperator, StringComparison.OrdinalIgnoreCase)).ToArray();
         return duties;
     }
 
@@ -80,7 +80,7 @@ else
     {
         var q = Navigator.QueryString();
         SelectedOperator = q["operator"];
-        int.TryParse(q["duty"], NumberStyles.Integer, CultureInfo.InvariantCulture, out SelectedDutyNumber);
+        SelectedDutyNumber = q["duty"];
     }
 
     private string PagebreakCss()
@@ -89,6 +89,6 @@ else
         return pageNumber % 2 == 0 ? "pagebreak" : "";
     }
 
-    private DutyPage PageLeft(int i) => Pages[i];
-    private DutyPage PageRight(int i) => Pages[i + 1];
+    private DriverDutyPage PageLeft(int i) => Pages[i];
+    private DriverDutyPage PageRight(int i) => Pages[i + 1];
 }

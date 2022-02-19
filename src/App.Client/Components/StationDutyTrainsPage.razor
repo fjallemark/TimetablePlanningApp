@@ -1,0 +1,63 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+<A5Page PageNumber="@PageNumber">
+    @if (Calls is not null)
+    {
+        <div class="container">
+            <h1>@Heading</h1>
+            <table width="100%" cellspacing="2" cellpadding="3">
+                <thead class="header">
+                    <tr>
+                        <th>@Localizer["Arr"]</th>
+                        <th>@Localizer["Dep"]</th>
+                        <th>@Localizer["Days"]</th>
+                        <th>@Localizer["Operator"]</th>
+                        <th>@Localizer["Train"]</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var call in Calls)
+                    {
+                        <tr class="train-start">
+                            <td align="center" width="10%" style="@ArrivalTimeStyle(call)">@call.ArrivalTime</td>
+                            <td align="center" width="10%" style="@DepartureTimeStyle(call)">@call.DepartureTime</td>
+                            <td align="center" width="15%">@call.Train.OperationDays().ShortName</td>
+                            <td align="center" width="15%">@call.Train.OperatorName</td>
+                            <td align="center" width="15%">@call.Train.Prefix @call.Train.Number</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        @foreach (var note in call.Notes)
+                        {
+                            <tr>
+                                <td colspan="7">@note</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</A5Page>
+
+@code {
+    [Parameter]
+    public int PageNumber { get; set; }
+    [Parameter]
+    public IEnumerable<StationCallWithAction>? Calls { get; set; }
+
+
+
+    string Heading => Calls is null ? "" : string.Format(Localizer["TrainsWithAttensionBetween"], FirstTrainTime(Calls), LastTrainTime(Calls));
+
+    string FirstTrainTime(IEnumerable<StationCallWithAction> trains) => trains.First().SortTime;
+    string LastTrainTime(IEnumerable<StationCallWithAction> trains) => trains.Last().SortTime;
+
+    string ArrivalTimeStyle(StationCallWithAction it) => it.IsArrival ? "font-weight: bold;" : "color: gray";
+    string DepartureTimeStyle(StationCallWithAction it) => it.IsDeparture ? "font-weight: bold;" : "color: gray";
+
+    string EndOfTrainStyle(bool active) => active ? "train-end" : "";
+
+}

@@ -2,13 +2,12 @@
 
 <A5Page PageNumber=PageNumber>
     <div class="duty train">
-        @if (Item != null && Duty != null)
+        @if (Duty is not null && Item is not null)
         {
             <h1>
                 <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.Number)</span>
                 <span>@Duty.TrainOperatingDay(Item.Train)</span>
             </h1>
-            <div></div>
             <div>
                 <div>
                     <span class="value">
@@ -115,7 +114,7 @@
     [Parameter]
     public int PageNumber { get; set; }
     [Parameter]
-    public DutyPart? Item { get; set; }
+    public DriverDutyPart? Item { get; set; }
     [Parameter]
     public DriverDuty? Duty { get; set; }
 }

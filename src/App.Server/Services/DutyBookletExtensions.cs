@@ -12,12 +12,12 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             foreach (var duty in me) duty.Parts = duty.Parts.MergeTrainPartsWithSameTrainNumber();
         }
 
-        private static ICollection<DutyPart> MergeTrainPartsWithSameTrainNumber(this IEnumerable<DutyPart> me)
+        private static ICollection<DriverDutyPart> MergeTrainPartsWithSameTrainNumber(this IEnumerable<DriverDutyPart> me)
         {
             if (me.Count() == 1) return me.ToArray();
             if (me.Count() == me.Select(m => m.Train.Number).Distinct().Count()) return me.ToArray();
             var parts = me.OrderBy(m => m.StartTime()).ToArray();
-            var result = new List<DutyPart>();
+            var result = new List<DriverDutyPart>();
             for (var i = 0; i < parts.Length - 1; i++)
             {
                 if (parts[i].Train.Number == parts[i + 1].Train.Number)
@@ -33,7 +33,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                     {
                         if (call.Id == part2.FromCallId || call.Id == part2.ToCallId) call.AddAutomaticNotes();
                     }
-                    result.Add(new DutyPart
+                    result.Add(new DriverDutyPart
                     {
                         Train = train,
                         FromCallId = part1.FromCallId,

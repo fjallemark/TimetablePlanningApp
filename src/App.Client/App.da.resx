@@ -259,4 +259,10 @@
   <data name="Turnus" xml:space="preserve">
     <value>Turnus</value>
   </data>
+  <data name="Days" xml:space="preserve">
+    <value>Dage</value>
+  </data>
+  <data name="TrainsWithAttensionBetween" xml:space="preserve">
+    <value>Tog med særlig opmærksomhed {0} - {1}</value>
+  </data>
 </root>

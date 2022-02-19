@@ -1,0 +1,93 @@
+﻿@layout PrintLayout
+@page "/stationdutiesbooklet"
+@inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
+@inject PrintedReportsService DataService
+
+@if (!IsLoaded)
+{
+    <div class="print creatingreport">@Localizer["CreatingReport"]</div>
+}
+else
+{
+    @for (var i = 0; i < Pages.Length; i += 2)
+    {
+        <div class="pagebreak">
+            @if (PageLeft(i).IsBlank)
+            {
+                <BlankDutyPage PageNumber="PageLeft(i).Number"></BlankDutyPage>
+            }
+            else if (PageLeft(i).IsPart)
+            {
+                <StationDutyTrainsPage PageNumber=PageLeft(i).Number Calls="@PageLeft(i).Calls" />
+            }
+            else if (PageLeft(i).IsFront)
+            {
+                <DutyFrontPage PageNumber="PageLeft(i).Number" Item="PageLeft(i).Duty"></DutyFrontPage>
+            }
+            else if (PageLeft(i).IsInstructions)
+            {
+                <DutyInstructionsPage PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown" Heading="@PageLeft(i).InstructionsHeading"></DutyInstructionsPage>
+            }
+
+            @if (PageRight(i).IsBlank)
+            {
+                <BlankDutyPage PageNumber="PageRight(i).Number"></BlankDutyPage>
+            }
+            else if (PageRight(i).IsPart)
+            {
+                <StationDutyTrainsPage PageNumber=PageRight(i).Number Calls="@PageRight(i).Calls" />
+            }
+            else if (PageRight(i).IsFront)
+            {
+                <DutyFrontPage PageNumber="PageRight(i).Number" Item="PageRight(i).Duty"></DutyFrontPage>
+            }
+            else if (PageRight(i).IsInstructions)
+            {
+                <DutyInstructionsPage PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown" Heading="@PageRight(i).InstructionsHeading"></DutyInstructionsPage>
+            }
+        </div>
+    }
+}
+
+
+@code {
+    private StationDutyPage[] Pages = Array.Empty<StationDutyPage>();
+    private int pageNumber;
+    private bool IsLoaded;
+    string? SelectedStationOperator { get; set; }
+
+    override protected async Task OnInitializedAsync()
+    {
+        SetQueryStringParameters();
+        IsLoaded = false;
+        var result = await DataService.GetStationDutiesAsync(Constants.LayoutId);
+        if (result.statusCode.IsSuccess() && result.item != null)
+        {
+            var duties = FilterDuties(result.item.Duties);
+            Pages = duties.GetAllStationDutyPagesInBookletOrder(result.item.Instructions).ToArray();
+            IsLoaded = true;
+        }
+    }
+
+    private ICollection<StationDuty> FilterDuties(ICollection<StationDuty> duties)
+    {
+        return duties;
+    }
+
+    void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        SelectedStationOperator = q["station"];
+    }
+
+    private string PagebreakCss()
+    {
+        pageNumber++;
+        return pageNumber % 2 == 0 ? "pagebreak" : "";
+    }
+
+    private StationDutyPage PageLeft(int i) => Pages[i];
+    private StationDutyPage PageRight(int i) => Pages[i + 1];
+
+}

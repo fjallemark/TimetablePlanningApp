@@ -376,4 +376,7 @@
   <data name="Unload" xml:space="preserve">
     <value>Entladen {0}.</value>
   </data>
+  <data name="TrainClearance" xml:space="preserve">
+    <value>Zugabfertigung</value>
+  </data>
 </root>

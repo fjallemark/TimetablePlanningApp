@@ -12,14 +12,8 @@ namespace Tellurian.Trains.Planning.App.Server.Services
 
         private readonly IPrintedReportsStore Store;
 
-        public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId) =>
-            Store.GetWaybillsAsync(layoutId);
-
-        public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId) =>
-            Store.GetLocoSchedulesAsync(layoutId);
-
-        public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>
-            Store.GetTrainsetSchedulesAsync(layoutId);
+        public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
+            Store.GetBlockDestinationsAsync(layoutId);
 
         public async Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
         {
@@ -33,12 +27,25 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             return booklet;
         }
 
-        public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
-            Store.GetBlockDestinationsAsync(layoutId);
+        public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId) =>
+            Store.GetLocoSchedulesAsync(layoutId);
 
-        public async Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId)
+
+        public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId)
         {
-            var stretches = await Store.GetTimetableStretchesAsync(layoutId).ConfigureAwait(false);
+            var booklet = await Store.GetStationDutyBookletAsync(layoutId).ConfigureAwait(false);
+            if (booklet is null) return null;
+            var data = await Store.GetStationDutiesDataAsync(layoutId).ConfigureAwait(false);
+            var trains = await Store.GetTrainsAsync(layoutId);
+            var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
+            var duties = data.AsStationDuties(trains, notes);
+            booklet.Duties = duties;
+            return booklet;
+        }
+
+        public async Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId, string? stretchNumber = null)
+        {
+            var stretches = await Store.GetTimetableStretchesAsync(layoutId, stretchNumber).ConfigureAwait(false);
             var trains = await Store.GetTrainsAsync(layoutId).ConfigureAwait(false);
             foreach (var train in trains)
             {
@@ -64,28 +71,12 @@ namespace Tellurian.Trains.Planning.App.Server.Services
         public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
             Store.GetTrainDeparturesAsync(layoutId);
 
-        public async Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId)
-        {
-            var result = new List<StationInstruction>(50);
-            var trains = await Store.GetTrainsAsync(layoutId);
-            var notes = await Store.GetTrainCallNotesAsync(layoutId);
-            trains.AddGereratedNotes(notes);
-            var stationCalls = trains.SelectMany(t => t.Calls).GroupBy(c => c.Station.Id);
-            foreach (var calls in stationCalls)
-            {
-                if (calls.Any())
-                {
-                    var si = new StationInstruction
-                    {
-                        Calls = calls,
-                        StationInfo = calls.First().Station
-                    };
-                    result.Add(si);
+        public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>
+            Store.GetTrainsetSchedulesAsync(layoutId);
 
-                }
-            }
-            return result;
-        }
+
+        public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId) =>
+            Store.GetWaybillsAsync(layoutId);
     }
 
     internal static class TrainExtensions

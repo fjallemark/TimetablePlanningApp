@@ -6,7 +6,7 @@
 }
 else
 {
-    <div>
+    <div style="break-inside:avoid">
         <div class="graphictimetable heading">
             @Data.Heading()
         </div>
@@ -42,9 +42,9 @@ else
                     <path id="@Data.PathId(trainSection)" fill="none" style="@trainSection.CssClass()"  fill-opacity="0"
                           d="M @Data.XStartTime(trainSection),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection), @Data.YEndTime(trainSection) " />
                     <text>
-                        <text class="graphictimetable train" text-anchor="middle">
-                            <textPath href="#@Data.PathId(trainSection)" startOffset="50%">
-                                @trainSection.TrainLabel()
+                        <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel().TrainNumberSize()pt" text-anchor="middle">
+                            <textPath href="#@Data.PathId(trainSection)" startOffset="40%">
+                                @trainSection.TrainLabel() 
                             </textPath>
                         </text>
                     </text>

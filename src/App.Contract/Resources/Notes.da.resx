@@ -376,4 +376,7 @@
   <data name="Unload" xml:space="preserve">
     <value>Losse {0}.</value>
   </data>
+  <data name="TrainClearance" xml:space="preserve">
+    <value>Toggodkendelse</value>
+  </data>
 </root>

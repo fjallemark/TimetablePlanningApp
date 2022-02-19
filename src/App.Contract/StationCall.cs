@@ -41,9 +41,14 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public static bool IsArrival([NotNullWhen(true)] this StationCall call) =>
             call.IsStop && call.Arrival.HasValue();
+        public static bool HasArrivalTime([NotNullWhen(true)] this StationCall call) =>
+            call.IsArrival() && call.Arrival!.IsStop && !call.Arrival.IsHidden && call.Arrival!.Time.HasValue();
 
         public static bool IsDeparture([NotNullWhen(true)] this StationCall call) =>
             call.IsStop && call.Departure.HasValue();
+
+        public static bool HasDepartureTime([NotNullWhen(true)] this StationCall call) =>
+           call.IsDeparture() && call.Departure!.IsStop && !call.Departure!.IsHidden && call.Departure!.Time.HasValue();
 
         private static bool HasValue([NotNullWhen(true)] this CallTime? me) => me is not null;
 
@@ -65,7 +70,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static double SortTime(this CallTime me) =>
             me.OffsetMinutes();
 
-        public static void AddGeneratedNotes(this DutyStationCall me, DriverDuty duty, DutyPart part, IEnumerable<TrainCallNote> notes)
+        public static void AddGeneratedNotes(this DutyStationCall me, DriverDuty duty, DriverDutyPart part, IEnumerable<TrainCallNote> notes)
         {
             var train = part.Train;
             foreach (var note in notes)

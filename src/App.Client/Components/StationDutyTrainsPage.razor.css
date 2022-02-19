@@ -1,0 +1,32 @@
+﻿.container {
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+tbody {
+    font-size: 12pt;
+}
+h1 {
+    font-size: 14pt;
+}
+
+.header {
+    margin: 2px;
+}
+
+th {
+    color: black;
+    background-color: #f0f0f0;
+}
+
+td {
+    font-size: 10pt;
+}
+
+.train-start {
+    border-top: 1px solid black;
+}
+
+table {
+    border-bottom: 1px solid black;
+}

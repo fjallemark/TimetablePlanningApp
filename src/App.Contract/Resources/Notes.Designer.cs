@@ -790,6 +790,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Train clearance.
+        /// </summary>
+        public static string TrainClearance {
+            get {
+                return ResourceManager.GetString("TrainClearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trainset turnus.
         /// </summary>
         public static string TrainsetTurnus {

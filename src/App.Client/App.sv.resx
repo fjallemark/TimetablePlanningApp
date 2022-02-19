@@ -279,4 +279,10 @@
   <data name="Turnus" xml:space="preserve">
     <value>Tur</value>
   </data>
+  <data name="Days" xml:space="preserve">
+    <value>Dagar</value>
+  </data>
+  <data name="TrainsWithAttensionBetween" xml:space="preserve">
+    <value>Tåg med särskild uppmärksamhet {0} - {1}</value>
+  </data>
 </root>

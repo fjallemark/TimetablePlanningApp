@@ -19,7 +19,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
         public void GetDriverDutyPages()
         {
             var target = DriverDutyBooklet.Example;
-            var pages = target.Duties.First().GetDriverDutyPages(Array.Empty<LayoutInstruction>());
+            var pages = target.Duties.First().GetDriverDutyPages(Array.Empty<Instruction>());
             Assert.AreEqual(4, pages.Count());
         }
 
@@ -27,7 +27,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
         public void GetDriverDutyPagesInBookletOrder()
         {
             var target = DriverDutyBooklet.Example;
-            var pages = target.Duties.First().GetDriverDutyPagesInBookletOrder(Array.Empty<LayoutInstruction>());
+            var pages = target.Duties.First().GetDriverDutyPagesInBookletOrder(Array.Empty<Instruction>());
             Assert.AreEqual(4, pages.Count());
         }
     }

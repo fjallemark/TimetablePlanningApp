@@ -21,33 +21,34 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             PropertyNameCaseInsensitive = true,
             IgnoreReadOnlyProperties = true
         };
-
-        public Task<(HttpStatusCode statusCode, IEnumerable<Waybill> items)> GetWaybillsAsync(int layoutId) =>
-            GetItems<Waybill>($"api/layouts/{layoutId}/reports/waybills");
-
-        public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId) =>
-            GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
-
-        public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
-             GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
+        public Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinations(int layoutId) =>
+              GetItems<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
 
         public Task<(HttpStatusCode statusCode, DriverDutyBooklet? item)> GetDriverDutiesAsync(int layoutId) =>
              GetItem<DriverDutyBooklet>($"api/layouts/{layoutId}/reports/driverduties");
 
+        public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId) =>
+           GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
+
+        public Task<(HttpStatusCode statusCode, StationDutyBooklet? item)> GetStationDutiesAsync(int layoutId) =>
+              GetItem<StationDutyBooklet>($"api/layouts/{layoutId}/reports/stationduties");
+
+         public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretches(int layoutId, string? line) =>
+            GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches?line={line}");
+
+        public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrains(int layoutId) =>
+            GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
+
+        public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
+             GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
+       public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDepartures(int layoutId) =>
+            GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/traininitialdepartures");
+ 
         public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
              GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
 
-        public Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinations(int layoutId) =>
-              GetItems<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
-
-        public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretches(int layoutId) =>
-            GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches");
-        public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrains(int layoutId) =>
-            GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
-        public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDepartures(int layoutId) =>
-            GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/traininitialdepartures");
-        public Task<(HttpStatusCode statusCode, IEnumerable<StationInstruction> items)> GetStationInstructions(int layoutId) =>
-            GetItems<StationInstruction>($"api/layouts/{layoutId}/reports/stationinstructions");
+        public Task<(HttpStatusCode statusCode, IEnumerable<Waybill> items)> GetWaybillsAsync(int layoutId) =>
+            GetItems<Waybill>($"api/layouts/{layoutId}/reports/waybills");
 
         private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
         {
@@ -56,6 +57,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             if (response.IsSuccessStatusCode) return (response.StatusCode, await Items<T>(response).ConfigureAwait(false));
             return (response.StatusCode, Array.Empty<T>());
         }
+
         private async Task<(HttpStatusCode statusCode, T? item)> GetItem<T>(string requestUrl) where T : class
         {
             using var request = CreateRequest(requestUrl);

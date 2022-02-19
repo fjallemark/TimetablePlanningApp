@@ -1,6 +1,7 @@
 ﻿@page "/graphictimetables"
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
 @inject PrintedReportsService DataService
 
 @if (!DataIsReady)
@@ -18,16 +19,25 @@ else
 @code {
     private TimetableStretch[] TimetableStretches = Array.Empty<TimetableStretch>();
     private bool DataIsReady = false;
+    private string? SelectedStretch;
 
     protected async override Task OnInitializedAsync()
     {
+        SetQueryStringParameters();
         DataIsReady = false;
-        var result = await DataService.GetTimetableStretches(Constants.LayoutId);
+        var result = await DataService.GetTimetableStretches(Constants.LayoutId, SelectedStretch);
         if (result.statusCode.IsSuccess())
         {
             TimetableStretches = result.items.ToArray();
         }
         DataIsReady = true;
     }
+
+        void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        SelectedStretch = q["line"];
+    }
+
 
 }
