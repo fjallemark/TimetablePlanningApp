@@ -8,14 +8,14 @@
             <div class="departure time">@Departure.DepartureTime.Time</div>
             <div class="departure train">@Departure.Train.Prefix @Departure.Train.Number</div>
             <div class="departure days">@Departure.Loco.OperationDays().FullName</div>
-            <div class="departure loco">@Localizer["Loco"] @Departure.Loco.OperatorName @Departure.Loco.Number</div>
+            <div class="departure loco">@LocoSchedule</div>
         </div>
         <div class="departure">
             <div class="departure station">@Departure.StationName @Localizer["Track"] @Departure.TrackNumber</div>
             <div class="departure time">@Departure.DepartureTime.Time</div>
             <div class="departure train">@Departure.Train.Prefix @Departure.Train.Number</div>
             <div class="departure days">@Departure.Loco.OperationDays().FullName</div>
-            <div class="departure loco">@Localizer["Loco"] @Departure.Loco.OperatorName @Departure.Loco.Number</div>
+            <div class="departure loco">@LocoSchedule</div>
         </div>
     </PocketCard>
 }
@@ -27,5 +27,11 @@
 
     private string Station =>
         Departure is null ? string.Empty :
-        string.Format("{0}, {1} {2}",Departure.StationName, Localizer["Track"].Value.ToLowerInvariant(), Departure.TrackNumber);
+        string.Format("{0}, {1} {2}", Departure.StationName, Localizer["Track"].Value.ToLowerInvariant(), Departure.TrackNumber);
+
+    private string LocoSchedule =>
+        Departure is null ? string.Empty :
+        $"{Localizer["Turnus"]} {Departure.Loco.TurnusNumber}: {LocoType.ToLowerInvariant()} {Departure.Loco.OperatorName} {Departure.Loco.Class} {Departure.Loco.Number}";
+
+    string LocoType => Departure is null ? string.Empty : Departure.Loco.IsRailcar ? Localizer["Railcar"] : Localizer["Loco"];
 }

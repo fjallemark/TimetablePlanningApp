@@ -55,7 +55,7 @@ else
     private StationDutyPage[] Pages = Array.Empty<StationDutyPage>();
     private int pageNumber;
     private bool IsLoaded;
-    string? SelectedStationOperator { get; set; }
+    string? SelectedStationSignature { get; set; }
 
     override protected async Task OnInitializedAsync()
     {
@@ -72,13 +72,15 @@ else
 
     private ICollection<StationDuty> FilterDuties(ICollection<StationDuty> duties)
     {
+        if (SelectedStationSignature.HasValue()) 
+            return duties.Where(d => d.Number.Equals(SelectedStationSignature, StringComparison.OrdinalIgnoreCase)).ToArray();
         return duties;
     }
 
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        SelectedStationOperator = q["station"];
+        SelectedStationSignature = q["station"];
     }
 
     private string PagebreakCss()

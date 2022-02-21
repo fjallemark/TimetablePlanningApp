@@ -285,4 +285,7 @@
   <data name="TrainsWithAttensionBetween" xml:space="preserve">
     <value>Tåg med särskild uppmärksamhet {0} - {1}</value>
   </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Motorvagn</value>
+  </data>
 </root>

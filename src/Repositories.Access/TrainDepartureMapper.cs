@@ -16,7 +16,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     Class = me.GetString("LocoClass"),
                     IsRailcar = me.GetBool("IsRailcar"),
-                    Number = me.GetInt("LocoNumber"),
+                    TurnusNumber = me.GetInt("LocoNumber"),
                     OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
                     OperatorName = me.GetString("LocoOperatorName")
                 },

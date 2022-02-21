@@ -6,6 +6,7 @@ namespace Tellurian.Trains.Planning.App.Contracts;
 public class StationDutyData
 {
     public int StationId { get; set; }
+    public int DisplayOrder { get; set; }
     public string LayoutName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string Signature { get; set; } = string.Empty;
@@ -25,7 +26,7 @@ public static class StationDutyDataExtensions
     public static ICollection<StationDuty> AsStationDuties(this IEnumerable<StationDutyData> items, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes)
     {
         var duties = new List<StationDuty>(50);
-        foreach (var item in items)
+        foreach (var item in items.OrderBy(i => i.DisplayOrder))
         {
             if (item.HasCombinedInstructions)
             {

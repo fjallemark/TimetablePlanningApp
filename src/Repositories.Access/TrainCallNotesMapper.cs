@@ -75,13 +75,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 ArrivingLoco = new Loco
                 {
-                    Number = me.GetInt("ArrivingLocoScheduleNumber"),
+                    TurnusNumber = me.GetInt("ArrivingLocoScheduleNumber"),
                     OperatorName = me.GetString("ArrivingLocoOperator"),
                      OperationDaysFlags= me.GetByte("TrainOperationDaysFlag")
                 },
                 DepartingLoco = new Loco
                 {
-                    Number = me.GetInt("DepartingLocoScheduleNumber"),
+                    TurnusNumber = me.GetInt("DepartingLocoScheduleNumber"),
                     OperatorName = me.GetString("DepartingLocoOperator"),
                     OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
                 },
@@ -100,7 +100,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 DepartingLoco = new Loco
                 {
-                    Number = me.GetInt("LocoNumber"),
+                    TurnusNumber = me.GetInt("LocoNumber"),
                     OperatorName = me.GetString("LocoOperator"),
                     OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
                     IsRailcar = me.GetBool("IsRailcar")
@@ -114,7 +114,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 ArrivingLoco = new Loco
                 {
-                    Number = me.GetInt("LocoNumber"),
+                    TurnusNumber = me.GetInt("LocoNumber"),
                     OperatorName = me.GetString("LocoOperator"),
                     OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
                     IsRailcar = me.GetBool("IsRailcar")

@@ -285,4 +285,7 @@
   <data name="Days" xml:space="preserve">
     <value>Days</value>
   </data>
+  <data name="Railcar" xml:space="preserve">
+    <value>Railcar</value>
+  </data>
 </root>

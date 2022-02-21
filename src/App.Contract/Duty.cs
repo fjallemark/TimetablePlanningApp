@@ -10,6 +10,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     {
         public string LayoutName { get; init; } = string.Empty;
         public string Number { get; init; } = string.Empty;
+        public int DisplayOrder { get; init; }
         public int Difficulty { get; init; } = 1;
         public DateTime ValidFromDate { get; init; }
         public DateTime ValidToDate { get; init; }

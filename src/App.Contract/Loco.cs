@@ -5,11 +5,12 @@ namespace Tellurian.Trains.Planning.App.Contracts
     public class Loco
     {
         public string OperatorName { get; set; } = string.Empty;
-        public int Number { get; set; }
+        public int TurnusNumber { get; set; }
         public byte OperationDaysFlags { get; set; } 
         public string Class { get; set; } = string.Empty;
+        public string Number { get; set; } = string.Empty;
         public bool IsRailcar { get; set; }
-        public override string ToString() => $"{OperationDaysFlags.OperationDays()} {OperatorName} {Number}".TrimStart();
+        public override string ToString() => $"{OperationDaysFlags.OperationDays()} {OperatorName} {TurnusNumber}".TrimStart();
         public static Loco Empty { get; } = new Loco();
     }
 
@@ -20,7 +21,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             me.IsRailcar ? Notes.Railcar : Notes.Loco;
 
         public static string DisplayFormat(this Loco me) => me.OperatorName.HasValue() ? 
-            $"[{me.OperatorName} {me.TypeName().ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.Number}]" :
-            $"[{me.TypeName()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.Number}]";
+            $"[{me.OperatorName} {me.TypeName().ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.TurnusNumber}]" :
+            $"[{me.TypeName()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.TurnusNumber}]";
     }
 }

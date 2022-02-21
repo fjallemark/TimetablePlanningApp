@@ -26,6 +26,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static DriverDuty AsDuty(this IDataRecord me) =>
             new()
             {
+                DisplayOrder = me.GetInt("DutyNumber"),
                 OperationDays = me.GetByte("DutyDays").OperationDays(),
                 ValidFromDate = me.GetDate("ValidFromDate"),
                 ValidToDate = me.GetDate("ValidToDate"),
@@ -55,6 +56,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static StationDutyData AsStationDutyData(this IDataRecord me) =>
             new()
             {
+                DisplayOrder = me.GetInt("DisplayOrder"),
                 LayoutName = me.GetString("LayoutName"),
                 StationId = me.GetInt("StationId"),
                 Name = me.GetString("Name"),

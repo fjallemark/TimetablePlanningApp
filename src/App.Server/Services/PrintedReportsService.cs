@@ -23,7 +23,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             var duties = await Store.GetDriverDutiesAsync(layoutId).ConfigureAwait(false);
             duties.MergeTrainPartsWithSameTrainNumber();
             duties.AddTrainCallNotes(notes);
-            booklet.Duties = duties.OrderBy(d => d.Number).ToArray();
+            booklet.Duties = duties.OrderBy(d => d.DisplayOrder).ToArray();
             return booklet;
         }
 
