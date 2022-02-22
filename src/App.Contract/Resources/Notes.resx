@@ -151,7 +151,7 @@
     <value>Thursday</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>to</value>
+    <value>To</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Tuesday</value>
@@ -398,5 +398,23 @@
   </data>
   <data name="TrainClearance" xml:space="preserve">
     <value>Train clearance</value>
+  </data>
+  <data name="Station" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Train</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Arrival" xml:space="preserve">
+    <value>Arrival</value>
+  </data>
+  <data name="Departure" xml:space="preserve">
+    <value>Departure</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Remarks</value>
   </data>
 </root>

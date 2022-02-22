@@ -131,7 +131,7 @@
     <value>Donnerstag</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>an</value>
+    <value>Zu</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Dienstag</value>
@@ -378,5 +378,23 @@
   </data>
   <data name="TrainClearance" xml:space="preserve">
     <value>Zugabfertigung</value>
+  </data>
+  <data name="Station" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Zug</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Von</value>
+  </data>
+  <data name="Arrival" xml:space="preserve">
+    <value>Ankunft</value>
+  </data>
+  <data name="Departure" xml:space="preserve">
+    <value>Abfahrt</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Bemerkungen</value>
   </data>
 </root>

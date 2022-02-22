@@ -175,7 +175,7 @@
     <value>To</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>till</value>
+    <value>Till</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Tisdag</value>
@@ -398,5 +398,23 @@
   </data>
   <data name="TrainClearance" xml:space="preserve">
     <value>Tågklarering</value>
+  </data>
+  <data name="Station" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Tåg</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Från</value>
+  </data>
+  <data name="Arrival" xml:space="preserve">
+    <value>Ankomst</value>
+  </data>
+  <data name="Departure" xml:space="preserve">
+    <value>Avgång</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Anmärkningar</value>
   </data>
 </root>

@@ -88,6 +88,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arrival.
+        /// </summary>
+        public static string Arrival {
+            get {
+                return ResourceManager.GetString("Arrival", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blocking service.
         /// </summary>
         public static string BlockingService {
@@ -259,6 +268,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Departure.
+        /// </summary>
+        public static string Departure {
+            get {
+                return ResourceManager.GetString("Departure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Destination.
         /// </summary>
         public static string Destination {
@@ -381,6 +399,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string FridayShort {
             get {
                 return ResourceManager.GetString("FridayShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string From {
+            get {
+                return ResourceManager.GetString("From", resourceCulture);
             }
         }
         
@@ -664,6 +691,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remarks.
+        /// </summary>
+        public static string Remarks {
+            get {
+                return ResourceManager.GetString("Remarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saturday.
         /// </summary>
         public static string Saturday {
@@ -714,6 +750,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string SpeedTrain {
             get {
                 return ResourceManager.GetString("SpeedTrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Station.
+        /// </summary>
+        public static string Station {
+            get {
+                return ResourceManager.GetString("Station", resourceCulture);
             }
         }
         
@@ -772,7 +817,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to to.
+        ///   Looks up a localized string similar to To.
         /// </summary>
         public static string To {
             get {
@@ -786,6 +831,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string Track {
             get {
                 return ResourceManager.GetString("Track", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Train.
+        /// </summary>
+        public static string Train {
+            get {
+                return ResourceManager.GetString("Train", resourceCulture);
             }
         }
         

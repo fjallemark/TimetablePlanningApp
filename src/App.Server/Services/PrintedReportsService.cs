@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -30,15 +29,17 @@ namespace Tellurian.Trains.Planning.App.Server.Services
         public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId) =>
             Store.GetLocoSchedulesAsync(layoutId);
 
+        public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
+            await GetStationDutyBookletAsync(layoutId, false);
 
-        public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId)
+        public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, bool includeAllTrains = false)
         {
             var booklet = await Store.GetStationDutyBookletAsync(layoutId).ConfigureAwait(false);
             if (booklet is null) return null;
             var data = await Store.GetStationDutiesDataAsync(layoutId).ConfigureAwait(false);
             var trains = await Store.GetTrainsAsync(layoutId);
             var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
-            var duties = data.AsStationDuties(trains, notes);
+            var duties = data.AsStationDuties(trains, notes, includeAllTrains);
             booklet.Duties = duties;
             return booklet;
         }

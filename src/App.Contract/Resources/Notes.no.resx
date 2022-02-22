@@ -151,7 +151,7 @@
     <value>Torsdag</value>
   </data>
   <data name="To" xml:space="preserve">
-    <value>til</value>
+    <value>Til</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Tirsdag</value>
@@ -398,5 +398,23 @@
   </data>
   <data name="TrainClearance" xml:space="preserve">
     <value>Togklarering</value>
+  </data>
+  <data name="Station" xml:space="preserve">
+    <value>Stasjon</value>
+  </data>
+  <data name="Train" xml:space="preserve">
+    <value>Tog</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Fra</value>
+  </data>
+  <data name="Arrival" xml:space="preserve">
+    <value>Ankomst</value>
+  </data>
+  <data name="Departure" xml:space="preserve">
+    <value>Avgang</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Merknader</value>
   </data>
 </root>

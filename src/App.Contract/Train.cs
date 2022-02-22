@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Contracts
 {
@@ -16,10 +17,15 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public string CategoryName { get; set; } = string.Empty;
         public bool IsCargo { get; set; }
         public bool IsPassenger { get; set; }
-        public byte OperationDaysFlags { get; set; } 
-        public string Color {  get; set; } = string.Empty;
+        public byte OperationDaysFlags { get; set; }
+        public string Color { get; set; } = string.Empty;
+
+        public string Origin => this is Train t ? t.Calls.First().Station.Name : string.Empty;
+        public string Destination => this is Train t ? t.Calls.Last().Station.Name : string.Empty;
         public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDaysFlags.OperationDays().ShortName}";
     }
+
+
 
     public class Train : TrainInfo
     {

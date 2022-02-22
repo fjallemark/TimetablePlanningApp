@@ -23,7 +23,7 @@ public class StationDutyData
 
 public static class StationDutyDataExtensions
 {
-    public static ICollection<StationDuty> AsStationDuties(this IEnumerable<StationDutyData> items, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes)
+    public static ICollection<StationDuty> AsStationDuties(this IEnumerable<StationDutyData> items, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false)
     {
         var duties = new List<StationDuty>(50);
         foreach (var item in items.OrderBy(i => i.DisplayOrder))
@@ -35,13 +35,13 @@ public static class StationDutyDataExtensions
                     $"{Resources.Notes.TrainClearance} {Resources.Notes.And.ToLowerInvariant()} {Resources.Notes.Shunting}",
                     item.StationInstructions.Concat(item.ShuntingInstructions).MergeInstructions(),
                     null);
-                duty.Calls = duty.AsStationCallsWithAction(trains, notes);
+                duty.Calls = duty.AsStationCallsWithAction(trains, notes, includeAllTrains);
                 duties.Add(duty);
             }
             else
             {
                 var stationDuty = item.AsStationDuty(StationDutyType.TrainClearance, Resources.Notes.TrainClearance, item.StationInstructions, null);
-                stationDuty.Calls = stationDuty.AsStationCallsWithAction(trains, notes);
+                stationDuty.Calls = stationDuty.AsStationCallsWithAction(trains, notes, includeAllTrains);
                 duties.Add(stationDuty);
 
                 var shuntingDuty = item.AsStationDuty(StationDutyType.Shunting, Resources.Notes.Shunting, null, item.ShuntingInstructions);
@@ -65,7 +65,7 @@ public static class StationDutyDataExtensions
         return result;
     }
 
-    private static ICollection<StationCallWithAction> AsStationCallsWithAction(this StationDuty me, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes)
+    private static ICollection<StationCallWithAction> AsStationCallsWithAction(this StationDuty me, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false)
     {
         var result = new List<StationCallWithAction>();
         var trainsAtStation = trains.Where(t => t.Calls.Any(c => c.Station.Id == me.StationId)).ToList();
@@ -96,7 +96,7 @@ public static class StationDutyDataExtensions
                 }
             }
         }
-        return result.Where(c => c.Notes.Any()).OrderBy(c => c.SortTime).ToArray();
+        return result.Where(c => includeAllTrains || c.Notes.Any()).OrderBy(c => c.SortTime).ToArray();
     }
 
      private static StationDuty AsStationDuty(this StationDutyData data, StationDutyType dutyType, string description, ICollection<Instruction>? stationInstructions, ICollection<Instruction>? shuntingInstructions) =>
