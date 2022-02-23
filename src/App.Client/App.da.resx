@@ -268,4 +268,10 @@
   <data name="Railcar" xml:space="preserve">
     <value>Motorvogn</value>
   </data>
+  <data name="SpareLoco" xml:space="preserve">
+    <value>Reserve loko</value>
+  </data>
+  <data name="SpareRailcar" xml:space="preserve">
+    <value>Reserve motorvogn</value>
+  </data>
 </root>

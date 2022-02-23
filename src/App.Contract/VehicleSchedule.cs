@@ -9,13 +9,15 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsLoco { init; get; }
         public bool IsTrainset { init; get; }
         public bool IsCargoOnly { init; get; }
-        public string Number { get; set; } = string.Empty;
+        public string TurnusNumber { get; set; } = string.Empty;
+        public string VehicleNumber { get; set; } = string.Empty;
         public OperationDays OperationDays { get; set; } = new OperationDays();
         public string Operator { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;
         public bool TurnForNextDay { get; set; }
         public string Class { get; set; } = string.Empty;
         public int NumberOfUnits { get; set; } = 1;
+        public int ReplaceOrder { get; set; }
         public IList<TrainPart> TrainParts { get; set; } = new List<TrainPart>();
     }
 
@@ -44,7 +46,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         {
             var result = new List<(string label, string? value)>();
             if (me is null) return result;
-            result.Add((me.Type, me.Number));
+            result.Add((me.Type, me.TurnusNumber));
             if (!string.IsNullOrWhiteSpace(me.OperationDays.ShortName)) result.Add((Notes.Days, me.OperationDays.ShortName));
             if (!string.IsNullOrWhiteSpace(me.Operator)) result.Add((Notes.Operator, me.Operator));
             return result;

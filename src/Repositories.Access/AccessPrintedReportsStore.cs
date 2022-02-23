@@ -112,12 +112,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<LocoSchedule>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM LocoTurnusReport WHERE LayoutId = {layoutId} ORDER BY LocoNumber, LocoDays, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM LocoTurnusReport WHERE LayoutId = {layoutId} ORDER BY LocoNumber, ReplaceOrder, LocoDays, DepartureTime");
             var lastUnique = "";
             LocoSchedule? locoSchedule = null;
             while (reader.Read())
             {
-                var currentUnique = $"{reader.GetInt("LocoNumber")}{reader.GetString("LocoDays")}";
+                var currentUnique = $"{reader.GetInt("LocoNumber")}{reader.GetString("LocoDays")}{reader.GetInt("ReplaceOrder")}";
                 if (currentUnique != lastUnique)
                 {
                     if (locoSchedule != null) result.Add(locoSchedule);

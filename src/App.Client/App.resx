@@ -288,4 +288,10 @@
   <data name="Railcar" xml:space="preserve">
     <value>Railcar</value>
   </data>
+  <data name="SpareLoco" xml:space="preserve">
+    <value>Spare loco</value>
+  </data>
+  <data name="SpareRailcar" xml:space="preserve">
+    <value>Spare railcar</value>
+  </data>
 </root>

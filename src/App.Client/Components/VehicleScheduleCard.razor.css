@@ -21,6 +21,10 @@
         color: red;
     }
 
+.spare {
+    color: red;
+}
+
 svg {
     stroke-width: 5;
     z-index: -2;

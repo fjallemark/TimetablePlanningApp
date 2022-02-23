@@ -10,19 +10,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new()
             {
                 OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
-                Number = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
+                TurnusNumber = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("LocoOperator"),
                 Class = me.GetString("LocoClass"),
+                VehicleNumber = me.GetString("VehicleNumber"),
                 TurnForNextDay = me.GetBool("TurnForNextDay"),
                 Note = me.GetString("Note"),
-                IsRailcar = me.GetBool("IsRailcar")
+                IsRailcar = me.GetBool("IsRailcar"),
+                ReplaceOrder = me.GetInt("ReplaceOrder")
             };
 
         public static TrainsetSchedule AsTrainsetSchedule(this IDataRecord me) =>
             new()
             {
                 OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
-                Number = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+                TurnusNumber = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("TrainsetOperator"),
                 Class = me.GetString("TrainsetClass"),
                 TurnForNextDay = me.GetBool("TurnForNextDay"),
@@ -34,7 +36,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new()
             {
                 OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
-                Number = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+                TurnusNumber = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
                 Operator = me.GetString("TrainsetOperator"),
                 Class = me.GetString("TrainsetClass"),
                 TurnForNextDay = me.GetBool("TurnForNextDay"),

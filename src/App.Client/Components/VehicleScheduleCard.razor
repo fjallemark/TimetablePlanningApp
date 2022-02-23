@@ -9,16 +9,20 @@
         <div>
             <div class="schedule header">
                 <div><strong>@Item.Operator</strong> @Item.TurnusTypeName()</div>
-                <div>@ScheduleHeader(Item):&nbsp;<strong>@Item.Number&nbsp;@OperationDays(Item)</strong></div>
+                <div>@ScheduleHeader(Item):&nbsp;<strong>@Item.TurnusNumber&nbsp;@OperationDays(Item)</strong></div>
                 @if (Item.Class.HasValue())
                 {
                     <div>
-                        <span>@ClassOrContent(Item):&nbsp;<strong>@Item.Class</strong></span>
+                        <span>@ClassOrContent(Item):&nbsp;<strong>@ClassAndNumber(Item)</strong></span>
                     </div>
                 }
             </div>
             <div>
-                @Item.Note()
+                @FormatNote(Item.Note())
+                @if (Item.ReplaceOrder > 0)
+                {
+                    <span class="spare">@Localizer[SpareType(Item)] @Item.ReplaceOrder</span>
+                }
             </div>
             <div class="schedule item">
                 <table width="100%" style="border-collapse: collapse">
@@ -60,6 +64,11 @@
 
     LocalizedString ScheduleHeader(VehicleSchedule schedule) => schedule.IsCargoOnly ? Localizer["Turnus"] : @Localizer["VehicleScheduleNumber"];
     LocalizedString ClassOrContent(VehicleSchedule it) => it.IsCargoOnly ? Localizer["Content"] : Localizer["Class"];
+    string ClassAndNumber(VehicleSchedule it) => $"{it.Class} {it.VehicleNumber}";
+
+    string SpareType(VehicleSchedule it) => it is LocoSchedule s ? s.IsRailcar ? "SpareRailcar": "SpareLoco" : "SpareWagon";
+    string FormatNote(string? text) => string.IsNullOrWhiteSpace(text) ? string.Empty :
+    !text.TrimEnd().EndsWith(".") ? text.TrimEnd() + ". " : text + " ";
 
 
 }
