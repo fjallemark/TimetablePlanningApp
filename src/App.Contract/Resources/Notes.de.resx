@@ -397,4 +397,10 @@
   <data name="Remarks" xml:space="preserve">
     <value>Bemerkungen</value>
   </data>
+  <data name="IsThroughpassing" xml:space="preserve">
+    <value>Ist durchgängig</value>
+  </data>
+  <data name="IsStopping" xml:space="preserve">
+    <value>Stoppt</value>
+  </data>
 </root>

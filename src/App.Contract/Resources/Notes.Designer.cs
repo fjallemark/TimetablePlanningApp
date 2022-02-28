@@ -466,6 +466,24 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stopping.
+        /// </summary>
+        public static string IsStopping {
+            get {
+                return ResourceManager.GetString("IsStopping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is throughpassing.
+        /// </summary>
+        public static string IsThroughpassing {
+            get {
+                return ResourceManager.GetString("IsThroughpassing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load {0}..
         /// </summary>
         public static string Load {

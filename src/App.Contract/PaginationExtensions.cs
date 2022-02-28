@@ -76,7 +76,7 @@ public static class PaginationExtensions
     public static IEnumerable<StationDutyPage> GetStationDutyPages(this StationDuty me, IEnumerable<Instruction> instructions)
     {
         var pageNumber = 1;
-        var result = new List<StationDutyPage> { StationDutyPage.Front(pageNumber, me) };
+        var result = new List<StationDutyPage> { StationDutyPage.Front(pageNumber++, me) };
         var instruction = instructions.LanguageOrInvariantInstruction();
         if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
 
@@ -85,7 +85,7 @@ public static class PaginationExtensions
 
         if (me.ShuntingInstructions is not null && me.ShuntingInstructions.Any(i => i.Markdown.HasValue()))
             result.Add(StationDutyPage.Instructions(pageNumber++, me.ShuntingInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Shunting}"));
-        const int maxRowsOnPage = 22;
+        const int maxRowsOnPage = 26;
         var callsCount = me.Calls.Count - 1;
         var usedPageRows = 0;
         var fromCallIndex = 0;
@@ -95,13 +95,13 @@ public static class PaginationExtensions
             usedPageRows += call.Rows;
             if (usedPageRows > maxRowsOnPage)
             {
-                result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex-fromCallIndex+1).ToList()));
+                result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex-fromCallIndex).ToList()));
                 fromCallIndex = toCallIndex;
                 usedPageRows = 0;
             }
             toCallIndex++;
         }
-        if (fromCallIndex < toCallIndex) result.Add( StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex + 1).ToList()));
+        if (fromCallIndex < toCallIndex) result.Add( StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
         result.AddRange(BlankPagesToAppend<StationDutyPage>(result.Count));
         return result;
     }

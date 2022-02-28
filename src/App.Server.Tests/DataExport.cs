@@ -17,8 +17,8 @@ public class DataExport
     [TestMethod]
     public async Task ExportStationDutyTrains()
     {
-        CultureInfo.CurrentCulture = new CultureInfo("de");
-        CultureInfo.CurrentUICulture = new CultureInfo("de");
+        CultureInfo.CurrentCulture = new CultureInfo("sv");
+        CultureInfo.CurrentUICulture = new CultureInfo("sv");
         var options =
              Options.Create(new RepositoryOptions
              {
@@ -32,13 +32,17 @@ public class DataExport
         using var output = 
             new StreamWriter(stream, System.Text.Encoding.UTF8);
         Assert.IsNotNull(booklet);
-        output.WriteLine($"\"{Notes.Station}\";\"{Notes.Train}\";\"{Notes.Days}\";\"{Notes.From}\";\"{Notes.To}\";\"{Notes.Arrival}\";\"{Notes.Departure}\";\"{Notes.Remarks}\""); ;
+        output.WriteLine($"\"{Notes.Station}\";\"{Notes.Track}\";\"{Notes.Train}\";\"{Notes.Days}\";\"{Notes.From}\";\"{Notes.To}\";\"{Notes.IsStopping}\";\"{Notes.IsThroughpassing}\";\"{Notes.Arrival}\";\"{Notes.Departure}\";\"{Notes.Remarks}\""); ;
         foreach (var duty in booklet.Duties)
         {
             foreach(var call in duty.Calls.Where(c=> c.Station.Signature=="Cda" && ! c.IsShuntingOnly))
             {
-                output.WriteLine($"\"{call.Station.Signature}\";\"{call.Train.Prefix} {call.Train.Number}\";\"{call.Train.OperationDays().ShortName}\";\"{call.Train.Origin}\";\"{call.Train.Destination}\";\"{call.ArrivalTime}\";\"{call.DepartureTime}\";\"{call.Train.CategoryName}. {string.Join(" ",call.Notes)}\"");
+                output.WriteLine($"\"{call.Station.Signature}\";\"{call.Call.TrackNumber}\";\"{call.Train.Prefix} {call.Train.Number}\";\"{call.Train.OperationDays().ShortName}\";\"{call.Train.Origin}\";\"{call.Train.Destination}\";\"{call.Call.IsStop}\";\"{IsPassingThroug(call, call.Station.Name)}\";\"{call.ArrivalTime}\";\"{call.DepartureTime}\";\"{call.Train.CategoryName}. {string.Join(" ",call.Notes)}\"");
             }
         }
+
+        static bool IsPassingThroug(StationCallWithAction call, string currentStationName) =>
+            !call.Train.Destination.Equals(currentStationName, System.StringComparison.OrdinalIgnoreCase) &&
+            !call.Train.Origin.Equals(currentStationName, System.StringComparison.OrdinalIgnoreCase);
     }
 }

@@ -417,4 +417,10 @@
   <data name="Remarks" xml:space="preserve">
     <value>Remarks</value>
   </data>
+  <data name="IsThroughpassing" xml:space="preserve">
+    <value>Is throughpassing</value>
+  </data>
+  <data name="IsStopping" xml:space="preserve">
+    <value>Stopping</value>
+  </data>
 </root>

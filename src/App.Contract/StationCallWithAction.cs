@@ -40,7 +40,7 @@ public class StationCallWithAction
     [JsonIgnore] public string ArrivalTime => IsArrival ? Call.Arrival!.IsHidden ? "" : Call.Arrival!.Time : $"({Call.Arrival?.Time})";
     [JsonIgnore] public string DepartureTime => IsDeparture ? Call.Departure!.IsHidden ? "" : Call.Departure!.Time : $"({Call.Departure?.Time})";
     [JsonIgnore] public string SortTime => IsArrival ? ArrivalTime : DepartureTime;
-    [JsonIgnore] public int Rows => Notes.Any() ? 1 + Notes.Count() : 0;
+    [JsonIgnore] public int Rows => Notes.Any() ? 1 + Notes.Count() : 1;
 
     public void AddNotes(IEnumerable<TrainCallNote> notes) => 
         Notes = notes.Where(n => AddNote(n))
