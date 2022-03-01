@@ -136,5 +136,10 @@ Each shadow station can have one or several regions attached to it.
 Regions defines what geographical area the shadow station represents of the 'outside world' in relation to the meeting layout.
 The *block planning* also consider the regions as destinations when a block ends at a shadow station and has *and beyond* checked.
 
+### Data Export
+Some station owners want data instead (or in supplement) of paper.
+The data export creates a CSV-file, with all trains passing the station, including all station notes.
+The output can be created in any supported language.
+
 ### Report Examples
 You will find examples of some reports (in English) [**here**](https://github.com/fjallemark/TimetablePlanningApp/tree/master/Examples).

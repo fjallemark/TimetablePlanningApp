@@ -17,8 +17,8 @@ public class DataExport
     [TestMethod]
     public async Task ExportStationDutyTrains()
     {
-        CultureInfo.CurrentCulture = new CultureInfo("sv");
-        CultureInfo.CurrentUICulture = new CultureInfo("sv");
+        CultureInfo.CurrentCulture = new CultureInfo("en");
+        CultureInfo.CurrentUICulture = new CultureInfo("en");
         var options =
              Options.Create(new RepositoryOptions
              {
