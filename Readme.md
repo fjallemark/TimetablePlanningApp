@@ -25,8 +25,6 @@ In parallel, the [**Module Registry**](https://github.com/tellurianinteractive/T
 for planning module meetings and supply a future fully cloud based solution for
 planning schedules. The Module Registry is in operation and development is mostly completed.
 
-### Report Examples
-
 ### Features
 This experimental version has **currently** a set of features, some of them not found in any other
 model train planning software.
@@ -137,3 +135,6 @@ A block destination can be a single station or a set of stations.
 Each shadow station can have one or several regions attached to it. 
 Regions defines what geographical area the shadow station represents of the 'outside world' in relation to the meeting layout.
 The *block planning* also consider the regions as destinations when a block ends at a shadow station and has *and beyond* checked.
+
+### Report Examples
+You will find examples of some reports (in English) [**here**](https://github.com/fjallemark/TimetablePlanningApp/tree/master/Examples).
