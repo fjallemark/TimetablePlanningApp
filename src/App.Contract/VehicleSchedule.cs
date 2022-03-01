@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contracts
@@ -52,7 +53,34 @@ namespace Tellurian.Trains.Planning.App.Contracts
             return result;
         }
 
+        public static IEnumerable<TSchedule> MergePartsOfSameTrain<TSchedule>(this IEnumerable<TSchedule> schedules) where TSchedule : VehicleSchedule
+        {
+            var result = new List<TSchedule>(schedules.Count());
+            foreach (var schedule in schedules)
+            {
+                var trains = schedule.TrainParts.GroupBy(tp => tp.TrainNumber);
+                if (trains.Count() < schedule.TrainParts.Count)
+                {
+                    var newParts = new List<TrainPart>(trains.Count());
+                    foreach (var part in trains)
+                    {
+                        var newPart = new TrainPart()
+                        {
+                            FromDeparture = part.First().FromDeparture,
+                            ToArrival = part.Last().ToArrival,
+                            LocoNumber = part.First().LocoNumber,
+                            Train = part.First().Train,
+                            TrainNumber = part.First().TrainNumber
+                        };
+                        newParts.Add(newPart);
+                    }
+                    schedule.TrainParts = newParts.ToArray();
+                }
 
+                result.Add(schedule);
+            }
+            return result;
+        }
         public static string TurnusTypeName(this VehicleSchedule me) =>
             me is LocoSchedule loco ?
             loco.IsRailcar ? Notes.RailcarTurnus : Notes.LocoTurnus :
@@ -60,7 +88,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             Notes.TrainsetTurnus;
 
         public static string? Note(this VehicleSchedule me) =>
-            me.NumberOfUnits>1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
+            me.NumberOfUnits > 1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
 
         public static string CrossLineColor(this VehicleSchedule me) =>
             me.IsLoco ? "#ffc0cb" :
