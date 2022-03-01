@@ -1,34 +1,114 @@
 # Timetable Planning App
-Web application for working with scheduling of model railway operation at module meetings.
+This is the **experimental version** of the web application for 
+working with scheduling of model railway operation at module meetings.
 
-## Goal
-To build a web and cloud based scheduling system for multiuse and multi tenancy, and
-to make all source code and other assets open source.
+### Background
+It based on a **Microsoft Access** database, and development started in 2016. 
+I was initial using the built in report functionality to create all outputs.
+This has some limitations and performance issues.
+It also was non-web, a complete local single-user solution. 
 
-## Function overview
-1. Defining layout topology: stations and their connecting stretches.
-2. Defining scheduling stretches: the working unit and the unit for grapghical timetables.
-2. Scheduling trains on a stretch with extensive checking of consistency and other scheduling rules.
-4. Building loco- trainset, and cargo flow scheduling by defining the trains or part of train they should run.
-5. Constructing driver duties from one or several loco schedule parts.
-6. Printing of all types of documentation needed.
-7. Automatic creation of driver instructions based on scheduling data.
-8. Option for manually writing driver instructions in several languages.
-9. User authentication and authorization.
+### Current development
+The overall goal is to create an online scheduling system as a cloud application.
+The focus now is to move all reporting/printing functionality to use standard web concepts; 
+HTML and CSS and to retrive all data through a WEB API. 
+This makes it possbible to refine all printing features first and still using the Access database,
+and learning what data needed for schedule planning, 
+before moving also the planning features and the database to the cloud.
 
-## Development plan
-See separate document [Development Plan](../../wiki/Development-Plan).
+In parallel, the [**Module Registry**](https://github.com/tellurianinteractive/Tellurian.Trains.ModulesRegistryApp), is developed to support all necessary data
+for planning module meetings and supply a future fully cloud based solution for
+planning schedules. The Module Registry is in operation and development is mostly completed.
 
-## Contribute
-I you are interested of scheduling of model trains, especially for module meetings, you can contribute in many ways:
-1. Follow the project with happy shouts!
-2. Give feedback on the idea and the documentation.
-3. Engage in design of functionality.
-4. Help with translations; add new or improve existing ones.
-5. Submit issues and suggestions.
-6. Contribute with pull requests.
+### Features
+This experimental version has **currently** a set of features, some of them not found in any other
+model train planning software:
 
-All interaction takes place on GitHub and we use en English only.
-So you will need a GitHub account and apply for membership in the project.
+##### Operation Days
+For each train, loco, trainset and duty an operation day can be specified.
+This enables flexible planning, for example trainset schedules over several days.
+It can be used when game sessions are assigned a running weekday.
 
-Welcome to participate!
+##### Automatic Notes to Loco Driver and Station Staff
+One of the hassles with other planning systems, is entering notes to loco drivers and station staff.
+In this solution, most aspects of the train operation is entered as data and not as free text, 
+which means you seldom enter any manually written notes.
+Instead, the system creates all notes on report generation. 
+Examples of automatic notes are:
+- If train not stops at a station.
+- Where to couple or uncouple locos, trainsets or freigth wagons to specific destinations.
+- If to perform local shunting at a station.
+- If locos should be reversed, turned or exchanged at some station.
+- The operation day (i.e. weekday) of when the note apply. 
+The weekday notes consider the union of the operation days of the train, loco/trainset, and the duty,
+and if they not overlap, the note is excluded, and if it applies to all of the duty days, the operating days are excluded from the note.
+- Automatic notes also are assigned any combination of target auduence: *loco driver*, *train dispatcher* and/or *shunting staff*.
+For example, only notes intended for loco drivers appear in the loco driver duties.
+- Automatic notes are also applied to an arrival or a departure.
+
+The advantages with automatic notes are that:
+- you don't have to write them yourself, just click some checkboxes or enter some data,
+- they are formulated in a consistent way, 
+- they have the same content in every report,
+- they can easily be generated in any supported language.
+
+##### Manual Notes
+Even if it is rarley needed,
+it is possible to enter manually written notes and specify whether they apply to
+*loco driver*, *train dispatcher* and/or *shunting staff*
+and if they apply to an *arrival* or *departure* at the station.
+Manual notes can also be written in additional languages.
+
+##### Multilanguage support
+All reports can be printed in any of the supported languages. 
+This is currently controlled by your preferred language in your browser settings.
+All automatic notes are also printed in the preferred language.
+
+The next step is to specify the preferred language of each duty. 
+This could be handy at an international meeting where trains are operated in different countries,
+and the duties are in the language of the country it is carried out.
+
+The solution can also be extended to support a new language, 
+simply by translating the English version of all texts.
+All text are kept separate from the rest of the application in order to faciliate translations.
+
+##### Driver Duties
+A driver duty printed in A5 booklet format contains:
+- a first page with some general information about the duty,most of it are deducted from the trains in the duty.
+- an optional second page with general instructions for the operated layout.
+- a page for each train to drive. If the duty has more than one train, it writes a red highlight to continue to next train.
+- eventually empty pages with text *intended empty page*.
+
+All pages are numbered, also the 'empty' ones. 
+They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
+This works regardless of the number of pages.
+
+##### Station Duties
+A station duty printed in A5 booklet format contains:
+- a first page with some general information about the duty, if its a *dispatcher duty*, a *shunting duty* or a combined.
+The combined is intended for single manned stations.
+- an optional second page with general instructions for the operated layout, same as in driver duties.
+- an optional station specific free text instructions. These are entered for each station and for dispatcher and shunting staff separately.
+- one to several pages with trains that require some special attention (don't just passes through).
+- eventually empty pages with text *intended empty page*.
+
+All pages are numbered, also the 'empty' ones. 
+They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
+This works regardless of the number of pages.
+
+##### Block Planning
+It is possible to plan all cargo flow by specifying what destinations to pick up and let off at each station.
+Each cargo flow destination is called a *block*. There are also features for:
+- specifying to bring wagons *to all destinations* or to a station *and beyond*,
+- if train does not pass the final destination of a cargo flow, it could have a *transfer distinations* as it final destination,
+- if train driver shall do local shunting or not. If not, local shunting is made by station staff.
+- ordering *blocks* within a train.
+
+The **block planning report** shows the order of the wagon groups (blocks) should be in a train from a specific station
+It also specifies the maximum number of wagons in each block.
+A block destination can be a single station or a set of stations.
+
+##### Regions Attached to Shadow Station
+Each shadow station can have one or several regions attached to it. 
+Regions defines what geographical area the shadow station represents of the 'outside world' in relation to the meeting layout.
+The *block planning* also consider the regions as destinations when a block ends at a shadow station and has *and beyond* checked.
