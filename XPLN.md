@@ -1,10 +1,10 @@
-# Handling XPLN data
+## Handling XPLN data
 XPLN is the defacto tool to create schedules and printed media for module meetings.
 It is developed based on *OpenOffice Calc*, with scripting and forms. 
 Because it lacks the data integrity of a real database, it requires users to
 follow a strict workflow to not end up with inconsistent data.
 
-## Reading XPLN data 
+#### Reading XPLN data 
 Because data is stored in worksheet in a understandable format,
 it is possible to let software read out the XPLN data.
 I have built such software that reads out all possible data; 
@@ -17,20 +17,7 @@ which makes further reading impossible until the XPLN-document has been correctr
 - Valid but unreasonable data, for example two trains scheduled at the same time on the same single-track stretch, 
 or to fast/slow running times between stations.
 
-The software I have built therefor works in two stages:
-1. Checks the formal consistency of XPLN-data. If any error is found, reading is aborted and the errors are reported.
-2. If consistecy check succseeds, the data is checked for any unreasonable values. This is a quite extensive check, see below.
-
-## Validation of XPLN data
-
-The software is open source and there is also a documentation of the checks made.
-There are two modules:
-- [XplnRepository](https://github.com/tellurianinteractive/Tellurian.Trains.Repositories.Xpln) 
-that parses XPLN-data and detects inconsistencies.
-- [Model](https://github.com/tellurianinteractive/Tellurian.Trains.Models.Planning) 
-that validates for any unreasonable data, regardless of data source.
-
-## Reading XPLN-documents
+#### Reading XPLN-documents
 XPLN documents have the file type .ODS, which stands for *Open Document Spreadsheet*.
 The content of an .ODS-file is a rather complex XML. 
 Reading the raw XML is therefore out of the question and no suitable free NuGet.package exist for reading .ODS-files.

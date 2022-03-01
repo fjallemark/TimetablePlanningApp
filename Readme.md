@@ -2,19 +2,24 @@
 This is the **experimental version** of the web application for 
 working with scheduling of model railway operation at module meetings.
 
+This experimental version has been developed step-by-step after gaining practical experiences
+and user input at several module meetings in Sweden and Norway during the last five years.
+
 ### Background
 It based on a **Microsoft Access** database, and development started in 2016. 
 I was initial using the built in report functionality to create all outputs.
 This has some limitations and performance issues.
-It also was non-web, a complete local single-user solution. 
+It also was non-web, a complete local single-user, single-language solution. 
 
 ### Current development
 The overall goal is to create an online scheduling system as a cloud application.
-The focus now is to move all reporting/printing functionality to use standard web concepts; 
-HTML and CSS and to retrive all data through a WEB API. 
+The focus now is to move and extend reporting/printing functionality to use standard web concepts; 
+HTML and CSS and to retrive all data through a WEB API.
+In addition, everything new should have multi-language support from start.
 This makes it possbible to refine all printing features first and still using the Access database,
 and learning what data needed for schedule planning, 
 before moving also the planning features and the database to the cloud.
+
 
 In parallel, the [**Module Registry**](https://github.com/tellurianinteractive/Tellurian.Trains.ModulesRegistryApp), is developed to support all necessary data
 for planning module meetings and supply a future fully cloud based solution for
@@ -22,7 +27,21 @@ planning schedules. The Module Registry is in operation and development is mostl
 
 ### Features
 This experimental version has **currently** a set of features, some of them not found in any other
-model train planning software:
+model train planning software.
+
+##### Basic Stuff
+All data is entered directly in Access tables, so no fancy user interface yet to enter data.
+However, Access supports hierarcial data entry, so it is not as bad as it seems.
+The good part with Access is the ease to prototype the data structures and the views to support 
+all the report func
+
+##### Database Consistency and Integrity
+Storing data in a *relational database* means you can enforce data consistency and integrity much better,
+compared to store data in spreadsheets or plain text files. 
+The most common planning system within module railway operations planning is XPLN. 
+It stores data in spreadsheet, and [**here**](https://github.com/fjallemark/TimetablePlanningApp/blob/master/XPLN.md) 
+you can read my experiences when trying to import XPLN-data into
+the Access database.
 
 ##### Operation Days
 For each train, loco, trainset and duty an operation day can be specified.
@@ -49,8 +68,10 @@ For example, only notes intended for loco drivers appear in the loco driver duti
 The advantages with automatic notes are that:
 - you don't have to write them yourself, just click some checkboxes or enter some data,
 - they are formulated in a consistent way, 
-- they have the same content in every report,
+- they have the same formulation in every report,
+- they are applied to the user context in a predefine and systematic way,
 - they can easily be generated in any supported language.
+
 
 ##### Manual Notes
 Even if it is rarley needed,
@@ -58,6 +79,7 @@ it is possible to enter manually written notes and specify whether they apply to
 *loco driver*, *train dispatcher* and/or *shunting staff*
 and if they apply to an *arrival* or *departure* at the station.
 Manual notes can also be written in additional languages.
+Currently, English, German, Danish, Norwegian and Swedish are supported, and English is the primary language.
 
 ##### Multilanguage support
 All reports can be printed in any of the supported languages. 
