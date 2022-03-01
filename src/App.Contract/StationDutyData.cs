@@ -94,6 +94,13 @@ public static class StationDutyDataExtensions
                         result.Add(item);
                     }
                 }
+                else if (includeAllTrains)
+                {
+                    if (call.Arrival is not null )
+                        result.Add(new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting));
+                    if (call.Departure is not null)
+                        result.Add(new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting));
+                }
             }
         }
         return result.Where(c => includeAllTrains || c.Notes.Any()).OrderBy(c => c.SortTime).ToArray();
