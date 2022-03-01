@@ -25,6 +25,8 @@ In parallel, the [**Module Registry**](https://github.com/tellurianinteractive/T
 for planning module meetings and supply a future fully cloud based solution for
 planning schedules. The Module Registry is in operation and development is mostly completed.
 
+### Report Examples
+
 ### Features
 This experimental version has **currently** a set of features, some of them not found in any other
 model train planning software.
@@ -55,6 +57,7 @@ which means you seldom enter any manually written notes.
 Instead, the system creates all notes on report generation. 
 Examples of automatic notes are:
 - If train not stops at a station.
+- Train meets at stations checked to show this.
 - Where to couple or uncouple locos, trainsets or freigth wagons to specific destinations.
 - If to perform local shunting at a station.
 - If locos should be reversed, turned or exchanged at some station.
