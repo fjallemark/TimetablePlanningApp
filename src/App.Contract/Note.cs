@@ -304,15 +304,15 @@ namespace Tellurian.Trains.Planning.App.Contracts
             if (IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays)) return result;
             var parkingNote = Text(ArrivingLoco.OperationDaysFlags, onlyDays);
 
+            if (CirculateLoco) result.Add(new Note { DisplayOrder = 3, Text = Notes.CirculateLoco });
             if (parkingNote.HasValue())
             {
-                result.Add(new Note { DisplayOrder = 300, Text = TurnLoco ? $"{parkingNote} {Notes.TurnLoco}" : parkingNote });
+                result.Add(new Note { DisplayOrder = 301, Text = TurnLoco ? $"{parkingNote} {Notes.TurnLoco}" : parkingNote });
             }
             else
             {
                 if (TurnLoco) result.Add(new Note { DisplayOrder = 301, Text = Notes.TurnLoco });
             }
-            if (CirculateLoco) result.Add(new Note { DisplayOrder = 302, Text = Notes.CirculateLoco });
             return result;
         }
 

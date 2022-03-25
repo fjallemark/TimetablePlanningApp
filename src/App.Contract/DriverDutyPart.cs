@@ -73,7 +73,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsLast { get; set; }
         public bool IsArrivalInDuty { get; set; }
         public bool IsDepartureInDuty { get; set; }
-        public string ArrivalCssClass => IsArrivalInDuty ? "train call part" : "train call notpart";
+        public string ArrivalCssClass => IsArrivalInDuty ? "train call arrival" : "train call notpart";
         public string DepartureCssClass => IsDepartureInDuty ? "train call part" : "train call notpart";
         public bool ShowArrival => Arrival?.IsHidden == false && (IsStop || IsLast);
         public bool ShowDeparture => Departure?.IsHidden == false;

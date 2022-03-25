@@ -4,10 +4,10 @@
     .duty.train {
     }
 
-    .duty.train h1 {
-        padding: 0px;
-        margin: 0px;
-    }
+        .duty.train h1 {
+            padding: 0px;
+            margin: 0px;
+        }
 
     .duty.continuenextpage {
         text-align: center;
@@ -53,6 +53,13 @@
         color: black;
         border-bottom: solid 1px black;
     }
+
+    .train.call.arrival {
+        color: black;
+        border-bottom: solid 1px lightgray;
+    }
+
+
 
     .train.call.notpart {
         color: darkgray;
