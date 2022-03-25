@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        public static int LayoutId => 17;
+        public static int LayoutId => 18;
     }
 }

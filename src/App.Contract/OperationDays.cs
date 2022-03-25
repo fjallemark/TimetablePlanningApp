@@ -68,21 +68,21 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 if (days.IsConsectutive())
                 {
                     Append(days[0], fullName, shortName);
-                    Append(Resources.Notes.To, "-", fullName, shortName);
+                    Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
                     Append(days.Last(), fullName, shortName, true);
                 }
                 else if (flags == 0x5F)
                 {
                     Append(Days[1], fullName, shortName);
-                    Append(Resources.Notes.To, "-", fullName, shortName);
+                    Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
                     Append(Days[5], fullName, shortName, true);
-                    Append(Resources.Notes.And, ",", fullName, shortName);
+                    Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
                     Append(Days[7], fullName, shortName, true);
                 }
                 else if (flags == 0x4F)
                 {
                     Append(Days[7], fullName, shortName);
-                    Append(Resources.Notes.To, "-", fullName, shortName);
+                    Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
                     Append(Days[4], fullName, shortName, true);
                 }
                 else
@@ -91,7 +91,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                     {
                         if (day.Number == lastDayNumber)
                         {
-                            Append(Resources.Notes.And, ",", fullName, shortName);
+                            Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
                         }
                         else if (dayNumber > 0)
                         {
