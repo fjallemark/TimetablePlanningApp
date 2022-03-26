@@ -38,7 +38,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 var data = reader.AsStationDutyData();
                 reader.AddStationInstructions(data);
-                result.Add( data);
+                result.Add(data);
             }
             return Task.FromResult(result.AsEnumerable());
         }
@@ -297,12 +297,26 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         private IEnumerable<ManualTrainCallNote> GetManualTrainStationCallNotes(int layoutId)
         {
+            ManualTrainCallNote? note = null;
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM ManualTrainStationCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, Row");
+            var reader = ExecuteReader(connection, $"SELECT * FROM ManualTrainStationCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, ParentId, Row");
+            var lastId = 0;
             while (reader.Read())
             {
-                yield return reader.AsManualTrainCallNote();
+                var noteId = reader.GetInt("NoteId");
+                if (noteId > 0)
+                {
+                    if (note is not null && noteId != lastId) yield return note;
+                    note = reader.AsManualTrainCallNote();
+                }
+                else if (note is not null)
+                {
+                    var localizedNote = reader.AsLocalizedManualTrainCallNote();
+                    note.AddLocalizedManualTrainCallNote(localizedNote);
+                }
+                if (noteId > 0) lastId = noteId;
             }
+            if (note is not null) yield return note;
         }
 
         private IEnumerable<TrainsetsCallNote> GetTrainsetsArrivalCallNotes(int layoutId)

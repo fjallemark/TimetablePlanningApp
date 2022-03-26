@@ -53,8 +53,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
             train.OperationDaysFlags.OperationDays().ShortName;
 
         public static string TrainTypes(this DriverDuty me) => string.Join(", ", me.Parts.Select(p => p.Train.CategoryName).Distinct());
-
-
     }
 
     public class StationDuty : Duty

@@ -7,29 +7,37 @@
         {
             <div class="schedulename">@Item.LayoutName</div>
             <div class="validity">@Item.ValidPeriod()</div>
-
-            <div>
+            <hr/>
+            <div >
                 <div>@Localizer["Duty"]</div>
                 <div class="duty number">@Item.Number</div>
+                @if (Item is DriverDuty d0)
+                {
+                    <div class="duty days"><strong>@d0.OperationDays.FullName</strong></div>
+                }
             </div>
             @if (Item is DriverDuty d1)
             {
-                <div class="duty days"><strong>@d1.OperationDays.FullName</strong></div>
+                <hr />
                 @if (d1.Operator.HasValue())
                 {
                     <div class="duty operator">
                         <span>@Localizer["Operator"]</span>:
                         <span><strong>@d1.Operator</strong></span>
                     </div>
+                    @if (d1.Operator == "OHJ")
+                    {
+                        <img src="images/logos/OHJ.jpg" />
+                    }
                 }
+            }
+            @if (Item is DriverDuty d2)
+            {
+                <div class="duty description">@d2.TrainTypes()</div>
             }
             @if (Item.Description.HasValue())
             {
                 <div class="duty description">@Item.Description</div>
-            }
-            @if (Item is DriverDuty d2)
-            {
-                <div class="duty description">@d2.TrainTypes()</div>               
             }
             <div class="duty time">
                 <span>@Localizer["Starts"]</span>:

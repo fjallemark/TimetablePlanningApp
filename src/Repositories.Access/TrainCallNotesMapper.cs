@@ -10,6 +10,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             new(me.GetInt("CallId"))
             {
                 Text = me.GetString("Note"),
+                OperationDayFlag = me.GetByte("OperatingDayFlag"),
                 DisplayOrder = me.GetInt("Row"),
                 IsStationNote = me.GetBool("IsStationNote"),
                 IsShuntingNote = me.GetBool("IsShuntingNote"),
@@ -17,6 +18,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 IsForArrival = me.GetBool("IsForArrival"),
                 IsForDeparture = me.GetBool("IsForDeparture")
             };
+
+        public static LocalizedManualTrainCallNote AsLocalizedManualTrainCallNote(this IDataRecord me) =>
+            new( 
+                me.GetString("LanguageCode"),
+                me.GetString("Note"));
 
         public static TrainsetsCallNote AsTrainsetDepartureCallNote(this IDataRecord me) =>
             new TrainsetsDepartureCallNote(me.GetInt("CallId"))
@@ -77,7 +83,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     TurnusNumber = me.GetInt("ArrivingLocoScheduleNumber"),
                     OperatorName = me.GetString("ArrivingLocoOperator"),
-                     OperationDaysFlags= me.GetByte("TrainOperationDaysFlag")
+                    OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
                 },
                 DepartingLoco = new Loco
                 {

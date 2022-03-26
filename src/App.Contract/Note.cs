@@ -57,9 +57,38 @@ namespace Tellurian.Trains.Planning.App.Contracts
     {
         // TODO: Implemnent support for multilanguage manual notes.
         public ManualTrainCallNote(int callId) : base(callId) { }
+        public byte OperationDayFlag { get; set; } = OperationDays.AllDays;
         public string Text { get; set; } = string.Empty;
-        public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) => Note.SingleNote(DisplayOrder, Text);
+        public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
+            IsAnyDay(OperationDayFlag, onlyDays) ? Note.SingleNote(DisplayOrder, GetNoteText(onlyDays)) : Enumerable.Empty<Note>();
+
+        private readonly List<LocalizedManualTrainCallNote> LocalizedNotes = new();
+        public void AddLocalizedManualTrainCallNote(LocalizedManualTrainCallNote localizedNote) => LocalizedNotes.Add(localizedNote);
+        string GetNoteText(byte onlyDays)
+        {
+            if (LocalizedNotes.Count == 0)
+            {
+                return FormattedNoteText(Text, onlyDays);
+            }
+            else
+            {
+                var localizedNote = LocalizedNotes.FirstOrDefault(x => x.LanguageCode == CultureInfo.CurrentCulture.TwoLetterISOLanguageName);
+                if (localizedNote is null || string.IsNullOrWhiteSpace(localizedNote.Text)) return FormattedNoteText(Text, onlyDays); ;
+                return FormattedNoteText(localizedNote.Text, onlyDays); 
+            }
+        }
+
+        string FormattedNoteText(string text, byte onlyDays) => $"{GetNoteDays(onlyDays)}{text}";
+
+        string GetNoteDays(byte onlyDays)
+        {
+            if (IsAllDays(OperationDayFlag, onlyDays)) return string.Empty;
+            if (IsAnyDay(OperationDayFlag, onlyDays)) return $"{Days(OperationDayFlag, onlyDays).OperationDays().ShortName}: ";
+            return string.Empty;
+        }
     }
+
+    public sealed record LocalizedManualTrainCallNote(string LanguageCode, string? Text);
 
     public abstract class TrainsetsCallNote : TrainCallNote
     {
@@ -153,7 +182,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays);
 
-        protected override string Text(IEnumerable<Trainset> trainsets) => 
+        protected override string Text(IEnumerable<Trainset> trainsets) =>
             string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
         private string Action => IsCargoOnly ? Notes.Unload : Notes.DisconnectTrainset;
 
