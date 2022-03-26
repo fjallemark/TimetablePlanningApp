@@ -423,4 +423,7 @@
   <data name="IsStopping" xml:space="preserve">
     <value>Stopping</value>
   </data>
+  <data name="CirculateLocoDays" xml:space="preserve">
+    <value>{0}: Circulate loco.</value>
+  </data>
 </root>

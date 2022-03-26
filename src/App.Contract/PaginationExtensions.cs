@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 
@@ -44,14 +45,15 @@ public static class PaginationExtensions
         var pageNumber = 1;
         var result = new List<DriverDutyPage> { DriverDutyPage.Front(pageNumber++, me) };
         var instruction = instructions.LanguageOrInvariantInstruction();
-        if (instruction is not null) result.Add(DriverDutyPage.Instructions(pageNumber++, instruction.Markdown));
         var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
         dutyParts.Last().IsLastPart = true;
         for (int i = 0; i < me.Parts.Count; i++)
         {
             result.Add(DriverDutyPage.Part(pageNumber++, me, dutyParts[i]));
         }
-        result.AddRange(BlankPagesToAppend<DriverDutyPage>(result.Count));
+        result.AddRange(BlankPagesToAppend<DriverDutyPage>( result.Count, instruction is null ? 0: 1));
+        pageNumber = result.Count+1;
+        if (instruction is not null) result.Add(DriverDutyPage.Instructions(pageNumber++, instruction.Markdown));
         return result;
     }
 
@@ -78,13 +80,14 @@ public static class PaginationExtensions
         var pageNumber = 1;
         var result = new List<StationDutyPage> { StationDutyPage.Front(pageNumber++, me) };
         var instruction = instructions.LanguageOrInvariantInstruction();
-        if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
 
+        if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
         if (me.StationInstructions is not null && me.StationInstructions.Any(i => i.Markdown.HasValue()))
             result.Add(StationDutyPage.Instructions(pageNumber++, me.StationInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.TrainClearance}"));
 
         if (me.ShuntingInstructions is not null && me.ShuntingInstructions.Any(i => i.Markdown.HasValue()))
             result.Add(StationDutyPage.Instructions(pageNumber++, me.ShuntingInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Shunting}"));
+        
         const int maxRowsOnPage = 26;
         var callsCount = me.Calls.Count - 1;
         var usedPageRows = 0;
@@ -95,16 +98,18 @@ public static class PaginationExtensions
             usedPageRows += call.Rows;
             if (usedPageRows > maxRowsOnPage)
             {
-                result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex-fromCallIndex).ToList()));
+                result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
                 fromCallIndex = toCallIndex;
                 usedPageRows = 0;
             }
             toCallIndex++;
         }
-        if (fromCallIndex < toCallIndex) result.Add( StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
+        if (fromCallIndex < toCallIndex) result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
         result.AddRange(BlankPagesToAppend<StationDutyPage>(result.Count));
         return result;
     }
+
+   
 
     #endregion
 
@@ -121,9 +126,9 @@ public static class PaginationExtensions
         return new() { Language = CultureInfo.CurrentCulture.TwoLetterISOLanguageName, Markdown = "" };
     }
 
-    private static IEnumerable<TDutyPage> BlankPagesToAppend<TDutyPage>(int afterPageNumber) where TDutyPage : DutyPage
+    private static IEnumerable<TDutyPage> BlankPagesToAppend<TDutyPage>(int afterPageNumber, int uptoPageNumber = 0) where TDutyPage : DutyPage
     {
-        var totalPages = afterPageNumber <= 4 ? 4 : afterPageNumber <= 8 ? 8 : 12;
+        var totalPages = afterPageNumber <= 4 - uptoPageNumber ? 4 - uptoPageNumber : afterPageNumber <= 8 - uptoPageNumber ? 8 - uptoPageNumber : 12 - uptoPageNumber;
         var blankPagesToAppend = totalPages - afterPageNumber;
         if (blankPagesToAppend == 0) return Array.Empty<TDutyPage>();
         return Enumerable.Range(1, blankPagesToAppend).Select(i => (TDutyPage)DutyPage.Blank<TDutyPage>(afterPageNumber + i));
@@ -205,6 +210,6 @@ public sealed class StationDutyPage : DutyPage
     public static StationDutyPage Front(int number, StationDuty duty) => new(number) { Duty = duty };
     public static StationDutyPage Instructions(int number, string? instructionsMarkdown, string? instructionsHeading = null) => new(number, instructionsMarkdown, instructionsHeading) { };
     //public static StationDutyPage TrainCalls(int number, int fromCallIndex, int toCallIndex) => new(number, fromCallIndex, toCallIndex) { };
-    public static StationDutyPage TrainCalls(int number, IEnumerable<StationCallWithAction> calls) => new(number) { Calls = calls, IsCallsPage=true };
+    public static StationDutyPage TrainCalls(int number, IEnumerable<StationCallWithAction> calls) => new(number) { Calls = calls, IsCallsPage = true };
 
 }

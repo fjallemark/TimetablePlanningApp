@@ -28,13 +28,14 @@ public static class StationDutyDataExtensions
         var duties = new List<StationDuty>(50);
         foreach (var item in items.OrderBy(i => i.DisplayOrder))
         {
-            if (item.HasCombinedInstructions)
+            if (item.HasCombinedInstructions)           
             {
                 var duty = item.AsStationDuty(
                     StationDutyType.Single,
                     $"{Resources.Notes.TrainClearance} {Resources.Notes.And.ToLowerInvariant()} {Resources.Notes.Shunting}",
                     item.StationInstructions.Concat(item.ShuntingInstructions).MergeInstructions(),
-                    null);
+                    null
+                );
                 duty.Calls = duty.AsStationCallsWithAction(trains, notes, includeAllTrains);
                 duties.Add(duty);
             }
@@ -72,7 +73,9 @@ public static class StationDutyDataExtensions
         foreach (var train in trainsAtStation)
         {
             var calls = train.Calls.Where(c => c.Station.Id == me.StationId);
-            var callNotes = notes.Where(n => (n.IsStationNote || n.IsShuntingNote) && n is not TrainMeetCallNote && calls.Any(c => c.Id == n.CallId)).OrderBy(n => n.DisplayOrder);
+            var callNotes = notes
+                .Where(n => (n.IsStationNote || n.IsShuntingNote) && n is not TrainMeetCallNote && calls
+                .Any(c => c.Id == n.CallId));
             foreach (var note in callNotes) note.TrainInfo = train;
             foreach (var call in calls)
             {
@@ -82,7 +85,7 @@ public static class StationDutyDataExtensions
                     if (call.HasArrivalTime() )
                     {
                         var item = new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting);
-                        item.AddNotes(callNotes);
+                        item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
                         result.Add(item);
                         ;
                     }
@@ -90,7 +93,7 @@ public static class StationDutyDataExtensions
                     if (call.HasDepartureTime() )
                     {
                         var item = new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting);
-                        item.AddNotes(callNotes);
+                        item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
                         result.Add(item);
                     }
                 }
@@ -109,6 +112,7 @@ public static class StationDutyDataExtensions
      private static StationDuty AsStationDuty(this StationDutyData data, StationDutyType dutyType, string description, ICollection<Instruction>? stationInstructions, ICollection<Instruction>? shuntingInstructions) =>
         new()
         {
+            LayoutName = data.LayoutName,
             StationId = data.StationId,
             Number = data.Signature,
             ValidFromDate = data.ValidFromDate,

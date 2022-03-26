@@ -160,6 +160,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}: Circulate loco..
+        /// </summary>
+        public static string CirculateLocoDays {
+            get {
+                return ResourceManager.GetString("CirculateLocoDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Class.
         /// </summary>
         public static string Class {

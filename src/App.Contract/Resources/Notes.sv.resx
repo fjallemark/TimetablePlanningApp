@@ -423,4 +423,7 @@
   <data name="IsStopping" xml:space="preserve">
     <value>Uppehåll</value>
   </data>
+  <data name="CirculateLocoDays" xml:space="preserve">
+    <value>{0}: Gör rundgång.</value>
+  </data>
 </root>

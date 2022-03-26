@@ -423,4 +423,7 @@
   <data name="IsStopping" xml:space="preserve">
     <value>Stopper</value>
   </data>
+  <data name="CirculateLocoDays" xml:space="preserve">
+    <value>{0}: Omløp lok.</value>
+  </data>
 </root>

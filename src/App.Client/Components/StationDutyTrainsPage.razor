@@ -29,7 +29,7 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                         </tr>
-                        @foreach (var note in call.Notes)
+                        @foreach (var note in call.Notes.OrderBy(n => n.DisplayOrder))
                         {
                             <tr  style="background-color: @BackgroundColor(call)">
                                 <td colspan="7">@note</td>

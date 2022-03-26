@@ -417,7 +417,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var reader = ExecuteReader(connection, $"SELECT * FROM LocoArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
             while (reader.Read())
             {
-                yield return reader.AsLocoArrivalCallNote();
+                var note = reader.AsLocoArrivalCallNote();
+                if (note.CirculateLoco && !note.ArrivingLoco.IsRailcar) yield return new LocoCirculationNote(note.CallId)
+                {
+                    ArrivingLoco = note.ArrivingLoco,
+                    TrainInfo = note.TrainInfo,
+                    CirculateLoco = true
+
+                };
+                if (note.TurnLoco && !note.ArrivingLoco.IsRailcar) yield return new LocoTurnNote(note.CallId)
+                {
+                    ArrivingLoco = note.ArrivingLoco,
+                    TrainInfo = note.TrainInfo,
+                    TurnLoco = true
+                };
+                if (note.IsToParking) yield return note;
             }
         }
 
