@@ -79,13 +79,14 @@ Even if it is rarley needed,
 it is possible to enter manually written notes and specify whether they apply to
 *loco driver*, *train dispatcher* and/or *shunting staff*
 and if they apply to an *arrival* or *departure* at the station.
+You can apply which operating days a manual note should be valid
 Manual notes can also be written in additional languages.
-Currently, English, German, Danish, Norwegian and Swedish are supported, and English is the primary language.
+Currently, English, German, Danish, Norwegian and Swedish are supported.
 
 ##### Multilanguage support
 All reports can be printed in any of the supported languages. 
 This is currently controlled by your preferred language in your browser settings.
-All automatic notes are also printed in the preferred language.
+All notes are also printed in the preferred language.
 
 The next step is to specify the preferred language of each duty. 
 This could be handy at an international meeting where trains are operated in different countries,
