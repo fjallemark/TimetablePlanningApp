@@ -333,7 +333,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
         {
             var result = new List<Note>();
             if (IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays)) return result;
-            var days = Days(ArrivingLoco.OperationDaysFlags, onlyDays);
             var parkingNote = ParkingText(ArrivingLoco.OperationDaysFlags, onlyDays);
 
             if (parkingNote.HasValue())

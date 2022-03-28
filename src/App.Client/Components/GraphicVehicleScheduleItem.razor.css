@@ -1,0 +1,12 @@
+﻿.container {
+    font-size: 8pt;
+}
+.turnusNumber {
+    font-weight: bold;
+}
+.trainNumber {
+    font-weight: bold;
+}
+.minute {
+    font-size: 6pt;
+}

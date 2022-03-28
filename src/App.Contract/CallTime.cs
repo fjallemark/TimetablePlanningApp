@@ -24,6 +24,16 @@ namespace Tellurian.Trains.Planning.App.Contracts
     public static class CallTimeExtensions
     {
         public static double OffsetMinutes(this CallTime? me) =>
-            me is null ? 0 : TimeSpan.Parse(me.Time, CultureInfo.InvariantCulture).TotalMinutes;
+            me.AsTimeSpan().TotalMinutes;
+
+
+        public static TimeSpan AsTimeSpan(this CallAction? me) =>
+           me is null || me.Time is null ? TimeSpan.Zero : TimeSpan.Parse(me.Time.Time, CultureInfo.InvariantCulture);
+
+        public static TimeSpan AsTimeSpan(this CallTime? me) =>
+            me is null ? TimeSpan.Zero : TimeSpan.Parse(me.Time, CultureInfo.InvariantCulture);
+
+        public static CallTime FromTimeSpan(this TimeSpan value, bool isStop, bool isHidden, params string[] notes) =>
+            CallTime.Create($"{value.Hours}:{value.Minutes}", isStop, isHidden, notes);
     }
 }

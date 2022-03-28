@@ -1,0 +1,38 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+@if (Item is not null)
+{
+	<svg class="container" height="@Item.Height()" width="@Item.Width()">
+		<text class="turnusNumber" x="0" y="15" fill="black">@Item.Operator @Item.TurnusNumber</text>
+		<text x="0" y="30" fill="black">@Item.OperationDays.ShortName</text>
+		@foreach(var part in Item.TrainParts)
+		{
+			<text>
+				<text class="trainNumber" x="@part.MiddleTime().TimeX(StartHour, EndHour)" y="10" text-anchor="middle" fill="black">@part.TrainNumber</text>
+			</text>
+			<rect x="@part.FromDeparture.TimeX(StartHour, EndHour)" y="15" width="@part.DurationX(StartHour, EndHour)" height="5" style="fill:@part.Train!.Color;stroke-width:0;stroke:rgb(0,0,0)" />
+			<text>
+				<text style="font-size: @part.StationSignatureFontSize(StartHour, EndHour)pt" x="@part.FromDeparture.TimeX(StartHour, EndHour)" y="30" text-anchor="start" fill="black">@part.FromDeparture!.Station!.Signature</text>
+			</text>
+			<text>
+				<text style="font-size: @part.StationSignatureFontSize(StartHour, EndHour)pt" x="@part.ToArrival.TimeX(StartHour, EndHour)" y="30" text-anchor="end" fill="black">@part.ToArrival!.Station!.Signature</text>
+			</text>
+			<text>
+				<text class="minute" x="@part.FromDeparture.TimeX(StartHour, EndHour)" y="20" text-anchor="end" fill="black">@part.FromDeparture.Minute()</text>
+			</text>
+			<text>
+				<text class="minute" x="@part.ToArrival.TimeX(StartHour, EndHour)" y="20" text-anchor="start" fill="black">@part.ToArrival.Minute()</text>
+			</text>
+		}
+		<line x1="0" y1="@Item.Height()" x2="@Item.Width()" y2="@Item.Height()" style="stroke:black;stroke-width:1"/>
+		@for(var hour = StartHour; hour <= EndHour; hour++) {
+			<line x1="@hour.TimeX(StartHour, EndHour)" y1="0" x2="@hour.TimeX(StartHour, EndHour)" y2="@Item.Height()" style="stroke:gray;stroke-width:1"/>		
+		}
+	</svg>
+}
+
+@code {
+	[Parameter] public VehicleSchedule? Item { get; set; }
+	[Parameter] public int StartHour { get; set; }
+	[Parameter] public int EndHour { get; set; }
+}

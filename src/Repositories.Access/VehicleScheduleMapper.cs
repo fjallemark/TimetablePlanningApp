@@ -50,6 +50,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var trainPart = new TrainPart
             {
                 TrainNumber = me.GetInt("TrainNumber").ToString(CultureInfo.InvariantCulture),
+                Train = new Train
+                {
+                    Color = me.GetString("TrainColor")
+                },
                 FromDeparture = new CallAction
                 {
                     Station = new Station
