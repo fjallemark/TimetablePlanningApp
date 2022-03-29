@@ -16,21 +16,21 @@ else if (Layout is not null)
     {
         var page = NextPage();
         <div class="pagebreak">
-            <div style="font-weight: bold; font-size: 16pt">@Heading @ValidPeriod</div>
-          
-            <div>    
+            <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading</span> <span style="display: block; font-size: 12pt">@Venue</span></div>
+            <div>
                 <svg height="@Height" width="@Width">
                     @for (var hour = Layout.StartHour; hour <= Layout.EndHour; hour++)
                     {
-                        <line x1="@hour.TimeX(Layout.StartHour, Layout.EndHour)" y1="12" x2="@hour.TimeX(Layout.StartHour, Layout.EndHour)" y2="20" style="stroke:lightgray;stroke-width:1" />
+                        var x = hour.TimeX(Layout.StartHour, Layout.EndHour);
+                        <line x1="@x" y1="12" x2="@x" y2="20" style="stroke:lightgray;stroke-width:1" />
                         <text>
-                            <text style="font-weight: bold" x="@hour.TimeX(Layout.StartHour, Layout.EndHour)" y="12" fill="black" text-anchor="middle" >@hour</text>
+                            <text style="font-weight: bold" x="@x" y="12" fill="black" text-anchor="middle">@hour</text>
                         </text>
                     }
-                    		<line x1="0" y1="20" x2="@Width" y2="20" style="stroke:lightgray;stroke-width:1"/>
+                    <line x1="0" y1="20" x2="@Width" y2="20" style="stroke:lightgray;stroke-width:1" />
 
                 </svg>
-          
+
                 @foreach (var item in itemsOnPage)
                 {
                     <GraphicVehicleScheduleItem Item="@item" StartHour="@Layout.StartHour" EndHour="Layout.EndHour"></GraphicVehicleScheduleItem>
@@ -75,10 +75,13 @@ else if (Layout is not null)
         return PageNumber;
     }
 
-    string Heading => PageNumber < 2 ? $"{Layout?.Name}: {Localizer["LocoSchedules"]}" : $"{Localizer["LocoSchedules"]}, {Localizer["Continued"].ToLower()}";
-    string ValidPeriod => $"{Layout?.ValidFrom:d}-{Layout?.ValidTo:d}"; 
+    string Heading => PageNumber < 2 ?
+        $"{Localizer["LocoSchedules"]}" :
+        $"{Localizer["LocoSchedules"]}, {Localizer["Continued"].ToLower()}";
+    string Venue => $"{Layout?.Name} {ValidPeriod}";
+    string ValidPeriod => $"{Layout?.ValidFrom:d}-{Layout?.ValidTo:d}";
     string PageNumbering => $"{Localizer["Page"]} {PageNumber}";
     int Height => 20;
-    int Width => Items?.Any() == true ? Items.First().Width() +10 : 0;
+    int Width => Items?.Any() == true ? Items.First().Width() + 10 : 0;
 
 }

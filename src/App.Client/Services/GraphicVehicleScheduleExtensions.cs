@@ -51,7 +51,7 @@ public static class GraphicVehicleScheduleExtensions
 
 public sealed record GraphicVehicleScheduleOptions
 {
-    public int Height { get; init; } = 40;
+    public int Height { get; init; } = 36;
     public int Width { get; init; } = 1100;
     public int HeaderWidth { get; init; } = 100;
 }
