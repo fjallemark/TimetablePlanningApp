@@ -27,6 +27,9 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         public Task<(HttpStatusCode statusCode, DriverDutyBooklet? item)> GetDriverDutiesAsync(int layoutId) =>
              GetItem<DriverDutyBooklet>($"api/layouts/{layoutId}/reports/driverduties");
 
+        public Task<(HttpStatusCode statusCode, Layout? item)> GetLayout(int layoutId) =>
+            GetItem<Layout>($"api/layouts/{layoutId}/reports/layout");
+
         public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId) =>
            GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
 

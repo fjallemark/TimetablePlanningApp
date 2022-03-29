@@ -6,35 +6,61 @@
 @inject Services.PrintedReportsService DataService
 
 
-@if (Items == null)
+@if (Items is null)
 {
     <div class="print creatingreport">@Localizer["CreatingReport"]</div>
 }
-else
+else if (Layout is not null)
 {
-    @foreach (var itemsOnPage in Items.ItemsPerPage(10))
+    @foreach (var itemsOnPage in Items.ItemsPerPage(15))
     {
+        var page = NextPage();
         <div class="pagebreak">
-            @foreach (var item in itemsOnPage)
-            {
-                <GraphicVehicleScheduleItem Item="@item" StartHour="8" EndHour="20"></GraphicVehicleScheduleItem>
-            }
+            <div style="font-weight: bold; font-size: 16pt">@Heading @ValidPeriod</div>
+          
+            <div>    
+                <svg height="@Height" width="@Width">
+                    @for (var hour = Layout.StartHour; hour <= Layout.EndHour; hour++)
+                    {
+                        <line x1="@hour.TimeX(Layout.StartHour, Layout.EndHour)" y1="12" x2="@hour.TimeX(Layout.StartHour, Layout.EndHour)" y2="20" style="stroke:lightgray;stroke-width:1" />
+                        <text>
+                            <text style="font-weight: bold" x="@hour.TimeX(Layout.StartHour, Layout.EndHour)" y="12" fill="black" text-anchor="middle" >@hour</text>
+                        </text>
+                    }
+                    		<line x1="0" y1="20" x2="@Width" y2="20" style="stroke:lightgray;stroke-width:1"/>
+
+                </svg>
+          
+                @foreach (var item in itemsOnPage)
+                {
+                    <GraphicVehicleScheduleItem Item="@item" StartHour="@Layout.StartHour" EndHour="Layout.EndHour"></GraphicVehicleScheduleItem>
+                }
+            </div>
+            <div style="width: 1100px; text-align:center">@PageNumbering</div>
         </div>
     }
 }
-
 @code {
     string? Operator { get; set; }
     private IEnumerable<LocoSchedule>? Items { get; set; }
+    private Layout? Layout;
+    int PageNumber;
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
-        if (result.statusCode.IsSuccess())
+        PageNumber = 0;
+        var result1 = await DataService.GetLayout(Constants.LayoutId);
+        if (result1.statusCode.IsSuccess())
         {
-            SetQueryStringParameters();
-            Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+            Layout = result1.item;
+            var result2 = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
+            if (result2.statusCode.IsSuccess())
+            {
+                SetQueryStringParameters();
+                Items = result2.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+            }
         }
+
     }
 
     void SetQueryStringParameters()
@@ -42,4 +68,17 @@ else
         var q = Navigator.QueryString();
         Operator = q["operator"];
     }
+
+    int NextPage()
+    {
+        PageNumber++;
+        return PageNumber;
+    }
+
+    string Heading => PageNumber < 2 ? $"{Layout?.Name}: {Localizer["LocoSchedules"]}" : $"{Localizer["LocoSchedules"]}, {Localizer["Continued"].ToLower()}";
+    string ValidPeriod => $"{Layout?.ValidFrom:d}-{Layout?.ValidTo:d}"; 
+    string PageNumbering => $"{Localizer["Page"]} {PageNumber}";
+    int Height => 20;
+    int Width => Items?.Any() == true ? Items.First().Width() +10 : 0;
+
 }

@@ -25,6 +25,18 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private readonly RepositoryOptions Options;
         private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
+        public Task<Layout?> GetLayout(int layoutId)
+        {
+            using var connection = CreateConnection;
+            var sql = $"SELECT * FROM Layout WHERE Id = {layoutId}";
+            var reader = ExecuteReader(connection, sql);
+            if (reader.Read())
+            {
+                return Task.FromResult(reader.AsLayout());
+            }
+            return Task.FromResult((Layout?)null);
+        }
+
         public Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
             ReadDutyBooklet<StationDutyBooklet>(layoutId);
 

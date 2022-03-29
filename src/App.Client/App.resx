@@ -294,4 +294,7 @@
   <data name="SpareRailcar" xml:space="preserve">
     <value>Spare railcar</value>
   </data>
+  <data name="Continued" xml:space="preserve">
+    <value>Continued</value>
+  </data>
 </root>

@@ -38,11 +38,14 @@ public static class GraphicVehicleScheduleExtensions
     public static int StationSignatureFontSize(this TrainPart part, int startHour, int endHour)
     {
         var x = part.DurationX(startHour, endHour);
-        return x < 200 ? 6 : 9;
+        return x < 25 ? 6 : 8;
     }
 
     public static string Minute(this CallAction? me) =>
         me is null || me.Time is null || me.Time.Time.Length != 5 ? string.Empty : me.Time.Time.Substring(3, 2);
+
+    public static string TrainColor(this TrainPart me) => me.Train is null ? "#000000" : me.Train.Color;
+    public static string TrainTextColor(this TrainPart me) => me.Train is null ? "#FFFFFF" : me.Train.Color.TextColor() ?? "#FFFFFF";
 
 }
 

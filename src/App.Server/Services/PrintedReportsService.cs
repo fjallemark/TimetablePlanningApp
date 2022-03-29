@@ -26,6 +26,8 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             return booklet;
         }
 
+        public async Task<Layout?> GetLayout(int layoutId) => await Store.GetLayout(layoutId).ConfigureAwait(false);    
+
         public async Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId)
         {
             var schedules = await Store.GetLocoSchedulesAsync(layoutId);

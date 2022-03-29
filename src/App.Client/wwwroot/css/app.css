@@ -86,3 +86,7 @@ a, .btn-link {
         font-size: 10pt;
     }
 
+svg {
+    padding: 0px;
+    margin: 0px;
+}

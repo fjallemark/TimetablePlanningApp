@@ -274,4 +274,7 @@
   <data name="SpareRailcar" xml:space="preserve">
     <value>Reserve motorvogn</value>
   </data>
+  <data name="Continued" xml:space="preserve">
+    <value>Fortsatte</value>
+  </data>
 </root>

@@ -19,6 +19,9 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
 
         [HttpGet("driverduties")]
         public async Task<IActionResult> GetDriverDutiesBooklet(int id) => await this.GetScheduleItem(id, Service.GetDriverDutyBookletAsync).ConfigureAwait(false);
+        [HttpGet("layout")]
+        public async Task<IActionResult> GetLayout(int id) => await this.GetScheduleItem(id, Service.GetLayout).ConfigureAwait(false);
+
 
         [HttpGet("locoschedules")]
         public async Task<IActionResult> GetLocoSchedules(int id) => await this.GetScheduleItems(id, Service.GetLocoSchedulesAsync).ConfigureAwait(false);

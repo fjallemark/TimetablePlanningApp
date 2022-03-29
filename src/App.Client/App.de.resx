@@ -256,7 +256,7 @@
     <value>Zugreihungen</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
-    <value>Lokdienst</value>
+    <value>Lokomotivumlauf</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
@@ -293,5 +293,8 @@
   </data>
   <data name="SpareRailcar" xml:space="preserve">
     <value>Ersatztriebwagen</value>
+  </data>
+  <data name="Continued" xml:space="preserve">
+    <value>Fortsetzung</value>
   </data>
 </root>
