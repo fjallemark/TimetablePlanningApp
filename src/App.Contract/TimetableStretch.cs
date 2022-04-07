@@ -55,5 +55,18 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsCargo { get; set; }
         public bool IsPassenger { get; set; }
         public string Color { get; set; } = string.Empty;
+        public override string ToString() => $"Train {TrainNumber} {OperationDays.ShortName} {FromStationId}:{StartTime.ToTime()}-{EndTime.ToTime()}:{ToStationId}";
+
     }
+
+    public static class TimetableTrainSectionExtensions
+    {
+        public static bool IsSameTrainButDifferentOperatingDays(this TimetableTrainSection me, TimetableTrainSection other) =>
+            other.FromStationId == me.FromStationId &&
+            other.ToStationId == me.ToStationId &&
+            other.TrainNumber == me.TrainNumber &&
+            other.OperationDays.Flags != me.OperationDays.Flags;
+        public static string ToTime(this double t) => $"{TimeSpan.FromHours(t):HH:mm}";
+    }
+
 }

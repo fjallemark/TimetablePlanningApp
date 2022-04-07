@@ -227,7 +227,7 @@
     <value>Oprangering godstog</value>
   </data>
   <data name="DriverDuties" xml:space="preserve">
-    <value>Førertjenester</value>
+    <value>Togførertjenester</value>
   </data>
   <data name="Waybills" xml:space="preserve">
     <value>Fragtbreve</value>
@@ -276,5 +276,8 @@
   </data>
   <data name="Continued" xml:space="preserve">
     <value>Fortsatte</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Togfører</value>
   </data>
 </root>

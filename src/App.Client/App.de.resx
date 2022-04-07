@@ -297,4 +297,7 @@
   <data name="Continued" xml:space="preserve">
     <value>Fortsetzung</value>
   </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Lokführer</value>
+  </data>
 </root>

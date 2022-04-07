@@ -426,4 +426,7 @@
   <data name="CirculateLocoDays" xml:space="preserve">
     <value>{0}: Gör rundgång.</value>
   </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Lokförare</value>
+  </data>
 </root>

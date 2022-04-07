@@ -53,7 +53,7 @@ public static class PaginationExtensions
         }
         result.AddRange(BlankPagesToAppend<DriverDutyPage>( result.Count, instruction is null ? 0: 1));
         pageNumber = result.Count+1;
-        if (instruction is not null) result.Add(DriverDutyPage.Instructions(pageNumber++, instruction.Markdown));
+        if (instruction is not null) result.Add(DriverDutyPage.Instructions(pageNumber++, instruction.Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Driver}"));
         return result;
     }
 
@@ -190,7 +190,8 @@ public sealed class DriverDutyPage : DutyPage
     public static DriverDutyPage Blank(int number) => new(number);
     public static DriverDutyPage Front(int number, DriverDuty duty) => new(number, duty);
     public static DriverDutyPage Part(int number, DriverDuty duty, DriverDutyPart part) => new(number, duty, part);
-    public static DriverDutyPage Instructions(int number, string? instructionsMarkdown) => new(number, instructionsMarkdown);
+    public static DriverDutyPage Instructions(int number, string? instructionsMarkdown, string? instructionsHeading = null) => 
+        new(number, instructionsMarkdown, instructionsHeading);
 }
 
 public sealed class StationDutyPage : DutyPage

@@ -8,7 +8,7 @@ else
 {
     <div style="break-inside:avoid">
         <div class="graphictimetable heading">
-            @Data.Heading()
+            @Data.Heading(OnlyDaysFlag)
         </div>
         <svg height="@Data.YCanvas()" width="@Data.XCanvas()">
             @foreach (var station in Data.Stations.OrderBy(s => s.DisplayOrder))
@@ -35,16 +35,16 @@ else
             }
 
 
-            @foreach (var trainSection in Data.TrainSections)
+            @foreach (var trainSection in TrainSections)
             {
                 @if (trainSection.IsBetweenStations())
                 {
                     <path id="@Data.PathId(trainSection)" fill="none" style="@trainSection.CssClass()"  fill-opacity="0"
                           d="M @Data.XStartTime(trainSection),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection), @Data.YEndTime(trainSection) " />
                     <text>
-                        <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel().TrainNumberSize()pt" text-anchor="middle">
+                        <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel(OnlyDaysFlag).TrainNumberSize()pt" text-anchor="middle">
                             <textPath href="#@Data.PathId(trainSection)" startOffset="40%">
-                                @trainSection.TrainLabel() 
+                                @trainSection.TrainLabel(OnlyDaysFlag) 
                             </textPath>
                         </text>
                     </text>
@@ -61,4 +61,12 @@ else
 @code {
     [Parameter]
     public TimetableStretch? Data { get; set; }
+    [Parameter]
+    public string? OnlyDays { get; set; }
+    byte OnlyDaysFlag => OnlyDays.HasValue() ? OnlyDays.AsFlags() : OperationDays.AllDays;
+
+    IList<TimetableTrainSection> TrainSections => 
+        Data is null ? Array.Empty<TimetableTrainSection>() : 
+        OnlyDays.HasValue() ? Data.TrainSections.Where(ts => ts.OperationDays.Flags.IsAnyOtherDays(OnlyDaysFlag)).ToList() : 
+        Data.TrainSections;
 }

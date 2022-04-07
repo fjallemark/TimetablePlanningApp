@@ -49,6 +49,25 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static bool IsAllDays(this byte it) => it == Contracts.OperationDays.AllDays || it.IsOnDemand();
         public static bool IsOnDemand(this byte it) => it == Contracts.OperationDays.OnDemand;
 
+        public static byte AsFlags(this string? value) => (byte)(string.IsNullOrWhiteSpace(value) ? 0 : GetFlagsFromDigits(value));
+
+        private static byte GetFlagsFromDigits(this string value)
+        {
+            var x = value.Where(c => char.IsDigit(c))
+                .Select(c => c switch
+                {
+                    '1' => 0b00000001,
+                    '2' => 0b00000010,
+                    '3' => 0b00000100,
+                    '4' => 0b00001000,
+                    '5' => 0b00010000,
+                    '6' => 0b00100000,
+                    '7' => 0b01000000,
+                    _ => 0
+                });
+            return (byte)x.Sum() ;
+        }
+
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
@@ -111,6 +130,51 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 Flags = flags
             };
         }
+
+        public static byte[] UniqueDayCombinations(this byte[] flags)
+        {
+            if (flags.Length <= 1) return flags;
+            ReadOnlySpan<byte> sortedFlags = flags.OrderBy(f => f).ToArray();
+            var days = new byte[sortedFlags.Length];
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
+            var di = 0;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
+
+            for (var b = 1; b < 8; b++)
+            {
+
+            }
+
+
+            //for (var b = 1; b < 8; b++)
+            //{
+            //    for (var i = 0; i < sortedFlags.Length; i++)
+            //    {
+            //        if (sortedFlags[i].SetBitsCount() == b)
+            //        {
+            //            byte f = sortedFlags[i];
+            //            for (var k = 0; k < d; k++)
+            //            {
+            //                f = (byte)(f & ~days[k]);
+            //            }
+            //            if (f > 0) days[d++] = f;
+
+            //        }
+            //    }
+
+            //}
+            return days.Where(f => f > 0).OrderBy(f => f).ToArray();
+        }
+
+        public static int OneBitsCount(this byte it)
+        {
+            ReadOnlySpan<byte> nibbleLookup = new byte[] { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
+            return nibbleLookup[it & 0x0F] + nibbleLookup[it >> 4];
+        }
+
+        public static bool IsBitSet(this byte it, int bit) => bit >= 1 && bit <= 8 && (it & Bit(bit)) > 0;
+        public static byte Bit(int bit) => (byte)(Math.Pow(2, bit - 1));
+        public static byte ZeroBit(this byte it, int bit) => (byte)(it & (~(byte)(1 << (bit - 1))));
 
         private static void Append(Day day, StringBuilder fullNames, StringBuilder shortNames, bool toLower = false)
         {

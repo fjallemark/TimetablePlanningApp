@@ -247,7 +247,7 @@
     <value>Block destinations</value>
   </data>
   <data name="DriverDuties" xml:space="preserve">
-    <value>Driver duties</value>
+    <value>Train driver duties</value>
   </data>
   <data name="Waybills" xml:space="preserve">
     <value>Waybills</value>
@@ -296,5 +296,8 @@
   </data>
   <data name="Continued" xml:space="preserve">
     <value>Continued</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Train driver</value>
   </data>
 </root>

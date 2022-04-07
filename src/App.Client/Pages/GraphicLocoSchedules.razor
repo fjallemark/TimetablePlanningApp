@@ -12,12 +12,13 @@
 }
 else if (Layout is not null)
 {
+    var lastTurnusNumber = "";
     @foreach (var itemsOnPage in Items.ItemsPerPage(15))
     {
         var page = NextPage();
         <div class="pagebreak">
             <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading</span> <span style="display: block; font-size: 12pt">@Venue</span></div>
-            <div>
+            <div style="margin: 0px; padding: 0px">
                 <svg height="@Height" width="@Width">
                     @for (var hour = Layout.StartHour; hour <= Layout.EndHour; hour++)
                     {
@@ -33,7 +34,8 @@ else if (Layout is not null)
 
                 @foreach (var item in itemsOnPage)
                 {
-                    <GraphicVehicleScheduleItem Item="@item" StartHour="@Layout.StartHour" EndHour="Layout.EndHour"></GraphicVehicleScheduleItem>
+                    <GraphicVehicleScheduleItem Item="@item" StartHour="@Layout.StartHour" EndHour="Layout.EndHour" IsNewSection="@IsNewTurnusNumber(lastTurnusNumber, item.TurnusNumber)"></GraphicVehicleScheduleItem>
+                    lastTurnusNumber = item.TurnusNumber;
                 }
             </div>
             <div style="width: 1100px; text-align:center">@PageNumbering</div>
@@ -57,7 +59,7 @@ else if (Layout is not null)
             if (result2.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();
-                Items = result2.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+                if (Operator.HasValue()) Items = result2.items.Where(i => i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
             }
         }
 
@@ -74,6 +76,9 @@ else if (Layout is not null)
         PageNumber++;
         return PageNumber;
     }
+
+    bool IsNewTurnusNumber(string lastTurnusNumber, string currentTurnusNumber) =>
+        !string.IsNullOrWhiteSpace(lastTurnusNumber) && lastTurnusNumber != currentTurnusNumber;
 
     string Heading => PageNumber < 2 ?
         $"{Localizer["LocoSchedules"]}" :

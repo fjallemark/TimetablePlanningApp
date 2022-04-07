@@ -406,4 +406,7 @@
   <data name="CirculateLocoDays" xml:space="preserve">
     <value>{0}: Omløb lokomotiv.</value>
   </data>
+  <data name="Driver" xml:space="preserve">
+    <value>Togfører</value>
+  </data>
 </root>

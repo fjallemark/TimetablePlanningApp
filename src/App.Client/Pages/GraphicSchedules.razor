@@ -12,7 +12,7 @@ else
 {
     foreach (var timetableStretch in TimetableStretches)
     {
-        <GraphicTimetableStretch Data="@timetableStretch"></GraphicTimetableStretch>
+        <GraphicTimetableStretch Data="@timetableStretch" OnlyDays="@SelectedDays"></GraphicTimetableStretch>
     }
 }
 
@@ -20,6 +20,7 @@ else
     private TimetableStretch[] TimetableStretches = Array.Empty<TimetableStretch>();
     private bool DataIsReady = false;
     private string? SelectedStretch;
+    private string? SelectedDays;
 
     protected async override Task OnInitializedAsync()
     {
@@ -30,13 +31,17 @@ else
         {
             TimetableStretches = result.items.ToArray();
         }
+        else
+        {
+        }
         DataIsReady = true;
     }
 
-        void SetQueryStringParameters()
+    void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
         SelectedStretch = q["line"];
+        SelectedDays = q["days"];
     }
 
 

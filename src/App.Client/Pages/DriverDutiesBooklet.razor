@@ -28,7 +28,7 @@ else
             }
             else if (PageLeft(i).IsInstructions)
             {
-                <DutyInstructionsPage PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown"></DutyInstructionsPage>
+                <DutyInstructionsPage Heading="@PageLeft(i).InstructionsHeading" PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown"></DutyInstructionsPage>
             }
 
             @if (PageRight(i).IsBlank)
@@ -42,6 +42,10 @@ else
             else if (PageRight(i).IsPart)
             {
                 <DutyPartPage PageNumber="PageRight(i).Number" Item="PageRight(i).DutyPart" Duty="PageRight(i).Duty"></DutyPartPage>
+            }
+            else if (PageRight(i).IsInstructions)
+            {
+                <DutyInstructionsPage Heading="@PageRight(i).InstructionsHeading" PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown"></DutyInstructionsPage>
             }
         </div>
     }

@@ -11,8 +11,11 @@ namespace Tellurian.Trains.Planning.App.Client.Services
     {
         public static readonly GraphicScheduleOptions Options = new();
 
-        public static string Heading(this TimetableStretch me) =>
-            $"{me.Number} {me.Name} : {me.Stations[0].Station.Name} - {me.Stations.Last().Station.Name}";
+        public static string Heading(this TimetableStretch me, byte onlyDays = OperationDays.AllDays)
+        {
+            var days = onlyDays == OperationDays.AllDays ? string.Empty : onlyDays.OperationDays().ShortName;
+            return $"{me.Number} {me.Name} : {me.Stations[0].Station.Name} - {me.Stations.Last().Station.Name} {days}";
+        }
 
         #region Time
 
@@ -137,8 +140,10 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         public static bool IsBetweenStations(this TimetableTrainSection me) =>
             me.FromStationId != me.ToStationId;
 
-        public static string TrainLabel(this TimetableTrainSection me) =>
-            me.OperationDays.IsDaily ? $"{me.TrainNumber}" : $"{me.TrainNumber}\n{me.OperationDays.ShortName}";
+        public static string TrainLabel(this TimetableTrainSection me, byte onlyDays = OperationDays.AllDays) =>
+            me.OperationDays.IsDaily ? $"{me.TrainNumber}" :
+            onlyDays.IsAllOtherDays(me.OperationDays.Flags) ? $"{me.TrainNumber}" : 
+            $"{me.TrainNumber}\n{me.OperationDays.ShortName}";
 
         public static string CssClass(this TimetableTrainSection me) =>
             me.Color.HasValue() ? $"stroke: {me.Color}; stroke-width: 3px" :
@@ -164,7 +169,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
     {
         public int Yoffset { get; set; } = 20;
         public int TrackHeight { get; set; } = 10;
-        public int MinDistanceBeweenStations { get; set; } = 50;
+        public int MinDistanceBeweenStations { get; set; } = 80;
         public int FirstHourOffset { get; set; } = 60;
         public int HourWidth { get; set; } = 180;
         public int DistanceFactor { get; set; } = 8;
