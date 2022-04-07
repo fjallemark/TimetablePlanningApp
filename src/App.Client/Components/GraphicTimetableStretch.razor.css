@@ -2,10 +2,10 @@
 }
 
     .graphictimetable.heading {
-        padding-top: 1cm;
+        padding-top: 0.2cm;
         text-align: center;
         font-weight: bold;
-        font-size: 48pt
+        font-size: 36pt
     }
 
     .graphictimetable.station {

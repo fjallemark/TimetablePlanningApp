@@ -1,4 +1,6 @@
 # Timetable Planning App
+>Last update: 2022-04-07
+
 This is the **experimental version** of the web application for 
 working with scheduling of model railway operation at module meetings.
 
@@ -11,7 +13,7 @@ I was initial using the built in report functionality to create all outputs.
 This has some limitations and performance issues.
 It also was non-web, a complete local single-user, single-language solution. 
 
-### Current development
+### Current Development
 The overall goal is to create an online scheduling system as a cloud application.
 The focus now is to move and extend reporting/printing functionality to use standard web concepts; 
 HTML and CSS and to retrive all data through a WEB API.
@@ -48,6 +50,16 @@ For each train, loco, trainset and duty an operation day can be specified.
 This enables flexible planning, for example trainset schedules over several days.
 It can be used when game sessions are assigned a running weekday.
 
+##### Graphical Timetable
+It is possible to a sequence of stations as a *timetable stretch*. 
+Timetable stretches may overlap each other.
+Each timetable stretch prints as a separate *grapic timetable*,
+with all trains passing som part of the timetable stretch.
+Also track occupancy of any train is shown.
+
+When trains are operated on different days, the graphical timtable can be blurred with details.
+It is therefore possible to print the graphical timetable valid for only a subset of operating days.
+
 ##### Automatic Notes to Loco Driver and Station Staff
 One of the hassles with other planning systems, is entering notes to loco drivers and station staff.
 In this solution, most aspects of the train operation is entered as data and not as free text, 
@@ -83,7 +95,7 @@ You can apply which operating days a manual note should be valid
 Manual notes can also be written in additional languages.
 Currently, English, German, Danish, Norwegian and Swedish are supported.
 
-##### Multilanguage support
+##### Multilanguage Support
 All reports can be printed in any of the supported languages. 
 This is currently controlled by your preferred language in your browser settings.
 All notes are also printed in the preferred language.
@@ -95,6 +107,17 @@ and the duties are in the language of the country it is carried out.
 The solution can also be extended to support a new language, 
 simply by translating the English version of all texts.
 All text are kept separate from the rest of the application in order to faciliate translations.
+
+##### Loco- and Trainset Schedules
+These schedules can be planned with great flexibility,
+for example different schedule depending on operation day.
+One or more schedules can then be assigned to a specifc loco or trainset.
+Each loco and trainset schedule are printed per operation day,
+so there might be two or more schedules than you have to change before the next session starts.
+
+##### Train Start Labels
+For each initial train it is possible to print out a start label,
+that can be placed on the track ahead of the train to make it easier to find.
 
 ##### Driver Duties
 A driver duty printed in A5 booklet format contains:
