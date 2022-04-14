@@ -34,12 +34,17 @@ public class StationCallWithAction
     public bool IsShuntingOnly { get; init; }
     public IEnumerable<Note> Notes { get; private set; } = Enumerable.Empty<Note>();
     [JsonIgnore] public bool IsDeparture => !IsArrival;
-    [JsonIgnore] private bool UseShuntingNotes => Call.Station.HasCombinedInstructions || IsShuntingOnly;
-    [JsonIgnore] private bool UseStationNotes => Call.Station.HasCombinedInstructions || !IsShuntingOnly;
-    [JsonIgnore] public StationInfo Station => Call.Station;
-    [JsonIgnore] public string ArrivalTime => Call.Arrival?.IsHidden == true ? "" : IsArrival ? Call.Arrival!.Time : $"({Call.Arrival?.Time})";
+    [JsonIgnore] private bool UseShuntingNotes => 
+        Call.Station.HasCombinedInstructions || IsShuntingOnly;
+    [JsonIgnore] private bool UseStationNotes => 
+        Call.Station.HasCombinedInstructions || !IsShuntingOnly;
+    [JsonIgnore] public StationInfo Station => 
+        Call.Station;
+    [JsonIgnore] public string ArrivalTime => 
+        Call.Arrival?.IsHidden == true ? "" : IsArrival ? Call.Arrival!.Time : $"({Call.Arrival?.Time})";
 
-    [JsonIgnore] public string DepartureTime => Call.Departure?.IsHidden == true ? "" : IsDeparture ? Call.Departure!.Time : $"({Call.Departure?.Time})";
+    [JsonIgnore] public string DepartureTime => 
+        Call.Departure?.IsHidden == true ? "" : IsDeparture ? Call.Departure!.Time : $"({Call.Departure?.Time})";
     [JsonIgnore] public string SortTime => IsArrival ? ArrivalTime : DepartureTime;
     [JsonIgnore] public int Rows => Notes.Any() ? 1 + Notes.Count() : 1;
 

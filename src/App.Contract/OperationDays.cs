@@ -71,10 +71,13 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static OperationDays OperationDays(this byte flags)
         {
             var days = GetDays(flags);
-            if (days.Length == 0) Debugger.Break();
             var isDaily = flags.IsAllDays();
             var fullName = new StringBuilder(20);
             var shortName = new StringBuilder(10);
+            if (days.Length == 0)
+            {
+                return new OperationDays() { Flags = 0 };
+            }
             if (days.Length == 1)
             {
                 fullName.Append(days[0].FullName);

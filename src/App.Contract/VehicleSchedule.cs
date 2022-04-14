@@ -58,7 +58,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
             var result = new List<TSchedule>(schedules.Count());
             foreach (var schedule in schedules)
             {
-                var trains = schedule.TrainParts.GroupBy(tp => tp.TrainNumber);
+                var trains = schedule.TrainParts
+                    .Where(tp => tp.Train is not null && tp.Train.OperationDaysFlags.IsAnyOtherDays(schedule.OperationDays.Flags))
+                    .GroupBy(tp => tp.TrainNumber);
                 if (trains.Count() < schedule.TrainParts.Count)
                 {
                     var newParts = new List<TrainPart>(trains.Count());

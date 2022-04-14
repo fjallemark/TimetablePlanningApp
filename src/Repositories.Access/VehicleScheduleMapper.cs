@@ -52,7 +52,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 TrainNumber = me.GetInt("TrainNumber").ToString(CultureInfo.InvariantCulture),
                 Train = new Train
                 {
-                    Color = me.GetString("TrainColor")
+                    Color = me.GetString("TrainColor"),
+                    OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
                 },
                 FromDeparture = new CallAction
                 {
