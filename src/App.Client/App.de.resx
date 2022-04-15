@@ -300,4 +300,7 @@
   <data name="Driver" xml:space="preserve">
     <value>Lokführer</value>
   </data>
+  <data name="GraphicLocoSchedules" xml:space="preserve">
+    <value>Grafischer Lokfahrplan</value>
+  </data>
 </root>

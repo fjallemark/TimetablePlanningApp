@@ -132,7 +132,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             };
 
         public static BlockDestinationsCallNote AsBlockDestinationsCallNote(this IDataRecord me) =>
-            new(me.GetInt("CallId"));
+            new(me.GetInt("CallId"))
+            {
+
+            };
 
         public static BlockArrivalCallNote AsBlockArrivalCallNote(this IDataRecord me) =>
             new(me.GetInt("CallId"))
@@ -140,7 +143,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
                 AndBeyond = me.GetBool("AndBeyond"),
                 AlsoSwitch = me.GetBool("AlsoSwitch"),
-                OrderInTrain = me.GetInt("OrderInTrain")
+                OrderInTrain = me.GetInt("OrderInTrain"),
+                AtShadowStation = me.GetBool("IsShadow"),
             };
 
         internal static BlockDestination AsBlockDestination(this IDataRecord me)
@@ -152,6 +156,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 TransferDestinationName = me.GetString("TransferDestinationName", ""),
                 ToAllDestinations = me.GetBool("ToAllDestinations"),
                 AndBeyond = me.GetBool("AndBeyond"),
+                AndLocalDestinations = me.GetBool("AndLocalDestinations"),
                 TransferAndBeyond = me.GetBool("TransferAndBeyond"),
                 OrderInTrain = me.GetInt("OrderInTrain"),
                 MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),

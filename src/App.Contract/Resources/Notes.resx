@@ -429,4 +429,13 @@
   <data name="Driver" xml:space="preserve">
     <value>Train driver</value>
   </data>
+  <data name="MoveContinuingWagonsToDepartureTracks" xml:space="preserve">
+    <value>Move continuing wagons to departure tracks.</value>
+  </data>
+  <data name="MoveRestOfWagonsToTable" xml:space="preserve">
+    <value>Move rest of the wagons to the table.</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>Local destinations</value>
+  </data>
 </root>

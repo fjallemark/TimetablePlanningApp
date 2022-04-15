@@ -23,21 +23,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
     public static class StationCallExtensions
     {
-        public static CallAction AsArrival(this StationCall call) =>
-            new()
-            {
-                Station = call.Station,
-                Track = call.TrackNumber,
-                Time = call.Arrival,
-            };
+        public static CallAction AsArrival(this StationCall call) => CallAction.ArrivalCallAction(call);
 
-        public static CallAction AsDeparture(this StationCall call) =>
-            new()
-            {
-                Station = call.Station,
-                Track = call.TrackNumber,
-                Time = call.Departure,
-            };
+        public static CallAction AsDeparture(this StationCall call) => CallAction.DepartureCallAction(call);
 
         public static bool IsArrival([NotNullWhen(true)] this StationCall call) =>
             call.IsStop && call.Arrival.HasValue();

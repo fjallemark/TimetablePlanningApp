@@ -51,15 +51,15 @@ else if (Layout is not null)
     protected override async Task OnInitializedAsync()
     {
         PageNumber = 0;
-        var result1 = await DataService.GetLayout(Constants.LayoutId);
-        if (result1.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayout(Constants.LayoutId);
+        if (layoutResult.statusCode.IsSuccess())
         {
-            Layout = result1.item;
-            var result2 = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
-            if (result2.statusCode.IsSuccess())
+            Layout = layoutResult.item;
+            var schedulesResult = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
+            if (schedulesResult.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();
-                if (Operator.HasValue()) Items = result2.items.Where(i => i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+                Items = Operator.HasValue() ? schedulesResult.items.Where(i => i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase)) : schedulesResult.items;
             }
         }
 

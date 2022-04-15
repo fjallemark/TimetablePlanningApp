@@ -300,4 +300,7 @@
   <data name="Driver" xml:space="preserve">
     <value>Train driver</value>
   </data>
+  <data name="GraphicLocoSchedules" xml:space="preserve">
+    <value>Graphic loco schedules</value>
+  </data>
 </root>

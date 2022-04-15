@@ -11,6 +11,12 @@
 				<text class="trainNumber" x="@part.MiddleTime().TimeX(StartHour, EndHour)" y="10" text-anchor="middle" fill="black">@part.TrainNumber</text>
 			</text>
 			<rect x="@part.FromDeparture.TimeX(StartHour, EndHour)" y="12" width="@part.DurationX(StartHour, EndHour)" height="10" style="fill:@part.TrainColor();stroke-width:0;stroke:rgb(0,0,0)" />
+			@if (part.FromDeparture?.AssignTime is not null) {
+				<rect x="@part.FromDeparture.AssignTime.TimeX(StartHour, EndHour)" y="12" width="@part.AssignDuration(StartHour, EndHour)" height="10" style="fill:gray;stroke-width:0;stroke:rgb(0,0,0)" />
+			}
+			@if (part.ToArrival?.UnassignTime is not null) {
+				<rect x="@part.ToArrival.TimeX(StartHour, EndHour)" y="12" width="@part.UnassignDuration(StartHour, EndHour)" height="10" style="fill:gray;stroke-width:0;stroke:rgb(0,0,0)" />
+			}
 			<text>
 				<text class="station" x="@(part.FromDeparture.TimeX(StartHour, EndHour))" y="32" text-anchor="start" fill="black">@part.FromDeparture!.Station!.Signature</text>
 			</text>

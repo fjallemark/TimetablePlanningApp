@@ -511,6 +511,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local destinations.
+        /// </summary>
+        public static string LocalDestinations {
+            get {
+                return ResourceManager.GetString("LocalDestinations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Local freight train.
         /// </summary>
         public static string LocalFreightTrain {
@@ -597,6 +606,24 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string MondayShort {
             get {
                 return ResourceManager.GetString("MondayShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move continuing wagons to departure tracks..
+        /// </summary>
+        public static string MoveContinuingWagonsToDepartureTracks {
+            get {
+                return ResourceManager.GetString("MoveContinuingWagonsToDepartureTracks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move rest of the wagons to the table..
+        /// </summary>
+        public static string MoveRestOfWagonsToTable {
+            get {
+                return ResourceManager.GetString("MoveRestOfWagonsToTable", resourceCulture);
             }
         }
         

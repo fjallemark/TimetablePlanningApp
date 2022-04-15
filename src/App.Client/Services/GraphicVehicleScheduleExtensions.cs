@@ -11,28 +11,35 @@ public static class GraphicVehicleScheduleExtensions
     public static int Height(this VehicleSchedule me) => Options.Height;
     public static int Width(this VehicleSchedule me) => Options.Width;
 
-    public static int TimeX(this CallTime time, int startHour, int endHour) => 
+    public static int TimeX(this CallTime time, int startHour, int endHour) =>
         (int)Math.Round(Options.HeaderWidth + ((Options.Width - Options.HeaderWidth) * ((time.AsTimeSpan().TotalHours - startHour) / (endHour - startHour))), 0);
-    
+
     public static CallTime MiddleTime(this TrainPart part)
 
     {
         var a = part.ToArrival.AsTimeSpan();
         var d = part.FromDeparture.AsTimeSpan();
 
-        return (d + (a - d)/2).FromTimeSpan(true, false, Array.Empty<string>());
+        return (d + (a - d) / 2).FromTimeSpan(true, false, Array.Empty<string>());
     }
 
-    public static int DurationX(this TrainPart part, int startHour, int endHour) => 
+    public static int DurationX(this TrainPart part, int startHour, int endHour) =>
         part.ToArrival.TimeX(startHour, endHour) - part.FromDeparture.TimeX(startHour, endHour);
 
-    public static int TimeX(this CallAction? call, int startHour, int endHour) => 
+    public static int AssignDuration(this TrainPart part, int startHour, int endHour) =>
+        part.FromDeparture?.AssignTime is null ? 0 :
+        part.FromDeparture.TimeX(startHour, endHour) - part.FromDeparture.AssignTime.TimeX(startHour, endHour);
+    public static int UnassignDuration(this TrainPart part, int startHour, int endHour) =>
+         part.ToArrival?.UnassignTime is null ? 0 :
+         part.ToArrival.UnassignTime.TimeX(startHour, endHour) - part.ToArrival.TimeX(startHour, endHour);
+
+    public static int TimeX(this CallAction? call, int startHour, int endHour) =>
         call is null ? 0 : TimeX(call.Time.AsTimeSpan().TotalHours, startHour, endHour);
 
-    public static int TimeX(this double hours, int startHour, int endHour) => 
+    public static int TimeX(this double hours, int startHour, int endHour) =>
         (int)Math.Round(Options.HeaderWidth + ((Options.Width - Options.HeaderWidth) * (hours - startHour) / (endHour - startHour)));
 
-    public static int TimeX(this int hours, int startHour, int endHour) => 
+    public static int TimeX(this int hours, int startHour, int endHour) =>
         TimeX((double)hours, startHour, endHour);
 
     public static int StationSignatureFontSize(this TrainPart part, int startHour, int endHour)
@@ -53,5 +60,5 @@ public sealed record GraphicVehicleScheduleOptions
 {
     public int Height { get; init; } = 40;
     public int Width { get; init; } = 1100;
-    public int HeaderWidth { get; init; } = 100;
+    public int HeaderWidth { get; init; } = 120;
 }

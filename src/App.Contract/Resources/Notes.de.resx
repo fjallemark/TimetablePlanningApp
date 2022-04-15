@@ -409,4 +409,13 @@
   <data name="Driver" xml:space="preserve">
     <value>Lokführer</value>
   </data>
+  <data name="MoveContinuingWagonsToDepartureTracks" xml:space="preserve">
+    <value>Fortfahrende Waggons auf Abfahrtsgleise verschieben.</value>
+  </data>
+  <data name="MoveRestOfWagonsToTable" xml:space="preserve">
+    <value>Bewegen Sie den Rest der Wagen auf den Tisch.</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>Lokale Ziele</value>
+  </data>
 </root>

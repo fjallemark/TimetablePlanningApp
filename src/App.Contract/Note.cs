@@ -55,7 +55,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
     public sealed class ManualTrainCallNote : TrainCallNote
     {
-        // TODO: Implemnent support for multilanguage manual notes.
         public ManualTrainCallNote(int callId) : base(callId) { }
         public byte OperationDayFlag { get; set; } = OperationDays.AllDays;
         public string Text { get; set; } = string.Empty;
@@ -266,8 +265,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
         }
     }
 
-
-
     public abstract class LocoCallNote : TrainCallNote
     {
         protected LocoCallNote(int callId) : base(callId)
@@ -391,6 +388,55 @@ namespace Tellurian.Trains.Planning.App.Contracts
             Note.SingleNote(100, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
     }
 
+    public class BlockArrivalCallNote : TrainCallNote
+    {
+        public BlockArrivalCallNote(int callId) : base(callId)
+        {
+            IsShuntingNote = true;
+            IsDriverNote = true;
+            IsForArrival = true;
+        }
+        public string StationName => StationNames.Count > 0 ? StationNames[0] : string.Empty;
+        public IList<string> StationNames { get; } = new List<string>();
+        public bool ToAllDestinations { get; set; }
+        public bool AndBeyond { get; set; }
+        public bool AlsoSwitch { get; set; }
+        public bool AtShadowStation { get; set; }
+        public int OrderInTrain { get; set; }
+
+        public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
+        {
+            var result = new List<Note>();
+            if (AlsoSwitch)
+            {
+                if (AtShadowStation)
+                {
+                    result.Add(new Note { DisplayOrder = -801, Text = $"{Notes.MoveContinuingWagonsToDepartureTracks} {Notes.MoveRestOfWagonsToTable}" });
+                }
+                else
+                {
+                    if (AndBeyond)
+                    {
+                        result.Add(new Note { DisplayOrder = -801, Text = Notes.DisconnectContinuingWagons });
+                    }
+                    result.Add(new Note { DisplayOrder = -800, Text = Notes.SwitchWagonsToCustomers });
+                }
+            }
+            else
+            {
+                result.Add(new Note { DisplayOrder = -700, Text = DisconnectNote });
+            }
+            return result;
+        }
+
+        private string DisconnectNote =>
+            ToAllDestinations ?
+            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations) :
+            AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, StationName) :
+            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, string.Join(", ", StationNames));
+    }
+
+
     public class BlockDestination
     {
         public int StationId { get; set; }
@@ -398,6 +444,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public string? TransferDestinationName { get; set; }
         public bool ToAllDestinations { get; set; }
         public bool AndBeyond { get; set; }
+        public bool AndLocalDestinations { get; set; }
         public int OrderInTrain { get; set; }
         public int MaxNumberOfWagons { get; set; }
         public bool TransferAndBeyond { get; set; }
@@ -420,6 +467,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
         internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
 
+
         public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
         public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
     }
@@ -440,6 +488,11 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 var destinationTextsInGroup = destinations.Select(d => d.ToString()).Distinct();
                 if (useBrackets) text.Append('[');
                 text.Append(string.Join('|', destinationTextsInGroup));
+                if (destinationGroup.First().AndLocalDestinations)
+                {
+                    text.Append('|');
+                    text.Append(Notes.LocalDestinations);
+                }
                 if (useBrackets) text.Append(']');
                 var maxNumberOfWagons = destinations.Sum(d => d.MaxNumberOfWagons);
                 if (maxNumberOfWagons > 0)
@@ -451,43 +504,6 @@ namespace Tellurian.Trains.Planning.App.Contracts
             }
             return result;
         }
-    }
-
-    public class BlockArrivalCallNote : TrainCallNote
-    {
-        public BlockArrivalCallNote(int callId) : base(callId)
-        {
-            IsShuntingNote = true;
-            IsDriverNote = true;
-            IsForArrival = true;
-        }
-        public string StationName => StationNames.Count > 0 ? StationNames[0] : string.Empty;
-        public IList<string> StationNames { get; } = new List<string>();
-        public bool ToAllDestinations { get; set; }
-        public bool AndBeyond { get; set; }
-        public bool AlsoSwitch { get; set; }
-        public int OrderInTrain { get; set; }
-
-        public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
-        {
-            var result = new List<Note>();
-            if (AlsoSwitch)
-            {
-                if (AndBeyond) result.Add(new Note { DisplayOrder = -801, Text = Notes.DisconnectContinuingWagons });
-                result.Add(new Note { DisplayOrder = -800, Text = Notes.SwitchWagonsToCustomers });
-            }
-            else
-            {
-                result.Add(new Note { DisplayOrder = -700, Text = DisconnectNote });
-            }
-            return result;
-        }
-
-        private string DisconnectNote =>
-            ToAllDestinations ?
-            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations) :
-            AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, StationName) :
-            string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, string.Join(", ", StationNames));
     }
 
     public class OtherTrain

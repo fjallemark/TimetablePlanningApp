@@ -409,4 +409,13 @@
   <data name="Driver" xml:space="preserve">
     <value>Togfører</value>
   </data>
+  <data name="MoveContinuingWagonsToDepartureTracks" xml:space="preserve">
+    <value>Flyt fortsættende vogne til afgangsspor.</value>
+  </data>
+  <data name="MoveRestOfWagonsToTable" xml:space="preserve">
+    <value>Flyt resten af vognene til bordet.</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>Lokale destinationer</value>
+  </data>
 </root>

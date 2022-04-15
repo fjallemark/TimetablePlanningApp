@@ -15,7 +15,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     public static class TrainPartExtensions
     {
         public static TrainPart AsTrainPart(this Train train, string locoNumber, int fromSequenceNumber = 1, int toSequenceNumber = 0) =>
-            new TrainPart
+            new ()
             {
                 TrainNumber = $"{train.OperatorName} {train.Number}",
                 FromDeparture = train.Calls.Single(c => c.SequenceNumber == fromSequenceNumber).AsDeparture(),

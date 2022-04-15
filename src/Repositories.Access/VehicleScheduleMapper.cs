@@ -55,14 +55,15 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     Color = me.GetString("TrainColor"),
                     OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
                 },
-                FromDeparture = new CallAction
+                FromDeparture = new CallAction()
                 {
                     Station = new Station
                     {
                         Signature = me.GetString("DepartureStationSignature"),
                         Name = me.GetString("DepartureStationName")
                     },
-                    Time = CallTime.Create( me.GetTime("DepartureTime"))
+                    Time = CallTime.Create( me.GetTime("DepartureTime")),
+                    AssignTime = CallTime.Create(me.GetTime("AssignTime")),
                 },
                 ToArrival = new CallAction
                 {
@@ -71,7 +72,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                         Signature = me.GetString("ArrivalStationSignature"),
                         Name = me.GetString("ArrivalStationName")
                     },
-                    Time = CallTime.Create( me.GetTime("ArrivalTime"))
+                    Time = CallTime.Create( me.GetTime("ArrivalTime")),
+                    UnassignTime = CallTime.Create(me.GetTime("UnassignTime")),
                 }
             };
             schedule.TrainParts.Add(trainPart);
