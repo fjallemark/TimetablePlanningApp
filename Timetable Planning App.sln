@@ -16,7 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0616AED9-8E44-4D5F-ACFE-E12646DEBFCA}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.md = Readme.md
-		XPLN.md = XPLN.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Client.Tests", "src\App.Client.Tests\App.Client.Tests.csproj", "{2426A325-C2E5-4FB2-932E-94ADF43A4E76}"

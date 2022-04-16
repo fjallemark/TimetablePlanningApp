@@ -1,5 +1,5 @@
 # Timetable Planning App
->Last update: 2022-04-07
+>Last update: 2022-04-16
 
 This is the **experimental version** of the web application for 
 working with scheduling of model railway operation at module meetings.
@@ -50,8 +50,8 @@ For each train, loco, trainset and duty an operation day can be specified.
 This enables flexible planning, for example trainset schedules over several days.
 It can be used when game sessions are assigned a running weekday.
 
-##### Graphical Timetable
-It is possible to a sequence of stations as a *timetable stretch*. 
+##### Graphical Timetable **NEW**
+A sequence of stations forms a *timetable stretch*. 
 Timetable stretches may overlap each other.
 Each timetable stretch prints as a separate *grapic timetable*,
 with all trains passing som part of the timetable stretch.
@@ -59,6 +59,13 @@ Also track occupancy of any train is shown.
 
 When trains are operated on different days, the graphical timtable can be blurred with details.
 It is therefore possible to print the graphical timetable valid for only a subset of operating days.
+
+##### Graphical Loco Turnus
+Shows the usage of all locomotivs.
+Each loco displays on a row, with bars showing when the loco is used in a train.
+In order to see the true occupancu of the loco, the lead-in and lead-out time is also showed.
+Lead-in time is the trains arrival time at the first station, 
+and lead-out is the trains departure time from the last station.
 
 ##### Automatic Notes to Loco Driver and Station Staff
 One of the hassles with other planning systems, is entering notes to loco drivers and station staff.
@@ -69,7 +76,8 @@ Examples of automatic notes are:
 - If train not stops at a station.
 - Train meets at stations checked to show this.
 - Where to couple or uncouple locos, trainsets or freigth wagons to specific destinations.
-- If to perform local shunting at a station.
+- **NEW** What to do at arrival to an unmanned shadow station.
+- If to perform local shunting .
 - If locos should be reversed, turned or exchanged at some station.
 - The operation day (i.e. weekday) of when the note apply. 
 The weekday notes consider the union of the operation days of the train, loco/trainset, and the duty,
@@ -82,9 +90,8 @@ The advantages with automatic notes are that:
 - you don't have to write them yourself, just click some checkboxes or enter some data,
 - they are formulated in a consistent way, 
 - they have the same formulation in every report,
-- they are applied to the user context in a predefine and systematic way,
+- they are applied contextually in a predefine and systematic way,
 - they can easily be generated in any supported language.
-
 
 ##### Manual Notes
 Even if it is rarley needed,
@@ -130,7 +137,7 @@ All pages are numbered, also the 'empty' ones.
 They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
 This works regardless of the number of pages.
 
-##### Station Duties
+##### Station Duties **NEW**
 A station duty printed in A5 booklet format contains:
 - a first page with some general information about the duty, if its a *dispatcher duty*, a *shunting duty* or a combined.
 The combined is intended for single manned stations.
