@@ -27,7 +27,7 @@ namespace App.Client.Tests
         public void SecondStationIsAtCorrectYoffset()
         {
             var target = Target;
-            Assert.AreEqual(Options.Yoffset + Options.HourHeight + 30 + 90, target.YStation(target.Stations[1]));
+            Assert.AreEqual(Options.Yoffset + Options.HourHeight + 30 + 120, target.YStation(target.Stations[1]));
 
         }
 

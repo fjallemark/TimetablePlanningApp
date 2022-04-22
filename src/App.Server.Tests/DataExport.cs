@@ -14,6 +14,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests;
 [TestClass]
 public class DataExport
 {
+    [Ignore("Use only for current plan.")]
     [TestMethod]
     public async Task ExportStationDutyTrains()
     {
@@ -26,7 +27,7 @@ public class DataExport
              });
         var store = new AccessPrintedReportsStore(options);
         var target = new PrintedReportsService(store);
-        var booklet = await target.GetStationDutyBookletAsync(Constants.LayoutId, includeAllTrains: true);
+        var booklet = await target.GetStationDutyBookletAsync(17, includeAllTrains: true);
 
         using var stream = new FileStream("C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2022\\2022-03 Grimslöv\\Trafikplanering\\Station trains Cda.csv", FileMode.Create);
         using var output = 
