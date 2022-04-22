@@ -241,7 +241,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             }
         }
 
-        private IEnumerable<OtherTrainCall> ActualMeetingTrains(byte onlyDays) => MeetingTrains.Where(mt => (mt.OperationDayFlag & onlyDays) > 0);
+        private IEnumerable<OtherTrainCall> ActualMeetingTrains(byte onlyDays) => MeetingTrains.Where(mt => (mt.OperationDayFlag & onlyDays & OperationDayFlag) > 0);
     }
 
     public class LocoExchangeCallNote : TrainCallNote
