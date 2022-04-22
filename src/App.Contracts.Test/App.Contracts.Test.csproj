@@ -1,28 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Tellurian.Trains.Planning.App.Contract.Tests</AssemblyName>
-    <RootNamespace>Tellurian.Trains.Planning.App.Contract.Tests</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>Tellurian.Trains.Planning.App.Contract.Tests</AssemblyName>
+		<RootNamespace>Tellurian.Trains.Planning.App.Contract.Tests</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<Version>0.1.0</Version>
+		<IsPackable>false</IsPackable>
+		<ProjectGuid>81D52CA4-EC87-4951-BE06-0F6EC50E3462</ProjectGuid>
+	</PropertyGroup>
 
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+		<PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+		<PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+		<PackageReference Include="coverlet.collector" Version="3.1.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
-    <PackageReference Include="coverlet.collector" Version="3.1.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -1,27 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Tellurian.Trains.Planning.App.Server</AssemblyName>
-    <RootNamespace>Tellurian.Trains.Planning.App.Server</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
-    <Platforms>AnyCPU</Platforms>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
-    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>Tellurian.Trains.Planning.App.Server</AssemblyName>
+		<RootNamespace>Tellurian.Trains.Planning.App.Server</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<Version>0.1.0</Version>
+		<Platforms>AnyCPU</Platforms>
+		<ProjectGuid>140ECF49-9A3F-4FF8-991F-BC318B17F333</ProjectGuid>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\App.Client\App.Client.csproj" />
-    <ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
-    <ProjectReference Include="..\Repositories.Access\Repositories.Access.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.3" />
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\App.Client\App.Client.csproj" />
+		<ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
+		<ProjectReference Include="..\Repositories.Access\Repositories.Access.csproj" />
+	</ItemGroup>
 
 
 </Project>

@@ -1,28 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
-    <RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
-    <Platforms>AnyCPU</Platforms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
+		<RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<Version>0.1.0</Version>
+		<Platforms>AnyCPU</Platforms>
+		<ProjectGuid>2DC49911-D3C9-4084-AB92-12939AE23685</ProjectGuid>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="Resources\Notes.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Notes.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Resources\Notes.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Notes.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Notes.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Notes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Notes.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Notes.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
 </Project>

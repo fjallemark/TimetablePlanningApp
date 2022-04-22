@@ -1,37 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
-	<AssemblyName>Tellurian.Trains.Planning.App.Server.Tests</AssemblyName>
-	<RootNamespace>Tellurian.Trains.Planning.App.Server.Tests</RootNamespace>
-	<LangVersion>latest</LangVersion>
-	<Nullable>enable</Nullable>
-	<IsPackable>false</IsPackable>
-	<Version>0.1.0</Version>
-	<Platforms>AnyCPU</Platforms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AssemblyName>Tellurian.Trains.Planning.App.Server.Tests</AssemblyName>
+		<RootNamespace>Tellurian.Trains.Planning.App.Server.Tests</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<Version>0.1.0</Version>
+		<Platforms>AnyCPU</Platforms>
+		<ProjectGuid>9D42B9AD-3263-49B3-A5A4-42981E6E1FA5</ProjectGuid>
+	</PropertyGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="System.Data.Odbc" Version="6.0.0" />
-	  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-	<PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
-	<PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
-	<PackageReference Include="coverlet.collector" Version="3.1.2">
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Data.Odbc" Version="6.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+		<PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+		<PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+		<PackageReference Include="coverlet.collector" Version="3.1.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-	<ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
-	<ProjectReference Include="..\App.Server\App.Server.csproj" />
-	<ProjectReference Include="..\Repositories.Access\Repositories.Access.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
+		<ProjectReference Include="..\App.Server\App.Server.csproj" />
+		<ProjectReference Include="..\Repositories.Access\Repositories.Access.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-	<None Update="Testdata\response.json">
-	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	</None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="Testdata\response.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
