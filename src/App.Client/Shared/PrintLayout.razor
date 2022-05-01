@@ -1,5 +1,19 @@
 ﻿@inherits LayoutComponentBase
+@inject Services.PrintedReportsService DataService
 
-<div class="print">
+<div class="print" style="font-family: @FontFamily">
     @Body
 </div>
+
+@code {
+    string FontFamily = "'Helvetica Neue', Helvetica, Arial, sans-serif;";
+    Layout? Layout ;
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await DataService.GetLayout(Constants.LayoutId);
+        if (result.statusCode.IsSuccess())
+        {
+            FontFamily = result.item!.FontFamily ?? FontFamily;
+        }
+    }
+}

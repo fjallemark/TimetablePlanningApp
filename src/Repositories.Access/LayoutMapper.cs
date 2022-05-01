@@ -11,6 +11,7 @@ internal static class LayoutMapper
             StartHour = me.GetInt("StartHour"),
             EndHour = me.GetInt("EndHour"),
             ValidFrom = me.GetDate("ValidFromDate"),
-            ValidTo = me.GetDate("ValidToDate")
+            ValidTo = me.GetDate("ValidToDate"),
+            FontFamily = me.GetString("FontFamily")
         };
 }
