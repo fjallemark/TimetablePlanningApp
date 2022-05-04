@@ -304,7 +304,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disconnect continuing wagons..
+        ///   Looks up a localized string similar to Disconnect wagons continuing in other trains..
         /// </summary>
         public static string DisconnectContinuingWagons {
             get {
@@ -588,6 +588,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string MeetsOtherTrains {
             get {
                 return ResourceManager.GetString("MeetsOtherTrains", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mixed train.
+        /// </summary>
+        public static string MixedTrain {
+            get {
+                return ResourceManager.GetString("MixedTrain", resourceCulture);
             }
         }
         

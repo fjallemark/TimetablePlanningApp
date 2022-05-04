@@ -31,13 +31,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 ValidFromDate = me.GetDate("ValidFromDate"),
                 ValidToDate = me.GetDate("ValidToDate"),
                 Difficulty = me.GetInt("DutyDifficulty"),
-                EndTime = me.GetTime("DutyEndsTime"),
+                EndTime = me.GetTime("DutyEndsTime", ""),
                 LayoutName = me.GetString("LayoutName"),
                 Description = me.GetString("DutyName"),
                 Number = me.GetInt("DutyNumber").ToString(),
                 Operator = me.GetString("DutyOperator"),
-                RemoveOrder = me.GetInt("DutyRemoveOrder"),
-                StartTime = me.GetTime("DutyStartsTime"),
+                RemoveOrder = me.GetInt("DutyRemoveOrder", 0),
+                StartTime = me.GetTime("DutyStartsTime", ""),
                 Parts = new List<DriverDutyPart>()
             };
 

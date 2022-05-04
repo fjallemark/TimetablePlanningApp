@@ -3,6 +3,7 @@ using System.Data;
 using System.Globalization;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
@@ -39,21 +40,22 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             throw TypeErrorException(value, columnName);
         }
 
-        public static int GetInt(this IDataRecord me, string columnName, short defaultValue = 0)
+        public static int GetInt(this IDataRecord me, string columnName, short? defaultValue = null)
         {
-            var i = me.GetColumIndex(columnName, ThrowOnColumnError);
-            if (i < 0) return defaultValue;
-            if (me.IsDBNull(i)) return defaultValue;
+            var i = me.GetColumIndex(columnName, defaultValue is null);
+            if (i < 0) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
+            if (me.IsDBNull(i)) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
             var value = me.GetValue(i);
             if (value is int b) return b;
             if (value is short a) return a;
             throw TypeErrorException(value, columnName);
         }
 
-        public static double GetDouble(this IDataRecord me, string columnName, double defaultValue = 0)
+        public static double GetDouble(this IDataRecord me, string columnName, double? defaultValue = null)
         {
-            var i = me.GetColumIndex(columnName, ThrowOnColumnError);
-            if (me.IsDBNull(i)) return defaultValue;
+            var i = me.GetColumIndex(columnName, defaultValue is null);
+            if (i < 0) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
+            if (me.IsDBNull(i)) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
             var value = me.GetValue(i);
             if (value is double b) return b;
             if (value is float a) return a;
@@ -66,10 +68,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return me.GetDateTime(i).Date;
         }
 
-        public static string GetTime(this IDataRecord me, string columnName, string defaultValue = "")
+        public static string GetTime(this IDataRecord me, string columnName, string? defaultValue = null)
         {
-            var i = me.GetColumIndex(columnName, ThrowOnColumnError);
-            if (me.IsDBNull(i)) return defaultValue;
+            var i = me.GetColumIndex(columnName, defaultValue is null);
+            if (i < 0) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
+            if (me.IsDBNull(i)) return defaultValue ?? throw TypeErrorException(null, columnName);
             return me.GetDateTime(i).ToString("HH:mm", CultureInfo.InvariantCulture);
         }
 
@@ -88,15 +91,17 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return t.TotalMinutes;
         }
 
-        public static bool GetBool(this IDataRecord me, string columnName)
+        public static bool GetBool(this IDataRecord me, string columnName, bool? defaultValue = null)
         {
-            var i = me.GetColumIndex(columnName, ThrowOnColumnError);
+            var i = me.GetColumIndex(columnName, defaultValue is null);
+            if (i < 0) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
             if (me.IsDBNull(i)) return false;
             var value = me.GetValue(i);
             if (value is bool a) return a;
             if (value is short b) return b != 0;
             if (value is int c) return c != 0;
             if (value is double d) return d != 0;
+            if (defaultValue.HasValue) return defaultValue.Value;
             throw TypeErrorException(value, columnName);
         }
 
@@ -116,10 +121,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return i;
         }
 
-        private static Exception TypeErrorException(object value, string columnName)
+        private static Exception TypeErrorException(object? value, string columnName)
         {
+            if (value is null) return new InvalidOperationException($"{columnName} has null-value and no default.");
             var type = value.GetType();
-            return new InvalidOperationException($"{columnName} has unsupported value type {type.Name}");
+            return new InvalidOperationException($"{columnName} has unsupported value type {type.Name}.");
         }
     }
 }

@@ -26,7 +26,7 @@ else
                         @foreach (var train in track.TrainBlocks)
                         {
                             <div style="display: flex; flex-direction: @train.FlexDirection(ReverseBlockDestinations); justify-content:flex-start">
-                                <div class="track train">@train.Train.Display() @train.DepartureTime.Time</div>
+                                <div class="track train">@train.Train.Display() @train.ArrivalTime.Time -  @train.DepartureTime.Time</div>
                                 @foreach (var destinationGroup in train.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
                                 {
                                     <div class=" track destination">
@@ -38,6 +38,12 @@ else
                                                     @destination.ToString()
                                                 </div>
                                             }
+                                            else if (destination.IsTrainset)
+                                            {
+                                               <div class="block destination" style="color : #000000; background-color: #FAFAFA">
+                                                    @destination.ToString()
+                                                </div>
+                                             }
                                             else
                                             {
                                                 <div class="block destination" style="color : #FFFFFF; background-color: #777777">

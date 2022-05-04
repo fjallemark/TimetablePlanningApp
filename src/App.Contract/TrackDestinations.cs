@@ -24,6 +24,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     public class TrainBlocking
     {
         public TrainInfo Train { get; set; } = new TrainInfo();
+        public CallTime ArrivalTime { get; set; } = new CallTime();
         public CallTime DepartureTime { get; set; } = new CallTime();
         public bool ReverseBlockDestinations { get; set; }
         public IList<BlockDestination> BlockDestinations { get; set; } = new List<BlockDestination>();

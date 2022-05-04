@@ -15,6 +15,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public int Number { get; set; }
         public string OperatorName { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
+        public string CategoryResourceCode { get; set; } = string.Empty;
         public bool IsCargo { get; set; }
         public bool IsPassenger { get; set; }
         public byte OperationDaysFlags { get; set; }

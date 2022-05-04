@@ -15,6 +15,6 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             reverseItAgain ? !me.ReverseBlockDestinations : me.ReverseBlockDestinations;
 
         public static string Display(this TrainInfo me) =>
-            $"{me.Prefix} {me.Number}";
+            $"{me.OperatorName} {me.Prefix} {me.Number}".Trim();
     }
 }

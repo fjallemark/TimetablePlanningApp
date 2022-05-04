@@ -304,7 +304,7 @@
     <value>{0} and beyond</value>
   </data>
   <data name="DisconnectContinuingWagons" xml:space="preserve">
-    <value>Disconnect continuing wagons.</value>
+    <value>Disconnect wagons continuing in other trains.</value>
   </data>
   <data name="SwitchWagonsToCustomers" xml:space="preserve">
     <value>Switch wagons to cargo customers.</value>
@@ -437,5 +437,8 @@
   </data>
   <data name="LocalDestinations" xml:space="preserve">
     <value>Local destinations</value>
+  </data>
+  <data name="MixedTrain" xml:space="preserve">
+    <value>Mixed train</value>
   </data>
 </root>

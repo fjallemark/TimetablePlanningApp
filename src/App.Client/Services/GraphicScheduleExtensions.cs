@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Client.Services
 {
@@ -169,7 +170,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
     {
         public int Yoffset { get; set; } = 20;
         public int TrackHeight { get; set; } = 10;
-        public int MinDistanceBeweenStations { get; set; } = 80;
+        public int MinDistanceBeweenStations { get; set; } = 70;
         public int FirstHourOffset { get; set; } = 60;
         public int HourWidth { get; set; } = 180;
         public int DistanceFactor { get; set; } = 8;

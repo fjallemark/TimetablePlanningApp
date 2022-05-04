@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 
-namespace Tellurian.Trains.Planning.App.Contracts;
+namespace Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 public static class PaginationExtensions
 {
     public static int TotalPages<T>(this IEnumerable<T> me, int itemPerPage) =>
-        me is null ? 0 : me.Count() % itemPerPage == 0 ? me.Count() / itemPerPage : (me.Count() / itemPerPage) + 1;
+        me is null ? 0 : me.Count() % itemPerPage == 0 ? me.Count() / itemPerPage : me.Count() / itemPerPage + 1;
 
     private static IEnumerable<T> Page<T>(this IEnumerable<T> me, int itemPerPage, int pageNumber) =>
         pageNumber < 1 || pageNumber > me.TotalPages(itemPerPage) ? Array.Empty<T>() :
@@ -32,7 +32,7 @@ public static class PaginationExtensions
         var pages = me.GetDriverDutyPages(instructions).ToArray();
         var bookletPageOrder = BookletPageOrder(pages.Length);
         var result = new List<DriverDutyPage>();
-        for (int i = 0; i < bookletPageOrder.Length; i++)
+        for (var i = 0; i < bookletPageOrder.Length; i++)
         {
             result.Add(pages[bookletPageOrder[i] - 1]);
         }
@@ -47,12 +47,12 @@ public static class PaginationExtensions
         var instruction = instructions.LanguageOrInvariantInstruction();
         var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
         dutyParts.Last().IsLastPart = true;
-        for (int i = 0; i < me.Parts.Count; i++)
+        for (var i = 0; i < me.Parts.Count; i++)
         {
             result.Add(DriverDutyPage.Part(pageNumber++, me, dutyParts[i]));
         }
-        result.AddRange(BlankPagesToAppend<DriverDutyPage>( result.Count, instruction is null ? 0: 1));
-        pageNumber = result.Count+1;
+        result.AddRange(BlankPagesToAppend<DriverDutyPage>(result.Count, instruction is null ? 0 : 1));
+        pageNumber = result.Count + 1;
         if (instruction is not null) result.Add(DriverDutyPage.Instructions(pageNumber++, instruction.Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Driver}"));
         return result;
     }
@@ -68,7 +68,7 @@ public static class PaginationExtensions
         var pages = me.GetStationDutyPages(instructions).ToArray();
         var bookletPageOrder = BookletPageOrder(pages.Length);
         var result = new List<StationDutyPage>();
-        for (int i = 0; i < bookletPageOrder.Length; i++)
+        for (var i = 0; i < bookletPageOrder.Length; i++)
         {
             result.Add(pages[bookletPageOrder[i] - 1]);
         }
@@ -87,7 +87,7 @@ public static class PaginationExtensions
 
         if (me.ShuntingInstructions is not null && me.ShuntingInstructions.Any(i => i.Markdown.HasValue()))
             result.Add(StationDutyPage.Instructions(pageNumber++, me.ShuntingInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Shunting}"));
-        
+
         const int maxRowsOnPage = 26;
         var callsCount = me.Calls.Count - 1;
         var usedPageRows = 0;
@@ -109,7 +109,7 @@ public static class PaginationExtensions
         return result;
     }
 
-   
+
 
     #endregion
 
@@ -190,7 +190,7 @@ public sealed class DriverDutyPage : DutyPage
     public static DriverDutyPage Blank(int number) => new(number);
     public static DriverDutyPage Front(int number, DriverDuty duty) => new(number, duty);
     public static DriverDutyPage Part(int number, DriverDuty duty, DriverDutyPart part) => new(number, duty, part);
-    public static DriverDutyPage Instructions(int number, string? instructionsMarkdown, string? instructionsHeading = null) => 
+    public static DriverDutyPage Instructions(int number, string? instructionsMarkdown, string? instructionsHeading = null) =>
         new(number, instructionsMarkdown, instructionsHeading);
 }
 

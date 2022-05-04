@@ -163,6 +163,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 DestinationCountryName = me.GetString("CountryLocalName"),
                 IsInternational = me.GetBool("IsInternational"),
                 IsRegion = me.GetBool("IsRegion"),
+                IsCargo = me.GetBool("IsCargo", false),
+                IsTrainset = me.GetBool("IsTrainset", false),
                 HasCouplingNote = me.GetBool("HasCoupleNote"),
                 HasUncouplingNote = me.GetBool("HasUncoupleNote"),
                 ForeColor = me.GetString("ForeColor", "#000000"),

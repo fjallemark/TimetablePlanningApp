@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contracts

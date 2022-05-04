@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.Repositories.Access;
 internal static class LayoutMapper
@@ -13,5 +14,6 @@ internal static class LayoutMapper
             ValidFrom = me.GetDate("ValidFromDate"),
             ValidTo = me.GetDate("ValidToDate"),
             FontFamily = me.GetString("FontFamily")
+                .OrElse("'Segoe UI', Tahoma, Geneva, Verdana, sans-serif")
         };
 }

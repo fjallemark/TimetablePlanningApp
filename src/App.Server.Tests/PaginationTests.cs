@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Server.Tests
 {

@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
 
@@ -166,9 +167,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
-        public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
+        public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
         {
             var result = new List<BlockDestinations>(100);
+            var categories = await GetTrainCategories(1, 1930);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
             BlockDestinations? current = null;
@@ -193,7 +195,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     }
                     if (currentTrainNumber != lastTrainNumber)
                     {
-                        current.Tracks.Last().TrainBlocks.Add(reader.AsTrainBlocking());
+                        var trainBlocking = reader.AsTrainBlocking();
+                        trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
+                        current.Tracks.Last().TrainBlocks.Add(trainBlocking);
                     }
                     var destination = reader.AsBlockDestination();
                     if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
@@ -203,7 +207,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 lastOriginStationName = currentOriginStationName;
             }
             if (current != null) result.Add(current);
-            return Task.FromResult(result.AsEnumerable());
+            return result.AsEnumerable();
         }
 
         public Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId, string? stretchNumber)
@@ -243,28 +247,30 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} AND TimetableNumber = '{stretchNumber}' ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder";
         }
 
-        public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
+        public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
         {
             var result = new List<Train>(100);
+            var categories = await GetTrainCategories(1, 1930);
             Train? current = null;
-            var lastTrainNumber = 0;
+            var lastTrainNumber = string.Empty;
             var sequenceNumber = 0;
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} ORDER BY TrainNumber, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} ORDER BY TrainOperator, TrainNumber, DepartureTime");
             while (reader.Read())
             {
-                var currentTrainNumber = reader.GetInt("TrainNumber");
+                var currentTrainNumber = $"{reader.GetString("TrainOperator")}{reader.GetInt("TrainNumber")}";
                 if (currentTrainNumber != lastTrainNumber)
                 {
                     if (current != null) result.Add(current);
                     sequenceNumber = 0;
                     current = reader.AsTrain();
+                    current.Prefix = categories.Category(current.CategoryResourceCode).Prefix;
                 }
                 if (current != null) current.Calls.Add(reader.AsStationCall(++sequenceNumber));
                 lastTrainNumber = currentTrainNumber;
             }
             if (current != null) result.Add(current);
-            return Task.FromResult(result.AsEnumerable());
+            return result.AsEnumerable();
         }
 
 
@@ -279,6 +285,20 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             }
             return Task.FromResult(result.AsEnumerable());
         }
+
+        public Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year)
+        {
+            var result = new List<TrainCategory>(20);
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM HistoricalTrainCategory WHERE (CountryId IS NULL OR CountryId = {countryId}) AND (FromYear IS NULL OR FromYear <= {year}) AND (UptoYear IS NULL OR UptoYear > {year})");
+
+            while (reader.Read())
+            {
+                result.Add(reader.AsTrainCategory());
+            }
+            return Task.FromResult(result.AsEnumerable());
+        }
+
         public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId)
         {
             var result = new List<Waybill>(100);

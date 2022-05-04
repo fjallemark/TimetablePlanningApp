@@ -304,7 +304,7 @@
     <value>{0} og utover</value>
   </data>
   <data name="DisconnectContinuingWagons" xml:space="preserve">
-    <value>Koble fra vogner der skal videre.</value>
+    <value>Koble fra vogner som fortsetter i andre tog.</value>
   </data>
   <data name="SwitchWagonsToCustomers" xml:space="preserve">
     <value>Skift vogner til godskunder.</value>
@@ -437,5 +437,8 @@
   </data>
   <data name="LocalDestinations" xml:space="preserve">
     <value>Lokale destinasjoner</value>
+  </data>
+  <data name="MixedTrain" xml:space="preserve">
+    <value>Blandet tog</value>
   </data>
 </root>

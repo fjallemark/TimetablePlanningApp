@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contracts
@@ -451,6 +452,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public string DestinationCountryName { get; set; } = string.Empty;
         public bool IsInternational { get; set; }
         public bool IsRegion { get; set; }
+        public bool IsPassenger { get; set; }
+        public bool IsCargo { get; set; }
+        public bool IsTrainset { get; set; }
         public bool HasCouplingNote { get; set; }
         public bool HasUncouplingNote { get; set; }
         public string ForeColor { get; set; } = "#000000";
@@ -540,23 +544,5 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 $"{CategoryPrefix} {TrainNumber} {arrivalTime}-{departureTime}" :
                 $"{commonDaysFlag.OperationDays().ShortName} {CategoryPrefix} {TrainNumber} {arrivalTime}-{departureTime}";
         }
-    }
-
-    public class Trainset
-    {
-        public string Operator { get; set; } = string.Empty;
-        public int Number { get; set; }
-        public string Class { get; set; } = string.Empty;
-        public string WagonTypes { get; set; } = string.Empty;
-        public bool IsCargo { get; set; }
-        public int PositionInTrain { get; set; }
-        public int MaxNumberOfWaggons { get; set; }
-        public byte OperationDaysFlag { get; set; }
-        public bool HasCoupleNote { get; set; }
-        public bool HasUncoupleNote { get; set; }
-        public string Destination { get; set; } = string.Empty;
-        public string FinalDestination { get; set; } = string.Empty;
-        public bool HasFinalDestination => FinalDestination.HasValue() && FinalDestination != Destination;
-        public override string ToString() => $"{Operator} {Number} {WagonTypes}".TrimEnd();
     }
 }

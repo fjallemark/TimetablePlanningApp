@@ -10,15 +10,16 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private static ResourceManager Notes => App.Contracts.Resources.Notes.ResourceManager;
 
         public static Train AsTrain(this IDataRecord me) =>
-             new ()
+             new()
              {
                  OperatorName = me.GetString("TrainOperator"),
                  Prefix = me.GetString("TrainNumberPrefix"),
                  Number = me.GetInt("TrainNumber"),
                  OperationDaysFlags = me.GetByte("TrainDays").And(me.GetByte("DutyDays")),
+                 CategoryResourceCode = me.GetString("TrainCategoryName"),
                  CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                  Instruction = me.GetString("TrainInstruction"),
-                 MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons"),
+                 MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons", 0),
                  MaxSpeed = me.GetInt("TrainMaxSpeed"),
                  IsCargo = me.GetBool("IsCargo"),
                  IsPassenger = me.GetBool("IsPassenger"),
@@ -27,7 +28,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
              };
 
         public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber) =>
-            new ()
+            new()
             {
                 Id = me.GetInt("CallId"),
                 TrackId = me.GetInt("TrackId", -1),
@@ -53,6 +54,22 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     IsStop = me.GetBool("IsStop"),
                     Time = me.GetTime("DepartureTime", "")
                 }
-            }; 
+            };
+
+        public static TrainCategory AsTrainCategory(this IDataRecord me) =>
+            new()
+            {
+                Id = me.GetInt("Id"),
+                Name = me.GetString("Name"),
+                ResourceCode = me.GetString("ResourceCode"),
+                IsCargo = me.GetBool("IsCargo"),
+                IsPassenger = me.GetBool("IsPassenger"),
+                Prefix = me.GetString("Prefix"),
+                Suffix = me.GetString("Suffix"),
+                FromYear = me.GetInt("FromYear"),
+                ToYear = me.GetInt("UptoYear"),
+                CountryId = me.GetInt("CountryId")
+            };
+
     }
 }

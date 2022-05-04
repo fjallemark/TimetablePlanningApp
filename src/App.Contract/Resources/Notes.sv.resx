@@ -247,7 +247,7 @@
     <value>Malmtåg</value>
   </data>
   <data name="PassengerTrain" xml:space="preserve">
-    <value>Passagerartåg</value>
+    <value>Persontåg</value>
   </data>
   <data name="RegionalTrain" xml:space="preserve">
     <value>Regionaltåg</value>
@@ -304,7 +304,7 @@
     <value>{0} och bortom</value>
   </data>
   <data name="DisconnectContinuingWagons" xml:space="preserve">
-    <value>Koppla av godsvagnar som skall vidare.</value>
+    <value>Koppla från vagnar som fortsätter i andra tåg.</value>
   </data>
   <data name="SwitchWagonsToCustomers" xml:space="preserve">
     <value>Växla in vagnar till godskunder.</value>
@@ -437,5 +437,8 @@
   </data>
   <data name="LocalDestinations" xml:space="preserve">
     <value>Lokala destinationer</value>
+  </data>
+  <data name="MixedTrain" xml:space="preserve">
+    <value>Blandat tåg</value>
   </data>
 </root>
