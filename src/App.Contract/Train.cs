@@ -24,8 +24,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public string Origin => this is Train t ? t.Calls.First().Station.Name : string.Empty;
         public string Destination => this is Train t ? t.Calls.Last().Station.Name : string.Empty;
         public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDaysFlags.OperationDays().ShortName}";
+        public override bool Equals(object? obj) => obj is Train t && t.Number == Number && OperatorName.Equals(t.OperatorName, StringComparison.OrdinalIgnoreCase);
+        public override int GetHashCode() => HashCode.Combine(Number, OperatorName);
     }
-
 
 
     public class Train : TrainInfo

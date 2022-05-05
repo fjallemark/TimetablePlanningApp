@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Contracts
@@ -49,8 +50,18 @@ namespace Tellurian.Trains.Planning.App.Contracts
         }
         internal static int ToCallIndex(this DriverDutyPart me)
         {
+            try
+            {
             if (me.ToCallIndex == -1) me.ToCallIndex = me.ToCallId == 0 ? me.Train.Calls.Count - 1 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.ToCallId));
             return me.ToCallIndex;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Debugger.Break();
+                throw;
+            }
         }
 
         public static IEnumerable<DutyStationCall> Calls(this DriverDutyPart me) => me.Train.Calls.Select((c, i) => new DutyStationCall

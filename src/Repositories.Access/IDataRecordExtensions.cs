@@ -40,11 +40,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             throw TypeErrorException(value, columnName);
         }
 
-        public static int GetInt(this IDataRecord me, string columnName, short? defaultValue = null)
+        public static int GetInt(this IDataRecord me, string columnName, int? defaultValue = null)
         {
             var i = me.GetColumIndex(columnName, defaultValue is null);
             if (i < 0) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
             if (me.IsDBNull(i)) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
+            var value = me.GetValue(i);
+            if (value is int b) return b;
+            if (value is short a) return a;
+            throw TypeErrorException(value, columnName);
+        }
+        public static int? GetIntOrNull(this IDataRecord me, string columnName, int? defaultValue = null)
+        {
+            var i = me.GetColumIndex(columnName, defaultValue is null);
+            if (i < 0) return defaultValue;
+            if (me.IsDBNull(i)) return defaultValue;
             var value = me.GetValue(i);
             if (value is int b) return b;
             if (value is short a) return a;

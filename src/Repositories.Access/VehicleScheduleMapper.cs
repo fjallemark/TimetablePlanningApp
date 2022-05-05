@@ -49,9 +49,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var trainPart = new TrainPart
             {
+                
                 TrainNumber = me.GetInt("TrainNumber").ToString(CultureInfo.InvariantCulture),
                 Train = new Train
                 {
+                    Number = me.GetInt("TrainNumber"),
+                    OperatorName = me.GetString("TrainOperator"),
                     Color = me.GetString("TrainColor"),
                     OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
                 },

@@ -60,7 +60,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             {
                 var trains = schedule.TrainParts
                     .Where(tp => tp.Train is not null && tp.Train.OperationDaysFlags.IsAnyOtherDays(schedule.OperationDays.Flags))
-                    .GroupBy(tp => tp.TrainNumber);
+                    .GroupBy(tp => $"{tp.Train?.OperatorName}{tp.TrainNumber}");
                 if (trains.Count() < schedule.TrainParts.Count)
                 {
                     var newParts = new List<TrainPart>(trains.Count());
@@ -68,6 +68,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                     {
                         var newPart = new TrainPart()
                         {
+             
                             FromDeparture = part.First().FromDeparture,
                             ToArrival = part.Last().ToArrival,
                             LocoNumber = part.First().LocoNumber,

@@ -148,7 +148,7 @@
     <value>Operatør</value>
   </data>
   <data name="ServiceInTrain" xml:space="preserve">
-    <value>Tjeneste i tog {0}</value>
+    <value>Tjeneste i {0} tog {1}</value>
   </data>
   <data name="Starts" xml:space="preserve">
     <value>Starter</value>

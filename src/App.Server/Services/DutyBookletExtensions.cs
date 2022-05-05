@@ -18,9 +18,9 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             if (me.Count() == me.Select(m => m.Train.Number).Distinct().Count()) return me.ToArray();
             var parts = me.OrderBy(m => m.StartTime()).ToArray();
             var result = new List<DriverDutyPart>();
-            for (var i = 0; i < parts.Length - 1; i++)
+            for (var i = 0; i < parts.Length; i++)
             {
-                if (parts[i].Train.Number == parts[i + 1].Train.Number)
+                if (i < parts.Length - 1 && parts[i].Train.Equals(parts[i + 1].Train))
                 {
                     var train = parts[i].Train;
                     var part1 = parts[i];
@@ -40,6 +40,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                         ToCallId = part2.ToCallId,
                         Locos = part1.Locos.Concat(part2.Locos).ToArray(),
                     });
+                    i++;
                 }
                 else
                 {

@@ -133,7 +133,7 @@
     <value>Operatör</value>
   </data>
   <data name="ServiceInTrain" xml:space="preserve">
-    <value>Tjänst i tåg {0}</value>
+    <value>Tjänst i {0} tåg {1}</value>
   </data>
   <data name="StartsAt" xml:space="preserve">
     <value>Börjar vid</value>

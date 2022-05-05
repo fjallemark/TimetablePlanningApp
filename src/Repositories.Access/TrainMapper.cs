@@ -66,9 +66,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 IsPassenger = me.GetBool("IsPassenger"),
                 Prefix = me.GetString("Prefix"),
                 Suffix = me.GetString("Suffix"),
-                FromYear = me.GetInt("FromYear"),
-                ToYear = me.GetInt("UptoYear"),
-                CountryId = me.GetInt("CountryId")
+                FromYear = me.GetIntOrNull("FromYear"),
+                ToYear = me.GetIntOrNull("UptoYear"),
+                CountryId = me.GetIntOrNull("CountryId")
             };
 
     }

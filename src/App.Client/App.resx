@@ -148,7 +148,7 @@
     <value>Operator</value>
   </data>
   <data name="ServiceInTrain" xml:space="preserve">
-    <value>Service in train {0}</value>
+    <value>Service in {0} train {1}</value>
   </data>
   <data name="Starts" xml:space="preserve">
     <value>Starts</value>

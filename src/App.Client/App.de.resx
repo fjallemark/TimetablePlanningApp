@@ -148,7 +148,7 @@
     <value>Betreiber</value>
   </data>
   <data name="ServiceInTrain" xml:space="preserve">
-    <value>Zugdienst {0}</value>
+    <value>Zugdienst {0} {1}</value>
   </data>
   <data name="Starts" xml:space="preserve">
     <value>Startet</value>

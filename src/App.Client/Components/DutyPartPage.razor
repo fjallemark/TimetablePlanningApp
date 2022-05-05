@@ -5,7 +5,7 @@
         @if (Duty is not null && Item is not null)
         {
             <h1>
-                <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.Number)</span>
+                <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.OperatorName, Item.Train.Number)</span>
                 <span>@Duty.TrainOperatingDay(Item.Train)</span>
             </h1>
             <div>
@@ -117,4 +117,5 @@
     public DriverDutyPart? Item { get; set; }
     [Parameter]
     public DriverDuty? Duty { get; set; }
+
 }
