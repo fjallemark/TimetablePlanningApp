@@ -24,6 +24,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 TrackNumber = me.GetString("TrackNumber"),
                 Train = new TrainInfo
                 {
+                    CategoryResourceCode = me.GetString("TrainCategoryName"),
                     CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                     IsCargo = me.GetBool("IsCargo"),
                     IsPassenger = me.GetBool("IsPassenger"),

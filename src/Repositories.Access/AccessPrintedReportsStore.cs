@@ -170,7 +170,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
         {
             var result = new List<BlockDestinations>(100);
-            var categories = await GetTrainCategories(1, 1930);
+            var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
             BlockDestinations? current = null;
@@ -250,7 +250,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
         {
             var result = new List<Train>(100);
-            var categories = await GetTrainCategories(1, 1930);
+            var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
             Train? current = null;
             var lastTrainNumber = string.Empty;
             var sequenceNumber = 0;
@@ -274,16 +274,19 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         }
 
 
-        public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true)
+        public async Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true)
         {
             var result = new List<TrainDeparture>(100);
+            var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber");
             while (reader.Read())
             {
-                result.Add(reader.AsTrainDeparture());
+                var departure = reader.AsTrainDeparture();
+                departure.Train.Prefix = categories.Category(departure.Train.CategoryResourceCode).Prefix;
+                result.Add(departure);
             }
-            return Task.FromResult(result.AsEnumerable());
+            return result.AsEnumerable();
         }
 
         public Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year)
