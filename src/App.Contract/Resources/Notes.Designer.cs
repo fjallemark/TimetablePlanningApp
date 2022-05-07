@@ -349,6 +349,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duty.
+        /// </summary>
+        public static string Duty {
+            get {
+                return ResourceManager.GetString("Duty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Empty train.
         /// </summary>
         public static string EmptyTrain {

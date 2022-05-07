@@ -303,4 +303,7 @@
   <data name="GraphicLocoSchedules" xml:space="preserve">
     <value>Graphic loco schedules</value>
   </data>
+  <data name="Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
 </root>

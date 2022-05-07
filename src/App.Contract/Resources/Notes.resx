@@ -441,4 +441,7 @@
   <data name="MixedTrain" xml:space="preserve">
     <value>Mixed train</value>
   </data>
+  <data name="Duty" xml:space="preserve">
+    <value>Duty</value>
+  </data>
 </root>

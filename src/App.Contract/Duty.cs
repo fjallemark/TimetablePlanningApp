@@ -32,8 +32,10 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public static string? EndTime(this Duty me) =>
            me.EndTime.HasValue() ? me.EndTime :
-           me is DriverDuty driverDuty ? driverDuty.Parts.OrderBy(p => p.StartTime()).First().EndTime() :
+           me is DriverDuty driverDuty ? driverDuty.Parts.OrderBy(p => p.StartTime()).Last().EndTime() :
            "##:##";
+
+        public static string Description(this DriverDuty me) => $"{Notes.Duty} {me.Number} - {me.OperationDays.ShortName}"; 
     }
 
     public class DriverDuty : Duty

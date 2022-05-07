@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
@@ -19,7 +20,17 @@ public class TrainCategory
 
 public static class TrainCategoryExtensions
 {
-    public static TrainCategory Category(this IEnumerable<TrainCategory> items, string resourceCode) =>
-        items.Single(items => items.ResourceCode.Equals(resourceCode, System.StringComparison.OrdinalIgnoreCase));
-    
+    public static TrainCategory Category(this IEnumerable<TrainCategory> items, string resourceCode)
+    {
+        try
+        {
+            return items.Single(items => items.ResourceCode.Equals(resourceCode, System.StringComparison.OrdinalIgnoreCase));
+
+        }
+        catch (System.Exception ex)
+        {
+
+            throw new ArgumentOutOfRangeException(nameof(resourceCode), resourceCode);
+        }
+    }
 }

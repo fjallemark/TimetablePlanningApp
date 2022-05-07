@@ -1,6 +1,6 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
-<A5Page PageNumber=PageNumber>
+<A5Page PageNumber=PageNumber Footnote="@Duty?.Description()">
     <div class="duty train">
         @if (Duty is not null && Item is not null)
         {
@@ -117,5 +117,6 @@
     public DriverDutyPart? Item { get; set; }
     [Parameter]
     public DriverDuty? Duty { get; set; }
+
 
 }

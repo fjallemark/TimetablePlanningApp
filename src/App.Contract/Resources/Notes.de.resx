@@ -421,4 +421,7 @@
   <data name="MixedTrain" xml:space="preserve">
     <value>Gemischter Zug</value>
   </data>
+  <data name="Duty" xml:space="preserve">
+    <value>Dienst</value>
+  </data>
 </root>

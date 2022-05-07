@@ -303,4 +303,7 @@
   <data name="GraphicLocoSchedules" xml:space="preserve">
     <value>Grafischer Lokfahrplan</value>
   </data>
+  <data name="Page" xml:space="preserve">
+    <value>Siete</value>
+  </data>
 </root>
