@@ -25,10 +25,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static TrainBlocking AsTrainBlocking(this IDataRecord me) =>
             new()
             {
-                ArrivalTime = new CallTime { IsStop = true, Time = me.GetTime("ArrivalTime") },
+                ArrivalTime = new CallTime { IsStop = true, Time = me.GetTime("ArrivalTime", "") },
                 DepartureTime = new CallTime { IsStop = true, Time = me.GetTime("DepartureTime") },
                 Train = new TrainInfo
-                {
+                { 
                     CategoryResourceCode = me.GetString("TrainCategoryName"),
                     CategoryName = me.GetStringResource("TrainCategoryName", Notes),
                     IsCargo = me.GetBool("IsCargo"),

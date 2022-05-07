@@ -15,6 +15,8 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             reverseItAgain ? !me.ReverseBlockDestinations : me.ReverseBlockDestinations;
 
         public static string Display(this TrainInfo me) =>
-            $"{me.OperatorName} {me.Prefix} {me.Number}".Trim();
+            me.OperationDays().IsDaily ?
+            $"{me.OperatorName} {me.Prefix} {me.Number}".Trim() :
+            $"{me.OperatorName} {me.Prefix} {me.Number} {me.OperationDays().ShortName}".Trim();
     }
 }
