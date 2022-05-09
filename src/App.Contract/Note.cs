@@ -114,9 +114,10 @@ namespace Tellurian.Trains.Planning.App.Contracts
             return Merge(Trainsets.Where(t => criteria(t) && IsAnyDay(t.OperationDaysFlag, dutyDays)))
                 .OrderBy(t => t.PositionInTrain)
                 .GroupBy(t => Days(t.OperationDaysFlag, dutyDays))
+                .OrderBy(t => t.Key)
                 .Select(t => new Note
                 {
-                    DisplayOrder = 1000 + t.Key.DisplayOrder() + t.Key,
+                    DisplayOrder = 1000,
                     Text = Text(t.Key, dutyDays, t)
                 });
         }

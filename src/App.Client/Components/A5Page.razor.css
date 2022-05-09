@@ -1,6 +1,6 @@
 ﻿.page {
     width: 147.5mm;
-    height: 208.5mm;
+    height: 201.5mm;
     padding: 0pt;
     margin: 0pt;
     display: inline-block;
@@ -21,7 +21,7 @@
 .number {
     padding: 0pt;
     margin: 0pt;
-    height: 8mm;
+    height: 6mm;
     vertical-align: text-bottom;
     text-align: center
 }

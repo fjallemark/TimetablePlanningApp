@@ -18,8 +18,12 @@ th {
     background-color: #f0f0f0;
 }
 
+tr {
+
+}
 td {
     font-size: 10pt;
+    line-height: 11pt;
 }
 
 .train-start {

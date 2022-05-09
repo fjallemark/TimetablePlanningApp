@@ -10,6 +10,7 @@
                     <tr>
                         <th>@Localizer["Arr"]</th>
                         <th>@Localizer["Dep"]</th>
+                        <th>@Localizer["Track"]</th>
                         <th>@Localizer["Days"]</th>
                         <th>@Localizer["Operator"]</th>
                         <th>@Localizer["Train"]</th>
@@ -23,16 +24,17 @@
                         <tr class="train-start" style="background-color: @BackgroundColor(call)">
                             <td align="center" width="10%" style="@ArrivalTimeStyle(call)">@call.ArrivalTime</td>
                             <td align="center" width="10%" style="@DepartureTimeStyle(call)">@call.DepartureTime</td>
+                            <td align="center" width="8%">@call.Call.TrackNumber</td>
                             <td align="center" width="15%">@call.Train.OperationDays().ShortName</td>
                             <td align="center" width="15%">@call.Train.OperatorName</td>
                             <td align="center" width="15%">@call.Train.Prefix @call.Train.Number</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                         </tr>
-                        @foreach (var note in call.Notes.OrderBy(n => n.DisplayOrder))
+                        @foreach (var note in call.Notes.OrderBy(n => n.DisplayOrder).ThenBy(n => n.OperatingDaysFlag))
                         {
                             <tr  style="background-color: @BackgroundColor(call)">
-                                <td colspan="7">@note</td>
+                                <td colspan="8">@note.Text</td>
                             </tr>
                         }
                     }

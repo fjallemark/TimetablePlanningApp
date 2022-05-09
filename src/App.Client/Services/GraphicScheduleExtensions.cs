@@ -100,7 +100,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
 
         public static IEnumerable<StationTrack> Tracks(this TimetableStretchStation me) =>
             Options.OnlyScheduledTracks ?
-            me.Station.Tracks.Where(t => t.IsScheduledTrack).OrderBy(t => t.DisplayOrder).Select(It) :
+            me.Station.Tracks.Where(t => t.IsScheduledTrack).OrderBy(t => t.DisplayOrder).Select(Track) :
             me.Station.Tracks;
 
         public static (TimetableStretchStation station, StationTrack track) StationAndTrack(this TimetableStretch me, int stationId, int trackId)
@@ -110,7 +110,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
             return (station, track);
         }
 
-        private static StationTrack It(this StationTrack me, int index)
+        private static StationTrack Track(this StationTrack me, int index)
         {
             me.DisplayOrder = index + 1;
             return me;
@@ -169,8 +169,8 @@ namespace Tellurian.Trains.Planning.App.Client.Services
     public class GraphicScheduleOptions
     {
         public int Yoffset { get; set; } = 20;
-        public int TrackHeight { get; set; } = 10;
-        public int MinDistanceBeweenStations { get; set; } = 70;
+        public int TrackHeight { get; set; } = 12;
+        public int MinDistanceBeweenStations { get; set; } = 52;
         public int FirstHourOffset { get; set; } = 60;
         public int HourWidth { get; set; } = 180;
         public int DistanceFactor { get; set; } = 8;

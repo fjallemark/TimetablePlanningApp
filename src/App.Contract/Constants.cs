@@ -2,8 +2,8 @@
 {
     public static class Constants
     {
-        public const int LayoutId = 19;
-        public const int TrainCategoryYear = 1970;
+        public const int LayoutId = 20;
+        public const int TrainCategoryYear = 1930;
         public const int TrainCategoryCountryId = 1;
     }
 }
