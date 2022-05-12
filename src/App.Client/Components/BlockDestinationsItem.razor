@@ -18,19 +18,19 @@ else
         }
         <br />
         <div>
-            @foreach (var track in BlockDestinations.Tracks)
+            @foreach (var track in BlockDestinations.Tracks.OrderBy(t => t.TrackDisplayOrder))
             {
                 <div class="track">
                     <div class="track number">@Localizer["Track"] @track.TrackNumber</div>
                     <div style="display: flex; flex-direction: column">
-                        @foreach (var train in track.TrainBlocks)
+                        @foreach (var train in track.TrainBlocks.OrderBy(tb => tb.DepartureTime.SortTime()))
                         {
                             <div style="display: flex; flex-direction: @train.FlexDirection(ReverseBlockDestinations); justify-content:flex-start">
                                 <div class="track train">@train.Train.Display() @train.ArrivalTime.Time -  @train.DepartureTime.Time</div>
                                 @foreach (var destinationGroup in train.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
                                 {
                                     <div class=" track destination">
-                                        @foreach (var destination in destinationGroup.OrderBy(dg => dg.MaxNumberOfWagons))
+                                        @foreach (var destination in destinationGroup.OrderBy(dg => dg.OrderInTrain))
                                         {
                                             @if (destination.IsRegion)
                                             {

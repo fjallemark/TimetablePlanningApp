@@ -12,9 +12,8 @@
 else if (Layout is not null)
 {
     var lastTurnusNumber = "";
-    @foreach (var itemsOnPage in Items.ItemsPerPage(15))
+    @foreach (var itemsOnPage in Items.ItemsPerPage(14))
     {
-        var page = NextPage();
         <div class="pagebreak">
             <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading</span> <span style="display: block; font-size: 12pt">@Venue</span></div>
             <div style="margin: 0px; padding: 0px">
@@ -49,7 +48,7 @@ else if (Layout is not null)
 
     protected override async Task OnInitializedAsync()
     {
-        PageNumber = 0;
+        PageNumber = 1;
         var layoutResult = await DataService.GetLayout(Constants.LayoutId);
         if (layoutResult.statusCode.IsSuccess())
         {
@@ -84,7 +83,7 @@ else if (Layout is not null)
         $"{Localizer["LocoSchedules"]}, {Localizer["Continued"].ToLower()}";
     string Venue => $"{Layout?.Name} {ValidPeriod}";
     string ValidPeriod => $"{Layout?.ValidFrom:d}-{Layout?.ValidTo:d}";
-    string PageNumbering => $"{Localizer["Page"]} {PageNumber}";
+    string PageNumbering => $"{Localizer["Page"]} {PageNumber++}";
     int Height => 20;
     int Width => Items?.Any() == true ? Items.First().Width() + 10 : 0;
 

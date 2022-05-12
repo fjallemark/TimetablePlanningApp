@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
 
@@ -171,43 +170,52 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<BlockDestinations>(100);
             var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
-            using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
-            BlockDestinations? current = null;
-            var lastOriginStationName = "";
-            var lastTrackNumber = "";
-            var lastTrainNumber = "";
-            while (reader.Read())
             {
-                var currentOriginStationName = reader.GetString("OriginStationName");
-                var currentTrackNumber = currentOriginStationName + reader.GetString("TrackNumber");
-                var currentTrainNumber = currentOriginStationName + reader.GetInt("TrainNumber");
-                if (currentOriginStationName != lastOriginStationName)
-                {
-                    if (current is not null) result.Add(current);
-                    current = reader.AsBlockDestinations();
-                }
-                if (current is not null)
-                {
-                    if (currentTrackNumber != lastTrackNumber)
-                    {
-                        current.Tracks.Add(reader.AsTrackDestination());
-                    }
-                    if (currentTrainNumber != lastTrainNumber)
-                    {
-                        var trainBlocking = reader.AsTrainBlocking();
-                        trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
-                        current.Tracks.Last().TrainBlocks.Add(trainBlocking);
-                    }
-                    var destination = reader.AsBlockDestination();
-                    if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
-                }
-                lastTrainNumber = currentTrainNumber;
-                lastTrackNumber = currentTrackNumber;
-                lastOriginStationName = currentOriginStationName;
+                using var connection1 = CreateConnection;
+                var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
+                Read(result, categories, reader);
             }
-            if (current != null) result.Add(current);
-            return result.AsEnumerable();
+
+            return result;
+
+            static void Read(List<BlockDestinations> result, IEnumerable<TrainCategory> categories, IDataReader reader)
+            {
+                BlockDestinations? current = null;
+                var lastOriginStationName = "";
+                var lastTrackNumber = "";
+                var lastTrainNumber = "";
+                while (reader.Read())
+                {
+                    var currentOriginStationName = reader.GetString("OriginStationName");
+                    var currentTrackNumber = currentOriginStationName + reader.GetString("TrackNumber");
+                    var currentTrainNumber = currentOriginStationName + reader.GetString("TrainOperatorName") + reader.GetInt("TrainNumber");
+                    var isTrainset = reader.GetBool("IsTrainset");
+                    if (currentOriginStationName != lastOriginStationName)
+                    {
+                        if (current is not null) result.Add(current);
+                        current = reader.AsBlockDestinations();
+                    }
+                    if (current is not null)
+                    {
+                        if (currentTrackNumber != lastTrackNumber)
+                        {
+                            current.Tracks.Add(reader.AsTrackDestination());
+                        }
+                        if (currentTrainNumber != lastTrainNumber)
+                        {
+                            var trainBlocking = reader.AsTrainBlocking();
+                            trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
+                            current.Tracks.Last().TrainBlocks.Add(trainBlocking);
+                        }
+                        var destination = reader.AsBlockDestination();
+                        if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
+                    }
+                    lastTrainNumber = currentTrainNumber;
+                    lastTrackNumber = currentTrackNumber;
+                    lastOriginStationName = currentOriginStationName;
+                }
+                if (current != null) result.Add(current);
+            }
         }
 
         public Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId, string? stretchNumber)

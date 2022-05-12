@@ -11,7 +11,7 @@
 else
 {
     <div>
-        @foreach (var item in Items)
+        @foreach (var item in Items.OrderBy(i => i.OriginStationName))
         {
             <BlockDestinationsItem BlockDestinations="item" ReverseBlockDestinations=false></BlockDestinationsItem>
             <BlockDestinationsItem BlockDestinations="item" ReverseBlockDestinations=true></BlockDestinationsItem>
