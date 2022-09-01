@@ -16,6 +16,8 @@ public class TrainCategory
     public int? ToYear  { get; set; }
     public int? CountryId { get; set; }
 
+    public override string ToString() => ResourceCode;
+
 }
 
 public static class TrainCategoryExtensions
@@ -24,13 +26,13 @@ public static class TrainCategoryExtensions
     {
         try
         {
-            return items.Single(items => items.ResourceCode.Equals(resourceCode, System.StringComparison.OrdinalIgnoreCase));
+            return items.Single(items => items.ResourceCode.Equals(resourceCode, StringComparison.OrdinalIgnoreCase));
 
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
 
-            throw new ArgumentOutOfRangeException(nameof(resourceCode), resourceCode);
+            throw new ArgumentOutOfRangeException( resourceCode, ex.Message);
         }
     }
 }

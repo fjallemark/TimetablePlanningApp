@@ -25,6 +25,15 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private readonly RepositoryOptions Options;
         private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
+        public Task<int?> GetCurrentLayoutId()
+        {
+            using var connection = CreateConnection;
+            var sql = $"SELECT Id FROM Layout WHERE IsCurrent <> 0";
+            var command = new OdbcCommand(sql, connection);
+            var result = command.ExecuteScalar();
+            return Task.FromResult((int?)result);
+
+        }
         public Task<Layout?> GetLayout(int layoutId)
         {
             using var connection = CreateConnection;

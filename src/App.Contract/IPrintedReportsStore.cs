@@ -22,10 +22,16 @@ namespace Tellurian.Trains.Planning.App.Contracts
         Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId);
         Task<Layout?> GetLayout(int layoutId);
         Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year);
+        Task<int?> GetCurrentLayoutId();
     }
 
     public class RepositoryOptions
     {
         public string? ConnectionString { get; set; }
+    }
+
+    public interface ITrainsStore
+    {
+        Task<int> UpdateTrainTimes(int trainId, int minutes);
     }
 }

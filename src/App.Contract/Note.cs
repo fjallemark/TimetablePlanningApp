@@ -145,7 +145,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         // TODO: Add final destination and note about exchange trainset under way.
         private static string TrainsetFormat(Trainset ts) =>
-            ts.Operator.HasValue() ? $"[{ts.Operator} {ts.WagonTypes.ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}]" :
+            ts.Operator.HasValue() ? $"[{ts.Operator} {ts.WagonTypes} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}]" :
             $"[{ts.WagonTypes} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}]";
     }
 

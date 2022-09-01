@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 
@@ -81,7 +80,7 @@ public static class PaginationExtensions
         var result = new List<StationDutyPage> { StationDutyPage.Front(pageNumber++, me) };
         var instruction = instructions.LanguageOrInvariantInstruction();
 
-        if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
+        //if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
         if (me.StationInstructions is not null && me.StationInstructions.Any(i => i.Markdown.HasValue()))
             result.Add(StationDutyPage.Instructions(pageNumber++, me.StationInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.TrainClearance}"));
 
