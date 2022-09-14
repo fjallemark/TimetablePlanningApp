@@ -123,10 +123,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = true)
         {
-            var i = -1;
+            int i;
             try { i = me.GetOrdinal(columnName); }
             catch (IndexOutOfRangeException) {
-                if (throwOnNotFound) throw new InvalidOperationException($"No column '{columnName}' found in data.");
+                if (throwOnNotFound || ThrowOnColumnError) throw new InvalidOperationException($"No column '{columnName}' found in data.");
             }
             return i;
         }

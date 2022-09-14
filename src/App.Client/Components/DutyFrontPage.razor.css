@@ -3,6 +3,16 @@
     font-size: 28pt;
 }
 
+.important {
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    padding: 3mm;
+    font-size: 20pt;
+    font-weight: 900;
+    color: red;
+    border: 2px solid red;
+}
+
 .schedulename {
     font-weight: 900;
     color: darkolivegreen;

@@ -306,4 +306,7 @@
   <data name="Page" xml:space="preserve">
     <value>Side</value>
   </data>
+  <data name="FirstReadInstructionsOnLastPage" xml:space="preserve">
+    <value>Les først instruksjonene på siste side!</value>
+  </data>
 </root>

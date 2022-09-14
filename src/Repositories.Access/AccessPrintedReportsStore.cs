@@ -248,10 +248,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     current.Stations.Add(reader.AsTimetableStretchStation());
                 }
-                if (current != null)
-                {
-                    current.Stations.Last().Station.Tracks.Add(reader.AsStationStrack());
-                }
+                current?.Stations.Last().Station.Tracks.Add(reader.AsStationStrack());
                 lastStationId = currentStationId;
                 lastTimetableNumber = currentTimetableNumber;
             }
@@ -283,7 +280,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     current = reader.AsTrain();
                     current.Prefix = categories.Category(current.CategoryResourceCode).Prefix;
                 }
-                if (current != null) current.Calls.Add(reader.AsStationCall(++sequenceNumber));
+                current?.Calls.Add(reader.AsStationCall(++sequenceNumber));
                 lastTrainNumber = currentTrainNumber;
             }
             if (current != null) result.Add(current);

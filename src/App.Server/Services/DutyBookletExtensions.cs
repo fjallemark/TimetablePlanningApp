@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts;
 
@@ -15,38 +16,57 @@ namespace Tellurian.Trains.Planning.App.Server.Services
         private static ICollection<DriverDutyPart> MergeTrainPartsWithSameTrainNumber(this IEnumerable<DriverDutyPart> me)
         {
             if (me.Count() == 1) return me.ToArray();
-            if (me.Count() == me.Select(m => m.Train.Number).Distinct().Count()) return me.ToArray();
-            var parts = me.OrderBy(m => m.StartTime()).ToArray();
             var result = new List<DriverDutyPart>();
-            for (var i = 0; i < parts.Length; i++)
+            var trainNumberGroups = me.GroupBy(dd => dd.Train.Number);
+            foreach (var group in trainNumberGroups)
             {
-                if (i < parts.Length - 1 && parts[i].Train.Equals(parts[i + 1].Train))
+                foreach(var item in group)
                 {
-                    var train = parts[i].Train;
-                    var part1 = parts[i];
-                    var part2 = parts[i + 1];
-                    foreach (var call in part1.Calls())
+                    foreach (var call in item.Calls())
                     {
-                        if (call.Id == part1.FromCallId || call.Id == part1.ToCallId) call.AddAutomaticNotes();
+                        if (call.Id == item.FromCallId || call.Id == item.ToCallId) call.AddAutomaticNotes();
                     }
-                    foreach (var call in part2.Calls())
-                    {
-                        if (call.Id == part2.FromCallId || call.Id == part2.ToCallId) call.AddAutomaticNotes();
-                    }
-                    result.Add(new DriverDutyPart
-                    {
-                        Train = train,
-                        FromCallId = part1.FromCallId,
-                        ToCallId = part2.ToCallId,
-                        Locos = part1.Locos.Concat(part2.Locos).ToArray(),
-                    });
-                    i++;
                 }
-                else
+                result.Add(new()
                 {
-                    result.Add(parts[i]);
-                }
+                    Train = group.First().Train,
+                    FromCallId = group.First().FromCallId,
+                    ToCallId = group.Last().ToCallId,
+                    Locos = group.SelectMany(p => p.Locos).ToArray()
+                });
             }
+
+            //if (me.Count() == me.Select(m => m.Train.Number).Distinct().Count()) return me.ToArray();
+            //var parts = me.OrderBy(m => m.StartTime()).ToArray();
+            //for (var i = 0; i < parts.Length; i++)
+            //{
+            //    if (i < parts.Length - 1 && parts[i].Train.Equals(parts[i + 1].Train))
+            //    {
+            //        var train = parts[i].Train;
+            //        var part1 = parts[i];
+            //        var part2 = parts[i + 1];
+            //        foreach (var call in part1.Calls())
+            //        {
+            //            if (call.Id == part1.FromCallId || call.Id == part1.ToCallId) call.AddAutomaticNotes();
+            //        }
+            //        foreach (var call in part2.Calls())
+            //        {
+            //            if (call.Id == part2.FromCallId || call.Id == part2.ToCallId) call.AddAutomaticNotes();
+            //        }
+            //        result.Add(new DriverDutyPart
+            //        {
+            //            Train = train,
+            //            FromCallId = part1.FromCallId,
+            //            ToCallId = part2.ToCallId,
+            //            Locos = part1.Locos.Concat(part2.Locos).ToArray(),
+            //        });
+            //        i++;
+            //    }
+            //    else
+            //    {
+            //        result.Add(parts[i]);
+            //    }
+            //}
             return result;
         }
 

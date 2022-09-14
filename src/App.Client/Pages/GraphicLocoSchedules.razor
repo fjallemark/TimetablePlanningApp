@@ -56,8 +56,8 @@ else if (Layout is not null)
             var schedulesResult = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
             if (schedulesResult.statusCode.IsSuccess())
             {
-                SetQueryStringParameters();
-                Items = Operator.HasValue() ? schedulesResult.items.Where(i => i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase)) : schedulesResult.items;
+                var items = schedulesResult.items.Where(i => i.ReplaceOrder == 0);
+                Items = Operator.HasValue() ? items.Where(i => i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase)) : items;
             }
         }
 

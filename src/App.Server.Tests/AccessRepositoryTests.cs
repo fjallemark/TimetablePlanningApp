@@ -31,7 +31,7 @@ public class AccessRepositoryTests
                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2022\\2022-09 Nässjö\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
             });
         var target = new AccessTrainStore(options);
-        var result = await target.UpdateTrainTimes(917, 10);
+        var result = await target.UpdateTrainTimes(934, -6);
 
     }
 }

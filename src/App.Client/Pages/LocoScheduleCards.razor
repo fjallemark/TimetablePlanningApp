@@ -31,8 +31,9 @@ else
         var result = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
         if (result.statusCode.IsSuccess())
         {
+            var items = result.items.Where(i => i.ReplaceOrder == 0);
             SetQueryStringParameters();
-            Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+            Items = items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
         }
     }
 

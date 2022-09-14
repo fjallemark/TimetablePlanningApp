@@ -79,13 +79,11 @@ public static class PaginationExtensions
         var pageNumber = 1;
         var result = new List<StationDutyPage> { StationDutyPage.Front(pageNumber++, me) };
         var instruction = instructions.LanguageOrInvariantInstruction();
+        var hasStationInstructions = me.StationInstructions is not null && me.StationInstructions.Any(i => i.Markdown.HasValue());
+        var hasShuntingInstructions = me.ShuntingInstructions is not null && me.ShuntingInstructions.Any(i => i.Markdown.HasValue());
+        var instructionPagesCount = (hasStationInstructions ? 1 : 0) + (hasShuntingInstructions ? 1 : 0);
 
         //if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
-        if (me.StationInstructions is not null && me.StationInstructions.Any(i => i.Markdown.HasValue()))
-            result.Add(StationDutyPage.Instructions(pageNumber++, me.StationInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.TrainClearance}"));
-
-        if (me.ShuntingInstructions is not null && me.ShuntingInstructions.Any(i => i.Markdown.HasValue()))
-            result.Add(StationDutyPage.Instructions(pageNumber++, me.ShuntingInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Shunting}"));
 
         const int maxRowsOnPage = 26;
         var callsCount = me.Calls.Count - 1;
@@ -104,7 +102,13 @@ public static class PaginationExtensions
             toCallIndex++;
         }
         if (fromCallIndex < toCallIndex) result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
-        result.AddRange(BlankPagesToAppend<StationDutyPage>(result.Count));
+        result.AddRange(BlankPagesToAppend<StationDutyPage>(result.Count, instructionPagesCount));
+        if (hasStationInstructions)
+            result.Add(StationDutyPage.Instructions(pageNumber++, me.StationInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions}"));
+
+        if (hasShuntingInstructions)
+            result.Add(StationDutyPage.Instructions(pageNumber++, me.ShuntingInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions}"));
+
         return result;
     }
 
