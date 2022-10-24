@@ -74,6 +74,9 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             return stretches;
         }
 
+        public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId) =>
+            Store.GetStationsTrainOrder(layoutId);
+
         public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
             Store.GetTrainDeparturesAsync(layoutId);
 

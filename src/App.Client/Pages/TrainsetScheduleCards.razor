@@ -27,7 +27,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetTrainsetSchedulesAsync(Constants.LayoutId);
+        var result = await DataService.GetTrainsetSchedulesAsync(Globals.AppSettings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             SetQueryStringParameters();

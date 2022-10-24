@@ -24,6 +24,7 @@ namespace Tellurian.Trains.Planning.App.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<RepositoryOptions>(Configuration.GetSection(nameof(RepositoryOptions)));
+            services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
             services.AddSingleton<IPrintedReportsStore, AccessPrintedReportsStore>();
             services.AddSingleton<PrintedReportsService>();
             services.AddLocalization();

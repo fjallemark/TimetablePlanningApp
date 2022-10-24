@@ -23,6 +23,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         Task<Layout?> GetLayout(int layoutId);
         Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year);
         Task<int?> GetCurrentLayoutId();
+        Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId);
     }
 
     public class RepositoryOptions

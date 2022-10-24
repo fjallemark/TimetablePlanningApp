@@ -2,7 +2,7 @@
 @page "/blockdestinations"
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
-@inject Services.PrintedReportsService DataService
+@inject PrintedReportsService DataService
 
 @if (Items == null)
 {
@@ -24,7 +24,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var result = await DataService.GetBlockDestinations(Constants.LayoutId);
+        var result = await DataService.GetBlockDestinationsAsync(Globals.AppSettings.LayoutId);
         Items = result.items;
     }
 }

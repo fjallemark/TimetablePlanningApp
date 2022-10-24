@@ -1,0 +1,81 @@
+﻿@page "/stationstrainorder"
+
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
+@inject PrintedReportsService DataService
+
+@if (Items is null)
+{
+
+}
+else
+{
+    foreach (var station in Items)
+    {
+        foreach (var itemsPerPage in station.Trains.ItemsPerPage(25))
+        {
+            <A4LPage>
+                <div class="stationtrainorder">
+                    <h1>@station.Name</h1>
+                    <table cellpadding="3">
+                        <thead>
+                            <tr>
+                                <th class="col">@Localizer["Days"]</th>
+                                <th class="col">@Localizer["Arrival"]</th>
+                                <th class="col">@Localizer["Departure"]</th>
+                                <th class="col">@Localizer["Train"]</th>
+                                <th class="col">@Localizer["Track"]</th>
+                                <th class="col">@Localizer["From"]</th>
+                                <th class="col">@Localizer["To"]</th>
+                                <th class="col">@Localizer["Notes"]</th>
+                                <th class="day">@Localizer["MondayShort"]</th>
+                                <th class="day">@Localizer["TuesdayShort"]</th>
+                                <th class="day">@Localizer["WednesdayShort"]</th>
+                                <th class="day">@Localizer["ThursdayShort"]</th>
+                                <th class="day">@Localizer["FridayShort"]</th>
+                                <th class="day">@Localizer["SaturdayShort"]</th>
+                                <th class="day">@Localizer["SundayShort"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in itemsPerPage)
+                            {
+                                <tr>
+                                    <td class="col">@item.OperatingDayFlag.OperationDays().ShortName</td>
+                                    <td class="col">@item.ArrivalTime</td>
+                                    <td class="col">@item.DepartureTime</td>
+                                    <td class="col">@item.TrainNumber</td>
+                                    <td class="col">@item.TrackNumber</td>
+                                    <td class="col">@item.Origin()</td>
+                                    <td class="col">@item.Destination()</td>
+                                    <td class="col">@item.ProductName</td>
+                                    <td class="day"></td>
+                                    <td class="day"></td>
+                                    <td class="day"></td>
+                                    <td class="day"></td>
+                                    <td class="day"></td>
+                                    <td class="day"></td>
+                                    <td class="day"></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </A4LPage>
+        }
+    }
+}
+
+
+@code {
+    private IEnumerable<StationTrainOrder>? Items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await DataService.GetStationsTrainOrderAsync(Globals.AppSettings.LayoutId);
+        if (result.statusCode.IsSuccess())
+        {
+            Items = result.items;
+        }
+    }
+}

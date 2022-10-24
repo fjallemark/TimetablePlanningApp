@@ -63,7 +63,7 @@ else
     {
         SetQueryStringParameters();
         IsLoaded = false;
-        var result = await DataService.GetDriverDutiesAsync(Constants.LayoutId);
+        var result = await DataService.GetDriverDutiesAsync(Globals.AppSettings.LayoutId);
         if (result.statusCode.IsSuccess() && result.item != null)
         {
             var duties = FilterDuties(result.item.Duties);

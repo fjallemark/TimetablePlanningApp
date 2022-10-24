@@ -28,7 +28,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
+        var result = await DataService.GetLocoSchedulesAsync(Globals.AppSettings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             var items = result.items.Where(i => i.ReplaceOrder == 0);

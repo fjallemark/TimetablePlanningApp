@@ -30,7 +30,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         LanguageLabels = await LanguageService.GetWaybillLabels();
-        var result = await DataService.GetWaybillsAsync(Constants.LayoutId);
+        var result = await DataService.GetWaybillsAsync(Globals.AppSettings.LayoutId);
         if (result.statusCode.IsSuccess()) Items = result.items;
     }
 }

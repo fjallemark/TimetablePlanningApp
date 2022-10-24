@@ -5,8 +5,9 @@
 }
 
 .duty {
-/*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-*/}
+    /*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+*/
+}
 
 
 .pagebreak {
@@ -75,5 +76,29 @@ table {
         height: auto;
         font-size: 12pt;
         color: darkcyan;
+    }
+
+.stationtrainorder {
+    margin-top:0px;
+}
+
+    .stationtrainorder tr {
+        border-bottom: 1px solid lightgray;
+    }
+    .stationtrainorder td {
+        text-align: center;
+        padding: 4px 2px 4px 2px;
+    }
+    .stationtrainorder h1 {
+        background-color: white;
+        color: black;
+        margin: 0px
+    }
+    .stationtrainorder .day {
+        border-left: 1px solid black;
+        width: 7mm;
+    }
+    .stationtrainorder .col {
+        border-left: 1px solid lightgray;
     }
 

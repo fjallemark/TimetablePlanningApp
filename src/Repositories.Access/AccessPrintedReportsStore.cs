@@ -17,12 +17,14 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     /// </summary>
     public class AccessPrintedReportsStore : IPrintedReportsStore
     {
-        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options)
+        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options, IOptions<AppSettings> appOptions )
         {
             Options = options.Value;
+            AppSettings = appOptions.Value;
         }
 
         private readonly RepositoryOptions Options;
+        private readonly AppSettings AppSettings;
         private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
         public Task<int?> GetCurrentLayoutId()
@@ -178,7 +180,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
         {
             var result = new List<BlockDestinations>(100);
-            var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
+            var categories = await GetTrainCategories(AppSettings.TrainCategory.CountryId, AppSettings.TrainCategory.Year);
             {
                 using var connection1 = CreateConnection;
                 var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
@@ -264,12 +266,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
         {
             var result = new List<Train>(100);
-            var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
+            var categories = await GetTrainCategories(AppSettings.TrainCategory.CountryId, AppSettings.TrainCategory.Year);
             Train? current = null;
             var lastTrainNumber = string.Empty;
             var sequenceNumber = 0;
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} ORDER BY TrainOperator, TrainNumber, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND ArrivalTime IS NOT NULL AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime");
             while (reader.Read())
             {
                 var currentTrainNumber = $"{reader.GetString("TrainOperator")}{reader.GetInt("TrainNumber")}";
@@ -287,13 +289,37 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return result.AsEnumerable();
         }
 
+        public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
+        {
+            var sql = $"SELECT * FROM StationTrainOrder WHERE Id = {layoutId}";
+            var result = new List<StationTrainOrder>();    
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, sql);
+            var stationName = "";
+            StationTrainOrder? item = null;
+            while (reader.Read())
+            {
+                var currentStationName = reader.GetString("FullName");
+                if (stationName != currentStationName)
+                {
+                    if (item is not null) result.Add(item);
+                    item = reader.AsStationTrainOrder();
+                    stationName = currentStationName;
+                }
+                item?.Trains.Add(reader.AsStationTrain());
+            }
+            if (item is not null) result.Add(item);
+           return Task.FromResult(result.AsEnumerable());
+        }
+
 
         public async Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true)
         {
+            var sql = $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber";
             var result = new List<TrainDeparture>(100);
-            var categories = await GetTrainCategories(Constants.TrainCategoryCountryId, Constants.TrainCategoryYear);
+            var categories = await GetTrainCategories(AppSettings.TrainCategory.CountryId, AppSettings.TrainCategory.Year);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber");
+            var reader = ExecuteReader(connection, sql);
             while (reader.Read())
             {
                 var departure = reader.AsTrainDeparture();

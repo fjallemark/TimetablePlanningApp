@@ -25,7 +25,7 @@ public class DataExport
              {
                  ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2022\\2022-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
              });
-        var store = new AccessPrintedReportsStore(options);
+        var store = new AccessPrintedReportsStore(options, Options.Create(Globals.AppSettings));
         var target = new PrintedReportsService(store);
         var booklet = await target.GetStationDutyBookletAsync(17, includeAllTrains: true);
 

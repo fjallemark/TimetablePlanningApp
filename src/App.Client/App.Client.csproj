@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Components\A5Page - Copy.razor.css" />
     <None Remove="Components\A5Page.razor.css" />
     <None Remove="Components\VehicleScheduleCard.razor.css" />
   </ItemGroup>

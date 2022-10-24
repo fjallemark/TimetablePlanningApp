@@ -49,11 +49,11 @@ else if (Layout is not null)
     protected override async Task OnInitializedAsync()
     {
         PageNumber = 1;
-        var layoutResult = await DataService.GetLayout(Constants.LayoutId);
+        var layoutResult = await DataService.GetLayoutAsync(Globals.AppSettings.LayoutId);
         if (layoutResult.statusCode.IsSuccess())
         {
             Layout = layoutResult.item;
-            var schedulesResult = await DataService.GetLocoSchedulesAsync(Constants.LayoutId);
+            var schedulesResult = await DataService.GetLocoSchedulesAsync(Globals.AppSettings.LayoutId);
             if (schedulesResult.statusCode.IsSuccess())
             {
                 var items = schedulesResult.items.Where(i => i.ReplaceOrder == 0);

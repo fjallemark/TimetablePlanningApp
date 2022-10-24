@@ -176,7 +176,7 @@
     <value>Epoke</value>
   </data>
   <data name="Origin" xml:space="preserve">
-    <value>Afsendelsesstation</value>
+    <value>Udgangsstattioj</value>
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Afsender</value>
@@ -288,5 +288,32 @@
   </data>
   <data name="FirstReadInstructionsOnLastPage" xml:space="preserve">
     <value>Læs først instruktionerne på sidste side!</value>
+  </data>
+  <data name="Arrival" xml:space="preserve">
+    <value>Ankomst</value>
+  </data>
+  <data name="Departure" xml:space="preserve">
+    <value>Afgang</value>
+  </data>
+  <data name="MondayShort" xml:space="preserve">
+    <value>Ma</value>
+  </data>
+  <data name="TuesdayShort" xml:space="preserve">
+    <value>Ti</value>
+  </data>
+  <data name="WednesdayShort" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="ThursdayShort" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="FridayShort" xml:space="preserve">
+    <value>Fr</value>
+  </data>
+  <data name="SaturdayShort" xml:space="preserve">
+    <value>Lø</value>
+  </data>
+  <data name="SundayShort" xml:space="preserve">
+    <value>Sø</value>
   </data>
 </root>

@@ -14,6 +14,6 @@ namespace Tellurian.Trains.Planning.App.Server
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
 
-        public static string[] SupportedLanguages => new[] { "en", "sv", "da", "no", "de" };
+        public static string[] SupportedLanguages => new[] { "en", "sv", "da", "nb", "de" };
     }
 }
