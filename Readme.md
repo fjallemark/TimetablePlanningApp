@@ -137,7 +137,7 @@ All pages are numbered, also the 'empty' ones.
 They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
 This works regardless of the number of pages.
 
-##### Station Duties **NEW**
+##### Station Duties
 A station duty printed in A5 booklet format contains:
 - a first page with some general information about the duty, if its a *dispatcher duty*, a *shunting duty* or a combined.
 The combined is intended for single manned stations.
