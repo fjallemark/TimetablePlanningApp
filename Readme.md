@@ -76,8 +76,8 @@ Examples of automatic notes are:
 - If train not stops at a station.
 - Train meets at stations checked to show this.
 - Where to couple or uncouple locos, trainsets or freigth wagons to specific destinations.
-- **NEW** What to do at arrival to an unmanned shadow station.
-- If to perform local shunting .
+- What to do at arrival to an unmanned shadow station.
+- If to perform local shunting.
 - If locos should be reversed, turned or exchanged at some station.
 - The operation day (i.e. weekday) of when the note apply. 
 The weekday notes consider the union of the operation days of the train, loco/trainset, and the duty,
