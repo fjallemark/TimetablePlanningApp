@@ -35,7 +35,7 @@ model train planning software.
 All data is entered directly in Access tables, so no fancy user interface yet to enter data.
 However, Access supports hierarcial data entry, so it is not as bad as it seems.
 The good part with Access is the ease to prototype the data structures and the views to support 
-all the report func
+content to all reports. 
 
 ##### Database Consistency and Integrity
 Storing data in a *relational database* means you can enforce data consistency and integrity much better,
