@@ -50,7 +50,7 @@ For each train, loco, trainset and duty an operation day can be specified.
 This enables flexible planning, for example trainset schedules over several days.
 It can be used when game sessions are assigned a running weekday.
 
-##### Graphical Timetable **NEW**
+##### Graphical Timetable
 A sequence of stations forms a *timetable stretch*. 
 Timetable stretches may overlap each other.
 Each timetable stretch prints as a separate *grapic timetable*,
