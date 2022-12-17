@@ -7,11 +7,11 @@ namespace Tellurian.Trains.Planning.App.Contracts
     {
         public static AppSettings AppSettings { get; private set; } = new()
         {
-            LayoutId = 22,
+            LayoutId = 23,
             FontFamily="Bodoni Mt",
             TrainCategory = new()
             {
-                Year=1972,
+                Year=1975,
                 CountryId = 1
             }
         };
