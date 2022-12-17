@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -27,8 +28,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                  Calls = new List<StationCall>()
              };
 
-        public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber) =>
-            new()
+        public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber)
+        {
+            var hasDepartureTime = TimeSpan.TryParse(me.GetTime("DepartureTime", ""), out var departureTime);
+            var defaultArrivalTime = (departureTime - TimeSpan.FromMinutes(1)).ToString(@"hh\:mm");
+            var call = new StationCall()
             {
                 Id = me.GetInt("CallId"),
                 TrackId = me.GetInt("TrackId", -1),
@@ -46,7 +50,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     IsHidden = me.GetBool("HideArrival"),
                     IsStop = me.GetBool("IsStop"),
-                    Time = me.GetTime("ArrivalTime", ""),
+                    Time = me.GetTime("ArrivalTime", defaultArrivalTime),
                 },
                 Departure = new CallTime
                 {
@@ -55,6 +59,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     Time = me.GetTime("DepartureTime", "")
                 }
             };
+            return call;
+        }
 
         public static TrainCategory AsTrainCategory(this IDataRecord me) =>
             new()

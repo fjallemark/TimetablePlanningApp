@@ -271,7 +271,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var lastTrainNumber = string.Empty;
             var sequenceNumber = 0;
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND ArrivalTime IS NOT NULL AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime");
             while (reader.Read())
             {
                 var currentTrainNumber = $"{reader.GetString("TrainOperator")}{reader.GetInt("TrainNumber")}";

@@ -20,14 +20,14 @@ namespace App.Client.Tests
         public void FirstStationHeightIsCorrect()
         {
             var target = Target;
-            Assert.AreEqual(70, target.Stations[0].XHeight());
+            Assert.AreEqual(84, target.Stations[0].XHeight());
         }
 
         [TestMethod]
         public void SecondStationIsAtCorrectYoffset()
         {
             var target = Target;
-            Assert.AreEqual(Options.Yoffset + Options.HourHeight + 30 + 120, target.YStation(target.Stations[1]));
+            Assert.AreEqual(Options.Yoffset + Options.HourHeight + 30 + 106, target.YStation(target.Stations[1]));
 
         }
 

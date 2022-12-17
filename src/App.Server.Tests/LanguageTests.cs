@@ -12,7 +12,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
         [TestMethod]
         public void GetsNorwegianText()
         {
-            var actual = GetLanguageString("no", "SpecialFreightTrain", "Special freight train");
+            var actual = GetLanguageString("nb", "SpecialFreightTrain", "Special freight train");
             Assert.AreEqual("Special freight train/Spesialgodstog", actual);
         }
 

@@ -1,8 +1,7 @@
 {
   "sdk": {
-    "version": "6.0.403",
+    "version": "7.0.101",
     "rollForward": "latestPatch"
   }
 }
 
-https://github.com/tellurianinteractive/Tellurian.Trains.TimetablePlanningApp/wiki

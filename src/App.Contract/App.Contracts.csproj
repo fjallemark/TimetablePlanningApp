@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
 		<RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
 		<LangVersion>latest</LangVersion>
