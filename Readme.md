@@ -35,7 +35,7 @@ model train planning software.
 All data is entered directly in Access tables, so no fancy user interface yet to enter data.
 However, Access supports hierarcial data entry, so it is not as bad as it seems.
 The good part with Access is the ease to prototype the data structures and the views to support 
-all the report func
+content to all reports. 
 
 ##### Database Consistency and Integrity
 Storing data in a *relational database* means you can enforce data consistency and integrity much better,
@@ -50,7 +50,7 @@ For each train, loco, trainset and duty an operation day can be specified.
 This enables flexible planning, for example trainset schedules over several days.
 It can be used when game sessions are assigned a running weekday.
 
-##### Graphical Timetable **NEW**
+##### Graphical Timetable
 A sequence of stations forms a *timetable stretch*. 
 Timetable stretches may overlap each other.
 Each timetable stretch prints as a separate *grapic timetable*,
@@ -76,8 +76,8 @@ Examples of automatic notes are:
 - If train not stops at a station.
 - Train meets at stations checked to show this.
 - Where to couple or uncouple locos, trainsets or freigth wagons to specific destinations.
-- **NEW** What to do at arrival to an unmanned shadow station.
-- If to perform local shunting .
+- What to do at arrival to an unmanned shadow station.
+- If to perform local shunting.
 - If locos should be reversed, turned or exchanged at some station.
 - The operation day (i.e. weekday) of when the note apply. 
 The weekday notes consider the union of the operation days of the train, loco/trainset, and the duty,
@@ -137,7 +137,7 @@ All pages are numbered, also the 'empty' ones.
 They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
 This works regardless of the number of pages.
 
-##### Station Duties **NEW**
+##### Station Duties
 A station duty printed in A5 booklet format contains:
 - a first page with some general information about the duty, if its a *dispatcher duty*, a *shunting duty* or a combined.
 The combined is intended for single manned stations.
