@@ -166,9 +166,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 if (currentUnique != lastUnique)
                 {
                     if (schedule != null) result.Add(schedule);
-                    var isCargoOnly = reader.GetBool("IsLoadOnly");
+                    var isCargoWagon = reader.GetBool("IsCargo");
+                    var isLoadOnly = reader.GetBool("IsLoadOnly");
 
-                    schedule = isCargoOnly ? reader.AsCargoOnlySchedule() : reader.AsTrainsetSchedule();
+                    schedule = isLoadOnly ? reader.AsCargoOnlySchedule() : isCargoWagon ? reader.AsCargoWagonSchedule() : reader.AsPassengerWagonSchedule();
                 }
                 if (schedule != null) reader.AddTrainPart(schedule);
                 lastUnique = currentUnique;

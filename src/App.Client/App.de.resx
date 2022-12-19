@@ -168,8 +168,8 @@
   <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
     <value>HINWEIS: Dieser Dienst wird auf der nächsten Seite fortgesetzt.</value>
   </data>
-  <data name="NoMorePagesInDuty" xml:space="preserve">
-    <value>HINWEIS: Keine weiteren Seiten.</value>
+  <data name="NoMoreTasksInDuty" xml:space="preserve">
+    <value>HINWEIS: Keine Aufgaben mehr im Dienst.</value>
   </data>
   <data name="MaxSpeed" xml:space="preserve">
     <value>Max. Geschwindigkeit</value>

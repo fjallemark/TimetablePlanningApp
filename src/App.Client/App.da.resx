@@ -148,8 +148,8 @@
   <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
     <value>BEMÆRK: Tjenesten fortsætts på næste side.</value>
   </data>
-  <data name="NoMorePagesInDuty" xml:space="preserve">
-    <value>BEMÆRK: Der er ikke flere sider i tjenesten.</value>
+  <data name="NoMoreTasksInDuty" xml:space="preserve">
+    <value>BEMÆRK: Der er ikke opgaver i tjenesten.</value>
   </data>
   <data name="MaxSpeed" xml:space="preserve">
     <value>Maks. hastighed</value>

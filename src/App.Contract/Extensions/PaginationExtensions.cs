@@ -102,7 +102,9 @@ public static class PaginationExtensions
             toCallIndex++;
         }
         if (fromCallIndex < toCallIndex) result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
-        result.AddRange(BlankPagesToAppend<StationDutyPage>(result.Count, instructionPagesCount));
+        var blankPages = BlankPagesToAppend<StationDutyPage>(result.Count, instructionPagesCount);
+        result.AddRange(blankPages);
+        pageNumber += blankPages.Count();
         if (hasStationInstructions)
             result.Add(StationDutyPage.Instructions(pageNumber++, me.StationInstructions!.LanguageOrInvariantInstruction().Markdown, $"{Resources.Notes.Instructions}"));
 

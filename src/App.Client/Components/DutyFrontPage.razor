@@ -7,8 +7,8 @@
         {
             <div class="schedulename">@Item.LayoutName</div>
             <div class="validity">@Item.ValidPeriod()</div>
-            <hr/>
-            <div >
+            <hr />
+            <div>
                 <div>@Localizer["Duty"]</div>
                 <div class="duty number">@Item.Number</div>
                 <div class="important">
@@ -19,9 +19,15 @@
                     <div class="duty days"><strong>@d0.OperationDays.FullName</strong></div>
                 }
             </div>
+            <div class="duty time">
+                <span>@Localizer["Starts"]</span>:
+                <span><strong>@Item.StartTime()</strong></span>
+
+                <span>@Localizer["Ends"]</span>:
+                <span><strong>@Item.EndTime()</strong></span>
+            </div>
             @if (Item is DriverDuty d1)
             {
-                <hr />
                 @if (d1.Operator.HasValue())
                 {
                     <div class="duty operator">
@@ -34,7 +40,8 @@
                     }
                 }
             }
-            @if (Item is DriverDuty d2)
+             <hr />
+           @if (Item is DriverDuty d2)
             {
                 <div class="duty description">@d2.TrainTypes()</div>
             }
@@ -42,13 +49,6 @@
             {
                 <div class="duty description">@Item.Description</div>
             }
-            <div class="duty time">
-                <span>@Localizer["Starts"]</span>:
-                <span><strong>@Item.StartTime()</strong></span>
-
-                <span>@Localizer["Ends"]</span>:
-                <span><strong>@Item.EndTime()</strong></span>
-            </div>
             @if (Item.Difficulty > 0)
             {
                 <div class="duty difficulty" style="color: @DifficultyColor(Item.Difficulty)">@Localizer["Difficulty"]: <strong>@Item.Difficulty</strong></div>

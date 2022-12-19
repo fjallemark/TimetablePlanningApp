@@ -6,7 +6,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
 {
     public abstract class VehicleSchedule
     {
-        public abstract string Type { get; }
+        public required string Type { get; set; }
         public bool IsLoco { init; get; }
         public bool IsTrainset { init; get; }
         public bool IsCargoOnly { init; get; }
@@ -24,21 +24,28 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
     public class LocoSchedule : VehicleSchedule
     {
-        public LocoSchedule() => IsLoco = true;
-        public override string Type => "Loco";
+        public LocoSchedule()
+        {
+            IsLoco = true;
+        }
+
         public bool IsRailcar { get; set; }
     }
 
     public class TrainsetSchedule : VehicleSchedule
     {
-        public TrainsetSchedule() => IsTrainset = true;
-        public override string Type => "Trainset";
+        public TrainsetSchedule()
+        {
+            IsTrainset = true;
+        }
     }
 
     public class CargoOnlySchedule : VehicleSchedule
     {
-        public CargoOnlySchedule() => IsCargoOnly = true;
-        public override string Type => "CargoOnly";
+        public CargoOnlySchedule()
+        {
+            IsCargoOnly = true;
+        }
     }
 
     public static class VehicleScheduleExtensions
@@ -95,8 +102,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public static string CrossLineColor(this VehicleSchedule me) =>
             me.IsLoco ? "#ffc0cb" :
-            me.IsCargoOnly ? "#ffff99" :
-            me.IsTrainset ? "#66ff99" :
+            me.Type == "CargoOnly" ? "#ffff99" :           
+            me.Type == "PassengerWagon" ? "#66ff99" :
+            me.Type == "CargoWagon" ? "#b3d9ff" :
             "#cccccc";
 
     }
