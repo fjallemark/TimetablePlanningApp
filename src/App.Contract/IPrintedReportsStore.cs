@@ -24,6 +24,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year);
         Task<int?> GetCurrentLayoutId();
         Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId);
+        IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId);
     }
 
     public class RepositoryOptions

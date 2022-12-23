@@ -46,4 +46,29 @@ public class DataExport
             !call.Train.Destination.Equals(currentStationName, System.StringComparison.OrdinalIgnoreCase) &&
             !call.Train.Origin.Equals(currentStationName, System.StringComparison.OrdinalIgnoreCase);
     }
+
+    [TestMethod]
+    public void ExportVehicleBookingList()
+    {
+        CultureInfo.CurrentCulture = new CultureInfo("sv");
+        CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture;
+        var options =
+             Options.Create(new RepositoryOptions
+             {
+                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-01 Halmstad\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
+             });
+        
+        using var stream = new FileStream("C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-01 Halmstad\\Trafikplanering\\LayoutVehicles.csv", FileMode.Create);
+        using var output =
+            new StreamWriter(stream, System.Text.Encoding.UTF8);        
+        
+        var store = new AccessPrintedReportsStore(options, Options.Create(Globals.AppSettings));
+        var items = store.GetLayoutVehicles(23);
+
+        output.WriteLine($"\"Station\";\"Spår\";\"Avgångstid\";\"Dagar\";\"Littera\";\"Fordonsnr\";\"Ägare\"");
+        foreach (var item in items)
+        {
+            output.WriteLine($"\"{item.StartStationName}\";\"{item.StartTrack}\";\"{item.DepartureTime}\";\"{item.OperatingDays}\";\"{item.OperatorSignature} {item.Class}\";\"{item.VehicleNumber}\";\"{item.OwnerName}\"");
+        }
+    }
 }

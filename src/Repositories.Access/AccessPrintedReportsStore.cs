@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.Repositories.Access
 {
@@ -130,6 +131,27 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
+        public IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId)
+        {
+            using var connection = CreateConnection;
+            var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY StartStationName, DepartureTrack, DepartureTime, Number, OperatingDays, ReplaceOrder");
+            while (reader.Read())
+            {
+                yield return new LayoutVehicle()
+                {
+                    Id = reader.GetInt("Id"),
+                    StartStationName = reader.GetString("StartStationName"),
+                    StartTrack = reader.GetString("DepartureTrack"),
+                    VehicleScheduleNumber = reader.GetString("Number"),
+                    OperatorSignature = reader.GetString("Operator"),
+                    OperatingDays = reader.GetString("OperatingDays"),
+                    Class = reader.GetString("Class"),
+                    VehicleNumber = reader.GetString("VehicleNumber"),
+                    DepartureTime = reader.GetString("DepartureTime"),
+                    OwnerName = reader.GetString("Owner")
+                };
+            }
+        }
 
         public Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId)
         {
@@ -479,36 +501,40 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         private IEnumerable<LocoDepartureCallNote> GetLocoDepartureCallNotes(int layoutId)
         {
+            var result = new List<LocoDepartureCallNote>(100);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM LocoDepartureCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
             while (reader.Read())
             {
-                yield return reader.AsLocoDepartureCallNote();
+                result.Add(reader.AsLocoDepartureCallNote());
             }
+            return result.Aggregated();
         }
 
         private IEnumerable<LocoArrivalCallNote> GetLocoArrivalCallNotes(int layoutId)
         {
+            var result = new List<LocoArrivalCallNote>(100);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, $"SELECT * FROM LocoArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
             while (reader.Read())
             {
                 var note = reader.AsLocoArrivalCallNote();
-                if (note.CirculateLoco && !note.ArrivingLoco.IsRailcar) yield return new LocoCirculationNote(note.CallId)
+                if (note.CirculateLoco && !note.ArrivingLoco.IsRailcar) result.Add(new LocoCirculationNote(note.CallId)
                 {
                     ArrivingLoco = note.ArrivingLoco,
                     TrainInfo = note.TrainInfo,
                     CirculateLoco = true
 
-                };
-                if (note.TurnLoco && !note.ArrivingLoco.IsRailcar) yield return new LocoTurnNote(note.CallId)
+                });
+                if (note.TurnLoco && !note.ArrivingLoco.IsRailcar) result.Add( new LocoTurnNote(note.CallId)
                 {
                     ArrivingLoco = note.ArrivingLoco,
                     TrainInfo = note.TrainInfo,
                     TurnLoco = true
-                };
-                if (note.IsToParking) yield return note;
+                });
+                if (note.IsToParking) result.Add( note);
             }
+            return result.Aggregated();
         }
 
         private IEnumerable<BlockDestinationsCallNote> GetBlockDestinationsCallNotes(int layoutId)

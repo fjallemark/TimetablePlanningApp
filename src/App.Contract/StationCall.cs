@@ -61,12 +61,13 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public static void AddGeneratedNotes(this DutyStationCall me, DriverDuty duty, DriverDutyPart part, IEnumerable<TrainCallNote> notes)
         {
+            //if (part.Train.Number == 4840) Debugger.Break();
             var train = part.Train;
             foreach (var note in notes)
             {
                 note.TrainInfo = train;
-                if (note.IsForArrival && me.IsArrivalInDuty) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddArrivalNote(n);
-                if (note.IsForDeparture && me.IsDepartureInDuty) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddDepartureNote(n);
+                if (note.IsForArrival && (me.IsArrivalInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddArrivalNote(n);
+                if (note.IsForDeparture && (me.IsDepartureInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddDepartureNote(n);
             }
         }
 
