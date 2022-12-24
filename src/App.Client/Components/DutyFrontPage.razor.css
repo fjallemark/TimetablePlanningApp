@@ -4,10 +4,10 @@
 }
 
 .important {
-    margin-top: 0.5cm;
-    margin-bottom: 0.5cm;
+    margin-top: 0.3cm;
+    margin-bottom: 0.3cm;
     padding: 3mm;
-    font-size: 20pt;
+    font-size: 16pt;
     font-weight: 900;
     color: red;
     border: 2px solid red;
@@ -34,7 +34,7 @@
 }
 
     .duty.number {
-        line-height: 3cm;
+        line-height: 2cm;
         font-weight: 900;
         color: cadetblue;
         font-size: 3cm;

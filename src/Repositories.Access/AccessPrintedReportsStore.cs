@@ -508,7 +508,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 result.Add(reader.AsLocoDepartureCallNote());
             }
-            return result.Aggregated();
+            return result.AggregateOperationDays();
         }
 
         private IEnumerable<LocoArrivalCallNote> GetLocoArrivalCallNotes(int layoutId)
@@ -534,7 +534,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 });
                 if (note.IsToParking) result.Add( note);
             }
-            return result.Aggregated();
+            return result.AggregateOperationDays();
         }
 
         private IEnumerable<BlockDestinationsCallNote> GetBlockDestinationsCallNotes(int layoutId)

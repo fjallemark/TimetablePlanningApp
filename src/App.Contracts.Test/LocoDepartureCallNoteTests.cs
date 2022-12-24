@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Contract.Tests;
 
@@ -27,49 +28,9 @@ public class LocoDepartureCallNoteTests
             }
         };
 
-        var n = notes.Aggregated().ToArray();
+        var n = notes.AggregateOperationDays().ToArray();
         Assert.AreEqual(2, n.Length);
         Assert.AreEqual(0b_01111111, n[0].DepartingLoco.OperationDaysFlags);
     }
 }
-
-public static class LocoDepartureCallNoteExtensions
-{
-
-    public static void Aggregate(this List<LocoDepartureCallNote> result, LocoDepartureCallNote n1, LocoDepartureCallNote n2)
-    {
-        if (n1.CallId == n2.CallId && n1.DepartingLoco.TurnusNumber == n2.DepartingLoco.TurnusNumber)
-        {
-            n1.DepartingLoco.OperationDaysFlags |= n2.DepartingLoco.OperationDaysFlags;
-            result.Add(n1);
-        }
-        else
-        {
-            result.Add(n1);
-        }
-    }
-
-    public static IEnumerable<LocoDepartureCallNote> Aggregated(this LocoDepartureCallNote[] notes)
-    {
-        if (notes.Length == 0) return notes;
-        var result = new List<LocoDepartureCallNote>(notes.Length)
-        {
-            notes[0]
-        };
-        for (int i = 1; i < notes.Length; i++)       
-        {
-            if (result.Last().CallId == notes[i].CallId && result.Last().DepartingLoco.TurnusNumber == notes[i].DepartingLoco.TurnusNumber)
-            {
-                result.Last().DepartingLoco.OperationDaysFlags |= notes[i].DepartingLoco.OperationDaysFlags;
-            }
-            else
-            {
-                result.Add(notes[i]);
-            }
-        }
-        return result;
-    }
-}
-
-
 
