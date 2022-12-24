@@ -1,5 +1,5 @@
 # Timetable Planning App
->Last update: 2022-04-16
+>Last update: 2022-12-24
 
 This is the **experimental version** of the web application for 
 working with scheduling of model railway operation at module meetings.
@@ -17,6 +17,7 @@ It also was non-web, a complete local single-user, single-language solution.
 The overall goal is to create an online scheduling system as a cloud application.
 The focus now is to move and extend reporting/printing functionality to use standard web concepts; 
 HTML and CSS and to retrive all data through a WEB API.
+
 In addition, everything new should have multi-language support from start.
 This makes it possbible to refine all printing features first and still using the Access database,
 and learning what data needed for schedule planning, 
@@ -49,6 +50,12 @@ the Access database.
 For each train, loco, trainset and duty an operation day can be specified.
 This enables flexible planning, for example trainset schedules over several days.
 It can be used when game sessions are assigned a running weekday.
+
+Operation days are specified on three levels:
+- Trains
+- Schedules, there are *Loco Schedules* and *Trainset Schedules*.
+- Driver Duties
+The application deducts the actual operation days for trains and schedules in the driver duty.
 
 ##### Graphical Timetable
 A sequence of stations forms a *timetable stretch*. 
@@ -129,26 +136,38 @@ that can be placed on the track ahead of the train to make it easier to find.
 ##### Driver Duties
 A driver duty printed in A5 booklet format contains:
 - a first page with some general information about the duty,most of it are deducted from the trains in the duty.
-- an optional second page with general instructions for the operated layout.
 - a page for each train to drive. If the duty has more than one train, it writes a red highlight to continue to next train.
 - eventually empty pages with text *intended empty page*.
+- an optional page with general instructions for the operated layout.
 
 All pages are numbered, also the 'empty' ones. 
 They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
 This works regardless of the number of pages.
+
+It is possible to select to print a subset of driver duties:
+- a specific duty number,
+- all duties for a specific operator.
 
 ##### Station Duties
 A station duty printed in A5 booklet format contains:
 - a first page with some general information about the duty, if its a *dispatcher duty*, a *shunting duty* or a combined.
 The combined is intended for single manned stations.
-- an optional second page with general instructions for the operated layout, same as in driver duties.
 - an optional station specific free text instructions. These are entered for each station and for dispatcher and shunting staff separately.
 - one to several pages with trains that require some special attention (don't just passes through).
 - eventually empty pages with text *intended empty page*.
+- an optional page with general instructions for the operated layout, same as in driver duties.
 
 All pages are numbered, also the 'empty' ones. 
 They are printed in booklet order, which means easy print on A4 paper double-sided and fold.
 This works regardless of the number of pages.
+
+##### Loco- and Trainset circulation
+It is possible to print loco- and trainset schedules that fits in the A6-pocket on the cards.
+The type of schedule are indicated by a coloured diagonal line:
+- *red*: loco schedules,
+- *green* :passenger wagon trainset schedules,
+- *blue*: *cargo wagon trainset, and
+- *yellow* : non-wagon cargo circulation.
 
 ##### Block Planning
 It is possible to plan all cargo flow by specifying what destinations to pick up and let off at each station.
@@ -166,6 +185,10 @@ A block destination can be a single station or a set of stations.
 Each shadow station can have one or several regions attached to it. 
 Regions defines what geographical area the shadow station represents of the 'outside world' in relation to the meeting layout.
 The *block planning* also consider the regions as destinations when a block ends at a shadow station and has *and beyond* checked.
+
+### Typographical look
+It is possible to specify the font family to be used for the printed material. 
+A font can enhance a historically look and feel.
 
 ### Data Export
 Some station owners want data instead (or in supplement) of paper.
