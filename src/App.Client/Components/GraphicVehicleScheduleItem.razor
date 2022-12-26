@@ -18,10 +18,10 @@
 				<rect x="@part.ToArrival.TimeX(StartHour, EndHour)" y="12" width="@part.UnassignDuration(StartHour, EndHour)" height="10" style="fill:gray;stroke-width:0;stroke:rgb(0,0,0)" />
 			}
 			<text>
-				<text class="station" x="@(part.FromDeparture.TimeX(StartHour, EndHour))" y="32" text-anchor="start" fill="black">@part.FromDeparture!.Station!.Signature</text>
+				<text class="station" x="@(part.FromDeparture.TimeX(StartHour, EndHour))" y="32" text-anchor="end" fill="black">@part.FromDeparture!.Station!.Signature</text>
 			</text>
 			<text>
-				<text class="station" x="@(part.ToArrival.TimeX(StartHour, EndHour))" y="32" text-anchor="end" fill="black">@part.ToArrival!.Station!.Signature</text>
+				<text class="station" x="@(part.ToArrival.TimeX(StartHour, EndHour))" y="32" text-anchor="start" fill="black">@part.ToArrival!.Station!.Signature</text>
 			</text>
 			<text>
 				<text class="minute" x="@part.FromDeparture.TimeX(StartHour, EndHour)" y="21" text-anchor="start" fill="@part.TrainTextColor()">@part.FromDeparture.Minute()</text>

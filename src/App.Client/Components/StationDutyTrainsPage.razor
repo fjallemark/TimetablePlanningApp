@@ -8,10 +8,10 @@
             <table width="100%" cellspacing="2" cellpadding="3">
                 <thead class="header">
                     <tr>
+                        <th>@Localizer["Days"]</th>
                         <th>@Localizer["Arr"]</th>
                         <th>@Localizer["Dep"]</th>
                         <th>@Localizer["Track"]</th>
-                        <th>@Localizer["Days"]</th>
                         <th>@Localizer["Operator"]</th>
                         <th>@Localizer["Train"]</th>
                         <th>&nbsp;</th>
@@ -22,12 +22,12 @@
                     @foreach (var call in Calls)
                     {
                         <tr class="train-start" style="background-color: @BackgroundColor(call)">
+                            <td align="center" width="15%" style="font-weight: bold">@call.Train.OperationDays().ShortName</td>
                             <td align="center" width="10%" style="@ArrivalTimeStyle(call)">@call.ArrivalTime</td>
                             <td align="center" width="10%" style="@DepartureTimeStyle(call)">@call.DepartureTime</td>
-                            <td align="center" width="8%">@call.Call.TrackNumber</td>
-                            <td align="center" width="15%">@call.Train.OperationDays().ShortName</td>
-                            <td align="center" width="15%">@call.Train.OperatorName</td>
-                            <td align="center" width="15%">@call.Train.Prefix @call.Train.Number</td>
+                            <td align="center" width="8%" style="font-weight: bold">@call.Call.TrackNumber</td>
+                            <td align="center" width="15%" style="font-weight: bold">@call.Train.OperatorName</td>
+                            <td align="center" width="15%" style="font-weight: bold">@call.Train.Prefix @call.Train.Number</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                         </tr>
