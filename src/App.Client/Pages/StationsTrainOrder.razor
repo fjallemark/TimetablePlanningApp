@@ -12,11 +12,11 @@ else
 {
     foreach (var station in Items)
     {
-        foreach (var itemsPerPage in station.Trains.ItemsPerPage(25))
+        foreach (var itemsPerPage in station.Trains.ItemsPerPage(30))
         {
             <A4LPage>
                 <div class="stationtrainorder">
-                    <h1>@station.Name</h1>
+                    <h1>@station.Name @itemsPerPage.First().SortTime.AsTime() - @itemsPerPage.Last().SortTime.AsTime()</h1>
                     <table cellpadding="3">
                         <thead>
                             <tr>
@@ -35,6 +35,7 @@ else
                                 <th class="day">@Localizer["FridayShort"]</th>
                                 <th class="day">@Localizer["SaturdayShort"]</th>
                                 <th class="day">@Localizer["SundayShort"]</th>
+                                <th class="day">@Localizer["Note"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,6 +57,7 @@ else
                                     <td class="day"></td>
                                     <td class="day"></td>
                                     <td class="day"></td>
+                                    <td class="day" style="width: 6cm"></td>
                                 </tr>
                             }
                         </tbody>
@@ -78,4 +80,6 @@ else
             Items = result.items;
         }
     }
+
+
 }

@@ -6,6 +6,7 @@ namespace Tellurian.Trains.Planning.App.Contracts;
 public class StationDutyData
 {
     public int StationId { get; set; }
+    public required string StationName { get; set; }    
     public int DisplayOrder { get; set; }
     public string LayoutName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -113,6 +114,7 @@ public static class StationDutyDataExtensions
         {
             LayoutName = data.LayoutName,
             StationId = data.StationId,
+            StationName = data.StationName,
             Number = data.Signature,
             ValidFromDate = data.ValidFromDate,
             ValidToDate = data.ValidToDate,

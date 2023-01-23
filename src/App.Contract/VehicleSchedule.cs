@@ -94,7 +94,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static string TurnusTypeName(this VehicleSchedule me) =>
             me is LocoSchedule loco ?
             loco.IsRailcar ? Notes.RailcarTurnus : Notes.LocoTurnus :
-            me.IsCargoOnly ? Notes.CargoTurnus :
+            me.Type == "CargoOnly" ? Notes.CargoTurnus :
             Notes.TrainsetTurnus;
 
         public static string? Note(this VehicleSchedule me) =>

@@ -10,7 +10,15 @@
             <hr />
             <div>
                 <div>@Localizer["Duty"]</div>
-                <div class="duty number">@Item.Number</div>
+                @if (Item is StationDuty d)
+                {
+                    <div class="duty stationname">@d.StationName</div>
+                }
+                else
+                {
+                    <div class="duty number">@Item.Number</div>
+                    
+                }
                 <div class="important">
                     <div>@Localizer["FirstReadInstructionsOnLastPage"]</div>
                 </div>

@@ -59,6 +59,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 DisplayOrder = me.GetInt("DisplayOrder"),
                 LayoutName = me.GetString("LayoutName"),
                 StationId = me.GetInt("StationId"),
+                StationName = me.GetString("Name"),
                 Name = me.GetString("Name"),
                 Signature = me.GetString("Signature"),
                 Difficulty = me.GetInt("Difficulty"),

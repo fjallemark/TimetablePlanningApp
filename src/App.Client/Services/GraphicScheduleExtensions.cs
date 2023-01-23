@@ -80,7 +80,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
 
         public static int XCanvas(this TimetableStretch me) => me.XLastHour() + 20;
         public static int XStation(this TimetableStretch me) => me is null ? 0 : 1;
-        public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 10;
+        public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 16;
         public static int XFirstHour(this TimetableStretch me) => (me?.XHour(me.FirstHour())) ?? 0;
         public static int XLastHour(this TimetableStretch me) => (me?.XHour(me.LastHour())) ?? 0;
         public static int XHour(this TimetableStretch me, int hour) => me is null ? 0 : Options.FirstHourOffset + ((hour - me.FirstHour()) * Options.HourWidth);

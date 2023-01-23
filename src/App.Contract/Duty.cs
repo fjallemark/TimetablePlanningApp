@@ -61,6 +61,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
     public class StationDuty : Duty
     {
         public int StationId { get; init; }
+        public required string StationName { get; init; }
         public StationDutyType StationDutyType { get; init; }
         public ICollection<Instruction>? StationInstructions { get; init; }
         public ICollection<Instruction>? ShuntingInstructions { get; init; }

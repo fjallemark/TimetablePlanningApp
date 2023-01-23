@@ -157,7 +157,7 @@
     <value>Beginnt in</value>
   </data>
   <data name="Station" xml:space="preserve">
-    <value>Station</value>
+    <value>Bahnhof</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Zeit</value>
@@ -184,7 +184,7 @@
     <value>Spediteur</value>
   </data>
   <data name="Class" xml:space="preserve">
-    <value>Klasse</value>
+    <value>Gattung</value>
   </data>
   <data name="Consignee" xml:space="preserve">
     <value>Empfänger</value>
@@ -196,7 +196,7 @@
     <value>Epoche</value>
   </data>
   <data name="Origin" xml:space="preserve">
-    <value>Versandstation</value>
+    <value>Versandbahnhof</value>
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Versender</value>
@@ -214,13 +214,13 @@
     <value>Zug</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Wagen Turnus</value>
+    <value>Wagenumlauf</value>
   </data>
   <data name="Wagons" xml:space="preserve">
     <value>Waggons</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
-    <value>Loco Turnus</value>
+    <value>Lokumlauf</value>
   </data>
   <data name="Wait" xml:space="preserve">
     <value>Bitte warten...</value>
@@ -235,13 +235,13 @@
     <value>Bericht wird erstellt...</value>
   </data>
   <data name="TurnForNextDay" xml:space="preserve">
-    <value>Ersetzen zum nächsten Tag?</value>
+    <value>Zum nächsten Tag wenden?</value>
   </data>
   <data name="TrainInitialDepartures" xml:space="preserve">
     <value>Startetiketten Zug</value>
   </data>
   <data name="GraphicTimetables" xml:space="preserve">
-    <value>Grafische Fahrpläne</value>
+    <value>Bildfahrpläne</value>
   </data>
   <data name="BlockDestinations" xml:space="preserve">
     <value>Rangierauftrag Güterzüge</value>
@@ -268,19 +268,19 @@
     <value>Die Anzahl der Wagen pro Block gibt das Gesamtmaximum an.</value>
   </data>
   <data name="VehicleScheduleNumber" xml:space="preserve">
-    <value>Turnus</value>
+    <value>Umlauf</value>
   </data>
   <data name="StationInstructions" xml:space="preserve">
-    <value>Stationsanweisungen</value>
+    <value>Bahnhofsanweisungen</value>
   </data>
   <data name="Content" xml:space="preserve">
     <value>Inhalt</value>
   </data>
   <data name="Turnus" xml:space="preserve">
-    <value>Turnus</value>
+    <value>Umlauf</value>
   </data>
   <data name="Days" xml:space="preserve">
-    <value>Tagen</value>
+    <value>Tage</value>
   </data>
   <data name="TrainsWithAttensionBetween" xml:space="preserve">
     <value>Züge mit besonderer Aufmerksamkeit {0} - {1}</value>
@@ -301,10 +301,10 @@
     <value>Lokführer</value>
   </data>
   <data name="GraphicLocoSchedules" xml:space="preserve">
-    <value>Grafischer Lokfahrplan</value>
+    <value>Grafischer Lokumlaufplan</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value>Siete</value>
+    <value>Seite</value>
   </data>
   <data name="FirstReadInstructionsOnLastPage" xml:space="preserve">
     <value>Lesen Sie zuerst die Anweisungen auf der letzten Seite!</value>

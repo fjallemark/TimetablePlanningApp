@@ -98,7 +98,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GetLocoAtParking" xml:space="preserve">
-    <value>Holen Sie sich {0} auf dem Parkplatz.</value>
+    <value>Holen Sie sich {0} vom Parkplatz.</value>
   </data>
   <data name="PutLocoAtParking" xml:space="preserve">
     <value>{0} zum Parkplatz fahren.</value>
@@ -122,7 +122,7 @@
     <value>Montag</value>
   </data>
   <data name="OnDemand" xml:space="preserve">
-    <value>Bedarfsgesteuert</value>
+    <value>Bei Bedarf</value>
   </data>
   <data name="Sunday" xml:space="preserve">
     <value>Sonntag</value>
@@ -170,7 +170,7 @@
     <value>Mi</value>
   </data>
   <data name="NoStop" xml:space="preserve">
-    <value>Nicht halt.</value>
+    <value>Hält nicht.</value>
   </data>
   <data name="BlockingService" xml:space="preserve">
     <value>Sperrdienst</value>
@@ -251,22 +251,22 @@
     <value>Samstag</value>
   </data>
   <data name="ConnectTrainset" xml:space="preserve">
-    <value>{0} an den Zug anschließen.</value>
+    <value>{0} an den Zug anhängen.</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
-    <value>Abklemmen {0}.</value>
+    <value>Abhängen{0}.</value>
   </data>
   <data name="ContinuesAsTrainToDestination" xml:space="preserve">
-    <value>Fährt als Zug {0} nach {1} fort.</value>
+    <value>Fährt als Zug {0} nach {1} weiter.</value>
   </data>
   <data name="ContinuesDaysAsTrainToDestination" xml:space="preserve">
-    <value>Fährt {2} als Zug {0} nach {1} fort.</value>
+    <value>Fährt {2} als Zug {0} nach {1} weiter.</value>
   </data>
   <data name="EngineChange" xml:space="preserve">
-    <value>Motorwechsel von {0} auf {1}.</value>
+    <value>Lokwechsel von {0} auf {1}.</value>
   </data>
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
-    <value>{1}: Holen Sie sich {0} auf dem Parkplatz.</value>
+    <value>{1}: Holen Sie sich {0} vom Parkplatz.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
     <value>Verwenden Sie {0}.</value>
@@ -278,28 +278,28 @@
     <value>{1}: {0} zum Parkplatz fahren.</value>
   </data>
   <data name="BringsWaggonsToDestinations" xml:space="preserve">
-    <value>Bringt Wagen auf {0}.</value>
+    <value>Bringt Wagen nach {0}.</value>
   </data>
   <data name="AndBeyond" xml:space="preserve">
     <value>{0} und darüber hinaus</value>
   </data>
   <data name="DisconnectContinuingWagons" xml:space="preserve">
-    <value>In anderen Zügen weiterfahrende Wagen abklemmen.</value>
+    <value>In anderen Zügen weiterfahrende Wagen abhängen.</value>
   </data>
   <data name="SwitchWagonsToCustomers" xml:space="preserve">
-    <value>Wagen auf Frachtkunden umstellen.</value>
+    <value>Wagen den Frachtkunden zustellen.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Abklemmen die Wagen von {0} und darüber hinaus.</value>
+    <value>Abhängen die Wagen nach {0} und darüber hinaus.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
-    <value>Abklemmen die Wagen von {0}.</value>
+    <value>Anhängen die Wagen nach {0}.</value>
   </data>
   <data name="Days" xml:space="preserve">
     <value>Tage</value>
   </data>
   <data name="Operator" xml:space="preserve">
-    <value>Operator</value>
+    <value>Betreiber</value>
   </data>
   <data name="Cargo" xml:space="preserve">
     <value>Fracht</value>
@@ -308,7 +308,7 @@
     <value>Spediteur</value>
   </data>
   <data name="Class" xml:space="preserve">
-    <value>Klasse</value>
+    <value>Gattung</value>
   </data>
   <data name="Consignee" xml:space="preserve">
     <value>Empfänger</value>
@@ -317,13 +317,13 @@
     <value>Ziel</value>
   </data>
   <data name="Epoch" xml:space="preserve">
-    <value>Epoch</value>
+    <value>Epoche</value>
   </data>
   <data name="Instructions" xml:space="preserve">
     <value>Anweisungen</value>
   </data>
   <data name="Origin" xml:space="preserve">
-    <value>Versandstation</value>
+    <value>Versandbahnhof</value>
   </data>
   <data name="Shipper" xml:space="preserve">
     <value>Absender</value>
@@ -335,13 +335,13 @@
     <value>{0} (über {1})</value>
   </data>
   <data name="Loco" xml:space="preserve">
-    <value>Loco</value>
+    <value>Lok</value>
   </data>
   <data name="Railcar" xml:space="preserve">
     <value>Triebwagen</value>
   </data>
   <data name="MeetsOtherTrains" xml:space="preserve">
-    <value>Trifft {0}.</value>
+    <value>Kreuzt mit {0}.</value>
   </data>
   <data name="Track" xml:space="preserve">
     <value>Gleis</value>
@@ -353,10 +353,10 @@
     <value>Bringt keine Waggons von diesem Bahnhof</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Wagen Turnus</value>
+    <value>Wagenumlauf</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
-    <value>Lokdienst</value>
+    <value>Lokumlauf</value>
   </data>
   <data name="RailcarTurnus" xml:space="preserve">
     <value>Triebwagendienst</value>
@@ -365,7 +365,7 @@
     <value>Gültig {0:d} - {1:d}</value>
   </data>
   <data name="VehicleScheduleNumber" xml:space="preserve">
-    <value>Turnus</value>
+    <value>Umlauf</value>
   </data>
   <data name="CargoTurnus" xml:space="preserve">
     <value>Fracht Umlauf</value>
@@ -380,7 +380,7 @@
     <value>Zugabfertigung</value>
   </data>
   <data name="Station" xml:space="preserve">
-    <value>Station</value>
+    <value>Bahnhof</value>
   </data>
   <data name="Train" xml:space="preserve">
     <value>Zug</value>
@@ -398,22 +398,22 @@
     <value>Bemerkungen</value>
   </data>
   <data name="IsThroughpassing" xml:space="preserve">
-    <value>Ist durchgängig</value>
+    <value>Fährt durch</value>
   </data>
   <data name="IsStopping" xml:space="preserve">
-    <value>Stoppt</value>
+    <value>Hält</value>
   </data>
   <data name="CirculateLocoDays" xml:space="preserve">
-    <value>{0}: Umlauf lassen.</value>
+    <value>{0}: Kopf machen.</value>
   </data>
   <data name="Driver" xml:space="preserve">
     <value>Lokführer</value>
   </data>
   <data name="MoveContinuingWagonsToDepartureTracks" xml:space="preserve">
-    <value>Fortfahrende Waggons auf Abfahrtsgleise verschieben.</value>
+    <value>Weiterfahrende Waggons auf Abfahrtsgleise verschieben.</value>
   </data>
   <data name="MoveRestOfWagonsToTable" xml:space="preserve">
-    <value>Bewegen Sie den Rest der Wagen auf den Tisch.</value>
+    <value>Legen Sie den Rest der Wagen auf den Tisch.</value>
   </data>
   <data name="LocalDestinations" xml:space="preserve">
     <value>Lokale Ziele</value>

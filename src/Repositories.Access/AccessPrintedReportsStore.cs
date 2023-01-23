@@ -18,7 +18,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     /// </summary>
     public class AccessPrintedReportsStore : IPrintedReportsStore
     {
-        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options, IOptions<AppSettings> appOptions )
+        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options, IOptions<AppSettings> appOptions)
         {
             Options = options.Value;
             AppSettings = appOptions.Value;
@@ -266,14 +266,16 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var currentStationId = reader.GetInt("StationDisplayOrder");
                 if (currentTimetableNumber != lastTimetableNumber)
                 {
-                    if (current != null) { result.Add(current); }
+                    if (current is not null) { result.Add(current); lastStationId = 0; }
                     current = reader.AsTimetableStretch();
+
                 }
-                if (current != null && currentStationId != lastStationId)
+                if (current is not null && currentStationId != lastStationId)
                 {
                     current.Stations.Add(reader.AsTimetableStretchStation());
                 }
-                current?.Stations.Last().Station.Tracks.Add(reader.AsStationStrack());
+                if (current?.Stations.Any() == true)
+                    current?.Stations.Last().Station.Tracks.Add(reader.AsStationStrack());
                 lastStationId = currentStationId;
                 lastTimetableNumber = currentTimetableNumber;
             }
@@ -315,7 +317,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
         {
             var sql = $"SELECT * FROM StationTrainOrder WHERE Id = {layoutId}";
-            var result = new List<StationTrainOrder>();    
+            var result = new List<StationTrainOrder>();
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, sql);
             var stationName = "";
@@ -332,7 +334,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 item?.Trains.Add(reader.AsStationTrain());
             }
             if (item is not null) result.Add(item);
-           return Task.FromResult(result.AsEnumerable());
+            return Task.FromResult(result.AsEnumerable());
         }
 
 
@@ -526,13 +528,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     CirculateLoco = true
 
                 });
-                if (note.TurnLoco && !note.ArrivingLoco.IsRailcar) result.Add( new LocoTurnNote(note.CallId)
+                if (note.TurnLoco && !note.ArrivingLoco.IsRailcar) result.Add(new LocoTurnNote(note.CallId)
                 {
                     ArrivingLoco = note.ArrivingLoco,
                     TrainInfo = note.TrainInfo,
                     TurnLoco = true
                 });
-                if (note.IsToParking) result.Add( note);
+                if (note.IsToParking) result.Add(note);
             }
             return result.AggregateOperationDays();
         }

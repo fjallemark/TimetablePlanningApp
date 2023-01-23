@@ -38,6 +38,22 @@ table {
     }
 }
 
+@media stationtrainorder {
+    @page {
+        size: portrait;
+    }
+
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
+    }
+
+    .pagebreak-hard {
+        clear: both;
+        page-break-after: always;
+    }
+}
+
 
 .departure {
     height: 46mm;
@@ -88,6 +104,7 @@ table {
     .stationtrainorder td {
         text-align: center;
         padding: 4px 2px 4px 2px;
+        font-size: 9pt;
     }
     .stationtrainorder h1 {
         background-color: white;
