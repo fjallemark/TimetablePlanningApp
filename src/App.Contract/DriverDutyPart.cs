@@ -45,15 +45,26 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         internal static int FromCallIndex(this DriverDutyPart me)
         {
-            if (me.FromCallIndex == -1) me.FromCallIndex = me.FromCallId == 0 ? 0 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.FromCallId));
-            return me.FromCallIndex;
+            try
+            {
+                if (me.FromCallIndex == -1) me.FromCallIndex = me.FromCallId == 0 ? 0 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.FromCallId));
+                return me.FromCallIndex;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Debugger.Break();
+                throw;
+            }
         }
+
         internal static int ToCallIndex(this DriverDutyPart me)
         {
             try
             {
-            if (me.ToCallIndex == -1) me.ToCallIndex = me.ToCallId == 0 ? me.Train.Calls.Count - 1 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.ToCallId));
-            return me.ToCallIndex;
+                if (me.ToCallIndex == -1) me.ToCallIndex = me.ToCallId == 0 ? me.Train.Calls.Count - 1 : me.Train.Calls.IndexOf(me.Train.Calls.Single(c => c.Id == me.ToCallId));
+                return me.ToCallIndex;
 
             }
             catch (Exception ex)
@@ -84,7 +95,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsLast { get; set; }
         public bool IsArrivalInDuty { get; set; }
         public bool IsDepartureInDuty { get; set; }
-        public string ArrivalCssClass => IsArrivalInDuty || Arrival?.Notes.Any()==true ? "train call arrival" : "train call notpart";
+        public string ArrivalCssClass => IsArrivalInDuty || Arrival?.Notes.Any() == true ? "train call arrival" : "train call notpart";
         public string DepartureCssClass => IsDepartureInDuty ? "train call part" : "train call notpart";
         public bool ShowArrival => (Arrival?.IsHidden == false || Arrival?.Notes.Any() == true) && (IsStop || IsLast);
         public bool ShowDeparture => Departure?.IsHidden == false;

@@ -118,4 +118,7 @@ table {
     .stationtrainorder .col {
         border-left: 1px solid lightgray;
     }
+    .stationtrainorder .bold {
+        font-weight: bold;
+    }
 
