@@ -18,14 +18,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
     /// </summary>
     public class AccessPrintedReportsStore : IPrintedReportsStore
     {
-        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options, IOptions<AppSettings> appOptions)
+        public AccessPrintedReportsStore(IOptions<RepositoryOptions> options)
         {
             Options = options.Value;
-            AppSettings = appOptions.Value;
         }
 
         private readonly RepositoryOptions Options;
-        private readonly AppSettings AppSettings;
         private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
         public Task<int?> GetCurrentLayoutId()
@@ -112,7 +110,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             {
                 var currentDutyId = reader.GetInt("DutyId");
                 var currentLocoScheduleTrainId = reader.GetInt("LocoScheduleTrainId");
-                if (currentLocoScheduleTrainId != lastLocoScheduleTrainId)
+                if (currentDutyId != lastDutyId || currentLocoScheduleTrainId != lastLocoScheduleTrainId)
                 {
                     sequenceNumber = 0;
                     train = reader.AsTrain();
@@ -182,28 +180,38 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             var reader = ExecuteReader(connection, $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetNumber, TrainsetDays, DepartureTime");
             var lastUnique = "";
             VehicleSchedule? schedule = null;
-            while (reader.Read())
+            try
             {
-                var currentUnique = $"{reader.GetInt("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
-                if (currentUnique != lastUnique)
+                while (reader.Read())
                 {
-                    if (schedule != null) result.Add(schedule);
-                    var isCargoWagon = reader.GetBool("IsCargo");
-                    var isLoadOnly = reader.GetBool("IsLoadOnly");
+                    var currentUnique = $"{reader.GetInt("TrainsetNumber")}{reader.GetString("TrainsetDays")}";
+                    if (currentUnique != lastUnique)
+                    {
+                        if (schedule != null) result.Add(schedule);
+                        var isCargoWagon = reader.GetBool("IsCargo");
+                        var isLoadOnly = reader.GetBool("IsLoadOnly");
 
-                    schedule = isLoadOnly ? reader.AsCargoOnlySchedule() : isCargoWagon ? reader.AsCargoWagonSchedule() : reader.AsPassengerWagonSchedule();
+                        schedule = isLoadOnly ? reader.AsCargoOnlySchedule() : isCargoWagon ? reader.AsCargoWagonSchedule() : reader.AsPassengerWagonSchedule();
+                    }
+                    if (schedule != null) reader.AddTrainPart(schedule);
+                    lastUnique = currentUnique;
                 }
-                if (schedule != null) reader.AddTrainPart(schedule);
-                lastUnique = currentUnique;
+                if (schedule != null) result.Add(schedule);
+
             }
-            if (schedule != null) result.Add(schedule);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Debugger.Break();
+                throw;
+            }
             return Task.FromResult(result.AsEnumerable());
         }
 
         public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
         {
             var result = new List<BlockDestinations>(100);
-            var categories = await GetTrainCategories(AppSettings.TrainCategory.CountryId, AppSettings.TrainCategory.Year);
+            var categories = await GetTrainCategories(layoutId);
             {
                 using var connection1 = CreateConnection;
                 var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
@@ -291,7 +299,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
         {
             var result = new List<Train>(100);
-            var categories = await GetTrainCategories(AppSettings.TrainCategory.CountryId, AppSettings.TrainCategory.Year);
+            var categories = await GetTrainCategories(layoutId);
             Train? current = null;
             var lastTrainNumber = string.Empty;
             var sequenceNumber = 0;
@@ -316,7 +324,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
         {
-            var sql = $"SELECT * FROM StationTrainOrder WHERE Id = {layoutId}";
+            var sql = $"SELECT * FROM StationTrainOrder WHERE Id = {layoutId} ORDER BY StationDisplayOrder, SortTime";
             var result = new List<StationTrainOrder>();
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, sql);
@@ -342,7 +350,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var sql = $"SELECT * FROM TrainInitialDeparturesReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber";
             var result = new List<TrainDeparture>(100);
-            var categories = await GetTrainCategories(AppSettings.TrainCategory.CountryId, AppSettings.TrainCategory.Year);
+            var categories = await GetTrainCategories(layoutId);
             using var connection = CreateConnection;
             var reader = ExecuteReader(connection, sql);
             while (reader.Read())
@@ -354,11 +362,11 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return result.AsEnumerable();
         }
 
-        public Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year)
+        public Task<IEnumerable<TrainCategory>> GetTrainCategories(int layoutId)
         {
             var result = new List<TrainCategory>(20);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM HistoricalTrainCategory WHERE (CountryId IS NULL OR CountryId = {countryId}) AND (FromYear IS NULL OR FromYear <= {year}) AND (UptoYear IS NULL OR UptoYear > {year})");
+            var reader = ExecuteReader(connection, $"SELECT * FROM HistoricalTrainCategory WHERE LayoutId = {layoutId}");
 
             while (reader.Read())
             {
@@ -367,6 +375,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return Task.FromResult(result.AsEnumerable());
         }
 
+        [Obsolete("Waybills are available in MOdule Registry")]
         public Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId)
         {
             var result = new List<Waybill>(100);
@@ -422,20 +431,20 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private IEnumerable<TrainsetsCallNote> GetTrainsetsArrivalCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var sql = $"SELECT * FROM TrainsetsArrivalNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
+            var sql = $"SELECT * FROM TrainsetsArrivalNotes WHERE LayoutId = {layoutId} ORDER BY CallId, IsLoadOnly, OrderInTrain";
             var reader = ExecuteReader(connection, sql);
-            var lastCallId = 0;
+            string lastCallKey = string.Empty;
             TrainsetsCallNote? current = null;
             while (reader.Read())
             {
-                var currentCallId = reader.GetInt("CallId");
-                if (currentCallId != lastCallId)
+                var currentCallKey = $"{reader.GetInt("CallId")}{reader.GetBool("IsLoadOnly")}";
+                if (currentCallKey != lastCallKey)
                 {
                     if (current != null) yield return current;
                     current = reader.AsTrainsetArrivalCallNote();
                 }
                 current?.AddTrainset(reader.AsTrainset());
-                lastCallId = currentCallId;
+                lastCallKey = currentCallKey;
             }
             if (current != null) yield return current;
         }
@@ -443,20 +452,20 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private IEnumerable<TrainsetsCallNote> GetTrainsetsDepartureCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var sql = $"SELECT * FROM TrainsetsDepartureNotes WHERE LayoutId = {layoutId} ORDER BY CallId, OrderInTrain";
+            var sql = $"SELECT * FROM TrainsetsDepartureNotes WHERE LayoutId = {layoutId} ORDER BY CallId, IsLoadOnly, OrderInTrain";
             var reader = ExecuteReader(connection, sql);
-            var lastCallId = 0;
+            string lastCallKey = string.Empty;
             TrainsetsCallNote? current = null;
             while (reader.Read())
             {
-                var currentCallId = reader.GetInt("CallId");
-                if (currentCallId != lastCallId)
+                var currentCallKey = $"{reader.GetInt("CallId")}{reader.GetBool("IsLoadOnly")}";
+                if (currentCallKey != lastCallKey)
                 {
                     if (current != null) yield return current;
                     current = reader.AsTrainsetDepartureCallNote();
                 }
                 current?.AddTrainset(reader.AsTrainset());
-                lastCallId = currentCallId;
+                lastCallKey = currentCallKey;
             }
             if (current != null) yield return current;
         }
@@ -564,13 +573,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         private IEnumerable<BlockArrivalCallNote> GetBlockArrivalCallNotes(int layoutId)
         {
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM BlockArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, OrderInTrain DESC");
+            var reader = ExecuteReader(connection, $"SELECT * FROM BlockArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, TrainsetScheduleId, IsTransfer DESC");
             var lastCallId = 0;
             BlockArrivalCallNote? current = null;
             while (reader.Read())
             {
                 var currentCallId = reader.GetInt("CallId");
-                if (currentCallId != lastCallId)
+                if (currentCallId != lastCallId || reader.GetBool("IsTransfer"))
                 {
                     if (current is not null) yield return current;
                     current = reader.AsBlockArrivalCallNote();

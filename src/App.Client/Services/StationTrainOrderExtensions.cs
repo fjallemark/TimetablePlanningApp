@@ -1,5 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.Extensions.Localization;
+using System.Diagnostics.CodeAnalysis;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Client.Services;
 
@@ -21,4 +23,13 @@ public static class StationTrainOrderExtensions
 
     public static bool IsNotArrival([NotNullWhen(false)] this StationTrain? me) =>
         string.IsNullOrWhiteSpace(me?.ArrivalTime) || me.ArrivalTime.StartsWith("(");
+
+    public static string TrainCategory(this StationTrain? me)
+    {
+        if (me is null) return string.Empty;
+        var rm = Notes.ResourceManager;
+        return rm.GetString(me.ProductResourcName) ?? string.Empty;
+    }
+        
+        
 }

@@ -3,6 +3,7 @@
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
 @inject PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 @if (Items is null)
 {
@@ -10,6 +11,8 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     foreach (var station in Items)
     {
         foreach (var itemsPerPage in station.Trains.ItemsPerPage(28))
@@ -28,13 +31,13 @@ else
                                 <th class="col">@Localizer["From"]</th>
                                 <th class="col">@Localizer["To"]</th>
                                 <th class="col">@Localizer["Notes"]</th>
+                                <th class="day">@Localizer["SundayShort"]</th>
                                 <th class="day">@Localizer["MondayShort"]</th>
                                 <th class="day">@Localizer["TuesdayShort"]</th>
                                 <th class="day">@Localizer["WednesdayShort"]</th>
                                 <th class="day">@Localizer["ThursdayShort"]</th>
                                 <th class="day">@Localizer["FridayShort"]</th>
                                 <th class="day">@Localizer["SaturdayShort"]</th>
-                                <th class="day">@Localizer["SundayShort"]</th>
                                 <th class="day">@Localizer["Note"]</th>
                             </tr>
                         </thead>
@@ -49,7 +52,7 @@ else
                                     <td class="col">@item.TrackNumber</td>
                                     <td class="col">@item.Origin()</td>
                                     <td class="col">@item.Destination()</td>
-                                    <td class="col">@item.ProductName</td>
+                                    <td class="col">@item.TrainCategory()</td>
                                     <td class="day"></td>
                                     <td class="day"></td>
                                     <td class="day"></td>
@@ -74,7 +77,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetStationsTrainOrderAsync(Globals.AppSettings.LayoutId);
+        var settings = Options.Value;
+        var result = await DataService.GetStationsTrainOrderAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             Items = result.items;

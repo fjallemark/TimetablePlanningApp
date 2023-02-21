@@ -3,6 +3,8 @@
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
 @inject PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
+
 
 @if (Items == null)
 {
@@ -10,6 +12,8 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     <div>
         @foreach (var item in Items.OrderBy(i => i.OriginStationName))
         {
@@ -24,7 +28,9 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var result = await DataService.GetBlockDestinationsAsync(Globals.AppSettings.LayoutId);
+        var settings = Options.Value;
+        Items = null;
+        var result = await DataService.GetBlockDestinationsAsync(settings.LayoutId);
         Items = result.items;
     }
 }

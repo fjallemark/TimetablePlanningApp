@@ -19,12 +19,18 @@ table {
     border-collapse: collapse;
 }
 
-
-
+.update {
+    font-size: 24pt;
+    margin-bottom: 10px;
+}
 
 @media print {
     @page {
         size: landscape;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
     }
 
     .pagebreak {

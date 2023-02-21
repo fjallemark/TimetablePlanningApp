@@ -336,4 +336,10 @@
   <data name="SundayShort" xml:space="preserve">
     <value>S</value>
   </data>
+  <data name="TrainsTimeAllocation" xml:space="preserve">
+    <value>Tåg över dagen</value>
+  </data>
+  <data name="StationTrainOrder" xml:space="preserve">
+    <value>Tågexpediteringstabell</value>
+  </data>
 </root>

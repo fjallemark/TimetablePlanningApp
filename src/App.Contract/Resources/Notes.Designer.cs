@@ -376,6 +376,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {2}: Engine change from {0} to {1}..
+        /// </summary>
+        public static string EngineChangeDays {
+            get {
+                return ResourceManager.GetString("EngineChangeDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Epoch.
         /// </summary>
         public static string Epoch {

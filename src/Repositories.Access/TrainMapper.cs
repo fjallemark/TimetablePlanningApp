@@ -30,7 +30,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 
         public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber)
         {
+            var callId = me.GetInt("CallId");
             var hasDepartureTime = TimeSpan.TryParse(me.GetTime("DepartureTime", ""), out var departureTime);
+            if (!hasDepartureTime)
+            {
+                throw new ApplicationException($"Call Id {callId} has no departure time");
+            }
             var defaultArrivalTime = (departureTime - TimeSpan.FromMinutes(1)).ToString(@"hh\:mm");
             var call = new StationCall()
             {
@@ -65,7 +70,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static TrainCategory AsTrainCategory(this IDataRecord me) =>
             new()
             {
-                Id = me.GetInt("Id"),
+                Id = me.GetInt("TrainCategoryId"),
                 Name = me.GetString("Name"),
                 ResourceCode = me.GetString("ResourceCode"),
                 IsCargo = me.GetBool("IsCargo"),

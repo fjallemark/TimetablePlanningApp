@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
@@ -109,7 +110,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             IsStationNote = Trainsets.Any(t => !t.IsCargo);
             IsShuntingNote = Trainsets.Any(t => t.IsCargo);
         }
-        protected IEnumerable<Note> ToNotes(Func<Trainset, bool> criteria, byte dutyDays = OperationDays.AllDays)
+        protected IEnumerable<Note> ToNotes(Func<Trainset, bool> criteria, byte dutyDays = OperationDays.AllDays, int displayOrder = 1000)
         {
             return Merge(Trainsets.Where(t => criteria(t) && IsAnyDay(t.OperationDaysFlag, dutyDays)))
                 .OrderBy(t => t.PositionInTrain)
@@ -117,7 +118,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 .OrderBy(t => t.Key)
                 .Select(t => new Note
                 {
-                    DisplayOrder = 1000,
+                    DisplayOrder = displayOrder,
                     Text = Text(t.Key, dutyDays, t)
                 });
         }
@@ -132,7 +133,8 @@ namespace Tellurian.Trains.Planning.App.Contracts
                     WagonTypes = ts.First().WagonTypes,
                     OperationDaysFlag = (byte)ts.Sum(x => x.OperationDaysFlag),
                     HasCoupleNote = ts.First().HasCoupleNote,
-                    HasUncoupleNote = ts.First().HasUncoupleNote
+                    HasUncoupleNote = ts.First().HasUncoupleNote,
+                    IsCargo = ts.First().IsCargo,
                 });
         }
         protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
@@ -183,7 +185,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             IsDriverNote = Trainsets.Any(t => t.HasUncoupleNote);
         }
 
-        public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays);
+        public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays, 500);
 
         protected override string Text(IEnumerable<Trainset> trainsets) =>
             string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
@@ -261,8 +263,9 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
         {
             var days = (byte)(ArrivingLoco.OperationDaysFlags & DepartingLoco.OperationDaysFlags & onlyDays);
-            return days > 0 || ArrivingLoco.OperationDaysFlags.IsOnDemand() || DepartingLoco.OperationDaysFlags.IsOnDemand() ?
-                Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChange, ArrivingLoco.DisplayFormat(), DepartingLoco.DisplayFormat()), days) :
+            return days == OperationDays.AllDays ? Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChange, ArrivingLoco.DisplayFormat(), DepartingLoco.DisplayFormat()), days) :
+                days > 0 || ArrivingLoco.OperationDaysFlags.IsOnDemand() || DepartingLoco.OperationDaysFlags.IsOnDemand() ?
+                Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChangeDays, ArrivingLoco.DisplayFormat(), DepartingLoco.DisplayFormat(), days.OperationDays().ShortName), days) :
                 Array.Empty<Note>();
         }
     }
@@ -276,7 +279,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
             DisplayOrder = -303;
         }
 
-        protected abstract string ParkingText(byte days, byte onlydays);
+        protected abstract string ParkingText(byte days, byte onlyDays);
 
         protected static string LocoText(string format, Loco loco) =>
            string.Format(CultureInfo.CurrentCulture, format, loco.DisplayFormat(), loco.OperationDays());
@@ -336,7 +339,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
             if (parkingNote.HasValue())
             {
-                result.Add(new Note { DisplayOrder = GetDisplayOrder(onlyDays, 3600), Text = parkingNote });
+                result.Add(new Note { DisplayOrder = GetDisplayOrder(onlyDays, 2950), Text = parkingNote });
             }
             return result;
         }
@@ -357,12 +360,12 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
             IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
-            Note.SingleNote(GetDisplayOrder(onlyDays, 3300), CirculateText(ArrivingLoco.OperationDaysFlags, onlyDays));
+            Note.SingleNote(GetDisplayOrder(onlyDays, 2900), CirculateText(ArrivingLoco.OperationDaysFlags, onlyDays));
 
-        private string CirculateText(byte days, byte onlydays) =>
+        private string CirculateText(byte days, byte onlyDays) =>
             CirculateLoco ?
-                IsAllDays(days, onlydays) ? Notes.CirculateLoco :
-                string.Format(Notes.CirculateLocoDays, Days(ArrivingLoco.OperationDaysFlags, onlydays).OperationDays().ShortName) :
+                IsAllDays(days, onlyDays) ? Notes.CirculateLoco :
+                string.Format(Notes.CirculateLocoDays, Days(ArrivingLoco.OperationDaysFlags, onlyDays).OperationDays().ShortName) :
                 string.Empty;
     }
 
@@ -388,6 +391,8 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
         public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
             Note.SingleNote(100, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
+
+        public override string ToString() => $"Uncouple to {string.Join(", ",BlockDestinations.Select(bd => bd.ToString()))}";
     }
 
     public class BlockArrivalCallNote : TrainCallNote
@@ -401,6 +406,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public string StationName => StationNames.Count > 0 ? StationNames[0] : string.Empty;
         public IList<string> StationNames { get; } = new List<string>();
         public bool ToAllDestinations { get; set; }
+        public bool IsTransfer { get; set; }
         public bool AndBeyond { get; set; }
         public bool AlsoSwitch { get; set; }
         public bool AtShadowStation { get; set; }
@@ -426,12 +432,12 @@ namespace Tellurian.Trains.Planning.App.Contracts
             }
             else
             {
-                result.Add(new Note { DisplayOrder = -700, Text = DisconnectNote });
+                result.Add(new Note { DisplayOrder = IsTransfer ? -900 :-700, Text = ToString() });
             }
-            return result;
+            return result; 
         }
 
-        private string DisconnectNote =>
+        public override string ToString() =>
             ToAllDestinations ?
             string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations) :
             AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, StationName) :

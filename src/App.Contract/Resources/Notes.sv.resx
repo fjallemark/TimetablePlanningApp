@@ -444,4 +444,7 @@
   <data name="Duty" xml:space="preserve">
     <value>Tjänst</value>
   </data>
+  <data name="EngineChangeDays" xml:space="preserve">
+    <value>{2}: Lokbyte från {0} till {1}.</value>
+  </data>
 </root>

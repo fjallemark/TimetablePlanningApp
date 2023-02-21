@@ -87,11 +87,18 @@ namespace Tellurian.Trains.Planning.App.Contracts
             {
                 var dayNumber = 0;
                 var lastDayNumber = days.Last().Number;
-                if (days.IsConsectutive())
+                if (days.IsConsecutiveFromMonday())
                 {
                     Append(days[0], fullName, shortName);
                     Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
                     Append(days.Last(), fullName, shortName, true);
+                }
+                else if (days.IsConsecutiveFromSunday())
+                {
+                    Append(days[^1], fullName, shortName);
+                    Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
+                    Append(days[^2], fullName, shortName, true);
+
                 }
                 else if (flags == 0x5F)
                 {
@@ -212,6 +219,10 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
     internal static class DayExtensions
     {
-        public static bool IsConsectutive(this Day[] days) => days.Length == days.Last().Number - days[0].Number + 1;
+        public static bool IsConsecutiveFromMonday(this Day[] days) => 
+            days.Length == days.Last().Number - days[0].Number + 1;
+
+        public static bool IsConsecutiveFromSunday(this Day[] days) =>
+            days.Length >= 3 && days.Last().Number == 7 && days[0..^2].IsConsecutiveFromMonday();
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Tellurian.Trains.Planning.App.Client.Services;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Client
 {
@@ -12,6 +13,8 @@ namespace Tellurian.Trains.Planning.App.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
+            builder.Services.Configure<AppSettings>(
+                builder.Configuration.GetSection("AppSettings"));
             builder.Services.AddLocalization();
             builder.Services.AddScoped<LanguageService>();
             builder.Services.AddScoped<PrintedReportsService>();

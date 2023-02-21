@@ -16,7 +16,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool HasUncoupleNote { get; set; }
         public string Destination { get; set; } = string.Empty;
         public string FinalDestination { get; set; } = string.Empty;
-        public bool HasFinalDestination => FinalDestination.HasValue() && FinalDestination != Destination;
+        public bool HasFinalDestination => FinalDestination.HasValue() && !FinalDestination.Equals(Destination, System.StringComparison.OrdinalIgnoreCase);
         public override string ToString() => $"{Operator} {Number} {WagonTypes}".TrimEnd();
     }
 }

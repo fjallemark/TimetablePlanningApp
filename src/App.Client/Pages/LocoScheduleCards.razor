@@ -3,6 +3,7 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 
 @if (Items == null)
@@ -11,6 +12,8 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     @foreach (var itemsOnPage in Items.ItemsPerPage(10))
     {
         <div class="pagebreak">
@@ -23,23 +26,25 @@ else
 }
 
 @code {
-    string? Operator { get; set; }
+    string? Operators { get; set; }
     private IEnumerable<LocoSchedule>? Items { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetLocoSchedulesAsync(Globals.AppSettings.LayoutId);
+        var settings = Options.Value;
+        Items = null;
+        var result = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             var items = result.items.Where(i => i.ReplaceOrder == 0);
             SetQueryStringParameters();
-            Items = items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+            Items = items.Where(i => string.IsNullOrWhiteSpace(Operators) || i.Operator.EqualsAny(Operators));
         }
     }
 
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        Operator = q["operator"];
+        Operators = q["operator"];
     }
 }

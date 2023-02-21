@@ -424,4 +424,7 @@
   <data name="Duty" xml:space="preserve">
     <value>Dienst</value>
   </data>
+  <data name="EngineChangeDays" xml:space="preserve">
+    <value>{2}: Lokwechsel von {0} auf {1}.</value>
+  </data>
 </root>

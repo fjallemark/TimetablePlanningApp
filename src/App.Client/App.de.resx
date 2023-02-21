@@ -336,4 +336,10 @@
   <data name="SundayShort" xml:space="preserve">
     <value>So</value>
   </data>
+  <data name="TrainsTimeAllocation" xml:space="preserve">
+    <value>Züge über Tag</value>
+  </data>
+  <data name="StationTrainOrder" xml:space="preserve">
+    <value>Zugabfertigungstabelle</value>
+  </data>
 </root>

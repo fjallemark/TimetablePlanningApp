@@ -353,7 +353,7 @@
     <value>Bringer ingen vogne fra denne station</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Vognomløb</value>
+    <value>Vognløb</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokmotiv omløb</value>
@@ -423,5 +423,8 @@
   </data>
   <data name="Duty" xml:space="preserve">
     <value>Tjeneste</value>
+  </data>
+  <data name="EngineChangeDays" xml:space="preserve">
+    <value>{2}: Skift lokomotiv fra {0} til {1}.</value>
   </data>
 </root>

@@ -14,7 +14,7 @@ public class StationTrainOrder
 public class StationTrain
 {
     public double SortTime { get; init; }
-    public string ProductName { get; init; }
+    public string ProductResourcName { get; init; }
     public string OperatorName { get; init; }
     public string TrainNumber { get; init; }
     public string TrackNumber { get; init; }

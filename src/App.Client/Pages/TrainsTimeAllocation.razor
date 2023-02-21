@@ -1,0 +1,76 @@
+﻿@page "/trainstimeallocation"
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
+@inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
+
+<RefreshButton OnClick="OnInitializedAsync" />
+
+<h3>@Localizer["TrainsTimeAllocation"]</h3>
+@if (Minutes > 0)
+{
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap;  margin-left: 4px">
+        @for (var m = 0; m < Minutes; m++)
+        {
+            <div style="align-self: end; height: @(AllocationTable[m]*10)px; width: 10px; margin: 1px; background-color: @BackgroundColor(m); writing-mode: vertical-rl; text-orientation: mixed; color: white; font-size: 8pt; font-weight: bold">
+                @Time(m)  @AllocationTable[m]
+            </div>
+        }
+    </div>
+
+}
+
+@code {
+    Layout? Layout;
+    byte[] AllocationTable = Array.Empty<byte>();
+    byte MaxTrainCount;
+    int Minutes;
+
+    string Time(int index) => $"{Layout!.StartHour + index / 60:00}:{index % 60:00}";
+
+    string BackgroundColor(int index) =>
+        index % 60 == 0 ? "black" :
+        Layout is  null ? "white" :
+        AllocationTable[index] > Layout.MaxLocoDriversCount ? "red" :
+        AllocationTable[index] == Layout.MaxLocoDriversCount ? "green" :
+        AllocationTable[index] == Layout.MaxLocoDriversCount - 1 ? "orange" :
+        "gray";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Minutes = 0;
+        var settings = Options.Value;
+        var result1 = await DataService.GetLayoutAsync(settings.LayoutId);
+        if (result1.statusCode.IsSuccess())
+        {
+            Layout = result1.item;
+            var result2 = await DataService.GetTrainsAsync(settings.LayoutId);
+            if (result2.statusCode.IsSuccess())
+            {
+                AllocationTable = BuildTrainAllocationTable(Layout, result2.items);
+                MaxTrainCount = AllocationTable.Max();
+                Minutes = AllocationTable.Length;
+            }
+        }
+    }
+
+    byte[] BuildTrainAllocationTable(Layout? layout, IEnumerable<Train> trains)
+    {
+        if (layout is null) return Array.Empty<byte>();
+        var minutes = (layout.EndHour - layout.StartHour) * 60;
+        var table = new byte[minutes+1];
+        foreach (var train in trains)
+        {
+            var calls = train.Calls.OrderBy(c => c.SortTime());
+            var startIndex = (int)(calls.First().Arrival.OffsetMinutes() - (layout.StartHour * 60));
+            var endIndex = (int)(calls.Last().Departure.OffsetMinutes() - (layout.StartHour * 60));
+            for (var i = startIndex; i < endIndex; i++)
+            {
+                table[i]++;
+            }
+            if (endIndex == minutes) table[minutes]++;
+        }
+        return table;
+    }
+}

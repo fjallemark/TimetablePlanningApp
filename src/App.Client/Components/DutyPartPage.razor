@@ -118,5 +118,6 @@
     [Parameter]
     public DriverDuty? Duty { get; set; }
 
+    public override string ToString() => $"Page {PageNumber} duty {Item?.Train.Number}";
 
 }

@@ -13,6 +13,7 @@ internal static class LayoutMapper
             EndHour = me.GetInt("EndHour"),
             ValidFrom = me.GetDate("ValidFromDate"),
             ValidTo = me.GetDate("ValidToDate"),
+            MaxLocoDriversCount = me.GetInt("MaxLocoDriversCount"),
             FontFamily = me.GetString("FontFamily")
                 .OrElse("'Segoe UI', Tahoma, Geneva, Verdana, sans-serif")
         };

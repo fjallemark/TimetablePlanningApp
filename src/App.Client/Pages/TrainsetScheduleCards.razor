@@ -3,6 +3,7 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 @if (Items == null)
 {
@@ -10,6 +11,8 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     @foreach (var itemsOnPage in Items.ItemsPerPage(10))
     {
         <div class="pagebreak">
@@ -27,11 +30,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetTrainsetSchedulesAsync(Globals.AppSettings.LayoutId);
+        var settings = Options.Value;
+        var result = await DataService.GetTrainsetSchedulesAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             SetQueryStringParameters();
-            Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase));
+            Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.EqualsAny(Operator));
         }
     }
 

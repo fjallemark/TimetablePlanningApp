@@ -197,7 +197,7 @@
     <value>Til</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Vognomløb</value>
+    <value>Vognløb</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokomløb</value>
@@ -315,5 +315,11 @@
   </data>
   <data name="SundayShort" xml:space="preserve">
     <value>Sø</value>
+  </data>
+  <data name="TrainsTimeAllocation" xml:space="preserve">
+    <value>Tog i løbet af dagen</value>
+  </data>
+  <data name="StationTrainOrder" xml:space="preserve">
+    <value>Togekspeditionstabel</value>
   </data>
 </root>

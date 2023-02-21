@@ -2,6 +2,7 @@
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 
 @if (Data is null)
@@ -26,7 +27,8 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var result = await DataService.GetTrainDeparturesAsync(Globals.AppSettings.LayoutId);
+        var settings = Options.Value;
+        var result = await DataService.GetTrainDeparturesAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             Data = result.items;

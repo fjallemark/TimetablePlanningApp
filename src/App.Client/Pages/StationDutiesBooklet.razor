@@ -3,6 +3,7 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 @if (!IsLoaded)
 {
@@ -10,6 +11,8 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     @for (var i = 0; i < Pages.Length; i += 2)
     {
         <div class="pagebreak">
@@ -59,9 +62,10 @@ else
 
     override protected async Task OnInitializedAsync()
     {
+        var settings = Options.Value;
         SetQueryStringParameters();
         IsLoaded = false;
-        var result = await DataService.GetStationDutiesAsync(Globals.AppSettings.LayoutId);
+        var result = await DataService.GetStationDutiesAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess() && result.item != null)
         {
             var duties = FilterDuties(result.item.Duties);

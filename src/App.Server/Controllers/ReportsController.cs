@@ -42,6 +42,10 @@ namespace Tellurian.Trains.Planning.App.Server.Controllers
             return Ok(result);
         }
 
+        [HttpGet("trains")]
+        public async Task<IActionResult> GetTrains(int id) => await this.GetScheduleItems(id, Service.GetTrainsAsync).ConfigureAwait(false);
+
+
         [HttpGet("traininitialdepartures")]
         public async Task<IActionResult> GetTimetableDepartures(int id) => await this.GetScheduleItems(id, Service.GetTrainDeparturesAsync).ConfigureAwait(false);
 

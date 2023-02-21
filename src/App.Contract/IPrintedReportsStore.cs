@@ -21,7 +21,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId);
         Task<IEnumerable<Waybill>> GetWaybillsAsync(int layoutId);
         Task<Layout?> GetLayout(int layoutId);
-        Task<IEnumerable<TrainCategory>> GetTrainCategories(int countryId, int year);
+        Task<IEnumerable<TrainCategory>> GetTrainCategories(int layoutId);
         Task<int?> GetCurrentLayoutId();
         Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId);
         IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId);

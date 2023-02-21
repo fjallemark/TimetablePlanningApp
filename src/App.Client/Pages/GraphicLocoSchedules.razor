@@ -3,6 +3,7 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 
 @if (Items is null)
@@ -11,6 +12,8 @@
 }
 else if (Layout is not null)
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     var lastTurnusNumber = "";
     @foreach (var itemsOnPage in Items.ItemsPerPage(14))
     {
@@ -41,23 +44,24 @@ else if (Layout is not null)
     }
 }
 @code {
-    string? Operator { get; set; }
+    string? Operators { get; set; }
     private IEnumerable<LocoSchedule>? Items { get; set; }
     private Layout? Layout;
     int PageNumber;
 
     protected override async Task OnInitializedAsync()
     {
+        var settings = Options.Value;
         PageNumber = 1;
-        var layoutResult = await DataService.GetLayoutAsync(Globals.AppSettings.LayoutId);
+        var layoutResult = await DataService.GetLayoutAsync(settings.LayoutId);
         if (layoutResult.statusCode.IsSuccess())
         {
             Layout = layoutResult.item;
-            var schedulesResult = await DataService.GetLocoSchedulesAsync(Globals.AppSettings.LayoutId);
+            var schedulesResult = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
             if (schedulesResult.statusCode.IsSuccess())
             {
                 var items = schedulesResult.items.Where(i => i.ReplaceOrder == 0);
-                Items = Operator.HasValue() ? items.Where(i => i.Operator.Equals(Operator, StringComparison.OrdinalIgnoreCase)) : items;
+                Items = Operators.HasValue() ? items.Where(i => i.Operator.EqualsAny(Operators)) : items;
             }
         }
 
@@ -66,7 +70,7 @@ else if (Layout is not null)
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        Operator = q["operator"];
+        Operators = q["operator"];
     }
 
     int NextPage()

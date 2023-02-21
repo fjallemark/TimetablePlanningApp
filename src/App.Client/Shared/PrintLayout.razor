@@ -1,6 +1,7 @@
 ﻿@using Microsoft.Extensions.Options
 @inherits LayoutComponentBase
 @inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 <div class="print" style="font-family: @FontFamily">
     @Body
@@ -12,10 +13,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetLayoutAsync(Globals.AppSettings.LayoutId);
+        var settings = Options.Value;
+        var result = await DataService.GetLayoutAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
-            FontFamily = result.item!.FontFamily ?? Globals.AppSettings.FontFamily ?? DefaultFontFamily;
+            FontFamily = result.item!.FontFamily ?? settings.FontFamily ?? DefaultFontFamily;
         }
     }
 }

@@ -23,7 +23,7 @@ internal static class StationTrainOrderMapper
             OperatingDayFlag = me.GetByte("OperatingDayFlag"),
             OperatorName = me.GetString("Operator"),
             OriginName = me.GetString("Origin"),
-            ProductName = me.GetString("Product"),
+            ProductResourcName = me.GetString("ProductResourceCode"),
             SortTime = me.GetTimeAsDouble("SortTime"),
             TrackNumber = me.GetString("Designation"),
             TrainNumber = me.GetString("Number"),

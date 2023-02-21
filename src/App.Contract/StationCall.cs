@@ -24,6 +24,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
 
     public static class StationCallExtensions
     {
+        public static TimeSpan SortTime(this StationCall call) => call.Departure.AsTimeSpan();
         public static CallAction AsArrival(this StationCall call) => CallAction.ArrivalCallAction(call);
 
         public static CallAction AsDeparture(this StationCall call) => CallAction.DepartureCallAction(call);
@@ -97,7 +98,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                 return true;
             }
             if (me.IsStop) me.Arrival.Notes.Add(note);
-            else if (me.Departure is not null) me.Departure.Notes.Add(note);
+            else me.Departure?.Notes.Add(note);
             return true;
         }
 

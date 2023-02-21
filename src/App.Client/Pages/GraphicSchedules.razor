@@ -3,6 +3,7 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
 
 @if (!DataIsReady)
 {
@@ -10,6 +11,7 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
     foreach (var timetableStretch in TimetableStretches)
     {
         <GraphicTimetableStretch Data="@timetableStretch" OnlyDays="@SelectedDays"></GraphicTimetableStretch>
@@ -24,9 +26,10 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        var settings = Options.Value;
         SetQueryStringParameters();
         DataIsReady = false;
-        var result = await DataService.GetTimetableStretchesAsync(Globals.AppSettings.LayoutId, SelectedStretch);
+        var result = await DataService.GetTimetableStretchesAsync(settings.LayoutId, SelectedStretch);
         if (result.statusCode.IsSuccess())
         {
             TimetableStretches = result.items.ToArray();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -19,9 +20,10 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             var booklet = await Store.GetDriverDutyBookletAsync(layoutId).ConfigureAwait(false);
             if (booklet is null) return null;
             var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
+            var readNotesCount = notes.Count();
             var duties = await Store.GetDriverDutiesAsync(layoutId).ConfigureAwait(false);
             duties.MergeTrainPartsWithSameTrainNumber();
-            duties.AddTrainCallNotes(notes);
+            var addedNotesCount = duties.AddTrainCallNotes(notes);
             booklet.Duties = duties.OrderBy(d => d.DisplayOrder).ToArray();
             return booklet;
         }
@@ -76,6 +78,9 @@ namespace Tellurian.Trains.Planning.App.Server.Services
 
         public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId) =>
             Store.GetStationsTrainOrder(layoutId);
+
+        public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId) =>
+            Store.GetTrainsAsync(layoutId);
 
         public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
             Store.GetTrainDeparturesAsync(layoutId);

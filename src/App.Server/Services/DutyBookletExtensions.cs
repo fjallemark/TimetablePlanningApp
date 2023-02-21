@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts;
 
@@ -69,9 +70,10 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             return result;
         }
 
-        public static void AddTrainCallNotes(this IEnumerable<DriverDuty> me, IEnumerable<TrainCallNote> trainCallNotes)
+        public static int AddTrainCallNotes(this IEnumerable<DriverDuty> me, IEnumerable<TrainCallNote> trainCallNotes)
         {
             var notes = trainCallNotes.ToDictionary();
+            var count = 0;
             foreach (var duty in me)
             {
                 foreach (var part in duty.Parts)
@@ -79,10 +81,13 @@ namespace Tellurian.Trains.Planning.App.Server.Services
                     foreach (var call in part.Calls())
                     {
                         call.AddAutomaticNotes();
-                        call.AddGeneratedNotes(duty, part, notes.Item(call.Id));
+                        var callNotes = notes.AtCall(call.Id);
+                        count += callNotes.Count;
+                        call.AddGeneratedNotes(duty, part, callNotes);
                     }
                 }
             }
+            return count;
         }
         private static IDictionary<int, IList<TrainCallNote>> ToDictionary(this IEnumerable<TrainCallNote> me)
         {
@@ -96,7 +101,7 @@ namespace Tellurian.Trains.Planning.App.Server.Services
             return result;
         }
 
-        private static IList<TrainCallNote> Item(this IDictionary<int, IList<TrainCallNote>> me, int callId) =>
-            me.ContainsKey(callId) ? me[callId] : Array.Empty<TrainCallNote>();
+        private static IList<TrainCallNote> AtCall(this IDictionary<int, IList<TrainCallNote>> me, int callId) => 
+            me.TryGetValue(callId, out var result) ? result : Array.Empty<TrainCallNote>();
     }
 }

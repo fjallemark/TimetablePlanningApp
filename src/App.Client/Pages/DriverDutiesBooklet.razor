@@ -1,8 +1,11 @@
 ﻿@layout PrintLayout
 @page "/driverdutiesbooklet"
+@using System.Diagnostics;
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
+
 
 @if (!IsLoaded)
 {
@@ -10,6 +13,8 @@
 }
 else
 {
+    <RefreshButton OnClick="OnInitializedAsync" />
+
     @for (var i = 0; i < Pages.Length; i += 2)
     {
         <div class="pagebreak">
@@ -44,7 +49,7 @@ else
             }
             else if (PageRight(i).IsInstructions)
             {
-                <DutyInstructionsPage Heading="@PageRight(i).InstructionsHeading" Duty="PageRight(i).Duty"  PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown"></DutyInstructionsPage>
+                <DutyInstructionsPage Heading="@PageRight(i).InstructionsHeading" Duty="PageRight(i).Duty" PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown"></DutyInstructionsPage>
             }
         </div>
     }
@@ -61,9 +66,10 @@ else
 
     override protected async Task OnInitializedAsync()
     {
+        var settings = Options.Value;
         SetQueryStringParameters();
         IsLoaded = false;
-        var result = await DataService.GetDriverDutiesAsync(Globals.AppSettings.LayoutId);
+        var result = await DataService.GetDriverDutiesAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess() && result.item != null)
         {
             var duties = FilterDuties(result.item.Duties);
@@ -74,8 +80,8 @@ else
 
     private ICollection<DriverDuty> FilterDuties(ICollection<DriverDuty> duties)
     {
-        if (SelectedDutyNumber.HasValue()) return duties.Where(d => d.Number.Equals(SelectedDutyNumber, StringComparison.OrdinalIgnoreCase)).ToArray();
-        if (SelectedOperator.HasValue()) return duties.Where(d => d.Operator.Equals(SelectedOperator, StringComparison.OrdinalIgnoreCase)).ToArray();
+        if (SelectedDutyNumber.HasValue()) return duties.Where(d => d.Number.EqualsAny(SelectedDutyNumber)).ToArray();
+        if (SelectedOperator.HasValue()) return duties.Where(d => d.Operator.EqualsAny(SelectedOperator)).ToArray();
         return duties;
     }
 

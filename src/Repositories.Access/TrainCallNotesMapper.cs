@@ -83,13 +83,13 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 {
                     TurnusNumber = me.GetInt("ArrivingLocoScheduleNumber"),
                     OperatorName = me.GetString("ArrivingLocoOperator"),
-                    OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
+                    OperationDaysFlags = me.GetByte("ArrivingLocoOperationDaysFlag")
                 },
                 DepartingLoco = new Loco
                 {
                     TurnusNumber = me.GetInt("DepartingLocoScheduleNumber"),
                     OperatorName = me.GetString("DepartingLocoOperator"),
-                    OperationDaysFlags = me.GetByte("TrainOperationDaysFlag")
+                    OperationDaysFlags = me.GetByte("DepartingLocoOperationDaysFlag")
                 },
                 TrainInfo = new TrainInfo
                 {
@@ -145,6 +145,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 AlsoSwitch = me.GetBool("AlsoSwitch"),
                 OrderInTrain = me.GetInt("OrderInTrain"),
                 AtShadowStation = me.GetBool("IsShadow"),
+                IsTransfer = me.GetBool("IsTransfer"),
             };
 
         internal static BlockDestination AsBlockDestination(this IDataRecord me)

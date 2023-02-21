@@ -14,7 +14,7 @@ namespace Tellurian.Trains.Planning.App.Server.Tests;
 [TestClass]
 public class DataExport
 {
-    [Ignore("Use only for current plan.")]
+    //[Ignore("Use only for current plan.")]
     [TestMethod]
     public async Task ExportStationDutyTrains()
     {
@@ -23,18 +23,18 @@ public class DataExport
         var options =
              Options.Create(new RepositoryOptions
              {
-                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2022\\2022-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
+                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
              });
-        var store = new AccessPrintedReportsStore(options, Options.Create(Globals.AppSettings));
+        var store = new AccessPrintedReportsStore(options);
         var target = new PrintedReportsService(store);
-        var booklet = await target.GetStationDutyBookletAsync(17, includeAllTrains: true);
+        var booklet = await target.GetStationDutyBookletAsync(24, includeAllTrains: true);
 
-        using var stream = new FileStream("C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2022\\2022-03 Grimslöv\\Trafikplanering\\Station trains Cda.csv", FileMode.Create);
+        using var stream = new FileStream("C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-03 Grimslöv\\Trafikplanering\\Station trains Cda.csv", FileMode.Create);
         using var output = 
             new StreamWriter(stream, System.Text.Encoding.UTF8);
         Assert.IsNotNull(booklet);
         output.WriteLine($"\"{Notes.Station}\";\"{Notes.Track}\";\"{Notes.Train}\";\"{Notes.Days}\";\"{Notes.From}\";\"{Notes.To}\";\"{Notes.IsStopping}\";\"{Notes.IsThroughpassing}\";\"{Notes.Arrival}\";\"{Notes.Departure}\";\"{Notes.Remarks}\""); ;
-        foreach (var duty in booklet.Duties)
+        foreach (var duty in booklet!.Duties)
         {
             foreach(var call in duty.Calls.Where(c=> c.Station.Signature=="Cda" && ! c.IsShuntingOnly))
             {
@@ -62,7 +62,7 @@ public class DataExport
         using var output =
             new StreamWriter(stream, System.Text.Encoding.UTF8);        
         
-        var store = new AccessPrintedReportsStore(options, Options.Create(Globals.AppSettings));
+        var store = new AccessPrintedReportsStore(options);
         var items = store.GetLayoutVehicles(23);
 
         output.WriteLine($"\"Station\";\"Spår\";\"Avgångstid\";\"Dagar\";\"Littera\";\"Fordonsnr\";\"Ägare\"");

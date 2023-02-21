@@ -18,7 +18,7 @@ public class AccessRepositoryTests
                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2022\\2022-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
             });
         
-        var target = new AccessPrintedReportsStore(options, Options.Create(Globals.AppSettings));
+        var target = new AccessPrintedReportsStore(options);
         var result = await target.GetStationDutiesDataAsync(Globals.AppSettings.LayoutId);
         Assert.IsNotNull(result);
     }
