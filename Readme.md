@@ -61,6 +61,7 @@ Operation days are specified on three levels:
 - Trains
 - Schedules, there are *Loco Schedules* and *Trainset Schedules*.
 - Driver Duties
+
 The application deducts the actual operation days for trains and schedules in the driver duty.
 
 ##### Graphical Timetable
@@ -172,7 +173,7 @@ It is possible to print loco- and trainset schedules that fits in the A6-pocket 
 The type of schedule are indicated by a coloured diagonal line:
 - *red*: loco schedules,
 - *green* :passenger wagon trainset schedules,
-- *blue*: *cargo wagon trainset, and
+- *blue*: cargo wagon trainset, and
 - *yellow* : non-wagon cargo circulation.
 
 ##### Train Dispatcher Sheets
