@@ -1,5 +1,5 @@
 # Timetable Planning App
->Last update: 2022-12-24
+>Last update: 2023-02-21
 
 This is the **experimental version** of the web application for 
 working with scheduling of model railway operation at module meetings.
@@ -31,6 +31,12 @@ planning schedules. The Module Registry is in operation and development is mostl
 ### Features
 This experimental version has **currently** a set of features, some of them not found in any other
 model train planning software.
+
+##### Planning Optimisation
+In order to maximise loco driver utilisation and minimise waiting times between jobs,
+a new report shows number of loco drivers required per minute.
+If you specify a maximum available loco drivers for the layout,
+the report also helps you not to exceed this maximun by coloring levels different.
 
 ##### Basic Stuff
 All data is entered directly in Access tables, so no fancy user interface yet to enter data.
@@ -168,6 +174,11 @@ The type of schedule are indicated by a coloured diagonal line:
 - *green* :passenger wagon trainset schedules,
 - *blue*: *cargo wagon trainset, and
 - *yellow* : non-wagon cargo circulation.
+
+##### Train Dispatcher Sheets
+Each manned station needs a table where train arrivals and departures are ordered by time. 
+These sheets are used for train dispatch and control.
+The sheets can be resused up to seven sessions, one column for each weekday.
 
 ##### Block Planning
 It is possible to plan all cargo flow by specifying what destinations to pick up and let off at each station.
