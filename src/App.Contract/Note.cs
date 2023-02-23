@@ -462,11 +462,17 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public bool IsPassenger { get; set; }
         public bool IsCargo { get; set; }
         public bool IsTrainset { get; set; }
+        public int TrainsetNumber { get; set; }
+        public string? TrainsetOperatorName { get; set; }
+        public byte TrainsetOperationDaysFlag { get; set; }
+        public string? Note { get; set; }
         public bool HasCouplingNote { get; set; }
         public bool HasUncouplingNote { get; set; }
         public string ForeColor { get; set; } = "#000000";
         public string BackColor { get; set; } = "#FFFFFF";
         public override string ToString() =>
+            IsTrainset && TrainsetOperationDaysFlag.IsAllDays() ? $"{TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
+            IsTrainset ? $"{TrainsetOperationDaysFlag.OperationDays().ShortName}: {TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
             IsRegion ? DestinationText :
             ToAllDestinations ? AllDestinations :
             AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationText) :
@@ -491,7 +497,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
         public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
         {
             var result = new List<string>();
-            var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd => bd.StationId * 1000 + bd.OrderInTrain);
+            var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd =>  bd.StationId * 100000 + bd.OrderInTrain*1000  );
             foreach (var destinationGroup in destinationGroups)
             {
                 var text = new StringBuilder(200);

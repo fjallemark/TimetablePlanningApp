@@ -447,4 +447,7 @@
   <data name="EngineChangeDays" xml:space="preserve">
     <value>{2}: Lokbytte fra {0} til {1}.</value>
   </data>
+  <data name="Turnus" xml:space="preserve">
+    <value>Omløp</value>
+  </data>
 </root>

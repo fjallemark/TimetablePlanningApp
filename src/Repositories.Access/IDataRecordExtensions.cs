@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -9,13 +10,26 @@ namespace Tellurian.Trains.Planning.Repositories.Access
 {
     public static class IDataRecordExtensions
     {
-        private const bool ThrowOnColumnError = true;
-        public static string GetString(this IDataRecord me, string columnName, string defaultValue = "")
+        private const bool ThrowOnColumnError = false;
+        public static string GetString(this IDataRecord me, string columnName, string? defaultValue = null)
         {
-            var i = me.GetColumIndex(columnName, ThrowOnColumnError);
-            if (i < 0 || me.IsDBNull(i)) return defaultValue;
-            var s = me.GetString(me.GetOrdinal(columnName));
-            return (string.IsNullOrWhiteSpace(s)) ? defaultValue : s;
+            var i = me.GetColumIndex(columnName, defaultValue is null);
+            if (i < 0)
+            {
+                if (defaultValue is null) throw TypeErrorException(defaultValue, columnName);
+                else return defaultValue;
+            }
+            if (me.IsDBNull(i)) return string.Empty;
+            try
+            {
+                var s = me.GetString(i);
+                if (string.IsNullOrEmpty(s)) return string.Empty;
+                return s;
+            }
+            catch (Exception)
+            {
+                throw TypeErrorException(defaultValue, columnName);
+            }
         }
 
         public static string GetStringResource(this IDataRecord me, string columnName, ResourceManager resourceManager, string defaultValue = "")
@@ -33,9 +47,10 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         public static byte GetByte(this IDataRecord me, string columnName)
         {
             var i = me.GetColumIndex(columnName, ThrowOnColumnError);
-            if (me.IsDBNull(i)) return 0;
+            if (i < 0 || me.IsDBNull(i)) return 0;
             var value = me.GetValue(i);
             if (value is byte a) return a;
+            if (value is int c) return (byte)c;
             if (value is double b) return (byte)b;
             throw TypeErrorException(value, columnName);
         }
@@ -121,11 +136,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
             return me.IsDBNull(i);
         }
 
-        private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = true)
+        private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = ThrowOnColumnError)
         {
-            int i;
+            int i = -1;
             try { i = me.GetOrdinal(columnName); }
-            catch (IndexOutOfRangeException) {
+            catch (IndexOutOfRangeException)
+            {
                 if (throwOnNotFound || ThrowOnColumnError) throw new InvalidOperationException($"No column '{columnName}' found in data.");
             }
             return i;

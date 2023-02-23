@@ -177,7 +177,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
         {
             var result = new List<VehicleSchedule>(100);
             using var connection = CreateConnection;
-            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetNumber, TrainsetDays, DepartureTime");
+            var reader = ExecuteReader(connection, $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetOperator, TrainsetNumber, TrainsetDays, DepartureTime");
             var lastUnique = "";
             VehicleSchedule? schedule = null;
             try
@@ -232,6 +232,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     var currentTrackNumber = currentOriginStationName + reader.GetString("TrackNumber");
                     var currentTrainNumber = currentOriginStationName + reader.GetString("TrainOperatorName") + reader.GetInt("TrainNumber");
                     var isTrainset = reader.GetBool("IsTrainset");
+                    var isScheduled = reader.GetBool("IsScheduled");
                     if (currentOriginStationName != lastOriginStationName)
                     {
                         if (current is not null) result.Add(current);

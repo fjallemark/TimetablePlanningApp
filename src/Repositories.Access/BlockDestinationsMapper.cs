@@ -39,7 +39,8 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                     Prefix = me.GetString("TrainCategoryPrefix")
                 },
                 BlockDestinations = new List<BlockDestination>(),
-                ReverseBlockDestinations = me.GetBool("ReverseBlockDestinations")
+                ReverseBlockDestinations = me.GetBool("ReverseBlockDestinations"),
+                IsScheduled = me.GetBool("IsScheduled"),
             };
     }
 }

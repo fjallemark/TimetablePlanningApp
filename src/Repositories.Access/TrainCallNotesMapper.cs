@@ -169,7 +169,12 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 HasCouplingNote = me.GetBool("HasCoupleNote"),
                 HasUncouplingNote = me.GetBool("HasUncoupleNote"),
                 ForeColor = me.GetString("ForeColor", "#000000"),
-                BackColor = me.GetString("BackColor", "#FFFFFF")
+                BackColor = me.GetString("BackColor", "#FFFFFF"),
+                TrainsetNumber = me.GetInt("TrainsetNumber", 0),
+                TrainsetOperatorName = me.GetString("TrainsetOperatorName", ""),
+                TrainsetOperationDaysFlag = me.GetByte("TrainsetOperationDaysFlag"),
+                Note = me.GetString("Note", ""),
+
             };
             return item;
         }

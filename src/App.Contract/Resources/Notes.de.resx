@@ -427,4 +427,7 @@
   <data name="EngineChangeDays" xml:space="preserve">
     <value>{2}: Lokwechsel von {0} auf {1}.</value>
   </data>
+  <data name="Turnus" xml:space="preserve">
+    <value>Umlauf</value>
+  </data>
 </root>

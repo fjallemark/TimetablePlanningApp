@@ -23,38 +23,51 @@ else
                 <div class="track">
                     <div class="track number">@Localizer["Track"] @track.TrackNumber</div>
                     <div style="display: flex; flex-direction: column">
-                        @foreach (var train in track.TrainBlocks.OrderBy(tb => tb.DepartureTime.SortTime()))
+                        @foreach (var trainBlocking in track.TrainBlocks.OrderBy(tb => tb.DepartureTime.SortTime()))
                         {
-                            <div style="display: flex; flex-direction: @train.FlexDirection(ReverseBlockDestinations); justify-content:flex-start">
-                                <div class="track train">@train.Train.Display() @train.ArrivalTime.Time -  @train.DepartureTime.Time</div>
-                                @foreach (var destinationGroup in train.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
+                            <div style="display: flex; flex-direction: @trainBlocking.FlexDirection(ReverseBlockDestinations); justify-content:flex-start">
+                                <div class="track train">@trainBlocking.Train.Display() @trainBlocking.ArrivalTime.Time -  @trainBlocking.DepartureTime.Time</div>
+                                @if (trainBlocking.IsScheduled)
+                                {
+                                    @foreach (var blockDestination in trainBlocking.BlockDestinations.OrderBy(bd => bd.OrderInTrain).ThenBy(bd => bd.TrainsetOperatorName))
+                                    {
+                                        <div class="track destination">
+                                            <div class="block destination" style="color : #000000; background-color: #FAFAFA">
+                                                @blockDestination.ToString()
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
                                 {
                                     <div class=" track destination">
-                                        @foreach (var destination in destinationGroup.OrderBy(dg => dg.OrderInTrain))
+                                        @foreach (var destinationGroup in trainBlocking.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
                                         {
-                                            @if (destination.IsRegion)
+                                            @foreach (var destination in destinationGroup.OrderBy(dg => dg.OrderInTrain))
                                             {
-                                                <div class="block destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
-                                                    @destination.ToString()
-                                                </div>
+                                                @if (destination.IsRegion)
+                                                {
+                                                    <div class="block destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
+                                                        @destination.ToString()
+                                                    </div>
+                                                }
+                                                else if (destination.IsTrainset)
+                                                {
+                                                    <div class="block destination" style="color : #000000; background-color: #FAFAFA">
+                                                        @destination.ToString()
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="block destination" style="color : #FFFFFF; background-color: #777777">
+                                                        @destination.ToString()
+                                                    </div>
+                                                }
                                             }
-                                            else if (destination.IsTrainset)
-                                            {
-                                               <div class="block destination" style="color : #000000; background-color: #FAFAFA">
-                                                    @destination.ToString()
-                                                </div>
-                                             }
-                                            else
-                                            {
-                                                <div class="block destination" style="color : #FFFFFF; background-color: #777777">
-                                                    @destination.ToString()
-                                                </div>
-                                            }
+                                            @NumberOfWagons(destinationGroup)
                                         }
-                                        @NumberOfWagons(destinationGroup)
                                     </div>
                                 }
-
                             </div>
                         }
                     </div>

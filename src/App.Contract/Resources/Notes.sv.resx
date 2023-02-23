@@ -447,4 +447,7 @@
   <data name="EngineChangeDays" xml:space="preserve">
     <value>{2}: Lokbyte från {0} till {1}.</value>
   </data>
+  <data name="Turnus" xml:space="preserve">
+    <value>Tur</value>
+  </data>
 </root>

@@ -356,7 +356,7 @@
     <value>Vognløb</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
-    <value>Lokmotiv omløb</value>
+    <value>Lokmotiv turnus</value>
   </data>
   <data name="RailcarTurnus" xml:space="preserve">
     <value>Motorvogn omløb</value>
@@ -426,5 +426,8 @@
   </data>
   <data name="EngineChangeDays" xml:space="preserve">
     <value>{2}: Skift lokomotiv fra {0} til {1}.</value>
+  </data>
+  <data name="Turnus" xml:space="preserve">
+    <value>Turnus</value>
   </data>
 </root>

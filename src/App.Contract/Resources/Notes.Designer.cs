@@ -988,6 +988,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Turnus.
+        /// </summary>
+        public static string Turnus {
+            get {
+                return ResourceManager.GetString("Turnus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unload {0}..
         /// </summary>
         public static string Unload {

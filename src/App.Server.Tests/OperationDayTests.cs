@@ -78,8 +78,8 @@ namespace Tellurian.Trains.Planning.App.Server.Tests
             Swedish();
             const byte target = 95;
             var actual = target.OperationDays();
-            Assert.AreEqual("Måndag till fredag och söndag", actual.FullName);
-            Assert.AreEqual("M-F,S", actual.ShortName);
+            Assert.AreEqual("Söndag till fredag", actual.FullName);
+            Assert.AreEqual("S-F", actual.ShortName);
         }
 
         private static void English()
