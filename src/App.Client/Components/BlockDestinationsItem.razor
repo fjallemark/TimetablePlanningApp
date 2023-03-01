@@ -27,6 +27,7 @@ else
                         {
                             <div style="display: flex; flex-direction: @trainBlocking.FlexDirection(ReverseBlockDestinations); justify-content:flex-start">
                                 <div class="track train">@trainBlocking.Train.Display() @trainBlocking.ArrivalTime.Time -  @trainBlocking.DepartureTime.Time</div>
+
                                 @if (trainBlocking.IsScheduled)
                                 {
                                     @foreach (var blockDestination in trainBlocking.BlockDestinations.OrderBy(bd => bd.OrderInTrain).ThenBy(bd => bd.TrainsetOperatorName))
@@ -40,9 +41,9 @@ else
                                 }
                                 else
                                 {
-                                    <div class=" track destination">
-                                        @foreach (var destinationGroup in trainBlocking.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
-                                        {
+                                    @foreach (var destinationGroup in trainBlocking.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
+                                    {
+                                        <div class="track destination">
                                             @foreach (var destination in destinationGroup.OrderBy(dg => dg.OrderInTrain))
                                             {
                                                 @if (destination.IsRegion)
@@ -65,8 +66,8 @@ else
                                                 }
                                             }
                                             @NumberOfWagons(destinationGroup)
-                                        }
-                                    </div>
+                                        </div>
+                                    }
                                 }
                             </div>
                         }
@@ -87,4 +88,4 @@ else
         return count == 0 ? string.Empty : $"×{count}";
 
     }
-}
+    }

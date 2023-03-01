@@ -226,13 +226,16 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                 var lastOriginStationName = "";
                 var lastTrackNumber = "";
                 var lastTrainNumber = "";
+                var lastPositionInTrain = -1;
                 while (reader.Read())
+
                 {
                     var currentOriginStationName = reader.GetString("OriginStationName");
                     var currentTrackNumber = currentOriginStationName + reader.GetString("TrackNumber");
                     var currentTrainNumber = currentOriginStationName + reader.GetString("TrainOperatorName") + reader.GetInt("TrainNumber");
-                    var isTrainset = reader.GetBool("IsTrainset");
-                    var isScheduled = reader.GetBool("IsScheduled");
+                    var currentPositionInTrain = reader.GetInt("OrderInTrain");
+                    //var isTrainset = reader.GetBool("IsTrainset");
+                    //var isScheduled = reader.GetBool("IsScheduled");
                     if (currentOriginStationName != lastOriginStationName)
                     {
                         if (current is not null) result.Add(current);
@@ -253,6 +256,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access
                         var destination = reader.AsBlockDestination();
                         if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
                     }
+                    lastPositionInTrain = currentPositionInTrain;
                     lastTrainNumber = currentTrainNumber;
                     lastTrackNumber = currentTrackNumber;
                     lastOriginStationName = currentOriginStationName;
