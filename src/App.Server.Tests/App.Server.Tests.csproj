@@ -4,12 +4,6 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<AssemblyName>Tellurian.Trains.Planning.App.Server.Tests</AssemblyName>
 		<RootNamespace>Tellurian.Trains.Planning.App.Server.Tests</RootNamespace>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
-		<IsPackable>false</IsPackable>
-		<Version>0.1.0</Version>
-		<Platforms>AnyCPU</Platforms>
-		<ProjectGuid>9D42B9AD-3263-49B3-A5A4-42981E6E1FA5</ProjectGuid>
 	</PropertyGroup>
 
 	<ItemGroup>

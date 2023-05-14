@@ -217,7 +217,7 @@
     <value>Till</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Vagnomlopp</value>
+    <value>Vagnsättomlopp</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Tur</value>
@@ -253,7 +253,7 @@
     <value>Fraktsedlar</value>
   </data>
   <data name="Trainsets" xml:space="preserve">
-    <value>Vagnomlopp</value>
+    <value>Vagnsätt</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
     <value>Lokturer</value>
@@ -341,5 +341,8 @@
   </data>
   <data name="StationTrainOrder" xml:space="preserve">
     <value>Tågexpediteringstabell</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Vagnomlopp</value>
   </data>
 </root>

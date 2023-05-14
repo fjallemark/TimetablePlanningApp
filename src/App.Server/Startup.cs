@@ -51,8 +51,8 @@ namespace Tellurian.Trains.Planning.App.Server
 
             app.UseRequestLocalization(options =>
             {
-                options.AddSupportedCultures(Program.SupportedLanguages);
-                options.AddSupportedUICultures(Program.SupportedLanguages);
+                options.AddSupportedCultures(LanguageService.SupportedLanguages);
+                options.AddSupportedUICultures(LanguageService.SupportedLanguages);
                 options.DefaultRequestCulture = new RequestCulture("en");
                 options.FallBackToParentCultures = true;
                 options.FallBackToParentUICultures = true;

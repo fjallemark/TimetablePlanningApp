@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -172,7 +171,7 @@ namespace Tellurian.Trains.Planning.App.Client.Services
         public int TrackHeight { get; set; } = 12;
         public int MinDistanceBeweenStations { get; set; } = 52;
         public int FirstHourOffset { get; set; } = 60;
-        public int HourWidth { get; set; } = 180;
+        public int HourWidth { get; set; } = 240;
         public int DistanceFactor { get; set; } = 8;
         public bool OnlyScheduledTracks { get; set; } = true;
         public int HourHeight { get; set; } = 20;

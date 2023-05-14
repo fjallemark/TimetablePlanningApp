@@ -214,7 +214,7 @@
     <value>Train</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Trainset turnus</value>
+    <value>Wagonset turnus</value>
   </data>
   <data name="TurnForNextDay" xml:space="preserve">
     <value>Replace to next day?</value>
@@ -253,7 +253,7 @@
     <value>Waybills</value>
   </data>
   <data name="Trainsets" xml:space="preserve">
-    <value>Trainsets</value>
+    <value>Wagonsets</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
     <value>Loco turnus</value>
@@ -341,5 +341,8 @@
   </data>
   <data name="StationTrainOrder" xml:space="preserve">
     <value>Train dispatch table</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Wagon turnus</value>
   </data>
 </root>

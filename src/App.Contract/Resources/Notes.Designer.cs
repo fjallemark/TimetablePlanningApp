@@ -943,15 +943,6 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Trainset turnus.
-        /// </summary>
-        public static string TrainsetTurnus {
-            get {
-                return ResourceManager.GetString("TrainsetTurnus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} (via {1}).
         /// </summary>
         public static string TransferVia {
@@ -1038,6 +1029,33 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string VehicleScheduleNumber {
             get {
                 return ResourceManager.GetString("VehicleScheduleNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wagonset.
+        /// </summary>
+        public static string Wagonset {
+            get {
+                return ResourceManager.GetString("Wagonset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wagonset turnus.
+        /// </summary>
+        public static string WagonsetTurnus {
+            get {
+                return ResourceManager.GetString("WagonsetTurnus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wagon turnus.
+        /// </summary>
+        public static string WagonTurnus {
+            get {
+                return ResourceManager.GetString("WagonTurnus", resourceCulture);
             }
         }
         

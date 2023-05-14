@@ -352,8 +352,8 @@
   <data name="BringsNoWagonsFromThisStation" xml:space="preserve">
     <value>Bringer ingen vogne fra denne station</value>
   </data>
-  <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Vognløb</value>
+  <data name="WagonsetTurnus" xml:space="preserve">
+    <value>Vognsæt omløb</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokmotiv turnus</value>
@@ -429,5 +429,11 @@
   </data>
   <data name="Turnus" xml:space="preserve">
     <value>Turnus</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Vognløb</value>
+  </data>
+  <data name="Wagonset" xml:space="preserve">
+    <value>Vognsæt</value>
   </data>
 </root>

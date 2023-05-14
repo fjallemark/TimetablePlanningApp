@@ -2,13 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     <AssemblyName>Tellurian.Trains.Planning.App.Client</AssemblyName>
     <RootNamespace>Tellurian.Trains.Planning.App.Client</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
-    <Platforms>AnyCPU</Platforms>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>

@@ -352,14 +352,14 @@
   <data name="BringsNoWagonsFromThisStation" xml:space="preserve">
     <value>Bringt keine Waggons von diesem Bahnhof</value>
   </data>
-  <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Wagenumlauf</value>
+  <data name="WagonsetTurnus" xml:space="preserve">
+    <value>Wagensetumlauf</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokumlauf</value>
   </data>
   <data name="RailcarTurnus" xml:space="preserve">
-    <value>Triebwagendienst</value>
+    <value>Triebwagenumlauf</value>
   </data>
   <data name="ValidPeriod" xml:space="preserve">
     <value>Gültig {0:d} - {1:d}</value>
@@ -429,5 +429,11 @@
   </data>
   <data name="Turnus" xml:space="preserve">
     <value>Umlauf</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Wagenumlauf</value>
+  </data>
+  <data name="Wagonset" xml:space="preserve">
+    <value>Wagenset</value>
   </data>
 </root>

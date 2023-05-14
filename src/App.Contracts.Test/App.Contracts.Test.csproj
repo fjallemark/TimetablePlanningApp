@@ -4,11 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<AssemblyName>Tellurian.Trains.Planning.App.Contract.Tests</AssemblyName>
 		<RootNamespace>Tellurian.Trains.Planning.App.Contract.Tests</RootNamespace>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
-		<Version>0.1.0</Version>
 		<IsPackable>false</IsPackable>
-		<ProjectGuid>81D52CA4-EC87-4951-BE06-0F6EC50E3462</ProjectGuid>
 	</PropertyGroup>
 
 	<ItemGroup>

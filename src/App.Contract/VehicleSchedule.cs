@@ -75,7 +75,7 @@ namespace Tellurian.Trains.Planning.App.Contracts
                     {
                         var newPart = new TrainPart()
                         {
-             
+
                             FromDeparture = part.First().FromDeparture,
                             ToArrival = part.Last().ToArrival,
                             LocoNumber = part.First().LocoNumber,
@@ -93,16 +93,16 @@ namespace Tellurian.Trains.Planning.App.Contracts
         }
         public static string TurnusTypeName(this VehicleSchedule me) =>
             me is LocoSchedule loco ?
-            loco.IsRailcar ? Notes.RailcarTurnus : Notes.LocoTurnus :
+            loco.IsRailcar ? Notes.Railcar : Notes.Loco :
             me.Type == "CargoOnly" ? Notes.CargoTurnus :
-            Notes.TrainsetTurnus;
+            me.NumberOfUnits > 1 ? Notes.Wagonset : Notes.WagonTurnus;
 
         public static string? Note(this VehicleSchedule me) =>
             me.NumberOfUnits > 1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
 
         public static string CrossLineColor(this VehicleSchedule me) =>
             me.IsLoco ? "#ffc0cb" :
-            me.Type == "CargoOnly" ? "#ffff99" :           
+            me.Type == "CargoOnly" ? "#ffff99" :
             me.Type == "PassengerWagon" ? "#66ff99" :
             me.Type == "CargoWagon" ? "#b3d9ff" :
             "#cccccc";

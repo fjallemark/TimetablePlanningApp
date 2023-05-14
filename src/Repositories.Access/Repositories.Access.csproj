@@ -4,11 +4,6 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<AssemblyName>Tellurian.Trains.Planning.Repositories.Access</AssemblyName>
 		<RootNamespace>Tellurian.Trains.Planning.Repositories.Access</RootNamespace>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
-		<Version>0.1.0</Version>
-		<Platforms>AnyCPU</Platforms>
-		<ProjectGuid>32980BE9-1074-43E2-BA64-CBE905E0C320</ProjectGuid>
 	</PropertyGroup>
 
 	<ItemGroup>

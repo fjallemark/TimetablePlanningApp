@@ -197,7 +197,7 @@
     <value>Til</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Vognløb</value>
+    <value>Vognsæt omløb</value>
   </data>
   <data name="LocoTurnus" xml:space="preserve">
     <value>Lokomløb</value>
@@ -233,7 +233,7 @@
     <value>Fragtbreve</value>
   </data>
   <data name="Trainsets" xml:space="preserve">
-    <value>Vognløb</value>
+    <value>Vognsæt</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
     <value>Lokmotiv omløb</value>
@@ -321,5 +321,8 @@
   </data>
   <data name="StationTrainOrder" xml:space="preserve">
     <value>Togekspeditionstabel</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Vognløb</value>
   </data>
 </root>

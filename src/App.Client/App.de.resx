@@ -184,7 +184,7 @@
     <value>Spediteur</value>
   </data>
   <data name="Class" xml:space="preserve">
-    <value>Gattung</value>
+    <value>Klasse</value>
   </data>
   <data name="Consignee" xml:space="preserve">
     <value>Empfänger</value>
@@ -214,7 +214,7 @@
     <value>Zug</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Wagenumlauf</value>
+    <value>Wagensetumlauf</value>
   </data>
   <data name="Wagons" xml:space="preserve">
     <value>Waggons</value>
@@ -253,7 +253,7 @@
     <value>Frachtbriefe</value>
   </data>
   <data name="Trainsets" xml:space="preserve">
-    <value>Zugreihungen</value>
+    <value>Wagenset</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
     <value>Lokomotivumlauf</value>
@@ -341,5 +341,8 @@
   </data>
   <data name="StationTrainOrder" xml:space="preserve">
     <value>Zugabfertigungstabelle</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Wagenumlauf</value>
   </data>
 </root>

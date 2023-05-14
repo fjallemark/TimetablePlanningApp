@@ -214,7 +214,7 @@
     <value>Tog</value>
   </data>
   <data name="TrainsetTurnus" xml:space="preserve">
-    <value>Vognløp</value>
+    <value>Vognsettløp</value>
   </data>
   <data name="Wagons" xml:space="preserve">
     <value>Vogner</value>
@@ -223,7 +223,7 @@
     <value>Lok omløp</value>
   </data>
   <data name="Wait" xml:space="preserve">
-    <value>Vent et øjeblikk...</value>
+    <value>Vent...</value>
   </data>
   <data name="FetchingData" xml:space="preserve">
     <value>Henter data...</value>
@@ -253,7 +253,7 @@
     <value>Fraktbrev</value>
   </data>
   <data name="Trainsets" xml:space="preserve">
-    <value>Vognløp</value>
+    <value>Vognsett</value>
   </data>
   <data name="LocoSchedules" xml:space="preserve">
     <value>Lokomløp</value>
@@ -341,5 +341,8 @@
   </data>
   <data name="StationTrainOrder" xml:space="preserve">
     <value>Togekspedisjonstabell</value>
+  </data>
+  <data name="WagonTurnus" xml:space="preserve">
+    <value>Vognløp</value>
   </data>
 </root>

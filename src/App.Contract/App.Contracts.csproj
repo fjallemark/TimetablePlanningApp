@@ -4,11 +4,6 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
 		<RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
-		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
-		<Version>0.1.0</Version>
-		<Platforms>AnyCPU</Platforms>
-		<ProjectGuid>2DC49911-D3C9-4084-AB92-12939AE23685</ProjectGuid>
 	</PropertyGroup>
 
 	<ItemGroup>
