@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access;
@@ -14,7 +12,7 @@ internal static class StationTrainOrderMapper
             Trains = new List<StationTrain>(100)
         };
 
-    public static StationTrain AsStationTrain(this IDataRecord me) =>
+    public static StationTrain AsStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>
         new()
         {
             ArrivalTime = me.GetString("ArrivalTime"),
@@ -26,7 +24,8 @@ internal static class StationTrainOrderMapper
             ProductResourcName = me.GetString("ProductResourceCode"),
             SortTime = me.GetTimeAsDouble("SortTime"),
             TrackNumber = me.GetString("Designation"),
-            TrainNumber = me.GetString("Number"),
+            TrainPrefix = trainCategories.SingleOrDefault(c => c.ResourceCode == me.GetString("ProductResourceCode"))?.Prefix,
+            TrainNumber = me.GetInt("Number"),
             IsStop = me.GetBool("IsStop")
         };
 }

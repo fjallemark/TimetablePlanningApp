@@ -1,10 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Tellurian.Trains.Planning.App.Contracts;
 
-namespace Tellurian.Trains.Planning.App.Contract.Tests
-{
-	[TestClass]
+namespace Tellurian.Trains.Planning.App.Contract.Tests;
+
+[TestClass]
 	public class OperationDaysTests
 	{
 		[TestMethod]
@@ -68,7 +67,7 @@ namespace Tellurian.Trains.Planning.App.Contract.Tests
 			var expected = new byte[] { 0b00000001, 0b00000010, 0b00000100 };
 			CollectionAssert.AreEquivalent(expected, dayFlags.UniqueDayCombinations());
 		}
-        [Ignore("Not ready for test.")]
+    [Ignore("Not ready for test.")]
 		[TestMethod]
 		public void IsFourDaygroupsFromFourDayCombinations()
 		{
@@ -91,4 +90,3 @@ namespace Tellurian.Trains.Planning.App.Contract.Tests
 			for (var i = 0; i < 8; i++) Assert.AreEqual(0, values[i].ZeroBit(i+1) );
 		}
 	}
-}

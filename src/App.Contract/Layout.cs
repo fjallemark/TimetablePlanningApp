@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tellurian.Trains.Planning.App.Contracts;
+﻿namespace Tellurian.Trains.Planning.App.Contracts;
 public class Layout
 {
     public string Name { get; set; }=string.Empty;

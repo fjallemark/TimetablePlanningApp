@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tellurian.Trains.Planning.App;
+﻿namespace Tellurian.Trains.Planning.App;
 
 
 public class AppSettings

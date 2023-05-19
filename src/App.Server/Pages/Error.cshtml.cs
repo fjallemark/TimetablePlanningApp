@@ -1,29 +1,27 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
-namespace Tellurian.Trains.TimetablePlanningApp.Server.Pages
+namespace Tellurian.Trains.TimetablePlanningApp.Server.Pages;
+
+[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+public class ErrorModel : PageModel
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ErrorModel : PageModel
-    {
-        public string? RequestId { get; set; }
+    public string? RequestId { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
 #pragma warning disable IDE0052 // Remove unread private members
-        private readonly ILogger<ErrorModel> _logger;
+    private readonly ILogger<ErrorModel> _logger;
 #pragma warning restore IDE0052 // Remove unread private members
 
-        public ErrorModel(ILogger<ErrorModel> logger)
-        {
-            _logger = logger;
-        }
+    public ErrorModel(ILogger<ErrorModel> logger)
+    {
+        _logger = logger;
+    }
 
-        public void OnGet()
-        {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-        }
+    public void OnGet()
+    {
+        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
 }

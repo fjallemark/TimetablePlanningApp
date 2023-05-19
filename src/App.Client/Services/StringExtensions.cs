@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Tellurian.Trains.Planning.App.Client.Services;
+﻿namespace Tellurian.Trains.Planning.App.Client.Services;
 
 public static class StringExtensions
 {

@@ -44,7 +44,7 @@ else
                     <text>
                         <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel(OnlyDaysFlag).TrainNumberSize()pt" text-anchor="middle">
                             <textPath href="#@Data.PathId(trainSection)" startOffset="40%">
-                                @trainSection.TrainLabel(OnlyDaysFlag) 
+                                @trainSection.TrainLabel(OnlyDaysFlag, Data.ShowTrainOperatorSignature) 
                             </textPath>
                         </text>
                     </text>

@@ -1,14 +1,10 @@
-﻿using System;
-
-namespace Tellurian.Trains.Planning.App.Contracts;
-
+﻿namespace Tellurian.Trains.Planning.App.Client;
 
 public class AppSettings
 {
-    
     public int LayoutId { get; init; }
     public string FontFamily { get; init; } = "Arial";
-    public TrainCategorySettings TrainCategory { get; init; } = new ();
+    public TrainCategorySettings TrainCategory { get; init; } = new();
 }
 
 public class TrainCategorySettings

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.Repositories.Access;
 
@@ -19,7 +18,7 @@ public class AccessRepositoryTests
             });
         
         var target = new AccessPrintedReportsStore(options);
-        var result = await target.GetStationDutiesDataAsync(Globals.AppSettings.LayoutId);
+        var result = await target.GetStationDutiesDataAsync(TestData.AppSettings.LayoutId);
         Assert.IsNotNull(result);
     }
 

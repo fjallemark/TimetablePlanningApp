@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Tellurian.Trains.Planning.App.Contracts.Extensions;
+﻿namespace Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 public static class NoteExtensions
 {

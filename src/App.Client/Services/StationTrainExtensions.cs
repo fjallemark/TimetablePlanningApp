@@ -1,12 +1,15 @@
-﻿using Microsoft.Extensions.Localization;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Client.Services;
 
-public static class StationTrainOrderExtensions
+public static class StationTrainExtensions
 {
+    public static string TrainIdentity(this StationTrain? me) =>
+        me is null ? string.Empty :
+        $"{me.TrainPrefix} {me.TrainNumber}";
+
     public static string Destination(this StationTrain? me) =>
         me.IsNotDeparture() ? string.Empty : me.DestinationName;
 
@@ -30,6 +33,8 @@ public static class StationTrainOrderExtensions
         var rm = Notes.ResourceManager;
         return rm.GetString(me.ProductResourcName) ?? string.Empty;
     }
-        
-        
+
+
+
+
 }

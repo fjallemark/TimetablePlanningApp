@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Tellurian.Trains.Planning.App.Contracts;
+﻿namespace Tellurian.Trains.Planning.App.Contracts;
 public class StationDutyData
 {
     public int StationId { get; set; }

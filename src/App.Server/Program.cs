@@ -7,7 +7,6 @@ using Tellurian.Trains.Planning.Repositories.Access;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<RepositoryOptions>(builder.Configuration.GetSection(nameof(RepositoryOptions)));
-builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(nameof(AppSettings)));
 builder.Services.AddSingleton<IPrintedReportsStore, AccessPrintedReportsStore>();
 builder.Services.AddSingleton<PrintedReportsService>();
 builder.Services.AddLocalization();
