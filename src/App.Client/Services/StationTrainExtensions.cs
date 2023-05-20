@@ -8,7 +8,8 @@ public static class StationTrainExtensions
 {
     public static string TrainIdentity(this StationTrain? me) =>
         me is null ? string.Empty :
-        $"{me.TrainPrefix} {me.TrainNumber}";
+        me.ShowOperatorName ? $"{me.OperatorName} {me.TrainPrefix}{me.TrainNumber}" :
+        $"{me.TrainPrefix}{me.TrainNumber}";
 
     public static string Destination(this StationTrain? me) =>
         me.IsNotDeparture() ? string.Empty : me.DestinationName;

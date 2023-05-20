@@ -9,7 +9,7 @@ public class TrainCategory
     public string Prefix { get; set; } = string.Empty;
     public string Suffix { get; set; } = string.Empty;
     public int? FromYear { get; set; }
-    public int? ToYear  { get; set; }
+    public int? ToYear { get; set; }
     public int? CountryId { get; set; }
 
     public override string ToString() => ResourceCode;
@@ -18,17 +18,7 @@ public class TrainCategory
 
 public static class TrainCategoryExtensions
 {
-    public static TrainCategory Category(this IEnumerable<TrainCategory> items, string resourceCode)
-    {
-        try
-        {
-            return items.Single(items => items.ResourceCode.Equals(resourceCode, StringComparison.OrdinalIgnoreCase));
-
-        }
-        catch (Exception ex)
-        {
-
-            throw new ArgumentOutOfRangeException( resourceCode, ex.Message);
-        }
-    }
+    public static TrainCategory Category(this IEnumerable<TrainCategory> items, string resourceCode) => items.SingleOrDefault(items => 
+        items.ResourceCode.Equals(resourceCode, StringComparison.OrdinalIgnoreCase)) ?? 
+        new TrainCategory { ResourceCode = resourceCode };
 }

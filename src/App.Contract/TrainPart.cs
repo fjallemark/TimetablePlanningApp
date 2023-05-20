@@ -10,15 +10,3 @@ public class TrainPart
     public override string ToString() => $"{TrainNumber}";
 }
 
-public static class TrainPartExtensions
-{
-    public static TrainPart AsTrainPart(this Train train, string locoNumber, int fromSequenceNumber = 1, int toSequenceNumber = 0) =>
-        new ()
-        {
-            TrainNumber = $"{train.OperatorName} {train.Number}",
-            FromDeparture = train.Calls.Single(c => c.SequenceNumber == fromSequenceNumber).AsDeparture(),
-            ToArrival = train.Calls.Single(c => c.SequenceNumber == (toSequenceNumber == 0 ? train.Calls.Count : toSequenceNumber)).AsArrival(),
-            LocoNumber = locoNumber,
-            Train = train
-        };
-}

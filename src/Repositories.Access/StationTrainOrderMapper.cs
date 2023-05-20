@@ -9,7 +9,7 @@ internal static class StationTrainOrderMapper
         {
             Designation = me.GetString("Signature"),
             Name = me.GetString("FullName"),
-            Trains = new List<StationTrain>(100)
+            Trains = new List<StationTrain>(100),
         };
 
     public static StationTrain AsStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>
@@ -26,6 +26,7 @@ internal static class StationTrainOrderMapper
             TrackNumber = me.GetString("Designation"),
             TrainPrefix = trainCategories.SingleOrDefault(c => c.ResourceCode == me.GetString("ProductResourceCode"))?.Prefix,
             TrainNumber = me.GetInt("Number"),
-            IsStop = me.GetBool("IsStop")
+            IsStop = me.GetBool("IsStop"),
+            ShowOperatorName = me.GetBool("ShowOperatorName"),
         };
 }

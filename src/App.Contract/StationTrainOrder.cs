@@ -23,8 +23,9 @@ public class StationTrain
     public string DestinationName { get; init; }
     public byte OperatingDayFlag { get; init; }
     public bool IsStop { get; init; }
+    public bool ShowOperatorName { get; init; }
     public string Time => $"{ArrivalTime}{DepartureTime}";
-    public override string ToString() => $"{TrainNumber} {ArrivalTime} {DepartureTime}";
+    public override string ToString() => $"{OperatorName} {TrainPrefix} {TrainNumber} {ArrivalTime} {DepartureTime}".Trim();
 }
 
 
