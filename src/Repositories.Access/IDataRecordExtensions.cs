@@ -8,7 +8,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 public static class IDataRecordExtensions
 {
-    private const bool ThrowOnColumnError = false;
+    private const bool ThrowOnColumnError = false; // Set true only for debugging
     public static string GetString(this IDataRecord me, string columnName, string? defaultValue = null)
     {
         var i = me.GetColumIndex(columnName, defaultValue is null);
@@ -55,7 +55,7 @@ public static class IDataRecordExtensions
 
     public static int GetInt(this IDataRecord me, string columnName, int? defaultValue = null)
     {
-        var i = me.GetColumIndex(columnName, defaultValue is null);
+        var i = me.GetColumIndex(columnName, !defaultValue.HasValue);
         if (i < 0) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
         if (me.IsDBNull(i)) return defaultValue ?? throw TypeErrorException(defaultValue, columnName);
         var value = me.GetValue(i);
@@ -140,7 +140,7 @@ public static class IDataRecordExtensions
         try { i = me.GetOrdinal(columnName); }
         catch (IndexOutOfRangeException)
         {
-            if (throwOnNotFound || ThrowOnColumnError) throw new InvalidOperationException($"No column '{columnName}' found in data.");
+            if (throwOnNotFound) throw new InvalidOperationException($"No column '{columnName}' found in data.");
         }
         return i;
     }
