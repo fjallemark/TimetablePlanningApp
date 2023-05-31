@@ -1,4 +1,5 @@
-﻿using Tellurian.Trains.Planning.App.Contracts;
+﻿using System.Diagnostics;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Services;
 
@@ -40,7 +41,7 @@ public class PrintedReportsService
         var booklet = await Store.GetStationDutyBookletAsync(layoutId).ConfigureAwait(false);
         if (booklet is null) return null;
         var data = await Store.GetStationDutiesDataAsync(layoutId).ConfigureAwait(false);
-        var trains = await Store.GetTrainsAsync(layoutId);
+        var trains = await Store.GetTrainsAsync(layoutId).ConfigureAwait (false);
         var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
         var duties = data.AsStationDuties(trains, notes, includeAllTrains);
         booklet.Duties = duties;
@@ -57,7 +58,8 @@ public class PrintedReportsService
             {
                 foreach (var stretch in stretches)
                 {
-                    if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) && stretch.Stations.Any(s => s.Station.Id == trainSection.ToStationId))
+                    if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) && 
+                        stretch.Stations.Any(s => s.Station.Id == trainSection.ToStationId))
                     {
                         stretch.TrainSections.Add(trainSection);
                     }
@@ -91,6 +93,7 @@ internal static class TrainExtensions
     public static IEnumerable<TimetableTrainSection> GetTimetableTrainSections(this Train me)
     {
         var result = new List<TimetableTrainSection>(50);
+        // Add track usage
         result.AddRange(me.Calls.Select(c => new TimetableTrainSection
         {
             FromStationId = c.Station.Id,
@@ -101,10 +104,12 @@ internal static class TrainExtensions
             IsPassenger = me.IsPassenger,
             StartTime = c.Arrival.OffsetMinutes(),
             EndTime = c.Departure.OffsetMinutes(),
+            OperatorSignature = me.OperatorName,
             TrainNumber = me.Number,
             OperationDays = me.OperationDays(),
             Color = me.Color
         }));
+        // Add train movements
         for (var i = 0; i < me.Calls.Count - 1; i++)
         {
             result.Add(new TimetableTrainSection
