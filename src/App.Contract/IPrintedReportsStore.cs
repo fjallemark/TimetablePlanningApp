@@ -12,7 +12,7 @@ public interface IPrintedReportsStore
     Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId);
     Task<IEnumerable<StationDutyData>> GetStationDutiesDataAsync(int layoutId);
     Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId, string? stretchNumber);
-    Task<IEnumerable<Train>> GetTrainsAsync(int layoutId);
+    Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null);
     Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId);
     Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = false);
     Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId);

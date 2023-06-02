@@ -42,8 +42,14 @@ public class ReportsController : ControllerBase
     }
 
     [HttpGet("trains")]
-    public async Task<IActionResult> GetTrains(int id) => await this.GetScheduleItems(id, Service.GetTrainsAsync).ConfigureAwait(false);
+    public async Task<IActionResult> GetTrains(int id, string? @operator = null)
+    {
+        if (id < 1) return BadRequest();
+        var result = await Service.GetTrainsAsync(id, @operator).ConfigureAwait(false);
+        if (result is null) return NotFound();
+        return Ok(result);
 
+    }
 
     [HttpGet("traininitialdepartures")]
     public async Task<IActionResult> GetTimetableDepartures(int id) => await this.GetScheduleItems(id, Service.GetTrainDeparturesAsync).ConfigureAwait(false);

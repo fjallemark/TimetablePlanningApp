@@ -77,8 +77,8 @@ public class PrintedReportsService
     public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId) =>
         Store.GetStationsTrainOrder(layoutId);
 
-    public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId) =>
-        Store.GetTrainsAsync(layoutId);
+    public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null) =>
+        Store.GetTrainsAsync(layoutId, operatorSignature);
 
     public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
         Store.GetTrainDeparturesAsync(layoutId);

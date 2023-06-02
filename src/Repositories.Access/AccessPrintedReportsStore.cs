@@ -297,7 +297,7 @@ public class AccessPrintedReportsStore : IPrintedReportsStore
             $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} AND TimetableNumber = '{stretchNumber}' ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder";
     }
 
-    public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId)
+    public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null)
     {
         var result = new List<Train>(100);
         var categories = await GetTrainCategories(layoutId);
@@ -305,7 +305,11 @@ public class AccessPrintedReportsStore : IPrintedReportsStore
         var lastTrainNumber = string.Empty;
         var sequenceNumber = 0;
         using var connection = CreateConnection;
-        var reader = ExecuteReader(connection, $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime");
+        var sql = operatorSignature.HasValue() ? 
+            $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND TrainOperator = '{operatorSignature}' AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime" :
+            $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime";
+
+        var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
             var currentTrainNumber = $"{reader.GetString("TrainOperator")}{reader.GetInt("TrainNumber")}";

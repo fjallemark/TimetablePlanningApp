@@ -40,8 +40,8 @@ public class PrintedReportsService : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrainsAsync(int layoutId) =>
         GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
 
-    public Task<(HttpStatusCode statusCode, IEnumerable<Train> items)> GetTrainsAsync(int layoutId) =>
-        GetItems<Train>($"api/layouts/{layoutId}/reports/trains");
+    public Task<(HttpStatusCode statusCode, IEnumerable<Train> items)> GetTrainsAsync(int layoutId, string? operatorSignature = null) =>
+        GetItems<Train>($"api/layouts/{layoutId}/reports/trains?operator={operatorSignature}");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
          GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
