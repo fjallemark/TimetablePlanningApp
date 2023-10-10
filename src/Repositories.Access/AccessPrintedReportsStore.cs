@@ -352,9 +352,10 @@ public class AccessPrintedReportsStore : IPrintedReportsStore
     }
 
 
-    public async Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = true)
+    public async Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyInitialTrains = true)
     {
-        var sql = $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber";
+        var sql = onlyInitialTrains ? $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} AND IsInitial <> 0 ORDER BY StationName, TrackNumber" :
+        $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber";
         var result = new List<TrainDeparture>(100);
         var categories = await GetTrainCategories(layoutId);
         using var connection = CreateConnection;
