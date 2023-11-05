@@ -1,13 +1,10 @@
-﻿using System.Diagnostics;
-using Tellurian.Trains.Planning.App.Contracts;
+﻿using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Services;
 
-public class PrintedReportsService
+public class PrintedReportsService(IPrintedReportsStore store)
 {
-    public PrintedReportsService(IPrintedReportsStore store) => Store = store;
-
-    private readonly IPrintedReportsStore Store;
+    private readonly IPrintedReportsStore Store = store;
 
     public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
         Store.GetBlockDestinationsAsync(layoutId);
@@ -25,7 +22,7 @@ public class PrintedReportsService
         return booklet;
     }
 
-    public async Task<Layout?> GetLayout(int layoutId) => await Store.GetLayout(layoutId).ConfigureAwait(false);    
+    public async Task<Layout?> GetLayout(int layoutId) => await Store.GetLayout(layoutId).ConfigureAwait(false);
 
     public async Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId)
     {
@@ -41,7 +38,7 @@ public class PrintedReportsService
         var booklet = await Store.GetStationDutyBookletAsync(layoutId).ConfigureAwait(false);
         if (booklet is null) return null;
         var data = await Store.GetStationDutiesDataAsync(layoutId).ConfigureAwait(false);
-        var trains = await Store.GetTrainsAsync(layoutId).ConfigureAwait (false);
+        var trains = await Store.GetTrainsAsync(layoutId).ConfigureAwait(false);
         var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
         var duties = data.AsStationDuties(trains, notes, includeAllTrains);
         booklet.Duties = duties;
@@ -58,7 +55,7 @@ public class PrintedReportsService
             {
                 foreach (var stretch in stretches)
                 {
-                    if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) && 
+                    if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) &&
                         stretch.Stations.Any(s => s.Station.Id == trainSection.ToStationId))
                     {
                         stretch.TrainSections.Add(trainSection);
@@ -83,9 +80,11 @@ public class PrintedReportsService
     public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
         Store.GetTrainDeparturesAsync(layoutId);
 
-    public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>
-        Store.GetTrainsetSchedulesAsync(layoutId);
-
+    public async Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId)
+    {
+        var schedules = await Store.GetTrainsetSchedulesAsync(layoutId);
+        return schedules.SchedulesToPrint();      
+    }
 }
 
 internal static class TrainExtensions

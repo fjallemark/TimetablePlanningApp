@@ -12,14 +12,9 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 /// This is a temporary implementation that will be removed when the
 /// Access database is replaced by a SQL Server database.
 /// </summary>
-public class AccessPrintedReportsStore : IPrintedReportsStore
+public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IPrintedReportsStore
 {
-    public AccessPrintedReportsStore(IOptions<RepositoryOptions> options)
-    {
-        Options = options.Value;
-    }
-
-    private readonly RepositoryOptions Options;
+    private readonly RepositoryOptions Options = options.Value;
     private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
     public Task<int?> GetCurrentLayoutId()

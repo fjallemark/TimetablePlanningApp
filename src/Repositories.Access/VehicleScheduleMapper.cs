@@ -18,7 +18,7 @@ public static class VehicleScheduleMapper
             TurnForNextDay = me.GetBool("TurnForNextDay"),
             Note = me.GetString("Note"),
             IsRailcar = me.GetBool("IsRailcar"),
-            ReplaceOrder = me.GetInt("ReplaceOrder")
+            ReplaceOrder = me.GetInt("ReplaceOrder"),
         };
 
      public static TrainsetSchedule AsCargoWagonSchedule(this IDataRecord me) =>
@@ -31,7 +31,8 @@ public static class VehicleScheduleMapper
             Class = me.GetString("TrainsetClass"),
             TurnForNextDay = me.GetBool("TurnForNextDay"),
             NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
-            Note = me.GetString("Note")
+            Note = me.GetString("Note"),
+             PrintCard = me.GetBool("PrintCard", false),
         };
 
     public static TrainsetSchedule AsPassengerWagonSchedule(this IDataRecord me) =>
@@ -44,7 +45,8 @@ public static class VehicleScheduleMapper
             Class = me.GetString("TrainsetClass"),
             TurnForNextDay = me.GetBool("TurnForNextDay"),
             NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
-            Note = me.GetString("Note")
+            Note = me.GetString("Note"),
+            PrintCard = me.GetBool("PrintCard", false),
         };
 
 
@@ -58,7 +60,7 @@ public static class VehicleScheduleMapper
             Class = me.GetString("TrainsetClass"),
             TurnForNextDay = me.GetBool("TurnForNextDay"),
             NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
-            Note = me.GetString("Note")
+            Note = me.GetString("Note"),
         };
 
 
