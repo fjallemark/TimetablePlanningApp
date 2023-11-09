@@ -32,4 +32,4 @@ where it is not possible to depend on COM-interop with Microsoft Excel.
 
 I finally found an old piece of C# code to read .ODS-files without Excel and COM-imterop.
 This was tested on a large number of XPLN-files an refined to read all data correct.
-This solution can also run in the cloud. Try it out by [https://timetableplanning.azurewebsites.net/xpln](uploading you XPLN-file) and get a validation report.
+This solution can also run in the cloud. Try it out by [uploading you XPLN-file](https://timetableplanning.azurewebsites.net/xpln) and get a validation report.
