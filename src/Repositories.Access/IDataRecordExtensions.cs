@@ -8,7 +8,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 public static class IDataRecordExtensions
 {
-    private const bool ThrowOnColumnError = false; // Set true only for debugging
+    private const bool ThrowOnColumnError = true; // Set true only for debugging
     public static string GetString(this IDataRecord me, string columnName, string? defaultValue = null)
     {
         var i = me.GetColumIndex(columnName, defaultValue is null);

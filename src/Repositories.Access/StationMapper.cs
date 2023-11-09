@@ -5,7 +5,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 internal static class StationMapper
 {
-    public static Station AsStation(this IDataRecord me) =>
+    public static Station ToStation(this IDataRecord me) =>
         new()
         {
             Id = me.GetInt("StationId"),
@@ -14,7 +14,7 @@ internal static class StationMapper
             Tracks = new List<StationTrack>()
         };
 
-    public static StationTrack AsStationStrack(this IDataRecord me) =>
+    public static StationTrack ToStationStrack(this IDataRecord me) =>
         new()
         {
             Id = me.GetInt("StationTrackId"),

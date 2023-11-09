@@ -456,4 +456,10 @@
   <data name="Wagonset" xml:space="preserve">
     <value>Vognsett</value>
   </data>
+  <data name="ReverseLoco" xml:space="preserve">
+    <value>Omløp lok.</value>
+  </data>
+  <data name="TurnAndReverseLoco" xml:space="preserve">
+    <value>Snu og omløp lok.</value>
+  </data>
 </root>

@@ -5,7 +5,7 @@ using Tellurian.Trains.Planning.App.Contracts.Extensions;
 namespace Tellurian.Trains.Planning.Repositories.Access;
 internal static class LayoutMapper
 {
-    public static Layout? AsLayout(this IDataRecord me) =>
+    public static Layout? ToLayout(this IDataRecord me) =>
         new ()
         {
             Name = me.GetString("Name"),

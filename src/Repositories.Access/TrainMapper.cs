@@ -8,7 +8,7 @@ internal static class TrainMapper
 {
     private static ResourceManager Notes => App.Contracts.Resources.Notes.ResourceManager;
 
-    public static Train AsTrain(this IDataRecord me) =>
+    public static Train ToTrain(this IDataRecord me) =>
          new()
          {
              OperatorName = me.GetString("TrainOperator"),
@@ -26,7 +26,7 @@ internal static class TrainMapper
              Calls = new List<StationCall>()
          };
 
-    public static StationCall AsStationCall(this IDataRecord me, int sequenceNumber)
+    public static StationCall ToStationCall(this IDataRecord me, int sequenceNumber)
     {
         var callId = me.GetInt("CallId");
         var hasDepartureTime = TimeSpan.TryParse(me.GetTime("DepartureTime", ""), out var departureTime);
@@ -65,7 +65,7 @@ internal static class TrainMapper
         return call;
     }
 
-    public static TrainCategory AsTrainCategory(this IDataRecord me) =>
+    public static TrainCategory ToTrainCategory(this IDataRecord me) =>
         new()
         {
             Id = me.GetInt("TrainCategoryId"),

@@ -790,6 +790,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reverse loco..
+        /// </summary>
+        public static string ReverseLoco {
+            get {
+                return ResourceManager.GetString("ReverseLoco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saturday.
         /// </summary>
         public static string Saturday {
@@ -966,6 +975,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string TuesdayShort {
             get {
                 return ResourceManager.GetString("TuesdayShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn and reverse loco..
+        /// </summary>
+        public static string TurnAndReverseLoco {
+            get {
+                return ResourceManager.GetString("TurnAndReverseLoco", resourceCulture);
             }
         }
         

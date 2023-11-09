@@ -7,21 +7,21 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 internal static class BlockDestinationsMapper
 {
     private static ResourceManager Notes => App.Contracts.Resources.Notes.ResourceManager;
-    public static BlockDestinations AsBlockDestinations(this IDataRecord me) =>
+    public static BlockDestinations ToBlockDestinations(this IDataRecord me) =>
         new()
         {
             OriginStationName = me.GetString("OriginStationName"),
             BlockIsMaxInTrain = me.GetBool("BlockIsMaxInTrain")
         };
 
-    public static TrackTrains AsTrackDestination(this IDataRecord me) =>
+    public static TrackTrains ToTrackDestination(this IDataRecord me) =>
         new()
         {
             TrackNumber = me.GetString("TrackNumber"),
             TrackDisplayOrder = me.GetInt("TrackDisplayOrder")
         };
 
-    public static TrainBlocking AsTrainBlocking(this IDataRecord me) =>
+    public static TrainBlocking TorainBlocking(this IDataRecord me) =>
         new()
         {
             ArrivalTime = new CallTime { IsStop = true, Time = me.GetTime("ArrivalTime", "") },

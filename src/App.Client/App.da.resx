@@ -227,7 +227,7 @@
     <value>Oprangering godstog</value>
   </data>
   <data name="DriverDuties" xml:space="preserve">
-    <value>Togførertjenester</value>
+    <value>Lokomotivførertjenester</value>
   </data>
   <data name="Waybills" xml:space="preserve">
     <value>Fragtbreve</value>
@@ -278,7 +278,7 @@
     <value>Fortsatte</value>
   </data>
   <data name="Driver" xml:space="preserve">
-    <value>Togfører</value>
+    <value>Lokomotivfører</value>
   </data>
   <data name="GraphicLocoSchedules" xml:space="preserve">
     <value>Grafisk lokomotivplan</value>

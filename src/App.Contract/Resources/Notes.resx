@@ -456,4 +456,10 @@
   <data name="Wagonset" xml:space="preserve">
     <value>Wagonset</value>
   </data>
+  <data name="ReverseLoco" xml:space="preserve">
+    <value>Reverse loco.</value>
+  </data>
+  <data name="TurnAndReverseLoco" xml:space="preserve">
+    <value>Turn and reverse loco.</value>
+  </data>
 </root>

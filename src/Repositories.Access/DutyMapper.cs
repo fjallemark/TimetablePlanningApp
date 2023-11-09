@@ -5,7 +5,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 internal static class DutyMapper
 {
-    public static DutyBooklet AsDutyBooklet(this IDataRecord me, DutyBooklet it)
+    public static DutyBooklet ToDutyBooklet(this IDataRecord me, DutyBooklet it)
     {
         it.ScheduleName = me.GetString("LayoutName");
         it.ValidFromDate = me.GetDate("ValidFromDate");
@@ -13,7 +13,7 @@ internal static class DutyMapper
         return it;
     }
 
-    public static Instruction AsInstruction(this IDataRecord me, string markdownColumnName) =>
+    public static Instruction ToInstruction(this IDataRecord me, string markdownColumnName) =>
         new()
         {
             Language = me.GetString("Language"),
@@ -22,7 +22,7 @@ internal static class DutyMapper
 
 
 
-    public static DriverDuty AsDuty(this IDataRecord me) =>
+    public static DriverDuty ToDuty(this IDataRecord me) =>
         new()
         {
             DisplayOrder = me.GetInt("DutyNumber"),
@@ -40,7 +40,7 @@ internal static class DutyMapper
             Parts = new List<DriverDutyPart>()
         };
 
-    public static DriverDutyPart AsDutyPart(this IDataRecord me, Train train) =>
+    public static DriverDutyPart ToDutyPart(this IDataRecord me, Train train) =>
         new()
         {
             Train = train,
@@ -52,7 +52,7 @@ internal static class DutyMapper
             TurnLoco = me.GetBool("TurnLoco")
         };
 
-    public static StationDutyData AsStationDutyData(this IDataRecord me) =>
+    public static StationDutyData ToStationDutyData(this IDataRecord me) =>
         new()
         {
             DisplayOrder = me.GetInt("DisplayOrder"),
@@ -71,7 +71,7 @@ internal static class DutyMapper
 
     public static void AddStationInstructions(this IDataRecord me, StationDutyData it)
     {
-        it.StationInstructions.Add(me.AsInstruction("StationInstructions"));
-        it.ShuntingInstructions.Add(me.AsInstruction("ShuntingInstructions"));
+        it.StationInstructions.Add(me.ToInstruction("StationInstructions"));
+        it.ShuntingInstructions.Add(me.ToInstruction("ShuntingInstructions"));
     }
 }

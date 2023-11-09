@@ -33,7 +33,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, sql);
         if (reader.Read())
         {
-            return Task.FromResult(reader.AsLayout());
+            return Task.FromResult(reader.ToLayout());
         }
         return Task.FromResult((Layout?)null);
     }
@@ -49,7 +49,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
-            var data = reader.AsStationDutyData();
+            var data = reader.ToStationDutyData();
             reader.AddStationInstructions(data);
             result.Add(data);
         }
@@ -68,7 +68,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         if (reader.Read())
         {
             booklet = Activator.CreateInstance<T>();
-            reader.AsDutyBooklet(booklet);
+            reader.ToDutyBooklet(booklet);
             booklet.Instructions = LayoutInstructions(layoutId);
         }
         return Task.FromResult((T?)booklet);
@@ -81,7 +81,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
-            yield return reader.AsInstruction("Markdown");
+            yield return reader.ToInstruction("Markdown");
         }
     }
 
@@ -104,17 +104,17 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentDutyId != lastDutyId || currentLocoScheduleTrainId != lastLocoScheduleTrainId)
             {
                 sequenceNumber = 0;
-                train = reader.AsTrain();
+                train = reader.ToTrain();
                 if (currentDutyId != lastDutyId)
                 {
                     lastDutyId = currentDutyId;
                     if (duty != null) result.Add(duty);
-                    duty = reader.AsDuty();
+                    duty = reader.ToDuty();
                 }
-                duty?.Parts.Add(reader.AsDutyPart(train));
+                duty?.Parts.Add(reader.ToDutyPart(train));
                 lastLocoScheduleTrainId = currentLocoScheduleTrainId;
             }
-            train?.Calls.Add(reader.AsStationCall(++sequenceNumber));
+            train?.Calls.Add(reader.ToStationCall(++sequenceNumber));
         }
         if (duty != null) result.Add(duty);
         return Task.FromResult(result.AsEnumerable());
@@ -155,7 +155,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentUnique != lastUnique)
             {
                 if (locoSchedule != null) result.Add(locoSchedule);
-                locoSchedule = reader.AsLocoSchedule();
+                locoSchedule = reader.ToLocoSchedule();
             }
             if (locoSchedule != null) reader.AddTrainPart(locoSchedule);
             lastUnique = currentUnique;
@@ -182,7 +182,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                     var isCargoWagon = reader.GetBool("IsCargo");
                     var isLoadOnly = reader.GetBool("IsLoadOnly");
 
-                    schedule = isLoadOnly ? reader.AsCargoOnlySchedule() : isCargoWagon ? reader.AsCargoWagonSchedule() : reader.AsPassengerWagonSchedule();
+                    schedule = isLoadOnly ? reader.ToCargoOnlySchedule() : isCargoWagon ? reader.ToCargoWagonSchedule() : reader.ToPassengerWagonSchedule();
                 }
                 if (schedule != null) reader.AddTrainPart(schedule);
                 lastUnique = currentUnique;
@@ -230,21 +230,21 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 if (currentOriginStationName != lastOriginStationName)
                 {
                     if (current is not null) result.Add(current);
-                    current = reader.AsBlockDestinations();
+                    current = reader.ToBlockDestinations();
                 }
                 if (current is not null)
                 {
                     if (currentTrackNumber != lastTrackNumber)
                     {
-                        current.Tracks.Add(reader.AsTrackDestination());
+                        current.Tracks.Add(reader.ToTrackDestination());
                     }
                     if (currentTrainNumber != lastTrainNumber)
                     {
-                        var trainBlocking = reader.AsTrainBlocking();
+                        var trainBlocking = reader.TorainBlocking();
                         trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
                         current.Tracks.Last().TrainBlocks.Add(trainBlocking);
                     }
-                    var destination = reader.AsBlockDestination();
+                    var destination = reader.ToBlockDestination();
                     if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
                 }
                 lastPositionInTrain = currentPositionInTrain;
@@ -271,15 +271,15 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentTimetableNumber != lastTimetableNumber)
             {
                 if (current is not null) { result.Add(current); lastStationId = 0; }
-                current = reader.AsTimetableStretch();
+                current = reader.ToTimetableStretch();
 
             }
             if (current is not null && currentStationId != lastStationId)
             {
-                current.Stations.Add(reader.AsTimetableStretchStation());
+                current.Stations.Add(reader.ToTimetableStretchStation());
             }
             if (current?.Stations.Any() == true)
-                current?.Stations.Last().Station.Tracks.Add(reader.AsStationStrack());
+                current?.Stations.Last().Station.Tracks.Add(reader.ToStationStrack());
             lastStationId = currentStationId;
             lastTimetableNumber = currentTimetableNumber;
         }
@@ -312,10 +312,10 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             {
                 if (current != null) result.Add(current);
                 sequenceNumber = 0;
-                current = reader.AsTrain();
+                current = reader.ToTrain();
                 current.Prefix = categories.Category(current.CategoryResourceCode).Prefix;
             }
-            current?.Calls.Add(reader.AsStationCall(++sequenceNumber));
+            current?.Calls.Add(reader.ToStationCall(++sequenceNumber));
             lastTrainNumber = currentTrainNumber;
         }
         if (current != null) result.Add(current);
@@ -337,10 +337,10 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (stationName != currentStationName)
             {
                 if (item is not null) result.Add(item);
-                item = reader.AsStationTrainOrder();
+                item = reader.ToStationTrainOrder();
                 stationName = currentStationName;
             }
-            item?.Trains.Add(reader.AsStationTrain(categories));
+            item?.Trains.Add(reader.ToStationTrain(categories));
         }
         if (item is not null) result.Add(item);
         return result.AsEnumerable();
@@ -357,7 +357,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
-            var departure = reader.AsTrainDeparture();
+            var departure = reader.ToTrainDeparture();
             departure.Train.Prefix = categories.Category(departure.Train.CategoryResourceCode).Prefix;
             result.Add(departure);
         }
@@ -372,7 +372,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
 
         while (reader.Read())
         {
-            result.Add(reader.AsTrainCategory());
+            result.Add(reader.ToTrainCategory());
         }
         return Task.FromResult(result.AsEnumerable());
     }
@@ -390,6 +390,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         result.AddRange(GetLocoArrivalCallNotes(layoutId));
         result.AddRange(GetBlockDestinationsCallNotes(layoutId));
         result.AddRange(GetBlockArrivalCallNotes(layoutId));
+        result.AddRange(GetLocoTurnOrReverseCallNotes(layoutId));
         return Task.FromResult(result.AsEnumerable());
     }
 
@@ -405,11 +406,11 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (noteId > 0)
             {
                 if (note is not null && noteId != lastId) yield return note;
-                note = reader.AsManualTrainCallNote();
+                note = reader.ToManualTrainCallNote();
             }
             else if (note is not null)
             {
-                var localizedNote = reader.AsLocalizedManualTrainCallNote();
+                var localizedNote = reader.ToLocalizedManualTrainCallNote();
                 note.AddLocalizedManualTrainCallNote(localizedNote);
             }
             if (noteId > 0) lastId = noteId;
@@ -430,9 +431,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentCallKey != lastCallKey)
             {
                 if (current != null) yield return current;
-                current = reader.AsTrainsetArrivalCallNote();
+                current = reader.ToTrainsetArrivalCallNote();
             }
-            current?.AddTrainset(reader.AsTrainset());
+            current?.AddTrainset(reader.ToTrainset());
             lastCallKey = currentCallKey;
         }
         if (current != null) yield return current;
@@ -451,9 +452,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentCallKey != lastCallKey)
             {
                 if (current != null) yield return current;
-                current = reader.AsTrainsetDepartureCallNote();
+                current = reader.ToTrainsetDepartureCallNote();
             }
-            current?.AddTrainset(reader.AsTrainset());
+            current?.AddTrainset(reader.ToTrainset());
             lastCallKey = currentCallKey;
         }
         if (current != null) yield return current;
@@ -471,9 +472,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentCallId != lastCallId)
             {
                 if (current != null) yield return current;
-                current = reader.AsTrainMeetCallNote();
+                current = reader.ToTrainMeetCallNote();
             }
-            current?.MeetingTrains.Add(reader.AsMeetingTrainCall());
+            current?.MeetingTrains.Add(reader.ToMeetingTrainCall());
             lastCallId = currentCallId;
         }
         if (current != null) yield return current;
@@ -485,7 +486,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, $"SELECT * FROM TrainNumberChangeNotes WHERE LayoutId = {layoutId} ORDER BY CallId");
         while (reader.Read())
         {
-            yield return reader.AsTrainContinuationNumberCallNote();
+            yield return reader.ToTrainContinuationNumberCallNote();
         }
     }
 
@@ -495,7 +496,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, $"SELECT * FROM LocoExchangeCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId");
         while (reader.Read())
         {
-            yield return reader.AsLocoExchangeCallNote();
+            yield return reader.ToLocoExchangeCallNote();
         }
     }
 
@@ -506,7 +507,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, $"SELECT * FROM LocoDepartureCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
         while (reader.Read())
         {
-            result.Add(reader.AsLocoDepartureCallNote());
+            result.Add(reader.ToLocoDepartureCallNote());
         }
         return result.AggregateOperationDays();
     }
@@ -518,7 +519,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, $"SELECT * FROM LocoArrivalCallNotes WHERE LayoutId = {layoutId} ORDER BY CallId, LocoOperationDaysFlag");
         while (reader.Read())
         {
-            var note = reader.AsLocoArrivalCallNote();
+            var note = reader.ToLocoArrivalCallNote();
             if (note.CirculateLoco && !note.ArrivingLoco.IsRailcar) result.Add(new LocoCirculationNote(note.CallId)
             {
                 ArrivingLoco = note.ArrivingLoco,
@@ -550,9 +551,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentCallId != lastCallId)
             {
                 if (current != null) yield return current;
-                current = reader.AsBlockDestinationsCallNote();
+                current = reader.ToBlockDestinationsCallNote();
             }
-            var blockDestination = reader.AsBlockDestination();
+            var blockDestination = reader.ToBlockDestination();
             current?.BlockDestinations.Add(blockDestination);
             lastCallId = currentCallId;
         }
@@ -571,7 +572,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             if (currentCallId != lastCallId || reader.GetBool("IsTransfer"))
             {
                 if (current is not null) yield return current;
-                current = reader.AsBlockArrivalCallNote();
+                current = reader.ToBlockArrivalCallNote();
             }
             if (current is not null)
             {
@@ -582,6 +583,13 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             }
         }
         if (current != null) yield return current;
+    }
+
+    private IEnumerable<LocoTurnOrReverseCallNote> GetLocoTurnOrReverseCallNotes(int layoutId)
+    {
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection, $"SELECT * FROM ReverseOrTurnLocoCallNote WHERE LayoutId = {layoutId}");
+        while (reader.Read()) { yield return reader.ToLocoReverseOrTurnCallNote(); }
     }
 
     private static IDataReader ExecuteReader(OdbcConnection connection, string sql)

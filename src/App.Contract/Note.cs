@@ -51,15 +51,14 @@ public abstract class TrainCallNote
         (byte)(days & trainDays & dutyDays);
 }
 
-public sealed class ManualTrainCallNote : TrainCallNote
+public sealed class ManualTrainCallNote(int callId) : TrainCallNote(callId)
 {
-    public ManualTrainCallNote(int callId) : base(callId) { }
     public byte OperationDayFlag { get; set; } = OperationDays.AllDays;
     public string Text { get; set; } = string.Empty;
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsAnyDay(OperationDayFlag, onlyDays) ? Note.SingleNote(DisplayOrderWithDays(onlyDays), GetNoteText(onlyDays)) : Enumerable.Empty<Note>();
 
-    private readonly List<LocalizedManualTrainCallNote> LocalizedNotes = new();
+    private readonly List<LocalizedManualTrainCallNote> LocalizedNotes = [];
     public void AddLocalizedManualTrainCallNote(LocalizedManualTrainCallNote localizedNote) => LocalizedNotes.Add(localizedNote);
     string GetNoteText(byte onlyDays)
     {
@@ -203,7 +202,7 @@ public class TrainContinuationNumberCallNote : TrainCallNote
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         ContinuingTrain is null || IsNoDay(ContinuingTrain.OperationDayFlag, onlyDays) ?
-        Array.Empty<Note>() :
+        [] :
         Note.SingleNote(320, FormatText(ContinuingTrain.OperationDayFlag, onlyDays));
 
 
@@ -244,6 +243,26 @@ public class TrainMeetCallNote : TrainCallNote
     private IEnumerable<OtherTrainCall> ActualMeetingTrains(byte onlyDays) => MeetingTrains.Where(mt => (mt.OperationDayFlag & onlyDays & OperationDayFlag) > 0);
 }
 
+public class LocoTurnOrReverseCallNote : TrainCallNote
+{
+    public LocoTurnOrReverseCallNote(int callId): base(callId) {
+        IsStationNote = true;
+        IsDriverNote = true;
+        IsForArrival = true;
+        DisplayOrder = -101;
+    }
+    public bool Turn { get; set; }
+    public bool Reverse { get; set; }
+
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
+    {
+        if (Turn && Reverse) { return Note.SingleNote(DisplayOrder, Notes.TurnAndReverseLoco); }
+        else if (Turn) { return Note.SingleNote(DisplayOrder, Notes.TurnLoco); }
+        else if (Reverse) { return Note.SingleNote(DisplayOrder, Notes.ReverseLoco); }
+        else { return Enumerable.Empty<Note>(); }
+    }
+}
+
 public class LocoExchangeCallNote : TrainCallNote
 {
     public LocoExchangeCallNote(int callId) : base(callId)
@@ -262,7 +281,7 @@ public class LocoExchangeCallNote : TrainCallNote
         return days == OperationDays.AllDays ? Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChange, ArrivingLoco.DisplayFormat(), DepartingLoco.DisplayFormat()), days) :
             days > 0 || ArrivingLoco.OperationDaysFlags.IsOnDemand() || DepartingLoco.OperationDaysFlags.IsOnDemand() ?
             Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChangeDays, ArrivingLoco.DisplayFormat(), DepartingLoco.DisplayFormat(), days.OperationDays().ShortName), days) :
-            Array.Empty<Note>();
+            [];
     }
 }
 
@@ -300,7 +319,7 @@ public class LocoDepartureCallNote : LocoCallNote
         if (days == 0) days = OperationDays.OnDemand;
         return IsAnyDay(DepartingLoco.OperationDaysFlags, onlyDays) ?
             Note.SingleNote(DisplayOrder + Days(DepartingLoco.OperationDaysFlags, onlyDays), ParkingText(DepartingLoco.OperationDaysFlags, days)) :
-            Array.Empty<Note>();
+            [];
     }
 
     protected override string ParkingText(byte days, byte onlydays) =>
@@ -350,10 +369,8 @@ public class LocoArrivalCallNote : LocoCallNote
     protected int GetDisplayOrder(byte onlyDays, int sortOrder) => sortOrder + Days(ArrivingLoco.OperationDaysFlags, onlyDays);
 }
 
-public class LocoCirculationNote : LocoArrivalCallNote
+public class LocoCirculationNote(int callId) : LocoArrivalCallNote(callId)
 {
-    public LocoCirculationNote(int callId) : base(callId) { }
-
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
         Note.SingleNote(GetDisplayOrder(onlyDays, 2900), CirculateText(ArrivingLoco.OperationDaysFlags, onlyDays));
@@ -365,9 +382,8 @@ public class LocoCirculationNote : LocoArrivalCallNote
             string.Empty;
 }
 
-public class LocoTurnNote : LocoArrivalCallNote
+public class LocoTurnNote(int callId) : LocoArrivalCallNote(callId)
 {
-    public LocoTurnNote(int callId) : base(callId) { }
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
         Note.SingleNote(GetDisplayOrder(onlyDays, 3000), Notes.TurnLoco);

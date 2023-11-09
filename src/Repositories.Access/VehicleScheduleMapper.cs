@@ -6,7 +6,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 public static class VehicleScheduleMapper
 {
-    public static LocoSchedule AsLocoSchedule(this IDataRecord me) =>
+    public static LocoSchedule ToLocoSchedule(this IDataRecord me) =>
         new()
         {
             Type = "Loco",
@@ -21,7 +21,7 @@ public static class VehicleScheduleMapper
             ReplaceOrder = me.GetInt("ReplaceOrder"),
         };
 
-     public static TrainsetSchedule AsCargoWagonSchedule(this IDataRecord me) =>
+     public static TrainsetSchedule ToCargoWagonSchedule(this IDataRecord me) =>
         new()
         {
             Type = "CargoWagon",
@@ -35,7 +35,7 @@ public static class VehicleScheduleMapper
              PrintCard = me.GetBool("PrintCard", false),
         };
 
-    public static TrainsetSchedule AsPassengerWagonSchedule(this IDataRecord me) =>
+    public static TrainsetSchedule ToPassengerWagonSchedule(this IDataRecord me) =>
         new()
         {
             Type = "PassengerWagon",
@@ -50,7 +50,7 @@ public static class VehicleScheduleMapper
         };
 
 
-    public static TrainsetSchedule AsCargoOnlySchedule(this IDataRecord me) =>
+    public static TrainsetSchedule ToCargoOnlySchedule(this IDataRecord me) =>
         new()
         {
             Type = "CargoOnly",

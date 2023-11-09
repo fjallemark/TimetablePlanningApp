@@ -5,7 +5,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 internal static class TimetableStretchMapper
 {
-    public static TimetableStretch AsTimetableStretch(this IDataRecord me) =>
+    public static TimetableStretch ToTimetableStretch(this IDataRecord me) =>
         new()
         {
             Number = me.GetString("TimetableNumber"),
@@ -17,11 +17,11 @@ internal static class TimetableStretchMapper
             ShowTrainOperatorSignature = me.GetBool("ShowOperator"),
         };
 
-    public static TimetableStretchStation AsTimetableStretchStation(this IDataRecord me) =>
+    public static TimetableStretchStation ToTimetableStretchStation(this IDataRecord me) =>
         new()
         {
             DisplayOrder = me.GetInt("StationDisplayOrder"),
             DistanceFromPrevious = me.GetDouble("DistanceFromPrevious"),
-            Station = me.AsStation(),
+            Station = me.ToStation(),
         };
 }

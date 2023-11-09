@@ -4,7 +4,7 @@ using Tellurian.Trains.Planning.App.Contracts;
 namespace Tellurian.Trains.Planning.Repositories.Access;
 internal static class StationTrainOrderMapper
 {
-    public static StationTrainOrder AsStationTrainOrder(this IDataRecord me) =>
+    public static StationTrainOrder ToStationTrainOrder(this IDataRecord me) =>
         new()
         {
             Designation = me.GetString("Signature"),
@@ -12,7 +12,7 @@ internal static class StationTrainOrderMapper
             Trains = new List<StationTrain>(100),
         };
 
-    public static StationTrain AsStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>
+    public static StationTrain ToStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>
         new()
         {
             ArrivalTime = me.GetString("ArrivalTime"),

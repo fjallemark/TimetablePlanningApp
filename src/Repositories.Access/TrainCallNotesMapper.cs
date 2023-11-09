@@ -6,7 +6,7 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 internal static class TrainCallNotesMapper
 {
-    public static ManualTrainCallNote AsManualTrainCallNote(this IDataRecord me) =>
+    public static ManualTrainCallNote ToManualTrainCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             Text = me.GetString("Note"),
@@ -19,25 +19,25 @@ internal static class TrainCallNotesMapper
             IsForDeparture = me.GetBool("IsForDeparture")
         };
 
-    public static LocalizedManualTrainCallNote AsLocalizedManualTrainCallNote(this IDataRecord me) =>
+    public static LocalizedManualTrainCallNote ToLocalizedManualTrainCallNote(this IDataRecord me) =>
         new( 
             me.GetString("LanguageCode"),
             me.GetString("Note"));
 
-    public static TrainsetsCallNote AsTrainsetDepartureCallNote(this IDataRecord me) =>
+    public static TrainsetsCallNote ToTrainsetDepartureCallNote(this IDataRecord me) =>
         new TrainsetsDepartureCallNote(me.GetInt("CallId"))
         {
             IsCargoOnly = me.GetBool("IsLoadOnly")
         };
 
-    public static TrainsetsArrivalCallNote AsTrainsetArrivalCallNote(this IDataReader me) =>
+    public static TrainsetsArrivalCallNote ToTrainsetArrivalCallNote(this IDataReader me) =>
         new(me.GetInt("CallId"))
         {
             IsCargoOnly = me.GetBool("IsLoadOnly")
         };
 
 
-    public static TrainContinuationNumberCallNote AsTrainContinuationNumberCallNote(this IDataRecord me) =>
+    public static TrainContinuationNumberCallNote ToTrainContinuationNumberCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             LocoOperationDaysFlag = me.GetByte("LocoOperatingDaysFlag"),
@@ -50,13 +50,13 @@ internal static class TrainCallNotesMapper
             }
         };
 
-    public static TrainMeetCallNote AsTrainMeetCallNote(this IDataRecord me) =>
+    public static TrainMeetCallNote ToTrainMeetCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             OperationDayFlag = me.GetByte("TrainDaysFlag")
         };
 
-    public static OtherTrain AsMeetingTrain(this IDataRecord me) => new()
+    public static OtherTrain ToMeetingTrain(this IDataRecord me) => new()
     {
         CategoryPrefix = me.GetString("MeetTrainCategoryPrefix"),
         DestinationName = me.GetString("MeetTrainDestination"),
@@ -64,7 +64,7 @@ internal static class TrainCallNotesMapper
         OperationDayFlag = me.GetByte("MeetTrainDaysFlag")
     };
 
-    public static OtherTrainCall AsMeetingTrainCall(this IDataRecord me) => new()
+    public static OtherTrainCall ToMeetingTrainCall(this IDataRecord me) => new()
     {
         CategoryPrefix = me.GetString("MeetTrainCategoryPrefix"),
         DestinationName = me.GetString("MeetTrainDestination"),
@@ -76,7 +76,7 @@ internal static class TrainCallNotesMapper
         MeetDepartureTime = CallTime.Create(me.GetTime("MeetDepartureTime"))
     };
 
-    public static LocoExchangeCallNote AsLocoExchangeCallNote(this IDataRecord me) =>
+    public static LocoExchangeCallNote ToLocoExchangeCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             ArrivingLoco = new Loco
@@ -101,7 +101,7 @@ internal static class TrainCallNotesMapper
             }
         };
 
-    public static LocoDepartureCallNote AsLocoDepartureCallNote(this IDataRecord me) =>
+    public static LocoDepartureCallNote ToLocoDepartureCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             DepartingLoco = new Loco
@@ -115,7 +115,7 @@ internal static class TrainCallNotesMapper
             TrainInfo = new() { OperationDaysFlags = me.GetByte("TrainOperationDaysFlag") }
         };
 
-    public static LocoArrivalCallNote AsLocoArrivalCallNote(this IDataRecord me) =>
+    public static LocoArrivalCallNote ToLocoArrivalCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             ArrivingLoco = new Loco
@@ -131,13 +131,20 @@ internal static class TrainCallNotesMapper
             TrainInfo = new() { OperationDaysFlags = me.GetByte("TrainOperationDaysFlag") }
         };
 
-    public static BlockDestinationsCallNote AsBlockDestinationsCallNote(this IDataRecord me) =>
+    public static LocoTurnOrReverseCallNote ToLocoReverseOrTurnCallNote(this IDataReader record) =>
+        new(record.GetInt("CallId"))
+        {
+            Reverse = record.GetBool("ReverseLoco"),
+            Turn = record.GetBool("TurnLoco"),
+        };
+
+    public static BlockDestinationsCallNote ToBlockDestinationsCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
 
         };
 
-    public static BlockArrivalCallNote AsBlockArrivalCallNote(this IDataRecord me) =>
+    public static BlockArrivalCallNote ToBlockArrivalCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
             ToAllDestinations = me.GetBool("ToAllDestinations"),
@@ -148,7 +155,7 @@ internal static class TrainCallNotesMapper
             IsTransfer = me.GetBool("IsTransfer"),
         };
 
-    internal static BlockDestination AsBlockDestination(this IDataRecord me)
+    internal static BlockDestination ToBlockDestination(this IDataRecord me)
     {
         var item = new BlockDestination
         {
@@ -179,7 +186,7 @@ internal static class TrainCallNotesMapper
         return item;
     }
 
-    internal static Trainset AsTrainset(this IDataRecord me) =>
+    internal static Trainset ToTrainset(this IDataRecord me) =>
         new()
         {
             Class = me.GetString("Class"),

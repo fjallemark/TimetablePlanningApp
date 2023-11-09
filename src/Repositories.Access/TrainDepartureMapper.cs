@@ -8,7 +8,7 @@ internal static class TrainDepartureMapper
 {
     private static ResourceManager Notes => App.Contracts.Resources.Notes.ResourceManager;
 
-    public static TrainDeparture AsTrainDeparture(this IDataRecord me) =>
+    public static TrainDeparture ToTrainDeparture(this IDataRecord me) =>
         new()
         {
             DepartureTime = new CallTime { IsStop = true, Time = me.GetTime("DepartureTime") },
