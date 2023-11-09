@@ -96,7 +96,7 @@ which means you seldom enter any manually written notes.
 Instead, the system creates all notes on report generation. 
 Examples of automatic notes are:
 - If train not stops at a station.
-- Train meets or passes each other at stations. It can be disaabled per station, for example on a double track line.
+- Train meets or passes each other at stations. It can be disabled per station, for example on a double track line.
 - Where to couple or uncouple locos, trainsets or freigth wagons to specific destinations.
 - What to do at arrival to an unmanned shadow station.
 - If to perform local shunting with the train locomotive.
