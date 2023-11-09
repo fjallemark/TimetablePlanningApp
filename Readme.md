@@ -89,7 +89,7 @@ Shows the usage of all locomotivs.
 Each loco displays on a row, with bars showing when the loco is used in a train.
 In order to see the true occupancy of the locos, the lead-in and lead-out time is also showed.
 
-##### Automatic Notes to Loco Driver and Station Staff
+#### Automatic Notes to Loco Driver and Station Staff
 One of the hassles with other planning systems, is entering notes to loco drivers and station staff.
 In this solution, most aspects of the train operation is entered as data and not as free text, 
 which means you seldom enter any manually written notes.
