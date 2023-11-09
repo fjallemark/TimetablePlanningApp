@@ -9,8 +9,8 @@ and user input at several module meetings in Sweden and Norway since 2016.
 
 ## Background
 The prototype is based on a **Microsoft Access** database. 
-Initiallt, all printed material was using the built in report functionality in Microsoft Access.
-As more muctionallity was added, it become obvius that it had some limitations and performance issues.
+Initially, all printed material was using the built in report functionality in Microsoft Access.
+As more functionality was added, it become obvius that it had some limitations and performance issues.
 It also was non-web, a complete local single-user, single-language solution. 
 
 ## Current Development
@@ -18,13 +18,13 @@ The overall goal is to create an online scheduling system as a cloud application
 However, this needs to be divided into steps that can be utilised also in short term.
 
 The priority is to move and extend reporting/printing functionality to use standard web concepts; 
-HTML and CSS and to retrive all data through a WEB API. In addition, everything new should have multi-language support from start.
+HTML and CSS and to retrive all data through a WEB API and make it easy to print. 
+In addition, everything new should have multi-language support from start.
+This refinement can be made still using the Access database.
 
-This makes it possbible to refine all printing features first and still using the Access database,
-and gather further learning what data needed for schedule planning, 
-before moving also the planning features and the database to the cloud.
-The good part with Microsoft Access is the ease to prototype the data structures and the views to support 
-content to all reports. 
+It also makes it easier to gather further learning what data needed for schedule planning, 
+before moving the planning features and the database to the cloud.
+The good part with Microsoft Access is the ease to prototype the data structures and the reports. 
 
 In parallel, the [**Module Registry**](https://moduleregistry.azurewebsites.net), 
 is developed to support all necessary module and station data and for planning module meetings. 
