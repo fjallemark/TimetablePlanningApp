@@ -43,7 +43,7 @@ compared to store data in spreadsheets or plain text files.
 The database is also well designed and makes changes in data easy.
 
 The most common planning system within module railway operations planning is XPLN. 
-It stores data in spreadsheet, and [**here**](https://github.com/tellurianinteractive/Tellurian.Trains.Schedule.Importers#readme)
+It stores data in spreadsheet, and [**here**](https://github.com/tellurianinteractive/Tellurian.Trains.Schedule.Importers#xpln)
 you can read my experiences when trying to import XPLN-data into
 the Access database.
 
