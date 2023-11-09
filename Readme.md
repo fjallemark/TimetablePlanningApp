@@ -10,7 +10,7 @@ and user input at several module meetings in Sweden and Norway since 2016.
 ## Background
 The prototype is based on a **Microsoft Access** database. 
 Initially, all printed material was using the built in report functionality in Microsoft Access.
-As more functionality was added, it become obvius that it had some limitations and performance issues.
+As more functionality was added, it became obvius that it had some limitations and performance issues.
 It also was non-web, a complete local single-user, single-language solution. 
 
 ## Current Development
