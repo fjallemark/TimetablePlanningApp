@@ -30,7 +30,6 @@ There also exists solutions to read Excel-files <u>not</u> having Excel installe
 *DocumentFormat.OpenXml*. But this is more tricky, so this approach will be considered to use in a cloud solution,
 where it is not possible to depend on COM-interop with Microsoft Excel.
 
-In all cases, .ODS-files has to be converted to Excel. You can do this yourself if you have Excel installed,
-otherwise there exists on-line services for converting .ODS to .XLSX.
-
-
+I finally found an old piece of C# code to read .ODS-files without Excel and COM-imterop.
+This was tested on a large number of XPLN-files an refined to read all data correct.
+This solution can also run in the cloud. Try it out by [uploading you XPLN-file](https://timetableplanning.azurewebsites.net/xpln) and get a validation report.
