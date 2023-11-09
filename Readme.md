@@ -52,7 +52,7 @@ This experimental version has **currently** a set of features, some of them not 
 model train planning software.
 
 #### Multilanguage Support
-All reports can be printed in any of the supported languages, currently English, German, Danish, Norwegian and Sewdish.
+All reports can be printed in any of the supported languages, currently English, German, Danish, Norwegian and Swedish.
 This is currently controlled by your preferred language in your browser settings.
 
 #### Planning Optimisation
