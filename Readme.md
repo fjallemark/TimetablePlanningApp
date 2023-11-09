@@ -28,8 +28,8 @@ The good part with Microsoft Access is the ease to prototype the data structures
 
 In parallel, the [**Module Registry**](https://moduleregistry.azurewebsites.net), 
 is developed to support all necessary module and station data and for planning module meetings. 
-This will also  supply a future fully cloud based solution for
-planning schedules. The Module Registry is in operation and development is mostly completed.
+This will also  supply a future fully cloud based solution for planning schedules. 
+The Module Registry is in operation and development is mostly completed.
 
 ### Entering Data
 All data is entered directly in Access tables, so no fancy user interface yet.
