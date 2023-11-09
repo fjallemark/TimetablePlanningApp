@@ -54,7 +54,6 @@ model train planning software.
 #### Multilanguage Support
 All reports can be printed in any of the supported languages, currently English, German, Danish, Norwegian and Sewdish.
 This is currently controlled by your preferred language in your browser settings.
-All notes in the dusties are also printed in the preferred language.
 
 #### Planning Optimisation
 In order to maximise loco driver utilisation and minimise waiting times between jobs,
