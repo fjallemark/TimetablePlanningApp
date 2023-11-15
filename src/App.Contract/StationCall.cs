@@ -60,7 +60,7 @@ public static class StationCallExtensions
     {
         //if (part.Train.Number == 4840) Debugger.Break();
         var train = part.Train;
-        foreach (var note in notes)
+        foreach (var note in notes.OrderBy(n => n.DisplayOrder))
         {
             note.TrainInfo = train;
             if (note.IsForArrival && (me.IsArrivalInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddArrivalNote(n);

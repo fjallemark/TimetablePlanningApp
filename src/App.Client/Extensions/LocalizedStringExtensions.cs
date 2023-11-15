@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using System.Globalization;
 
-namespace Tellurian.Trains.Planning.App.Client.Services;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class LocalizedStringExtensions
 {

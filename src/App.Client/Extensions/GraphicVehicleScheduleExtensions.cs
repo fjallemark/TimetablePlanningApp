@@ -1,6 +1,6 @@
 ﻿using Tellurian.Trains.Planning.App.Contracts;
 
-namespace Tellurian.Trains.Planning.App.Client.Services;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
@@ -11,7 +11,7 @@ public static class GraphicVehicleScheduleExtensions
     public static int Width(this VehicleSchedule me) => Options.Width;
 
     public static int TimeX(this CallTime time, int startHour, int endHour) =>
-        (int)Math.Round(Options.HeaderWidth + ((Options.Width - Options.HeaderWidth) * ((time.AsTimeSpan().TotalHours - startHour) / (endHour - startHour))), 0);
+        (int)Math.Round(Options.HeaderWidth + (Options.Width - Options.HeaderWidth) * ((time.AsTimeSpan().TotalHours - startHour) / (endHour - startHour)), 0);
 
     public static CallTime MiddleTime(this TrainPart part)
 
@@ -33,13 +33,13 @@ public static class GraphicVehicleScheduleExtensions
          part.ToArrival.UnassignTime.TimeX(startHour, endHour) - part.ToArrival.TimeX(startHour, endHour);
 
     public static int TimeX(this CallAction? call, int startHour, int endHour) =>
-        call is null ? 0 : TimeX(call.Time.AsTimeSpan().TotalHours, startHour, endHour);
+        call is null ? 0 : call.Time.AsTimeSpan().TotalHours.TimeX(startHour, endHour);
 
     public static int TimeX(this double hours, int startHour, int endHour) =>
-        (int)Math.Round(Options.HeaderWidth + ((Options.Width - Options.HeaderWidth) * (hours - startHour) / (endHour - startHour)));
+        (int)Math.Round(Options.HeaderWidth + (Options.Width - Options.HeaderWidth) * (hours - startHour) / (endHour - startHour));
 
     public static int TimeX(this int hours, int startHour, int endHour) =>
-        TimeX((double)hours, startHour, endHour);
+        ((double)hours).TimeX(startHour, endHour);
 
     public static int StationSignatureFontSize(this TrainPart part, int startHour, int endHour)
     {

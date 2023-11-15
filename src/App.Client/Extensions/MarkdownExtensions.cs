@@ -1,7 +1,7 @@
 ﻿using Markdig;
 using Microsoft.AspNetCore.Components;
 
-namespace Tellurian.Trains.Planning.App.Client.Services;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class MarkdownExtensions
 {
@@ -13,9 +13,9 @@ public static class MarkdownExtensions
         builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
         return builder;
     }
-    
 
-    public static MarkupString ToHtml(this string? markdown ) =>
-        new(Markdown.ToHtml( markdown ?? string.Empty , _pipelineBuilder.Build()));
+
+    public static MarkupString ToHtml(this string? markdown) =>
+        new(Markdown.ToHtml(markdown ?? string.Empty, _pipelineBuilder.Build()));
 
 }

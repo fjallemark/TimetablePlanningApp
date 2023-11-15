@@ -5,20 +5,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Tellurian.Trains.TimetablePlanningApp.Server.Pages;
 
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-public class ErrorModel : PageModel
+public class ErrorModel(ILogger<ErrorModel> logger) : PageModel
 {
     public string? RequestId { get; set; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
 #pragma warning disable IDE0052 // Remove unread private members
-    private readonly ILogger<ErrorModel> _logger;
-#pragma warning restore IDE0052 // Remove unread private members
-
-    public ErrorModel(ILogger<ErrorModel> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<ErrorModel> _logger = logger;
 
     public void OnGet()
     {

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Server.IIS.Core;
-using Tellurian.Trains.Planning.App.Client.Services;
+﻿using System.Diagnostics;
+using Tellurian.Trains.Planning.App.Client.Extensions;
 using Tellurian.Trains.Planning.App.Contracts;
+using Tellurian.Trains.Planning.App.Server.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Server.Services;
 
@@ -89,22 +90,26 @@ public class PrintedReportsService(IPrintedReportsStore store)
     public async Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId)
     {
         var schedules = await Store.GetTrainsetSchedulesAsync(layoutId);
-        return schedules.SchedulesToPrint();      
+        return schedules.SchedulesToPrint();
     }
 }
 
 internal static class StationTrainOrderExtensions
 {
-    public static IEnumerable<StationTrainOrder> WithNotes(this IEnumerable<StationTrainOrder> stations, TrainCallNote[] notes)
+    public static IEnumerable<StationTrainOrder> WithNotes(this IEnumerable<StationTrainOrder> stations, IEnumerable<TrainCallNote> notes)
     {
-        foreach(var station in stations)
+        var notesDictionary = notes.ToDictionary();
+        foreach (var station in stations)
         {
-            foreach(var train in station.Trains)
+            foreach (var train in station.Trains)
             {
-                var callNotes = notes.Where(n => n.CallId == train.CallId && (n.IsStationNote || n.IsShuntingNote) && (train.IsNotArrival()==!n.IsForArrival || train.IsNotDeparture()==!n.IsForDeparture));
-                foreach (var note in callNotes) note.TrainInfo = train.ToTrainInfo();
-                var texts = callNotes.SelectMany(n => n.ToNotes().Select(n => n.Text));
-                train.Notes.AddRange(texts);
+                if (notesDictionary.TryGetValue(train.CallId, out List<TrainCallNote>? value))
+                {
+                    var callNotes = value.Where(n => (n.IsStationNote || n.IsShuntingNote) && (train.IsNotArrival() == !n.IsForArrival || train.IsNotDeparture() == !n.IsForDeparture)).OrderBy(n => n.DisplayOrder);
+                    foreach (var note in callNotes) note.TrainInfo = train.ToTrainInfo();
+                    var texts = callNotes.SelectMany(n => n.ToNotes().Select(n => n.Text));
+                    train.Notes.AddRange(texts);
+                }
             }
         }
         return stations;

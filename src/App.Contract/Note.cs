@@ -51,8 +51,12 @@ public abstract class TrainCallNote
         (byte)(days & trainDays & dutyDays);
 }
 
-public sealed class ManualTrainCallNote(int callId) : TrainCallNote(callId)
+public sealed class ManualTrainCallNote : TrainCallNote
 {
+    public ManualTrainCallNote(int callId) : base(callId)
+    {
+        DisplayOrder = 0;
+    }
     public byte OperationDayFlag { get; set; } = OperationDays.AllDays;
     public string Text { get; set; } = string.Empty;
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
@@ -151,6 +155,7 @@ public class TrainsetsDepartureCallNote : TrainsetsCallNote
     public TrainsetsDepartureCallNote(int callId) : base(callId)
     {
         IsForDeparture = true;
+        DisplayOrder = 11000;
     }
     protected override void UpdateVisibility()
     {
@@ -172,6 +177,7 @@ public class TrainsetsArrivalCallNote : TrainsetsCallNote
     public TrainsetsArrivalCallNote(int callId) : base(callId)
     {
         IsForArrival = true;
+        DisplayOrder = 12000;
     }
 
     protected override void UpdateVisibility()
@@ -195,6 +201,7 @@ public class TrainContinuationNumberCallNote : TrainCallNote
         IsStationNote = true;
         IsDriverNote = true;
         IsForArrival = true;
+        DisplayOrder = 18000;
     }
     public OtherTrain ContinuingTrain { get; set; } = new OtherTrain();
 
@@ -203,7 +210,7 @@ public class TrainContinuationNumberCallNote : TrainCallNote
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         ContinuingTrain is null || IsNoDay(ContinuingTrain.OperationDayFlag, onlyDays) ?
         [] :
-        Note.SingleNote(320, FormatText(ContinuingTrain.OperationDayFlag, onlyDays));
+        Note.SingleNote(DisplayOrder, FormatText(ContinuingTrain.OperationDayFlag, onlyDays));
 
 
     private string FormatText(byte days, byte onlyDays) =>
@@ -219,7 +226,7 @@ public class TrainMeetCallNote : TrainCallNote
         IsStationNote = true;
         IsDriverNote = true;
         IsForArrival = true;
-        DisplayOrder = -500;
+        DisplayOrder = 19000;
     }
     public byte OperationDayFlag { get; set; }
     public IList<OtherTrainCall> MeetingTrains { get; } = new List<OtherTrainCall>();
@@ -245,11 +252,12 @@ public class TrainMeetCallNote : TrainCallNote
 
 public class LocoTurnOrReverseCallNote : TrainCallNote
 {
-    public LocoTurnOrReverseCallNote(int callId): base(callId) {
+    public LocoTurnOrReverseCallNote(int callId) : base(callId)
+    {
         IsStationNote = true;
         IsDriverNote = true;
         IsForArrival = true;
-        DisplayOrder = -101;
+        DisplayOrder = 3000; //
     }
     public bool Turn { get; set; }
     public bool Reverse { get; set; }
@@ -270,7 +278,7 @@ public class LocoExchangeCallNote : TrainCallNote
         IsStationNote = true;
         IsDriverNote = true;
         IsForArrival = true;
-        DisplayOrder = -100;
+        DisplayOrder = 6000; //
     }
 
     public Loco ArrivingLoco { get; set; } = Loco.Empty;
@@ -291,7 +299,6 @@ public abstract class LocoCallNote : TrainCallNote
     {
         IsDriverNote = true;
         IsStationNote = true;
-        DisplayOrder = -303;
     }
 
     protected abstract string ParkingText(byte days, byte onlyDays);
@@ -307,7 +314,7 @@ public class LocoDepartureCallNote : LocoCallNote
         IsDriverNote = true;
         IsStationNote = true;
         IsForDeparture = true;
-        DisplayOrder = -303;
+        DisplayOrder = 1000; //
     }
 
     public Loco DepartingLoco { get; set; } = Loco.Empty;
@@ -340,6 +347,7 @@ public class LocoArrivalCallNote : LocoCallNote
         IsDriverNote = true;
         IsStationNote = true;
         IsForArrival = true;
+        DisplayOrder = 2000; //
     }
     public Loco ArrivingLoco { get; set; } = Loco.Empty;
     public bool IsToParking { get; set; }
@@ -354,7 +362,7 @@ public class LocoArrivalCallNote : LocoCallNote
 
         if (parkingNote.HasValue())
         {
-            result.Add(new Note { DisplayOrder = GetDisplayOrder(onlyDays, 2950), Text = parkingNote });
+            result.Add(new Note { DisplayOrder = GetDisplayOrder(onlyDays, DisplayOrder), Text = parkingNote });
         }
         return result;
     }
@@ -369,11 +377,15 @@ public class LocoArrivalCallNote : LocoCallNote
     protected int GetDisplayOrder(byte onlyDays, int sortOrder) => sortOrder + Days(ArrivingLoco.OperationDaysFlags, onlyDays);
 }
 
-public class LocoCirculationNote(int callId) : LocoArrivalCallNote(callId)
+public class LocoCirculationNote : LocoArrivalCallNote
 {
+    public LocoCirculationNote(int callId) : base(callId)
+    {
+        DisplayOrder = 5000; //
+    }
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
-        Note.SingleNote(GetDisplayOrder(onlyDays, 2900), CirculateText(ArrivingLoco.OperationDaysFlags, onlyDays));
+        Note.SingleNote(GetDisplayOrder(onlyDays, DisplayOrder), CirculateText(ArrivingLoco.OperationDaysFlags, onlyDays));
 
     private string CirculateText(byte days, byte onlyDays) =>
         CirculateLoco ?
@@ -382,11 +394,15 @@ public class LocoCirculationNote(int callId) : LocoArrivalCallNote(callId)
             string.Empty;
 }
 
-public class LocoTurnNote(int callId) : LocoArrivalCallNote(callId)
+public class LocoTurnNote : LocoArrivalCallNote
 {
+    public LocoTurnNote(int callId) : base(callId)
+    {
+        DisplayOrder = 4000; //
+    }
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
-        Note.SingleNote(GetDisplayOrder(onlyDays, 3000), Notes.TurnLoco);
+        Note.SingleNote(GetDisplayOrder(onlyDays, DisplayOrder), Notes.TurnLoco);
 
 }
 
@@ -397,14 +413,15 @@ public class BlockDestinationsCallNote : TrainCallNote
         IsShuntingNote = true;
         IsDriverNote = true;
         IsForDeparture = true;
+        DisplayOrder = 20000; //
     }
 
     public IList<BlockDestination> BlockDestinations { get; } = new List<BlockDestination>();
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
-        Note.SingleNote(100, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
+        Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
 
-    public override string ToString() => $"Uncouple to {string.Join(", ",BlockDestinations.Select(bd => bd.ToString()))}";
+    public override string ToString() => $"Uncouple to {string.Join(", ", BlockDestinations.Select(bd => bd.ToString()))}";
 }
 
 public class BlockArrivalCallNote : TrainCallNote
@@ -414,6 +431,7 @@ public class BlockArrivalCallNote : TrainCallNote
         IsShuntingNote = true;
         IsDriverNote = true;
         IsForArrival = true;
+        DisplayOrder = 21000;//
     }
     public string StationName => StationNames.Count > 0 ? StationNames[0] : string.Empty;
     public IList<string> StationNames { get; } = new List<string>();
@@ -444,9 +462,9 @@ public class BlockArrivalCallNote : TrainCallNote
         }
         else
         {
-            result.Add(new Note { DisplayOrder = IsTransfer ? -900 :-700, Text = ToString() });
+            result.Add(new Note { DisplayOrder = IsTransfer ? -900 : -700, Text = ToString() });
         }
-        return result; 
+        return result;
     }
 
     public override string ToString() =>
@@ -509,7 +527,7 @@ public static class BlockDestinationsExtensions
     public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
     {
         var result = new List<string>();
-        var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd =>  bd.StationId * 100000 + bd.OrderInTrain*1000  );
+        var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd => bd.StationId * 100000 + bd.OrderInTrain * 1000);
         foreach (var destinationGroup in destinationGroups)
         {
             var text = new StringBuilder(200);

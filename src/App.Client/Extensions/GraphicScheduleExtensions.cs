@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
-namespace Tellurian.Trains.Planning.App.Client.Services;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class GraphicScheduleExtensions
 {
@@ -46,7 +46,7 @@ public static class GraphicScheduleExtensions
         (me?.YStation(me.Stations.Last(), me.Stations.Last().Tracks().OrderBy(t => t.DisplayOrder).Last())) ?? 0;
 
     public static int YTrack(this TimetableStretch me, TimetableStretchStation station, StationTrack track) =>
-        me is null ? 0 : YStation(me, station, track);
+        me is null ? 0 : me.YStation(station, track);
 
     public static int YStation(this TimetableStretch me, TimetableStretchStation station, StationTrack? track = null)
     {
@@ -55,7 +55,7 @@ public static class GraphicScheduleExtensions
         double y = me.YStationsTop();
         for (var i = index; i > 0; i--)
         {
-            y += (i > 0) ? me.Stations[i - 1].XHeight() : 0;
+            y += i > 0 ? me.Stations[i - 1].XHeight() : 0;
             y += Math.Max(me.Stations[i].DistanceFromPrevious * Options.DistanceFactor, Options.MinDistanceBeweenStations);
         }
         if (track != null)
@@ -66,10 +66,10 @@ public static class GraphicScheduleExtensions
     }
 
     public static int YStationName(this TimetableStretch me, TimetableStretchStation station) =>
-        me is null ? 0 : me.YStation(station) + (station.XHeight() / 2);
+        me is null ? 0 : me.YStation(station) + station.XHeight() / 2;
 
     public static int YTrackNumber(this TimetableStretch me, TimetableStretchStation station, StationTrack track) =>
-        me.YTrack(station, track) + (Options.TrackHeight / 2) - 2;
+        me.YTrack(station, track) + Options.TrackHeight / 2 - 2;
 
     #endregion
 
@@ -80,7 +80,7 @@ public static class GraphicScheduleExtensions
     public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 16;
     public static int XFirstHour(this TimetableStretch me) => (me?.XHour(me.FirstHour())) ?? 0;
     public static int XLastHour(this TimetableStretch me) => (me?.XHour(me.LastHour())) ?? 0;
-    public static int XHour(this TimetableStretch me, int hour) => me is null ? 0 : Options.FirstHourOffset + ((hour - me.FirstHour()) * Options.HourWidth);
+    public static int XHour(this TimetableStretch me, int hour) => me is null ? 0 : Options.FirstHourOffset + (hour - me.FirstHour()) * Options.HourWidth;
 
     public static int XHeight(this TimetableStretchStation me) =>
         Options.OnlyScheduledTracks ?
@@ -118,10 +118,10 @@ public static class GraphicScheduleExtensions
     #region Train Section 
 
     public static int XStartTime(this TimetableStretch me, TimetableTrainSection section) =>
-        me is null ? 0 : (int)(Options.FirstHourOffset + (((section.StartTime / 60) - me.FirstHour()) * Options.HourWidth));
+        me is null ? 0 : (int)(Options.FirstHourOffset + (section.StartTime / 60 - me.FirstHour()) * Options.HourWidth);
 
     public static int XEndTime(this TimetableStretch me, TimetableTrainSection section) =>
-        me is null ? 0 : (int)(Options.FirstHourOffset + (((section.EndTime / 60) - me.FirstHour()) * Options.HourWidth));
+        me is null ? 0 : (int)(Options.FirstHourOffset + (section.EndTime / 60 - me.FirstHour()) * Options.HourWidth);
 
     public static int YStartTime(this TimetableStretch me, TimetableTrainSection section)
     {
@@ -144,7 +144,7 @@ public static class GraphicScheduleExtensions
         $"{me.TrainIdentity(showOperatorSignature)}\n{me.OperationDays.ShortName}";
 
     private static string TrainIdentity(this TimetableTrainSection me, bool withOperatorSignature = false) =>
-        withOperatorSignature ? $"{me.OperatorSignature} {me.TrainNumber}":
+        withOperatorSignature ? $"{me.OperatorSignature} {me.TrainNumber}" :
         $"{me.TrainNumber}";
 
     public static string CssClass(this TimetableTrainSection me) =>

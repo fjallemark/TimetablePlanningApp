@@ -111,10 +111,11 @@ table {
 
 .stationtrainorder {
     margin-top:0px;
+    width: 28.8cm;
 }
 
     .stationtrainorder tr {
-        border-bottom: 1px solid lightgray;
+        border-bottom: 1px solid gray;
     }
     .stationtrainorder td {
         text-align: center;
@@ -127,18 +128,17 @@ table {
         margin: 0px
     }
     .stationtrainorder .day {
-        border-left: 1px solid lightgray;
+        border-left: 1px solid gray;
         width: 6mm;
     }
     .stationtrainorder .col {
-        border-left: 1px solid lightgray;
+        border-left: 1px solid gray;
     }
     .stationtrainorder .bold {
         font-weight: bold;
     }
     .stationtrainorder .note {
-        border-left: 1px solid lightgray;
-        width: 13cm;
+        border-left: 1px solid gray;
         text-align: left;
     }
 

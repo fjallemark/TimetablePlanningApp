@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Tellurian.Trains.Planning.App.Server.Services;
+namespace Tellurian.Trains.Planning.App.Server.Extensions;
 
 public static class ControllerBaseExtensions
 {
@@ -36,7 +36,7 @@ public static class ControllerBaseExtensions
         return me.Ok(result);
     }
 
-    private static bool IsBadRequest([NotNullWhen(false)] this int? id) => id is null || id < 1; 
-    private static bool IsNotFound<T>([NotNullWhen(false)] this T? result) => result is null || (result is IEnumerable<T> e && !e.Any());
+    private static bool IsBadRequest([NotNullWhen(false)] this int? id) => id is null || id < 1;
+    private static bool IsNotFound<T>([NotNullWhen(false)] this T? result) => result is null || result is IEnumerable<T> e && !e.Any();
 
 }

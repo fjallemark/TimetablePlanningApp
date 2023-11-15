@@ -1,6 +1,6 @@
 ﻿using Tellurian.Trains.Planning.App.Contracts;
 
-namespace Tellurian.Trains.Planning.App.Client;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class NoteExtensions
 {

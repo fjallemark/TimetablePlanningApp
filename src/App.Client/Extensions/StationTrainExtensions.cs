@@ -2,7 +2,7 @@
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
-namespace Tellurian.Trains.Planning.App.Client.Services;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class StationTrainExtensions
 {

@@ -1,6 +1,6 @@
 ﻿using Tellurian.Trains.Planning.App.Contracts;
 
-namespace Tellurian.Trains.Planning.App.Client.Services;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 internal static class TrackDestinationExtensions
 {

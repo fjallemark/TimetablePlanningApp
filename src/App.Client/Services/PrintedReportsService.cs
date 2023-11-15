@@ -5,13 +5,9 @@ using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Client.Services;
 
-public class PrintedReportsService : IPrintedReportsService
+public class PrintedReportsService(HttpClient http) : IPrintedReportsService
 {
-    public PrintedReportsService(HttpClient http)
-    {
-        Http = http;
-    }
-    private readonly HttpClient Http;
+    private readonly HttpClient Http = http;
     private static JsonSerializerOptions Options => new()
     {
         PropertyNameCaseInsensitive = true,
@@ -51,10 +47,7 @@ public class PrintedReportsService : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
          GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
 
-    public Task<(HttpStatusCode statusCode, IEnumerable<Waybill> items)> GetWaybillsAsync(int layoutId) =>
-        GetItems<Waybill>($"api/layouts/{layoutId}/reports/waybills");
-
-    private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
+     private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
     {
         using var request = CreateRequest(requestUrl);
         var response = await Http.SendAsync(request).ConfigureAwait(false);

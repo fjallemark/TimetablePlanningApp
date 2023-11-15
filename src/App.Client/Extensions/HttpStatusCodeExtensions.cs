@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Tellurian.Trains.Planning.App.Client;
+namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class HttpStatusCodeExtensions
 {

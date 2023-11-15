@@ -1,4 +1,4 @@
-﻿namespace Tellurian.Trains.Planning.App.Client.Services;
+﻿namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class TimeExtensions
 {

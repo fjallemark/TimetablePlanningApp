@@ -1,6 +1,6 @@
 ﻿using Tellurian.Trains.Planning.App.Contracts;
 
-namespace Tellurian.Trains.Planning.App.Server.Services;
+namespace Tellurian.Trains.Planning.App.Server.Extensions;
 
 internal static class DutyBookletExtensions
 {
@@ -16,7 +16,7 @@ internal static class DutyBookletExtensions
         var trainNumberGroups = me.GroupBy(dd => dd.Train.Number);
         foreach (var group in trainNumberGroups)
         {
-            foreach(var item in group)
+            foreach (var item in group)
             {
                 foreach (var call in item.Calls())
                 {
@@ -77,26 +77,17 @@ internal static class DutyBookletExtensions
                 foreach (var call in part.Calls())
                 {
                     call.AddAutomaticNotes();
-                    var callNotes = notes.AtCall(call.Id);
-                    count += callNotes.Count;
-                    call.AddGeneratedNotes(duty, part, callNotes);
+                    if (notes.TryGetValue(call.Id, out var callNotes))
+                    {
+                        count += callNotes.Count;
+                        call.AddGeneratedNotes(duty, part, callNotes);
+                    }
                 }
             }
         }
         return count;
     }
-    private static IDictionary<int, IList<TrainCallNote>> ToDictionary(this IEnumerable<TrainCallNote> me)
-    {
-        var result = new Dictionary<int, IList<TrainCallNote>>(1000);
-        foreach (var n in me)
-        {
-            var key = n.CallId;
-            if (!result.ContainsKey(key)) result.Add(key, new List<TrainCallNote>());
-            result[key].Add(n);
-        }
-        return result;
-    }
 
-    private static IList<TrainCallNote> AtCall(this IDictionary<int, IList<TrainCallNote>> me, int callId) => 
+    private static IList<TrainCallNote> AtCall(this IDictionary<int, IList<TrainCallNote>> me, int callId) =>
         me.TryGetValue(callId, out var result) ? result : Array.Empty<TrainCallNote>();
 }
