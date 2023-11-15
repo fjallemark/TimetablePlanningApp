@@ -8,7 +8,11 @@
 <RefreshButton OnClick="OnInitializedAsync" />
 
 <h3>@Localizer["TrainsTimeAllocation"]</h3>
-@if (Minutes > 0)
+@if (Minutes == 0)
+{
+    <CreatingReport />
+}
+else
 {
     <div style="display: flex; flex-direction: row; flex-wrap: wrap;  margin-left: 4px">
         @for (var m = 0; m < Minutes; m++)
@@ -18,7 +22,6 @@
             </div>
         }
     </div>
-
 }
 
 @code {

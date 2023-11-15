@@ -1,4 +1,4 @@
-﻿<button class="no-print btn btn-primary update" @onclick="OnClick">Refresh report</button>
+﻿<div class="no-print"><button class="btn btn-primary update" @onclick="OnClick">Refresh report</button></div>
 
 @code {
     [Parameter, EditorRequired] public EventCallback OnClick { get; set; }

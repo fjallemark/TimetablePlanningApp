@@ -7,7 +7,7 @@
 
 @if (Items is null)
 {
-
+    <CreatingReport />
 }
 else
 {
@@ -15,7 +15,7 @@ else
 
     foreach (var station in Items)
     {
-        foreach (var itemsPerPage in station.Trains.ItemsPerPage(28))
+        foreach (var itemsPerPage in station.Trains.ItemsPerPage(28 - station.Trains.Where(t => t.Notes.Count() > 1).Count()))
         {
             <A4LPage>
                 <div class="stationtrainorder">
@@ -37,7 +37,7 @@ else
                                 <th class="day">@Localizer["ThursdayShort"]</th>
                                 <th class="day">@Localizer["FridayShort"]</th>
                                 <th class="day">@Localizer["SaturdayShort"]</th>
-                                <th class="day">@Localizer["Note"]</th>
+                                <th class="note">@Localizer["Note"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,7 +58,12 @@ else
                                     <td class="day"></td>
                                     <td class="day"></td>
                                     <td class="day"></td>
-                                    <td class="day" style="width: 6cm"></td>
+                                    <td class="note">
+                                        @foreach (var note in item.Notes)
+                                        {
+                                            <span style="display: block">@note </span>
+                                        }
+                                    </td>
                                 </tr>
                             }
                         </tbody>

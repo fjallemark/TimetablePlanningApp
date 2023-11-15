@@ -324,7 +324,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
 
     public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
     {
-        var sql = $"SELECT * FROM StationTrainOrder WHERE Id = {layoutId} ORDER BY StationDisplayOrder, SortTime";
+        var sql = $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime";
         var result = new List<StationTrainOrder>();
         var categories = await GetTrainCategories(layoutId);
         using var connection = CreateConnection;

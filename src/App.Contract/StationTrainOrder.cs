@@ -11,6 +11,7 @@ public class StationTrainOrder
 
 public class StationTrain
 {
+    public int CallId { get; init; }
     public double SortTime { get; init; }
     public string ProductResourcName { get; init; }
     public string OperatorName { get; init; }
@@ -25,7 +26,17 @@ public class StationTrain
     public bool IsStop { get; init; }
     public bool ShowOperatorName { get; init; }
     public string Time => $"{ArrivalTime}{DepartureTime}";
+    public List<string> Notes { get; init; } = [];
     public override string ToString() => $"{OperatorName} {TrainPrefix} {TrainNumber} {ArrivalTime} {DepartureTime}".Trim();
+    public TrainInfo ToTrainInfo() => new ()
+    {
+        OperationDaysFlags = OperatingDayFlag,
+    };
+}
+
+public static class StationTrainExtensions
+{
+
 }
 
 

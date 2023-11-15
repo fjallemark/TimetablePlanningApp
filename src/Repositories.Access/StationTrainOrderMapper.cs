@@ -15,6 +15,7 @@ internal static class StationTrainOrderMapper
     public static StationTrain ToStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>
         new()
         {
+            CallId = me.GetInt("CallId"),
             ArrivalTime = me.GetString("ArrivalTime"),
             DepartureTime = me.GetString("DepartureTime"),
             DestinationName = me.GetString("Destination"),

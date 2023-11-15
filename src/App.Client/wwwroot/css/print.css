@@ -24,6 +24,14 @@ table {
     margin-bottom: 10px;
 }
 
+.print .creatingreport {
+    width: 100%;
+    text-align:center;
+    font-size: 36pt;
+    padding-top: 3cm;
+}
+
+
 @media print {
     @page {
         size: landscape;
@@ -58,6 +66,7 @@ table {
         clear: both;
         page-break-after: always;
     }
+   
 }
 
 
@@ -118,13 +127,18 @@ table {
         margin: 0px
     }
     .stationtrainorder .day {
-        border-left: 1px solid black;
-        width: 7mm;
+        border-left: 1px solid lightgray;
+        width: 6mm;
     }
     .stationtrainorder .col {
         border-left: 1px solid lightgray;
     }
     .stationtrainorder .bold {
         font-weight: bold;
+    }
+    .stationtrainorder .note {
+        border-left: 1px solid lightgray;
+        width: 13cm;
+        text-align: left;
     }
 

@@ -1,4 +1,6 @@
-﻿using Tellurian.Trains.Planning.App.Contracts;
+﻿using Microsoft.AspNetCore.Server.IIS.Core;
+using Tellurian.Trains.Planning.App.Client.Services;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Services;
 
@@ -71,8 +73,12 @@ public class PrintedReportsService(IPrintedReportsStore store)
         return stretches;
     }
 
-    public Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId) =>
-        Store.GetStationsTrainOrder(layoutId);
+    public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
+    {
+        var items = await Store.GetStationsTrainOrder(layoutId);
+        var notes = await Store.GetTrainCallNotesAsync(layoutId);
+        return items.WithNotes(notes.ToArray());
+    }
 
     public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null) =>
         Store.GetTrainsAsync(layoutId, operatorSignature);
@@ -84,6 +90,24 @@ public class PrintedReportsService(IPrintedReportsStore store)
     {
         var schedules = await Store.GetTrainsetSchedulesAsync(layoutId);
         return schedules.SchedulesToPrint();      
+    }
+}
+
+internal static class StationTrainOrderExtensions
+{
+    public static IEnumerable<StationTrainOrder> WithNotes(this IEnumerable<StationTrainOrder> stations, TrainCallNote[] notes)
+    {
+        foreach(var station in stations)
+        {
+            foreach(var train in station.Trains)
+            {
+                var callNotes = notes.Where(n => n.CallId == train.CallId && (n.IsStationNote || n.IsShuntingNote) && (train.IsNotArrival()==!n.IsForArrival || train.IsNotDeparture()==!n.IsForDeparture));
+                foreach (var note in callNotes) note.TrainInfo = train.ToTrainInfo();
+                var texts = callNotes.SelectMany(n => n.ToNotes().Select(n => n.Text));
+                train.Notes.AddRange(texts);
+            }
+        }
+        return stations;
     }
 }
 
