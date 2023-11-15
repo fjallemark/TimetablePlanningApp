@@ -13,7 +13,6 @@ public class TrackTrains
 {
     public string TrackNumber { get; set; } = string.Empty;
     public int TrackDisplayOrder { get; set; }
-    public bool ReverseBlockDestinations { get; set; }
     public IList<TrainBlocking> TrainBlocks { get; set; } = new List<TrainBlocking>();
     public override string ToString() => $"{Notes.Track} {TrackNumber}";
 }

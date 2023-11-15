@@ -46,7 +46,7 @@ public class PrintedReportsService : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
          GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
    public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDeparturesAsync(int layoutId) =>
-        GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/traininitialdepartures");
+        GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/trainstartlabels");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
          GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");

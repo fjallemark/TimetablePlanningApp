@@ -30,7 +30,7 @@ else
 
                                 @if (trainBlocking.IsScheduled)
                                 {
-                                    @foreach (var blockDestination in trainBlocking.BlockDestinations.OrderBy(bd => bd.OrderInTrain).ThenBy(bd => bd.TrainsetOperatorName))
+                                    @foreach (var blockDestination in trainBlocking.BlockDestinations.OrderBy(bd => bd.OrderInTrain))
                                     {
                                         <div class="track destination">
                                             <div class="block destination" style="color : #000000; background-color: #FAFAFA">
@@ -44,7 +44,7 @@ else
                                     @foreach (var destinationGroup in trainBlocking.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
                                     {
                                         <div class="track destination">
-                                            @foreach (var destination in destinationGroup.OrderBy(dg => dg.OrderInTrain))
+                                            @foreach (var destination in destinationGroup.OrderBy(dg => dg.TransferDestinationName).ThenBy(dg => dg.StationName))
                                             {
                                                 @if (destination.IsRegion)
                                                 {

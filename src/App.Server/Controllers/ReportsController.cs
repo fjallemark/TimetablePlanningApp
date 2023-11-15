@@ -51,7 +51,7 @@ public class ReportsController : ControllerBase
 
     }
 
-    [HttpGet("traininitialdepartures")]
+    [HttpGet("trainstartlabels")]
     public async Task<IActionResult> GetTimetableDepartures(int id) => await this.GetScheduleItems(id, Service.GetTrainDeparturesAsync).ConfigureAwait(false);
 
     [HttpGet("trainsetschedules")]

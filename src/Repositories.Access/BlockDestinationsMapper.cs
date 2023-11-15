@@ -38,7 +38,6 @@ internal static class BlockDestinationsMapper
                 Prefix = me.GetString("TrainCategoryPrefix")
             },
             BlockDestinations = new List<BlockDestination>(),
-            ReverseBlockDestinations = me.GetBool("ReverseBlockDestinations"),
             IsScheduled = me.GetBool("IsScheduled"),
         };
 }

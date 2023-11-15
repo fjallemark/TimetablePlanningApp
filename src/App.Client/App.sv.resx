@@ -237,7 +237,7 @@
   <data name="TurnForNextDay" xml:space="preserve">
     <value>Byt till nästa dag?</value>
   </data>
-  <data name="TrainInitialDepartures" xml:space="preserve">
+  <data name="TrainStartLabels" xml:space="preserve">
     <value>Tåg startetiketter</value>
   </data>
   <data name="GraphicTimetables" xml:space="preserve">

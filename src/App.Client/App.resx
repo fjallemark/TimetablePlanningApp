@@ -237,7 +237,7 @@
   <data name="CreatingReport" xml:space="preserve">
     <value>Creating report...</value>
   </data>
-  <data name="TrainInitialDepartures" xml:space="preserve">
+  <data name="TrainStartLabels" xml:space="preserve">
     <value>Train start labels</value>
   </data>
   <data name="GraphicTimetables" xml:space="preserve">
