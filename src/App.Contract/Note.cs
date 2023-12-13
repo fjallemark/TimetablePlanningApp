@@ -134,6 +134,7 @@ public abstract class TrainsetsCallNote : TrainCallNote
                 HasCoupleNote = ts.First().HasCoupleNote,
                 HasUncoupleNote = ts.First().HasUncoupleNote,
                 IsCargo = ts.First().IsCargo,
+                MaxNumberOfWaggons = ts.Sum(x => x.MaxNumberOfWaggons),
             });
     }
     protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
@@ -146,8 +147,10 @@ public abstract class TrainsetsCallNote : TrainCallNote
 
     // TODO: Add final destination and note about exchange trainset under way.
     private static string TrainsetFormat(Trainset ts) =>
-        ts.Operator.HasValue() ? $"[{ts.Operator} {ts.WagonTypes} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}]" :
-        $"[{ts.WagonTypes} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {ts.Number}]";
+        ts.Operator.HasValue() ? $"[{ts.Operator} {WagonSetOrWagon(ts).ToLowerInvariant()} {ts.Number}: {ts.WagonTypes}]" :
+        $"[ {WagonSetOrWagon(ts)} {ts.Number}: {ts.WagonTypes}]";
+
+    private static string WagonSetOrWagon(Trainset ts) => ts.MaxNumberOfWaggons > 1 ? Notes.Wagonset : Notes.Wagon;
 }
 
 public class TrainsetsDepartureCallNote : TrainsetsCallNote

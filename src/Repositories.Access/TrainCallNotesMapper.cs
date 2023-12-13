@@ -27,7 +27,7 @@ internal static class TrainCallNotesMapper
     public static TrainsetsCallNote ToTrainsetDepartureCallNote(this IDataRecord me) =>
         new TrainsetsDepartureCallNote(me.GetInt("CallId"))
         {
-            IsCargoOnly = me.GetBool("IsLoadOnly")
+            IsCargoOnly = me.GetBool("IsLoadOnly"),
         };
 
     public static TrainsetsArrivalCallNote ToTrainsetArrivalCallNote(this IDataReader me) =>

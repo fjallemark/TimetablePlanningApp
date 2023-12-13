@@ -19,6 +19,8 @@ internal static class StationTrainOrderMapper
             ArrivalTime = me.GetString("ArrivalTime"),
             DepartureTime = me.GetString("DepartureTime"),
             DestinationName = me.GetString("Destination"),
+            HideArrival = me.GetBool("HideArrival"),
+            HideDeparture = me.GetBool("HideDeparture"),
             OperatingDayFlag = me.GetByte("OperatingDayFlag"),
             OperatorName = me.GetString("Operator"),
             OriginName = me.GetString("Origin"),

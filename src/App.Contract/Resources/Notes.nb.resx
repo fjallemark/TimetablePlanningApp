@@ -462,4 +462,7 @@
   <data name="TurnAndReverseLoco" xml:space="preserve">
     <value>Snu og omløp lok.</value>
   </data>
+  <data name="Wagon" xml:space="preserve">
+    <value>Vogn</value>
+  </data>
 </root>

@@ -19,7 +19,9 @@ public class StationTrain
     public int TrainNumber { get; init; }
     public string TrackNumber { get; init; }
     public string ArrivalTime { get; init; }
+    public bool HideArrival { get; init; }
     public string DepartureTime { get; init; }
+    public bool HideDeparture { get; init; }
     public string OriginName { get; init; }
     public string DestinationName { get; init; }
     public byte OperatingDayFlag { get; init; }

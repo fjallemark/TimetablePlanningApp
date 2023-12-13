@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
@@ -240,7 +241,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                     }
                     if (currentTrainNumber != lastTrainNumber)
                     {
-                        var trainBlocking = reader.TorainBlocking();
+                        var trainBlocking = reader.ToTrainBlocking();
                         trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
                         current.Tracks.Last().TrainBlocks.Add(trainBlocking);
                     }

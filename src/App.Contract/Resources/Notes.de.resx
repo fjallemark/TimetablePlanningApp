@@ -442,4 +442,7 @@
   <data name="TurnAndReverseLoco" xml:space="preserve">
     <value>Lok drehen und umkehren.</value>
   </data>
+  <data name="Wagon" xml:space="preserve">
+    <value>Wagen</value>
+  </data>
 </root>

@@ -23,12 +23,12 @@ else
                     <table cellpadding="3">
                         <thead>
                             <tr>
-                                <th class="col">@Localizer["Days"]</th>
-                                <th class="col">@Localizer["Arr"]</th>
-                                <th class="col">@Localizer["Dep"]</th>
                                 <th class="col">@Localizer["Train"]</th>
+                                <th class="col">@Localizer["Days"]</th>
                                 <th class="col">@Localizer["Track"]</th>
-                                <th class="col">@Localizer["From"]</th>
+                                <th class="col">@Localizer["Arr"]</th>
+                                <th align="left" class="col">@Localizer["From"]</th>
+                                <th class="col">@Localizer["Dep"]</th>
                                 <th class="col">@Localizer["To"]</th>
                                 <th class="day">@Localizer["SundayShort"]</th>
                                 <th class="day">@Localizer["MondayShort"]</th>
@@ -43,14 +43,14 @@ else
                         <tbody>
                             @foreach (var item in itemsPerPage)
                             {
-                                <tr>
+                                <tr style="@item.RowStyle()">
+                                    <td class="col" style="font-weight: bold">@item.TrainIdentity()</td>
                                     <td class="col">@item.OperatingDayFlag.OperationDays().ShortName</td>
-                                    <td class="col @item.OriginCssClass()">@item.ArrivalTime</td>
-                                    <td class="col @item.DestinationCssClass()">@item.DepartureTime</td>
-                                    <td class="col">@item.TrainIdentity()</td>
                                     <td class="col">@item.TrackNumber</td>
-                                    <td class="col">@item.Origin()</td>
-                                    <td class="col">@item.Destination()</td>
+                                    <td class="col @item.OriginCssClass()">@item.DisplayedArrivalTime()</td>
+                                    <td class="col @item.OriginCssClass()" align="left">@item.Origin()</td>
+                                    <td class="col @item.DestinationCssClass()">@item.DisplayedDepartureTime()</td>
+                                    <td class="col @item.DestinationCssClass()" align="left">@item.Destination()</td>
                                     <td class="day"></td>
                                     <td class="day"></td>
                                     <td class="day"></td>
@@ -58,7 +58,7 @@ else
                                     <td class="day"></td>
                                     <td class="day"></td>
                                     <td class="day"></td>
-                                    <td class="note">
+                                    <td class="note" width="550">
                                         @foreach (var note in item.Notes)
                                         {
                                             <span style="display: block">@note </span>

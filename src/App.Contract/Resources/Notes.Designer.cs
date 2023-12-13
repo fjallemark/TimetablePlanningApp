@@ -1051,6 +1051,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wagon.
+        /// </summary>
+        public static string Wagon {
+            get {
+                return ResourceManager.GetString("Wagon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wagonset.
         /// </summary>
         public static string Wagonset {

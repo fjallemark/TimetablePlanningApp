@@ -21,7 +21,7 @@ internal static class BlockDestinationsMapper
             TrackDisplayOrder = me.GetInt("TrackDisplayOrder")
         };
 
-    public static TrainBlocking TorainBlocking(this IDataRecord me) =>
+    public static TrainBlocking ToTrainBlocking(this IDataRecord me) =>
         new()
         {
             ArrivalTime = new CallTime { IsStop = true, Time = me.GetTime("ArrivalTime", "") },

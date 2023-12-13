@@ -462,4 +462,7 @@
   <data name="TurnAndReverseLoco" xml:space="preserve">
     <value>Turn and reverse loco.</value>
   </data>
+  <data name="Wagon" xml:space="preserve">
+    <value>Wagon</value>
+  </data>
 </root>

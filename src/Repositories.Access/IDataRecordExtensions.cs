@@ -8,7 +8,6 @@ namespace Tellurian.Trains.Planning.Repositories.Access;
 
 public static class IDataRecordExtensions
 {
-    private const bool ThrowOnColumnError = true; // Set true only for debugging
     public static string GetString(this IDataRecord me, string columnName, string? defaultValue = null)
     {
         var i = me.GetColumIndex(columnName, defaultValue is null);
@@ -44,7 +43,7 @@ public static class IDataRecordExtensions
 
     public static byte GetByte(this IDataRecord me, string columnName)
     {
-        var i = me.GetColumIndex(columnName, ThrowOnColumnError);
+        var i = me.GetColumIndex(columnName);
         if (i < 0 || me.IsDBNull(i)) return 0;
         var value = me.GetValue(i);
         if (value is byte a) return a;
@@ -87,7 +86,7 @@ public static class IDataRecordExtensions
 
     public static DateTime GetDate(this IDataRecord me, string columnName)
     {
-        var i = me.GetColumIndex(columnName, ThrowOnColumnError);
+        var i = me.GetColumIndex(columnName);
         return me.GetDateTime(i).Date;
     }
 
@@ -101,7 +100,7 @@ public static class IDataRecordExtensions
 
     public static TimeSpan GetTimeAsTimespan(this IDataRecord me, string columnName)
     {
-        var i = me.GetColumIndex(columnName, ThrowOnColumnError);
+        var i = me.GetColumIndex(columnName);
         if (me.IsDBNull(i)) return TimeSpan.MinValue;
         var value = me.GetValue(i);
         if (value is DateTime d) return new TimeSpan(d.Hour, d.Minute, 0);
@@ -134,13 +133,13 @@ public static class IDataRecordExtensions
         return me.IsDBNull(i);
     }
 
-    private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = ThrowOnColumnError)
+    private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = false)
     {
         int i = -1;
         try { i = me.GetOrdinal(columnName); }
         catch (IndexOutOfRangeException)
         {
-            if (throwOnNotFound) throw new InvalidOperationException($"No column '{columnName}' found in data.");
+            if (true) throw new InvalidOperationException($"No column '{columnName}' found in data.");
         }
         return i;
     }
