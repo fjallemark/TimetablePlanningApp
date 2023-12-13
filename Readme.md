@@ -1,5 +1,5 @@
 # Timetable Planning App
->Last update: 2023-11-09
+>Last update: 2023-12-13
 
 This is the **experimental version** of the web application for 
 working with scheduling of model railway operation at module meetings.

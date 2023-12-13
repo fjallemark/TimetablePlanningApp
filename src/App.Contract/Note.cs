@@ -11,7 +11,7 @@ public class Note
     public int DisplayOrder { get; set; }
     public byte OperatingDaysFlag { get; set; } = 0x7F;
     public override string ToString() => Text ?? "";
-    public static Note[] SingleNote(int displayOrder, string text, byte operationDaysFlag = 0x7F) => new[] { new Note { DisplayOrder = displayOrder, Text = text, OperatingDaysFlag = operationDaysFlag } };
+    public static Note[] SingleNote(int displayOrder, string text, byte operationDaysFlag = 0x7F) => [new Note { DisplayOrder = displayOrder, Text = text, OperatingDaysFlag = operationDaysFlag }];
     public override bool Equals(object? obj) => obj is Note other && other.Text.Equals(Text, StringComparison.OrdinalIgnoreCase);
     public override int GetHashCode() => Text.GetHashCode(StringComparison.OrdinalIgnoreCase);
     public bool IsValidDays(byte operatingDaysFlag) => OperatingDaysFlag.And(operatingDaysFlag) > 0;
