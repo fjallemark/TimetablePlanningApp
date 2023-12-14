@@ -51,13 +51,13 @@ else
                                     <td class="col @item.OriginCssClass()" align="left">@item.Origin()</td>
                                     <td class="col @item.DestinationCssClass()">@item.DisplayedDepartureTime()</td>
                                     <td class="col @item.DestinationCssClass()" align="left">@item.Destination()</td>
-                                    <td class="day"></td>
-                                    <td class="day"></td>
-                                    <td class="day"></td>
-                                    <td class="day"></td>
-                                    <td class="day"></td>
-                                    <td class="day"></td>
-                                    <td class="day"></td>
+                                    <td class="day" style="@item.DayFillColor(0x40)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x01)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x02)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x04)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x08)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x10)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x20)"></td>
                                     <td class="note" width="550">
                                         @foreach (var note in item.Notes)
                                         {

@@ -44,6 +44,9 @@ public static class StationTrainExtensions
     public static bool IsDeparture(this StationTrain me) =>
         !me.HideDeparture && me.DepartureTime == me.SortTime.AsTime();
 
+    public static string DayFillColor(this StationTrain me, byte weekdayFlag) =>
+        (me.OperatingDayFlag & weekdayFlag) == 0 ? "background-color: lightgray" : "";
+
     public static string TrainCategory(this StationTrain? me)
     {
         if (me is null) return string.Empty;
