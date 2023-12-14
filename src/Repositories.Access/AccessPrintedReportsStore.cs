@@ -325,7 +325,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
 
     public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
     {
-        var sql = $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime";
+        var sql = $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime, IsArrival";
         var result = new List<StationTrainOrder>();
         var categories = await GetTrainCategories(layoutId);
         using var connection = CreateConnection;
@@ -341,7 +341,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 item = reader.ToStationTrainOrder();
                 stationName = currentStationName;
             }
-            item?.Trains.Add(reader.ToStationTrain(categories));
+            var stationTrain = reader.ToStationTrain(categories);
+
+            item?.Trains.Add(stationTrain);
         }
         if (item is not null) result.Add(item);
         return result.AsEnumerable();

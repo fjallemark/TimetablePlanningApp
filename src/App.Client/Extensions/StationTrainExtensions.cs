@@ -25,7 +25,7 @@ public static class StationTrainExtensions
         me.HideDeparture ? string.Empty : me.DepartureTime;
 
     public static string RowStyle(this StationTrain me) =>
-        me.IsDeparture() ? "background-color: #ffffee" : "";
+        me.IsDeparture ? "background-color: #ffffee" : "";
 
     public static string OriginCssClass(this StationTrain me) =>
         me.IsNotArrival()  ? string.Empty : "bold";
@@ -34,16 +34,12 @@ public static class StationTrainExtensions
         me.IsNotDeparture() && me.ArrivalTime.HasValue() ? string.Empty : "bold";
 
     public static bool IsNotDeparture( this StationTrain me) =>
-        me.HideDeparture || me.DepartureTime != me.SortTime.AsTime() || me.DepartureTime.IsEmpty();
+        me.HideDeparture || !me.IsDeparture;
 
     public static bool IsNotArrival(this StationTrain me) =>
-        me.HideArrival || me.ArrivalTime != me.SortTime.AsTime() || me.ArrivalTime.IsEmpty();
+        me.HideArrival || !me.IsArrival;
 
-    public static bool IsArrival(this StationTrain me) =>
-        !me.HideArrival && me.ArrivalTime == me.SortTime.AsTime();
-    public static bool IsDeparture(this StationTrain me) =>
-        !me.HideDeparture && me.DepartureTime == me.SortTime.AsTime();
-
+ 
     public static string DayFillColor(this StationTrain me, byte weekdayFlag) =>
         (me.OperatingDayFlag & weekdayFlag) == 0 ? "background-color: lightgray" : "";
 

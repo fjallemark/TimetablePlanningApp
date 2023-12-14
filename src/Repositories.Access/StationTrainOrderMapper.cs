@@ -16,7 +16,9 @@ internal static class StationTrainOrderMapper
         new()
         {
             CallId = me.GetInt("CallId"),
+            IsArrival = me.GetBool("IsArrival"),
             ArrivalTime = me.GetString("ArrivalTime"),
+            IsDeparture = me.GetBool("IsDeparture"),
             DepartureTime = me.GetString("DepartureTime"),
             DestinationName = me.GetString("Destination"),
             HideArrival = me.GetBool("HideArrival"),

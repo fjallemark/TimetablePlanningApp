@@ -104,7 +104,7 @@ internal static class StationTrainOrderExtensions
             {
                 if (notesDictionary.TryGetValue(train.CallId, out List<TrainCallNote>? value))
                 {
-                    var callNotes = value.Where(n => (n.IsStationNote || n.IsShuntingNote) && (train.IsArrival() == n.IsForArrival || train.IsDeparture() == n.IsForDeparture)).OrderBy(n => n.DisplayOrder);
+                    var callNotes = value.Where(n => (n.IsStationNote || n.IsShuntingNote) && (train.IsArrival == n.IsForArrival || train.IsDeparture == n.IsForDeparture)).OrderBy(n => n.DisplayOrder);
                     foreach (var note in callNotes) note.TrainInfo = train.ToTrainInfo();
                     var texts = callNotes.SelectMany(n => n.ToNotes().Select(n => n.Text));
                     train.Notes.AddRange(texts);

@@ -15,7 +15,7 @@ else
 
     foreach (var station in Items)
     {
-        foreach (var itemsPerPage in station.Trains.ItemsPerPage(28 - station.Trains.Where(t => t.Notes.Count() > 1).Count()))
+        foreach (var itemsPerPage in station.Trains.ItemsPerPage(27 - (int)(station.Trains.Where(t => t.Notes.Count() > 1).Count()*0.8)))
         {
             <A4LPage>
                 <div class="stationtrainorder">
@@ -27,7 +27,7 @@ else
                                 <th class="col">@Localizer["Days"]</th>
                                 <th class="col">@Localizer["Track"]</th>
                                 <th class="col">@Localizer["Arr"]</th>
-                                <th align="left" class="col">@Localizer["From"]</th>
+                                <th class="col">@Localizer["From"]</th>
                                 <th class="col">@Localizer["Dep"]</th>
                                 <th class="col">@Localizer["To"]</th>
                                 <th class="day">@Localizer["SundayShort"]</th>
@@ -58,7 +58,7 @@ else
                                     <td class="day" style="@item.DayFillColor(0x08)"></td>
                                     <td class="day" style="@item.DayFillColor(0x10)"></td>
                                     <td class="day" style="@item.DayFillColor(0x20)"></td>
-                                    <td class="note" width="550">
+                                    <td class="note" width="500">
                                         @foreach (var note in item.Notes)
                                         {
                                             <span style="display: block">@note </span>

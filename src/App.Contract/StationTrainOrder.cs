@@ -18,8 +18,10 @@ public class StationTrain
     public string TrainPrefix { get; init; }
     public int TrainNumber { get; init; }
     public string TrackNumber { get; init; }
+    public bool IsArrival { get; init; }
     public string ArrivalTime { get; init; }
     public bool HideArrival { get; init; }
+    public bool IsDeparture { get; init; }
     public string DepartureTime { get; init; }
     public bool HideDeparture { get; init; }
     public string OriginName { get; init; }

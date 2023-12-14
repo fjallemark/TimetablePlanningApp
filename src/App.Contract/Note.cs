@@ -530,11 +530,13 @@ public static class BlockDestinationsExtensions
     public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
     {
         var result = new List<string>();
-        var destinationGroups = me.OrderBy(dg => dg.OrderInTrain).GroupBy(bd => bd.StationId * 100000 + bd.OrderInTrain * 1000);
+        var destinationGroups = 
+            me.OrderBy(dg => dg.OrderInTrain)
+            .GroupBy(bd => bd.StationId * 100000 + bd.OrderInTrain * 1000);
         foreach (var destinationGroup in destinationGroups)
         {
             var text = new StringBuilder(200);
-            var destinations = destinationGroup.OrderBy(dg => dg.MaxNumberOfWagons).ToArray();
+            var destinations = destinationGroup.OrderBy(dg=> !dg.IsRegion).ThenBy(dg=> dg.MaxNumberOfWagons).ToArray();
             var destinationTextsInGroup = destinations.Select(d => d.ToString()).Distinct();
             if (useBrackets) text.Append('[');
             text.Append(string.Join('|', destinationTextsInGroup));
