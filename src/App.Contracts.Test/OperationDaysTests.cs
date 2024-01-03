@@ -79,14 +79,14 @@ namespace Tellurian.Trains.Planning.App.Contract.Tests;
 		[TestMethod]
 		public void IsBitSet()
 		{
-			ReadOnlySpan<byte> values = new byte[] {1,2,4,8,16,32,64,128};
+			ReadOnlySpan<byte> values = [1,2,4,8,16,32,64,128];
 			for(var i =0; i < 8; i++) Assert.IsTrue(values[i].IsBitSet(i+1));
 		}
 
 		[TestMethod]
 		public void ZeroBit()
 		{
-			ReadOnlySpan<byte> values = new byte[] { 1, 2, 4, 8, 16, 32, 64, 128 };
+			ReadOnlySpan<byte> values = [1, 2, 4, 8, 16, 32, 64, 128];
 			for (var i = 0; i < 8; i++) Assert.AreEqual(0, values[i].ZeroBit(i+1) );
 		}
 	}

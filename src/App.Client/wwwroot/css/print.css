@@ -8,6 +8,10 @@
     /*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 */
 }
+p {
+    padding: 0px;
+    margin: 0px;
+}
 
 
 .pagebreak {

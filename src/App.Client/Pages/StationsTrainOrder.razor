@@ -61,7 +61,7 @@ else
                                     <td class="note" width="500">
                                         @foreach (var note in item.Notes)
                                         {
-                                            <span style="display: block">@note </span>
+                                            <span style="display: block">@((MarkupString)note.ToString()) </span>
                                         }
                                     </td>
                                 </tr>

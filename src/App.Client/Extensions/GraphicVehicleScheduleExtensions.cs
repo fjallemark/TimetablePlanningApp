@@ -19,7 +19,7 @@ public static class GraphicVehicleScheduleExtensions
         var a = part.ToArrival.AsTimeSpan();
         var d = part.FromDeparture.AsTimeSpan();
 
-        return (d + (a - d) / 2).FromTimeSpan(true, false, Array.Empty<string>());
+        return (d + (a - d) / 2).FromTimeSpan(true, false, []);
     }
 
     public static int DurationX(this TrainPart part, int startHour, int endHour) =>

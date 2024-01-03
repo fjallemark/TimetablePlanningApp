@@ -69,11 +69,11 @@ else
         Data.TrainSections;
 
     IList<TimetableTrainSection> BreakPartTrainSections(IList<TimetableTrainSection> trainSections) =>
-        BreakPart == 0 || Data?.BreakHour is null ? trainSections :
+        BreakPart == 0 || Data?.BreakHour is null || trainSections.Count == 0 ? trainSections :
         BreakPart switch
         {
-            1 => trainSections.Where(ts => ts.EndTime <= Data.BreakHour*60).ToList(),
-            2 => trainSections.Where(ts => ts.StartTime >= Data.BreakHour*60).ToList(),
+            1 => trainSections.Where(ts => ts.EndTime <= Data.BreakHour * 60).ToList(),
+            2 => trainSections.Where(ts => ts.StartTime >= Data.BreakHour * 60).ToList(),
             _ => trainSections
         };
 

@@ -4,7 +4,7 @@ namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 internal static class TrackDestinationExtensions
 {
-    public static string FlexDirection(this TrainBlocking me, bool reverse = false) =>
+    public static string FlexDirection(this TrainBlocking _, bool reverse = false) =>
         reverse ? "row-reverse" : "row";
 
     public static string Display(this TrainInfo me) =>

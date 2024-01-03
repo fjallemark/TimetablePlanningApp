@@ -3,13 +3,9 @@ using System.Data.Odbc;
 using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access;
-public class AccessTrainStore : ITrainsStore
+public class AccessTrainStore(IOptions<RepositoryOptions> options) : ITrainsStore
 {
-    public AccessTrainStore(IOptions<RepositoryOptions> options)
-    {
-        Options = options.Value;
-    }
-    private readonly RepositoryOptions Options;
+    private readonly RepositoryOptions Options = options.Value;
     private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
     public Task<int> UpdateTrainTimes( int trainId, int minutes)

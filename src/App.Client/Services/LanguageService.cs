@@ -1,18 +1,11 @@
 ﻿using System.Net.Http.Json;
 using Tellurian.Trains.Planning.App.Contracts;
 
-#pragma warning disable CA1812 // The class is used by dependecy injection!
-
 namespace Tellurian.Trains.Planning.App.Client.Services;
 
-internal class LanguageService
+internal class LanguageService(HttpClient http)
 {
-    public LanguageService(HttpClient http)
-    {
-        Http = http;
-    }
-
-    private readonly HttpClient Http;
+    private readonly HttpClient Http = http;
 
     public async Task<IEnumerable<LanguageLabels>> GetWaybillLabels() =>
         await Http.GetFromJsonAsync<IEnumerable<LanguageLabels>>("api/languages/all/labels/waybills").ConfigureAwait(false) ?? Array.Empty<LanguageLabels>();

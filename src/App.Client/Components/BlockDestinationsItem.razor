@@ -35,7 +35,7 @@ else
                                     {
                                         <div class="track destination">
                                             <div class="block destination" style="color : #000000; background-color: #FAFAFA">
-                                                @blockDestination.ToString()
+                                                @((MarkupString)blockDestination.ToString())
                                             </div>
                                         </div>
                                     }
@@ -49,20 +49,18 @@ else
                                             {
                                                 @if (destination.IsRegion)
                                                 {
-                                                    <div class="block destination" style="color : @destination.ForeColor; background-color: @destination.BackColor">
-                                                        @destination.ToString()
-                                                    </div>
+                                                    @((MarkupString)destination.ToString())
                                                 }
                                                 else if (destination.IsTrainset)
                                                 {
                                                     <div class="block destination" style="color : #000000; background-color: #FAFAFA">
-                                                        @destination.ToString()
+                                                        @((MarkupString)destination.ToString())
                                                     </div>
                                                 }
                                                 else
                                                 {
                                                     <div class="block destination" style="color : #FFFFFF; background-color: #777777">
-                                                        @destination.ToString()
+                                                        @((MarkupString)destination.ToString())
                                                     </div>
                                                 }
                                             }

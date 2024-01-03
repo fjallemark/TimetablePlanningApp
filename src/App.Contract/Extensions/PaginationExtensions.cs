@@ -144,9 +144,9 @@ public static class PaginationExtensions
             12 => TwelvePageOrder,
             _ => throw new ArgumentOutOfRangeException(nameof(numberOfPages))
         };
-    private static int[] FourPageOrder => new[] { 4, 1, 2, 3 };
-    private static int[] EightPageOrder => new[] { 8, 1, 2, 7, 6, 3, 4, 5 };
-    private static int[] TwelvePageOrder => new[] { 12, 1, 2, 11, 10, 3, 4, 9, 8, 5, 6, 7 };
+    private static int[] FourPageOrder => [4, 1, 2, 3];
+    private static int[] EightPageOrder => [8, 1, 2, 7, 6, 3, 4, 5];
+    private static int[] TwelvePageOrder => [12, 1, 2, 11, 10, 3, 4, 9, 8, 5, 6, 7];
 
     #endregion
 }

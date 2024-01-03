@@ -7,6 +7,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Markdig" Version="0.34.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Update="Resources\Notes.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>

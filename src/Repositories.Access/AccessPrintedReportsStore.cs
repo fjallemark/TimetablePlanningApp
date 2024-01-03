@@ -595,7 +595,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         while (reader.Read()) { yield return reader.ToLocoReverseOrTurnCallNote(); }
     }
 
-    private static IDataReader ExecuteReader(OdbcConnection connection, string sql)
+    private static OdbcDataReader ExecuteReader(OdbcConnection connection, string sql)
     {
         var command = new OdbcCommand(sql, connection);
         try

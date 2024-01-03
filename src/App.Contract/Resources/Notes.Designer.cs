@@ -565,6 +565,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locomotor train.
+        /// </summary>
+        public static string LocomotorTrain {
+            get {
+                return ResourceManager.GetString("LocomotorTrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loco transport.
         /// </summary>
         public static string LocoTransport {

@@ -133,18 +133,18 @@ public static class IDataRecordExtensions
         return me.IsDBNull(i);
     }
 
-    private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = false)
+    private static int GetColumIndex(this IDataRecord me, string columnName, bool throwOnNotFound = true)
     {
         int i = -1;
         try { i = me.GetOrdinal(columnName); }
         catch (IndexOutOfRangeException)
         {
-            if (true) throw new InvalidOperationException($"No column '{columnName}' found in data.");
+            if (throwOnNotFound) throw new InvalidOperationException($"No column '{columnName}' found in data.");
         }
         return i;
     }
 
-    private static Exception TypeErrorException(object? value, string columnName)
+    private static InvalidOperationException TypeErrorException(object? value, string columnName)
     {
         if (value is null) return new InvalidOperationException($"{columnName} has null-value and no default.");
         var type = value.GetType();

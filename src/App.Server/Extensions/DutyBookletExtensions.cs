@@ -87,7 +87,4 @@ internal static class DutyBookletExtensions
         }
         return count;
     }
-
-    private static IList<TrainCallNote> AtCall(this IDictionary<int, IList<TrainCallNote>> me, int callId) =>
-        me.TryGetValue(callId, out var result) ? result : Array.Empty<TrainCallNote>();
 }

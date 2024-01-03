@@ -2,5 +2,5 @@
 
 public class LanguageService
 {
-    public static string[] SupportedLanguages => new[] { "en", "sv", "da", "nb", "de" };
+    public static string[] SupportedLanguages => ["en", "sv", "da", "nb", "de"];
 }

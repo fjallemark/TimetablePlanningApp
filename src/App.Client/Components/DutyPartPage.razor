@@ -69,7 +69,7 @@
                                 <td>
                                     @if (call.Arrival != null) foreach (var note in call.Arrival.Notes.OrderBy(n => n.DisplayOrder))
                                         {
-                                            <div class="@note.CssClass()">@note </div>
+                                            <span class="@note.CssClass()">@((MarkupString)note.ToString()) </span>
                                         }
                                 </td>
                             </tr>
@@ -89,7 +89,7 @@
                                 <td>
                                     @if (call.Departure != null) foreach (var note in call.Departure.Notes.OrderBy(n => n.DisplayOrder))
                                         {
-                                            <div class="@note.CssClass()">@note </div>
+                                            <span class="@note.CssClass()">@((MarkupString)(note.ToString())) </span>
                                         }
                                 </td>
                             </tr>

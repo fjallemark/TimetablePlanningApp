@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Markdig;
+using System.Globalization;
 using System.Text;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
@@ -78,7 +79,14 @@ public sealed class ManualTrainCallNote : TrainCallNote
         }
     }
 
-    string FormattedNoteText(string text, byte onlyDays) => $"{GetNoteDays(onlyDays)}{text}";
+    string FormattedNoteText(string text, byte onlyDays) =>  $"""<span style="font-weight: bold">{GetNoteDays(onlyDays)}</span>{Markdown.ToHtml(text, CreatePipeline())}""";
+
+    private static MarkdownPipeline CreatePipeline()
+    {
+        var builder = new MarkdownPipelineBuilder();
+        builder.ConfigureNewLine("");
+        return builder.Build();
+    }
 
     string GetNoteDays(byte onlyDays)
     {
@@ -147,7 +155,7 @@ public abstract class TrainsetsCallNote : TrainCallNote
 
     // TODO: Add final destination and note about exchange trainset under way.
     private static string TrainsetFormat(Trainset ts) =>
-        ts.Operator.HasValue() ? $"[{ts.Operator} {WagonSetOrWagon(ts).ToLowerInvariant()} {ts.Number}: {ts.WagonTypes}]" :
+        ts.Operator.HasValue() ? $"|{ts.Operator} {WagonSetOrWagon(ts).ToLowerInvariant()} {ts.Number}: {ts.WagonTypes}|" :
         $"[ {WagonSetOrWagon(ts)} {ts.Number}: {ts.WagonTypes}]";
 
     private static string WagonSetOrWagon(Trainset ts) => ts.MaxNumberOfWaggons > 1 ? Notes.Wagonset : Notes.Wagon;
@@ -506,16 +514,18 @@ public class BlockDestination
     public override string ToString() =>
         IsTrainset && TrainsetOperationDaysFlag.IsAllDays() ? $"{TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
         IsTrainset ? $"{TrainsetOperationDaysFlag.OperationDays().ShortName}: {TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
-        IsRegion ? DestinationText :
+        IsRegion ? DestinationSpan :
         ToAllDestinations ? AllDestinations :
-        AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationText) :
-        DestinationText;
+        AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationSpan) :
+        DestinationSpan;
 
     internal string AllDestinations => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, Notes.AllDestinations, DestinationCountryName) : Notes.AllDestinations;
     internal bool UseDestinationCountry => HasDestinationCountry && IsInternational;
     internal bool HasDestinationCountry => !string.IsNullOrWhiteSpace(DestinationCountryName);
     internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
     internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
+    internal string DestinationSpan => 
+         $"""<span style="font-weight: bold; padding: 0px 2px; color: {ForeColor}; background-color: {BackColor}">{DestinationText}</span>""";
 
 
     public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
@@ -538,14 +548,14 @@ public static class BlockDestinationsExtensions
             var text = new StringBuilder(200);
             var destinations = destinationGroup.OrderBy(dg=> !dg.IsRegion).ThenBy(dg=> dg.MaxNumberOfWagons).ToArray();
             var destinationTextsInGroup = destinations.Select(d => d.ToString()).Distinct();
-            if (useBrackets) text.Append('[');
-            text.Append(string.Join('|', destinationTextsInGroup));
+            if (useBrackets) text.Append('|');
+            text.Append(string.Join(" ", destinationTextsInGroup));
             if (destinationGroup.First().AndLocalDestinations)
             {
-                text.Append('|');
+                text.Append(' ');
                 text.Append(Notes.LocalDestinations);
             }
-            if (useBrackets) text.Append(']');
+            if (useBrackets) text.Append('|');
             var maxNumberOfWagons = destinations.Sum(d => d.MaxNumberOfWagons);
             if (maxNumberOfWagons > 0)
             {

@@ -465,4 +465,7 @@
   <data name="Wagon" xml:space="preserve">
     <value>Wagon</value>
   </data>
+  <data name="LocomotorTrain" xml:space="preserve">
+    <value>Locomotor train</value>
+  </data>
 </root>

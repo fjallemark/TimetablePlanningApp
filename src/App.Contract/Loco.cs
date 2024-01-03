@@ -22,6 +22,6 @@ public static class LocoExtensions
         me.IsRailcar ? Notes.Railcar : Notes.Loco;
 
     public static string DisplayFormat(this Loco me) => me.OperatorName.HasValue() ? 
-        $"[{me.OperatorName} {me.TypeName().ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.TurnusNumber}]" :
-        $"[{me.TypeName()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.TurnusNumber}]";
+        $"""<span style="font-weight: bold">{me.OperatorName} {me.TypeName().ToLowerInvariant()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.TurnusNumber}</span>""" :
+        $"""<span style="font-weight: bold">{me.TypeName()} {Notes.VehicleScheduleNumber.ToLowerInvariant()} {me.TurnusNumber}</span>""";
 }

@@ -51,6 +51,6 @@ else
     [Parameter] public bool ShowNoRecordsToDisplay { get; set; } = true;
     [Parameter] public Func<TItem, string>? Key { get; set; }
 
-    string ItemKey(TItem item) => Key is null ? item.GetHashCode().ToString() : Key(item);
+    string ItemKey(TItem item) => Key is null ? item!.GetHashCode().ToString() : Key(item);
 
 }

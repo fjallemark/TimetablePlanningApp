@@ -7,7 +7,7 @@ namespace Tellurian.Trains.Planning.App.Client.Extensions;
 public static class ColorExtensions
 {
     public static string[] Items(this string? value, char separator = ';') =>
-         string.IsNullOrWhiteSpace(value) ? Array.Empty<string>() :
+         string.IsNullOrWhiteSpace(value) ? [] :
          value.Trim().Split(separator);
 
     public static string HtmlFromMarkdown(this string? markdown)
@@ -41,5 +41,5 @@ public static class ColorExtensions
     public static bool IsHexColor([NotNullWhen(true)] this string? maybeColor) =>
         !string.IsNullOrWhiteSpace(maybeColor) && Regex.IsMatch(maybeColor, HexColorRegEx);
 
-    public static bool IsWhiteColor([NotNullWhen(true)] this string? maybeColor) => string.IsNullOrWhiteSpace(maybeColor) || maybeColor.ToUpperInvariant() == "#FFFFFF";
+    public static bool IsWhiteColor([NotNullWhen(true)] this string? maybeColor) => string.IsNullOrWhiteSpace(maybeColor) || maybeColor.Equals("#FFFFFF", StringComparison.InvariantCultureIgnoreCase);
 }

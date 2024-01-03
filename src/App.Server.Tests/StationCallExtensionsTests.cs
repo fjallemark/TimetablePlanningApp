@@ -24,6 +24,6 @@ public class StationCallExtensionsTests
     }
 
     private static StationCall CreateStationCall =>
-        new StationCall { Arrival = new CallTime(), Departure = new CallTime() };
+        new() { Arrival = new CallTime(), Departure = new CallTime() };
 
 }

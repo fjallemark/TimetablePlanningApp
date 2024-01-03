@@ -10,7 +10,7 @@ public static class MarkdownExtensions
     private static MarkdownPipelineBuilder Create()
     {
         var builder = new MarkdownPipelineBuilder();
-        builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
+        //builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
         return builder;
     }
 

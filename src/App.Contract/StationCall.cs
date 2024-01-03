@@ -44,7 +44,7 @@ public static class StationCallExtensions
         var result = new List<CallTime>();
         if (me.IsArrival()) result.Add(me.Arrival);
         if (me.IsDeparture()) result.Add(me.Departure);
-        return result.ToArray();
+        return [.. result];
 #pragma warning restore CS8604 // Possible null reference argument.
     }
 
