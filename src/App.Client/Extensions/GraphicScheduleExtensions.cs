@@ -18,11 +18,11 @@ public static class GraphicScheduleExtensions
     #region Time
 
 
-    public static IEnumerable<(int XHour, string Text)> Hours(this TimetableStretch me)
+    public static IEnumerable<(int XHour, string Text)> Hours(this TimetableStretch me, int dayPart =0)
     {
-        var first = me.FirstHour();
-        var last = me.LastHour();
-        return Enumerable.Range(first, last - first + 1).Select(i => (me.XHour(i), i.ToString("00", CultureInfo.InvariantCulture)));
+        var first = dayPart==2 && me.BreakHour.HasValue ? me.BreakHour.Value : me.FirstHour();
+        var last = dayPart == 1 && me.BreakHour.HasValue? me.BreakHour.Value : me.LastHour();
+        return Enumerable.Range(first, last - first + 1).Select(i => (me.XHour(i, dayPart), i.ToString("00", CultureInfo.InvariantCulture)));
     }
 
     public static int XHourText(this (int h, string) me) => me.h - 12;
@@ -75,12 +75,13 @@ public static class GraphicScheduleExtensions
 
     #region X-axis
 
-    public static int XCanvas(this TimetableStretch me) => me.XLastHour() + 20;
+    public static int XCanvas(this TimetableStretch me, int dayPart) => me.XLastHour(dayPart) + 20;
     public static int XStation(this TimetableStretch me) => me is null ? 0 : 1;
     public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 16;
-    public static int XFirstHour(this TimetableStretch me) => (me?.XHour(me.FirstHour())) ?? 0;
-    public static int XLastHour(this TimetableStretch me) => (me?.XHour(me.LastHour())) ?? 0;
-    public static int XHour(this TimetableStretch me, int hour) => me is null ? 0 : Options.FirstHourOffset + (hour - me.FirstHour()) * Options.HourWidth;
+    public static int XFirstHour(this TimetableStretch me, int dayPart=0) => (me?.XHour(me.FirstHour(dayPart), dayPart)) ?? 0;
+    public static int XLastHour(this TimetableStretch me, int dayPart) => (me?.XHour(me.LastHour(dayPart), dayPart)) ?? 0;
+    public static int XHour(this TimetableStretch me, int hour, int dayPart) => 
+        me is null ? 0 : Options.FirstHourOffset + (hour - me.FirstHour(dayPart)) * Options.HourWidth;
 
     public static int XHeight(this TimetableStretchStation me) =>
         Options.OnlyScheduledTracks ?

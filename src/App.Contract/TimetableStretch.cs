@@ -7,6 +7,7 @@ public class TimetableStretch
     public IList<TimetableStretchStation> Stations { get; set; } = Array.Empty<TimetableStretchStation>();
     public IList<TimetableTrainSection> TrainSections { get; set; } = Array.Empty<TimetableTrainSection>();
     public int? StartHour { get; set; }
+    public int? BreakHour { get; set; }
     public int? EndHour { get; set; }
     public bool ShowTrainOperatorSignature { get; set; }
     public override string ToString() => $"{Number} {Name}";
@@ -14,13 +15,15 @@ public class TimetableStretch
 
 public static class TimetableStretchExtensions
 {
-    public static int FirstHour(this TimetableStretch me) =>
+    public static int FirstHour(this TimetableStretch me, int dayPart = 0) =>
         me is null ? 0 :
+        dayPart == 2 && me.BreakHour.HasValue ? me.BreakHour.Value :
         me.StartHour ?? me.TrainSections.Min(ts => ts.StartTime).Hour();
 
-    public static int LastHour(this TimetableStretch me)
+    public static int LastHour(this TimetableStretch me, int dayPart = 0)
     {
         if (me is null) return 0;
+        if (dayPart == 1 && me.BreakHour.HasValue) return me.BreakHour.Value;
         if (me.EndHour.HasValue) return me.EndHour.Value;
         var last = me.TrainSections.Max(ts => ts.EndTime) - 0.001;
         return last > last.Hour() ? last.Hour() + 1 : last.Hour();

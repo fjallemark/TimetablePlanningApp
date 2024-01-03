@@ -12,10 +12,28 @@
 else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
-    foreach (var timetableStretch in TimetableStretches)
+    @if (TimetableStretches.Any(ts => ts.BreakHour.HasValue))
     {
-        <GraphicTimetableStretch Data="@timetableStretch" OnlyDays="@SelectedDays"></GraphicTimetableStretch>
+        foreach (var timetableStretch in TimetableStretches)
+        {
+            <GraphicTimetableStretch Data="@timetableStretch" BreakPart="1" OnlyDays="@SelectedDays"></GraphicTimetableStretch>
+
+        }
+        foreach (var timetableStretch in TimetableStretches)
+        {
+            <GraphicTimetableStretch Data="@timetableStretch" BreakPart="2" OnlyDays="@SelectedDays"></GraphicTimetableStretch>
+
+        }
     }
+    else
+    {
+        foreach (var timetableStretch in TimetableStretches)
+        {
+            <GraphicTimetableStretch Data="@timetableStretch" OnlyDays="@SelectedDays"></GraphicTimetableStretch>
+
+        }
+    }
+
 }
 
 @code {

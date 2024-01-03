@@ -1,6 +1,4 @@
-﻿
-
-@if (Data is null)
+﻿@if (Data is null)
 {
 
 }
@@ -10,7 +8,7 @@ else
         <div class="graphictimetable heading">
             @Data.Heading(OnlyDaysFlag)
         </div>
-        <svg height="@Data.YCanvas()" width="@Data.XCanvas()">
+        <svg height="@Data.YCanvas()" width="@Data.XCanvas(BreakPart)">
             @foreach (var station in Data.Stations.OrderBy(s => s.DisplayOrder))
             {
                 <text>
@@ -21,12 +19,12 @@ else
                     <text>
                         <text class="graphictimetable tracknumber" x="@Data.XTrackNumber()" y="@Data.YTrackNumber(station, track)">@track.Number</text>
                     </text>
-                    <line x1="@Data.XFirstHour()" x2="@Data.XLastHour()" y1="@Data.YTrack(station, track)" style="@track.Style()" y2="@Data.YTrack(station, track)"></line>
+                    <line x1="@Data.XFirstHour(BreakPart)" x2="@Data.XLastHour(BreakPart)" y1="@Data.YTrack(station, track)" style="@track.Style()" y2="@Data.YTrack(station, track)"></line>
                 }
 
 
             }
-            @foreach (var hour in Data.Hours())
+            @foreach (var hour in Data.Hours(BreakPart))
             {
                 <line x1="@hour.XHour" x2="@hour.XHour" y1="@Data.YStationsTop()" y2="@Data.YStationsBottom()" style="stroke: gray; stroke-width: 1px"></line>
                 <text>
@@ -35,16 +33,16 @@ else
             }
 
 
-            @foreach (var trainSection in TrainSections)
+            @foreach (var trainSection in BreakPartTrainSections(TrainSections))
             {
                 @if (trainSection.IsBetweenStations())
                 {
-                    <path id="@Data.PathId(trainSection)" fill="none" style="@trainSection.CssClass()"  fill-opacity="0"
+                    <path id="@Data.PathId(trainSection)" fill="none" style="@trainSection.CssClass()" fill-opacity="0"
                           d="M @Data.XStartTime(trainSection),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection), @Data.YEndTime(trainSection) " />
                     <text>
                         <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel(OnlyDaysFlag).TrainNumberSize()pt" text-anchor="middle">
                             <textPath href="#@Data.PathId(trainSection)" startOffset="40%">
-                                @trainSection.TrainLabel(OnlyDaysFlag, Data.ShowTrainOperatorSignature) 
+                                @trainSection.TrainLabel(OnlyDaysFlag, Data.ShowTrainOperatorSignature)
                             </textPath>
                         </text>
                     </text>
@@ -59,14 +57,24 @@ else
 }
 
 @code {
-    [Parameter]
-    public TimetableStretch? Data { get; set; }
-    [Parameter]
-    public string? OnlyDays { get; set; }
+    [Parameter] public TimetableStretch? Data { get; set; }
+    [Parameter] public string? OnlyDays { get; set; }
+    [Parameter] public int BreakPart { get; set; }
+
     byte OnlyDaysFlag => OnlyDays.HasValue() ? OnlyDays.AsFlags() : OperationDays.AllDays;
 
-    IList<TimetableTrainSection> TrainSections => 
-        Data is null ? Array.Empty<TimetableTrainSection>() : 
-        OnlyDays.HasValue() ? Data.TrainSections.Where(ts => ts.OperationDays.Flags.IsAnyOtherDays(OnlyDaysFlag)).ToList() : 
+    IList<TimetableTrainSection> TrainSections =>
+        Data is null ? Array.Empty<TimetableTrainSection>() :
+        OnlyDays.HasValue() ? Data.TrainSections.Where(ts => ts.OperationDays.Flags.IsAnyOtherDays(OnlyDaysFlag)).ToList() :
         Data.TrainSections;
+
+    IList<TimetableTrainSection> BreakPartTrainSections(IList<TimetableTrainSection> trainSections) =>
+        BreakPart == 0 || Data?.BreakHour is null ? trainSections :
+        BreakPart switch
+        {
+            1 => trainSections.Where(ts => ts.EndTime <= Data.BreakHour*60).ToList(),
+            2 => trainSections.Where(ts => ts.StartTime >= Data.BreakHour*60).ToList(),
+            _ => trainSections
+        };
+
 }

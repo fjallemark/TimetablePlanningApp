@@ -13,6 +13,7 @@ internal static class TimetableStretchMapper
             Stations = new List<TimetableStretchStation>(),
             TrainSections = new List<TimetableTrainSection>(200),
             StartHour = me.GetInt("StartHour"),
+            BreakHour = me.GetIntOrNull("BreakHour"),
             EndHour = me.GetInt("EndHour"),
             ShowTrainOperatorSignature = me.GetBool("ShowOperator"),
         };
