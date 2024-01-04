@@ -468,4 +468,7 @@
   <data name="LocomotorTrain" xml:space="preserve">
     <value>Lokomotortåg</value>
   </data>
+  <data name="Bring" xml:space="preserve">
+    <value>Medtar</value>
+  </data>
 </root>

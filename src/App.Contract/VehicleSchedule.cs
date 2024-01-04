@@ -95,7 +95,7 @@ public static class VehicleScheduleExtensions
         me is LocoSchedule loco ?
         loco.IsRailcar ? Notes.Railcar : Notes.Loco :
         me.Type == "CargoOnly" ? Notes.CargoTurnus :
-        me.NumberOfUnits > 1 ? Notes.Wagonset : Notes.WagonTurnus;
+        me.PrintCard && me.NumberOfUnits > 1 ? Notes.Wagonset : Notes.WagonTurnus;
 
     public static string? Note(this VehicleSchedule me) =>
         me.HasIndividualWagonCards() ? me.Note :

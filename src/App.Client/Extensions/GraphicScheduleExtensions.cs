@@ -117,11 +117,11 @@ public static class GraphicScheduleExtensions
 
     #region Train Section 
 
-    public static int XStartTime(this TimetableStretch me, TimetableTrainSection section) =>
-        me is null ? 0 : (int)(Options.FirstHourOffset + (section.StartTime / 60 - me.FirstHour()) * Options.HourWidth);
+    public static int XStartTime(this TimetableStretch me, TimetableTrainSection section, int dayPart) =>
+        me is null ? 0 : (int)(Options.FirstHourOffset + (section.StartTime / 60 - me.FirstHour(dayPart)) * Options.HourWidth);
 
-    public static int XEndTime(this TimetableStretch me, TimetableTrainSection section) =>
-        me is null ? 0 : (int)(Options.FirstHourOffset + (section.EndTime / 60 - me.FirstHour()) * Options.HourWidth);
+    public static int XEndTime(this TimetableStretch me, TimetableTrainSection section, int dayPart) =>
+        me is null ? 0 : (int)(Options.FirstHourOffset + (section.EndTime / 60 - me.FirstHour(dayPart)) * Options.HourWidth);
 
     public static int YStartTime(this TimetableStretch me, TimetableTrainSection section)
     {

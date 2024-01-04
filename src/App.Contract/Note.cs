@@ -120,7 +120,7 @@ public abstract class TrainsetsCallNote : TrainCallNote
     protected IEnumerable<Note> ToNotes(Func<Trainset, bool> criteria, byte dutyDays = OperationDays.AllDays, int displayOrder = 1000)
     {
         return Merge(Trainsets.Where(t => criteria(t) && IsAnyDay(t.OperationDaysFlag, dutyDays)))
-            .OrderBy(t => t.PositionInTrain)
+            .OrderBy(t => t.PositionInTrain).ThenBy(t=> t.Number)
             .GroupBy(t => Days(t.OperationDaysFlag, dutyDays))
             .OrderBy(t => t.Key)
             .Select(t => new Note
@@ -146,7 +146,7 @@ public abstract class TrainsetsCallNote : TrainCallNote
             });
     }
     protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
-         IsAllDays(days, dutyDays) ? Text(trainsets) : $"{days.OperationDays()}: {Text(trainsets)}";
+         IsAllDays(days, dutyDays) ? Text(trainsets) : $"""<span style="font-weight: bold; background-color: white;">{days.OperationDays()}</span>: {Text(trainsets)}""";
 
     protected abstract string Text(IEnumerable<Trainset> t);
 
@@ -155,10 +155,13 @@ public abstract class TrainsetsCallNote : TrainCallNote
 
     // TODO: Add final destination and note about exchange trainset under way.
     private static string TrainsetFormat(Trainset ts) =>
-        ts.Operator.HasValue() ? $"|{ts.Operator} {WagonSetOrWagon(ts).ToLowerInvariant()} {ts.Number}: {ts.WagonTypes}|" :
-        $"[ {WagonSetOrWagon(ts)} {ts.Number}: {ts.WagonTypes}]";
+        ts.Operator.HasValue() ? $"""|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{ts.Number}</span>:&nbsp<i>{ts.WagonTypes}</i>| """ :
+        $"""|<span style="font-weight: bold; background-color: white">{WagonSetOrWagon(ts)}&nbsp;{ts.Number}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
 
-    private static string WagonSetOrWagon(Trainset ts) => ts.MaxNumberOfWaggons > 1 ? Notes.Wagonset : Notes.Wagon;
+    private static string WagonSetOrWagon(Trainset ts) => 
+        ts.MaxNumberOfWaggons==0? "" : 
+        ts.MaxNumberOfWaggons > 1 ? Notes.Wagonset : 
+        Notes.Wagon;
 }
 
 public class TrainsetsDepartureCallNote : TrainsetsCallNote

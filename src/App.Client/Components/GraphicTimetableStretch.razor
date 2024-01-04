@@ -38,7 +38,7 @@ else
                 @if (trainSection.IsBetweenStations())
                 {
                     <path id="@Data.PathId(trainSection)" fill="none" style="@trainSection.CssClass()" fill-opacity="0"
-                          d="M @Data.XStartTime(trainSection),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection), @Data.YEndTime(trainSection) " />
+                          d="M @Data.XStartTime(trainSection,BreakPart),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection, BreakPart), @Data.YEndTime(trainSection) " />
                     <text>
                         <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel(OnlyDaysFlag).TrainNumberSize()pt" text-anchor="middle">
                             <textPath href="#@Data.PathId(trainSection)" startOffset="40%">
@@ -49,7 +49,7 @@ else
                 }
                 else
                 {
-                    <line x1="@Data.XStartTime(trainSection)" x2="@Data.XEndTime(trainSection)" y1="@Data.YStartTime(trainSection)" y2="@Data.YEndTime(trainSection)" style="@trainSection.CssClass()"></line>
+                    <line x1="@Data.XStartTime(trainSection, BreakPart)" x2="@Data.XEndTime(trainSection,BreakPart)" y1="@Data.YStartTime(trainSection)" y2="@Data.YEndTime(trainSection)" style="@trainSection.CssClass()"></line>
                 }
             }
         </svg>

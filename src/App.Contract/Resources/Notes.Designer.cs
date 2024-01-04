@@ -106,6 +106,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bring.
+        /// </summary>
+        public static string Bring {
+            get {
+                return ResourceManager.GetString("Bring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Brings no wagons from this station.
         /// </summary>
         public static string BringsNoWagonsFromThisStation {

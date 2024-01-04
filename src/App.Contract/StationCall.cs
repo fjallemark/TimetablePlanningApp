@@ -58,7 +58,6 @@ public static class StationCallExtensions
 
     public static void AddGeneratedNotes(this DutyStationCall me, DriverDuty duty, DriverDutyPart part, IEnumerable<TrainCallNote> notes)
     {
-        //if (part.Train.Number == 4840) Debugger.Break();
         var train = part.Train;
         foreach (var note in notes.OrderBy(n => n.DisplayOrder))
         {

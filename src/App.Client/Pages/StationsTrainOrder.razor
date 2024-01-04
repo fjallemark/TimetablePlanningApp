@@ -80,6 +80,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        Items = null;
         var settings = Options.Value;
         var result = await DataService.GetStationsTrainOrderAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
