@@ -148,11 +148,16 @@ public static class GraphicScheduleExtensions
         $"{me.TrainNumber}";
 
     public static string CssClass(this TimetableTrainSection me) =>
-        me.Color.HasValue() ? $"stroke: {me.Color}; stroke-width: 3px" :
-        me.IsCargo && me.IsPassenger ? "stroke: #cc00cc; stroke-width: 3px" :
-        me.IsCargo ? "stroke: #0066cc; stroke-width: 3px" :
-        me.IsPassenger ? "stroke: #cc3300; stroke-width: 3px" :
-        "stroke: #006600; stroke-width:3px";
+        $"{me.Stroke()}; {StrokeWidth}";
+
+    private static string StrokeWidth => $"stroke-width: {Options.TrainGraphThicknesPx}px";
+    private static string Stroke(this TimetableTrainSection me) =>
+        me.Color.HasValue() ? $"stroke: {me.Color}; " :
+        me.IsCargo && me.IsPassenger ? $"stroke: #cc00cc; " :
+        me.IsCargo ? $"stroke: #0066cc; " :
+        me.IsPassenger ? $"stroke: #cc3300; " :
+        $"stroke: #006600; ";
+
 
     public static string PathId(this TimetableStretch me, TimetableTrainSection section) => $"{me.Number}-{section.TrainNumber}-{section.FromTrackId}-{section.ToTrackId}";
 
@@ -178,4 +183,5 @@ public class GraphicScheduleOptions
     public bool OnlyScheduledTracks { get; set; } = true;
     public int HourHeight { get; set; } = 20;
     public int StaionNameOffset { get; set; }
+    public int TrainGraphThicknesPx { get; set; } = 2;
 }
