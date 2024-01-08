@@ -165,7 +165,7 @@
   <data name="EndsAt" xml:space="preserve">
     <value>Slutar vid</value>
   </data>
-  <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
+  <data name="DutyContinuesOnNextPage" xml:space="preserve">
     <value>OBS! Tjänsten fortsätter på nästa sida.</value>
   </data>
   <data name="NoMoreTasksInDuty" xml:space="preserve">

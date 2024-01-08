@@ -165,7 +165,7 @@
   <data name="Track" xml:space="preserve">
     <value>Spor</value>
   </data>
-  <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
+  <data name="DutyContinuesOnNextPage" xml:space="preserve">
     <value>MERK: Tjenesten fortsetter på neste side.</value>
   </data>
   <data name="NoMoreTasksInDuty" xml:space="preserve">

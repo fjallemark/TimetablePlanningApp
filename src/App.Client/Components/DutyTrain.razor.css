@@ -1,0 +1,81 @@
+﻿.duty {
+}
+
+    .duty.train {
+    }
+
+        .duty.train h1 {
+            padding: 0px;
+            margin: 0px;
+        }
+
+    .duty.continuenextpage {
+        text-align: center;
+        font-size: 12pt;
+        font-weight: bold;
+        color: red;
+    }
+
+    .duty.ends {
+        text-align: center;
+        font-size: 12pt;
+        font-weight: bold;
+    }
+
+.group {
+    white-space: nowrap;
+}
+
+.value {
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.label {
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+
+.train.call {
+    vertical-align: text-top;
+    font-size: 10pt;
+    line-height: 13pt;
+}
+
+    .train.call.header {
+        font-weight: bold;
+        border-bottom: solid 1px black
+    }
+
+    .train.call.part {
+        color: black;
+        border-bottom: solid 1px black;
+    }
+
+    .train.call.arrival {
+        color: black;
+        border-bottom: solid 1px lightgray;
+    }
+
+
+
+    .train.call.notpart {
+        color: darkgray;
+        border-bottom: solid 1px darkgray;
+        text-decoration: line-through;
+    }
+
+    .train.call.shortnote {
+        white-space: nowrap;
+        display: inline-block;
+        vertical-align: top;
+        padding-right: 3pt;
+    }
+
+    .train.call.longnote {
+        white-space: normal;
+        display: inline-block;
+        vertical-align: top;
+        padding-right: 3pt;
+    }

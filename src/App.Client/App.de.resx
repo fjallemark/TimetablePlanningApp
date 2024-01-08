@@ -165,7 +165,7 @@
   <data name="Track" xml:space="preserve">
     <value>Gleis</value>
   </data>
-  <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
+  <data name="DutyContinuesOnNextPage" xml:space="preserve">
     <value>HINWEIS: Dieser Dienst wird auf der nächsten Seite fortgesetzt.</value>
   </data>
   <data name="NoMoreTasksInDuty" xml:space="preserve">

@@ -1,123 +1,31 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
 <A5Page PageNumber=PageNumber Footnote="@Duty?.Description()">
-    <div class="duty train">
-        @if (Duty is not null && Item is not null)
-        {
-            <h1>
-                <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.OperatorName, Item.Train.Number)</span>
-                <span>@Duty.TrainOperatingDay(Item.Train)</span>
-            </h1>
-            <div>
-                <div>
-                    <span class="value">
-                        @Item.Train.CategoryName
-                    </span>&nbsp;
-                    <span class="group">
-                        <span class="label">@Localizer["StartsAt"]:</span>
-                        <span class="value">@Item.StartStation().Name</span>
-                        &nbsp;
-                        <span class="label">@Localizer["EndsAt"]:</span>
-                        <span class=value>@Item.EndStation().Name</span>
-                    </span>
-                </div>
-                <div class="group">
-                    <span>
-                        @Localizer["MaxSpeed"]:
-                        <strong>@Item.Train.MaxSpeed km/h</strong>
-                    </span>
-                    &nbsp;
-                    @if (Item.Train.MaxNumberOfWaggons > 0)
-                    {
-                        <span>
-                            @Localizer["MaxNumberOfWagons"]:
-                            <strong>@Item.Train.MaxNumberOfWaggons</strong>
-                        </span>
-                    }
-                </div>
-            </div>
-            @if (Item.Train.Instruction.HasValue())
-            {
-                <div>
-                    @Item.Train.Instruction
-                </div>
-            }
-            <table width="100%" cellpadding="2">
-                <thead>
-                    <tr class="train call header">
-                        <th colspan="2">@Localizer["Station"]</th>
-                        <th align="center">@Localizer["Track"]</th>
-                        <th>@Localizer["Time"]</th>
-                        <th>@Localizer["Notes"]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var call in Item.Calls())
-                    {
-                        @if (call.ShowArrival)
-                        {
-                            <tr class="@call.ArrivalCssClass">
-                                <td>
-                                    @if (call.IsStop)
-                                    {
-                                        @Localizer["Arr"]
-                                    }
-                                </td>
-                                <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
-                                <td align="center"><strong>@call.TrackNumber</strong></td>
-                                <td align="center"><strong>@call.Arrival?.Time</strong></td>
-                                <td>
-                                    @if (call.Arrival != null) foreach (var note in call.Arrival.Notes.OrderBy(n => n.DisplayOrder))
-                                        {
-                                            <span class="@note.CssClass()">@((MarkupString)note.ToString()) </span>
-                                        }
-                                </td>
-                            </tr>
-                        }
-                        @if (call.ShowDeparture)
-                        {
-                            <tr class="@call.DepartureCssClass">
-                                <td>
-                                    @if (call.IsStop)
-                                    {
-                                        @Localizer["Dep"]
-                                    }
-                                </td>
-                                <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
-                                <td align="center"><strong>@call.TrackNumber</strong></td>
-                                <td align="center"><strong>@call.Departure?.Time</strong></td>
-                                <td>
-                                    @if (call.Departure != null) foreach (var note in call.Departure.Notes.OrderBy(n => n.DisplayOrder))
-                                        {
-                                            <span class="@note.CssClass()">@((MarkupString)(note.ToString())) </span>
-                                        }
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        }
-    </div>
-    @if (Item?.IsLastPart == true)
+    @foreach (var part in DriverDutyParts)
+    {
+        <DutyTrain Duty="Duty" Item="part" />
+    }
+
+    @if (Last?.IsLastPart == true)
     {
         <div class="duty ends">@Localizer["NoMoreTasksInDuty"]</div>
 
     }
-    else
+    else if (Last?.IsLastPart == false)
     {
-        <div class="duty continuenextpage">@Localizer["DutyContinuesOnNextPaqge"]</div>
+        <div class="duty continuenextpage">@Localizer["DutyContinuesOnNextPage"]</div>
     }
 </A5Page>
 
 @code {
-    [Parameter]
-    public int PageNumber { get; set; }
-    [Parameter]
-    public DriverDutyPart? Item { get; set; }
-    [Parameter]
-    public DriverDuty? Duty { get; set; }
+    [Parameter] public int PageNumber { get; set; }
+    [Parameter] public DriverDutyPart? Part1 { get; set; }
+    [Parameter] public DriverDutyPart? Part2 { get; set; }
+    [Parameter] public required IEnumerable<DriverDutyPart> DriverDutyParts { get; set; }
+    [Parameter] public DriverDuty? Duty { get; set; }
 
-    public override string ToString() => $"Page {PageNumber} duty {Item?.Train.Number}";
+    DriverDutyPart? Last => DriverDutyParts.Any() ? DriverDutyParts.Last() : null;
+
+    public override string ToString() => $"Page {PageNumber} duty {Part1?.Train.Number}";
 
 }

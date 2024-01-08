@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace Tellurian.Trains.Planning.App.Contracts.Extensions;
 
@@ -26,7 +27,7 @@ public static class PaginationExtensions
     public static IEnumerable<DriverDutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me, IEnumerable<Instruction> instructions)
     {
         var pages = me.GetDriverDutyPages(instructions).ToArray();
-        var bookletPageOrder = BookletPageOrder(pages.Length);
+        var bookletPageOrder = BookletPageOrder(pages.Max(p => p.Number));
         var result = new List<DriverDutyPage>();
         for (var i = 0; i < bookletPageOrder.Length; i++)
         {
@@ -40,18 +41,38 @@ public static class PaginationExtensions
     {
         var pageNumber = 1;
         var result = new List<DriverDutyPage> { DriverDutyPage.Front(pageNumber++, me) };
+
         var instruction = instructions.LanguageOrInvariantInstruction();
         var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
         dutyParts.Last().IsLastPart = true;
-        for (var i = 0; i < me.Parts.Count; i++)
+        var dutyPartsCount = dutyParts.Length;
+        for (var i = 0; i < dutyPartsCount; i++)
         {
-            result.Add(DriverDutyPage.Part(pageNumber++, me, dutyParts[i]));
+            result.Add(DriverDutyPage.Part(pageNumber, me, dutyParts[i]));
+            if (dutyPartsCount > 2 && i < (dutyPartsCount - 1) && result.Last().DutyParts.Count < 2)
+            {
+                if (dutyParts[i + 1].FitOnSamePageAs(dutyParts[i]))
+                {
+                    result.Last().DutyParts.Add(dutyParts[i + 1]);
+                    i++;
+                }
+            };
+            pageNumber++;
         }
-        result.AddRange(BlankPagesToAppend<DriverDutyPage>(result.Count, instruction is null ? 0 : 1));
-        pageNumber = result.Count + 1;
-        if (instruction is not null) result.Add(DriverDutyPage.Instructions(pageNumber++, instruction.Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Driver}"));
+
+        var blankPages = BlankPagesToAppend<DriverDutyPage>((pageNumber - 1), instruction.IsEmpty ? 0 : 1).ToArray();
+        pageNumber += blankPages.Length;
+        result.AddRange(blankPages);
+
+        if (!instruction.IsEmpty)
+            result.Add(DriverDutyPage.Instructions(pageNumber, instruction.Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Driver}"));
+
+        if (result.Max(p => p.Number) % 4 != 0) Debugger.Break();
         return result;
     }
+
+    private static bool FitOnSamePageAs(this DriverDutyPart? part2, DriverDutyPart? part1) =>
+       part1 is not null && part2 is not null && (part1.NumberOfCalls() + part2.NumberOfCalls() <= 15);
 
     #endregion
 
@@ -182,12 +203,12 @@ public sealed class DriverDutyPage : DutyPage
     private DriverDutyPage(int number) : base(number) { }
     private DriverDutyPage(int number, string? instructionsMarkdown, string? instructionsHeading = null) : base(number, instructionsMarkdown, instructionsHeading) { }
     private DriverDutyPage(int number, DriverDuty duty) : base(number) { Duty = duty; }
-    private DriverDutyPage(int number, DriverDuty duty, DriverDutyPart part) : base(number) { Duty = duty; DutyPart = part; }
+    private DriverDutyPage(int number, DriverDuty duty, DriverDutyPart part) : base(number) { Duty = duty; DutyParts.Add(part); }
     public DriverDuty? Duty { get; }
-    public DriverDutyPart? DutyPart { get; }
-    public override bool IsBlank => Duty is null && DutyPart is null && !IsInstructions;
-    public override bool IsFront => Duty is not null && DutyPart is null;
-    public override bool IsPart => DutyPart is not null && Duty is not null;
+    public List<DriverDutyPart> DutyParts { get; } = [];
+    public override bool IsBlank => Duty is null && DutyParts.Count == 0 && !IsInstructions;
+    public override bool IsFront => Duty is not null && DutyParts.Count == 0;
+    public override bool IsPart => DutyParts.Any() && Duty is not null;
 
     public static DriverDutyPage Blank(int number) => new(number);
     public static DriverDutyPage Front(int number, DriverDuty duty) => new(number, duty);

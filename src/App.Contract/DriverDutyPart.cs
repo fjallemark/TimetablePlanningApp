@@ -85,6 +85,9 @@ public static class DutyPartExtensions
         TrackNumber = c.TrackNumber,
         IsLast = (i == me.Train.Calls.Count - 1)
     }).ToArray();
+
+    public static int NumberOfCalls(this DriverDutyPart me) => me.Train.Calls.Count;
+
 }
 
 public class DutyStationCall : StationCall

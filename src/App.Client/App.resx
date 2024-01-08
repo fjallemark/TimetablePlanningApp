@@ -165,7 +165,7 @@
   <data name="Track" xml:space="preserve">
     <value>Track</value>
   </data>
-  <data name="DutyContinuesOnNextPaqge" xml:space="preserve">
+  <data name="DutyContinuesOnNextPage" xml:space="preserve">
     <value>NOTE: Duty continues on next page.</value>
   </data>
   <data name="NoMoreTasksInDuty" xml:space="preserve">

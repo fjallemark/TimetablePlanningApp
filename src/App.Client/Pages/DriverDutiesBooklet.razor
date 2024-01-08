@@ -15,42 +15,45 @@ else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
 
-    @for (var i = 0; i < Pages.Length; i += 2)
+    @for (var p = 0; p < Pages.Length; p += 2)
     {
+        var pageLeft = Pages[p];
+        var pageRight = Pages[p + 1];
+
         <div class="pagebreak">
-            @if (PageLeft(i).IsBlank)
+            @if (pageLeft.IsBlank)
             {
-                <BlankDutyPage PageNumber="PageLeft(i).Number"></BlankDutyPage>
+                <BlankDutyPage PageNumber="pageLeft.Number"></BlankDutyPage>
             }
-            else if (PageLeft(i).IsFront)
+            else if (pageLeft.IsFront)
             {
-                <DutyFrontPage PageNumber="PageLeft(i).Number" Item="PageLeft(i).Duty"></DutyFrontPage>
+                <DutyFrontPage PageNumber="pageLeft.Number" Item="pageLeft.Duty"></DutyFrontPage>
             }
-            else if (PageLeft(i).IsPart)
+            else if (pageLeft.IsPart)
             {
-                <DutyPartPage PageNumber="PageLeft(i).Number" Item="PageLeft(i).DutyPart" Duty="PageLeft(i).Duty"></DutyPartPage>
+                <DutyPartPage PageNumber="pageLeft.Number" DriverDutyParts="pageLeft.DutyParts" Duty="pageLeft.Duty"></DutyPartPage>
             }
-            else if (PageLeft(i).IsInstructions)
+            else if (pageLeft.IsInstructions)
             {
-                <DutyInstructionsPage Heading="@PageLeft(i).InstructionsHeading" Duty="PageLeft(i).Duty" PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown"></DutyInstructionsPage>
+                <DutyInstructionsPage Heading="@(pageLeft.InstructionsHeading)" Duty="pageLeft.Duty" PageNumber="pageLeft.Number" MarkdownContent="@(pageLeft.InstructionsMarkdown)"></DutyInstructionsPage>
+            }
+            @if (pageRight.IsBlank)
+            {
+                <BlankDutyPage PageNumber="pageRight.Number"></BlankDutyPage>
+            }
+            else if (pageRight.IsFront)
+            {
+                <DutyFrontPage PageNumber="pageRight.Number" Item="pageRight.Duty"></DutyFrontPage>
+            }
+            else if (pageRight.IsPart)
+            {
+                <DutyPartPage PageNumber="pageRight.Number" DriverDutyParts="pageRight.DutyParts" Duty="pageRight.Duty"></DutyPartPage>               
+            }
+            else if (pageLeft.IsInstructions)
+            {
+                <DutyInstructionsPage Heading="@(pageRight.InstructionsHeading)" Duty="pageRight.Duty" PageNumber="pageRight.Number" MarkdownContent="@(pageRight.InstructionsMarkdown)"></DutyInstructionsPage>
             }
 
-            @if (PageRight(i).IsBlank)
-            {
-                <BlankDutyPage PageNumber="PageRight(i).Number"></BlankDutyPage>
-            }
-            else if (PageRight(i).IsFront)
-            {
-                <DutyFrontPage PageNumber="PageRight(i).Number" Item="PageRight(i).Duty"></DutyFrontPage>
-            }
-            else if (PageRight(i).IsPart)
-            {
-                <DutyPartPage PageNumber="PageRight(i).Number" Item="PageRight(i).DutyPart" Duty="PageRight(i).Duty"></DutyPartPage>
-            }
-            else if (PageRight(i).IsInstructions)
-            {
-                <DutyInstructionsPage Heading="@PageRight(i).InstructionsHeading" Duty="PageRight(i).Duty" PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown"></DutyInstructionsPage>
-            }
         </div>
     }
 }
@@ -97,7 +100,4 @@ else
         pageNumber++;
         return pageNumber % 2 == 0 ? "pagebreak" : "";
     }
-
-    private DriverDutyPage PageLeft(int i) => Pages[i];
-    private DriverDutyPage PageRight(int i) => Pages[i + 1];
 }
