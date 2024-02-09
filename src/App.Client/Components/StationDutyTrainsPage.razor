@@ -34,7 +34,7 @@
                         @foreach (var note in call.Notes.OrderBy(n => n.DisplayOrder).ThenBy(n => n.OperatingDaysFlag))
                         {
                             <tr  style="background-color: @BackgroundColor(call)">
-                                <td colspan="8">@note.Text</td>
+                                <td colspan="8">@((MarkupString)note.Text)</td>
                             </tr>
                         }
                     }

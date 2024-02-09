@@ -5,12 +5,19 @@ using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Server.Services;
 using Tellurian.Trains.Planning.Repositories.Access;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
+using Markdig.Helpers;
+
 
 namespace Tellurian.Trains.Planning.App.Server.Tests;
 
 [TestClass]
 public class DataExport
 {
+    const string ConnecttionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;";
+    const int LayoutId = 29;
+    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-03 Grimslöv\\Trafikplanering\\";
+
     //[Ignore("Use only for current plan.")]
     [TestMethod]
     public async Task ExportStationDutyTrains()
@@ -20,23 +27,32 @@ public class DataExport
         var options =
              Options.Create(new RepositoryOptions
              {
-                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
-             });
+                 ConnectionString = ConnecttionString
+             }); ;
         var store = new AccessPrintedReportsStore(options);
         var target = new PrintedReportsService(store);
-        var booklet = await target.GetStationDutyBookletAsync(24, includeAllTrains: true);
+        var booklet = await target.GetStationDutyBookletAsync(LayoutId, includeAllTrains: true);
 
-        using var stream = new FileStream("C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-03 Grimslöv\\Trafikplanering\\Station trains Cda.csv", FileMode.Create);
-        using var output = 
+        using var stream = new FileStream(OutputPath + "Station trains Cda.csv", FileMode.Create);
+        using var output =
             new StreamWriter(stream, System.Text.Encoding.UTF8);
         Assert.IsNotNull(booklet);
         output.WriteLine($"\"{Notes.Station}\";\"{Notes.Track}\";\"{Notes.Train}\";\"{Notes.Days}\";\"{Notes.From}\";\"{Notes.To}\";\"{Notes.IsStopping}\";\"{Notes.IsThroughpassing}\";\"{Notes.Arrival}\";\"{Notes.Departure}\";\"{Notes.Remarks}\""); ;
+        var stationCalls = new Dictionary<int, StationCallWithAction>(300);
         foreach (var duty in booklet!.Duties)
         {
-            foreach(var call in duty.Calls.Where(c=> c.Station.Signature=="Cda" && ! c.IsShuntingOnly))
+            foreach (var call in duty.Calls.Where(c => (c.Station.Signature == "Cda") && !c.IsShuntingOnly))
             {
-                output.WriteLine($"\"{call.Station.Signature}\";\"{call.Call.TrackNumber}\";\"{call.Train.Prefix} {call.Train.Number}\";\"{call.Train.OperationDays().ShortName}\";\"{call.Train.Origin}\";\"{call.Train.Destination}\";\"{call.Call.IsStop}\";\"{IsPassingThroug(call, call.Station.Name)}\";\"{call.ArrivalTime}\";\"{call.DepartureTime}\";\"{call.Train.CategoryName}. {string.Join(" ",call.Notes)}\"");
+                stationCalls[call.Train.Number] = call;
             }
+            foreach (var call in duty.Calls.Where(c => (c.Station.Signature == "Cdr") && !c.IsShuntingOnly))
+            {
+                stationCalls.TryAdd(call.Train.Number, call);
+            }
+        }
+        foreach (var call in stationCalls.Values.OrderBy(c => c.SortTime))
+        {
+            output.WriteLine($"\"{call.Station.Signature}\";\"{call.Call.TrackNumber}\";\"{call.Train.Prefix} {call.Train.Number}\";\"{call.Train.OperationDays().ShortName}\";\"{call.Train.Origin}\";\"{call.Train.Destination}\";\"{call.Call.IsStop}\";\"{IsPassingThroug(call, call.Station.Name)}\";\"{call.ArrivalTime}\";\"{call.DepartureTime}\";\"{call.Train.CategoryName}. {string.Join(" ", call.Notes.Select(n => n.Text.WithHtmlRemoved()))}\"");
         }
 
         static bool IsPassingThroug(StationCallWithAction call, string currentStationName) =>
@@ -52,20 +68,27 @@ public class DataExport
         var options =
              Options.Create(new RepositoryOptions
              {
-                 ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-01 Halmstad\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
+                 ConnectionString = ConnecttionString
              });
-        
-        using var stream = new FileStream("C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-01 Halmstad\\Trafikplanering\\LayoutVehicles.csv", FileMode.Create);
-        using var output =
-            new StreamWriter(stream, System.Text.Encoding.UTF8);        
-        
-        var store = new AccessPrintedReportsStore(options);
-        var items = store.GetLayoutVehicles(23);
 
-        output.WriteLine($"\"Station\";\"Spår\";\"Avgångstid\";\"Dagar\";\"Littera\";\"Fordonsnr\";\"Ägare\"");
+        using var stream = new FileStream(OutputPath + "LayoutVehicles.csv", FileMode.Create);
+        using var output =
+            new StreamWriter(stream, System.Text.Encoding.UTF8);
+
+        var store = new AccessPrintedReportsStore(options);
+        var items = store.GetLayoutVehicles(LayoutId);
+
+        output.WriteLine($"\"Station\";\"Spår\";\"Avgångstid\";\"Omlopp\";\"Dagar\";\"Littera\";\"Notera\";\"Fordonsnr\";\"Adress\";\"Ägare\"");
         foreach (var item in items)
         {
-            output.WriteLine($"\"{item.StartStationName}\";\"{item.StartTrack}\";\"{item.DepartureTime}\";\"{item.OperatingDays}\";\"{item.OperatorSignature} {item.Class}\";\"{item.VehicleNumber}\";\"{item.OwnerName}\"");
+            for (var i = 0; i < NumberOfWagons(item); i++)
+            {
+                output.WriteLine($"\"{item.StartStationName}\";\"{item.StartTrack}\";\"{item.DepartureTime}\";\"{item.VehicleScheduleNumber}\";\"{item.OperatingDays}\";\"{item.OperatorSignature} {item.Class}\";\"{item.Note}\";\"{item.VehicleNumber}\";\"{LocoAddress(item)}\";\"{item.OwnerName}\"");
+            }
         }
     }
+
+    int NumberOfWagons(LayoutVehicle vehicle) => (vehicle.Note?.Length > 0 && vehicle.Note?.First().IsDigit() == true) ||vehicle.MaxNumberOfWagons < 1 ? 1 : vehicle.MaxNumberOfWagons;
+    string LocoAddress(LayoutVehicle vehicle) => vehicle.LocoAddress.HasValue() ? vehicle.LocoAddress == "0" ? "Ange!" : vehicle.LocoAddress : string.Empty;
+
 }

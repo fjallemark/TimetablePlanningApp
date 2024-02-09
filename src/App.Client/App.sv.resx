@@ -345,4 +345,7 @@
   <data name="WagonTurnus" xml:space="preserve">
     <value>Vagnomlopp</value>
   </data>
+  <data name="ShunterLoco" xml:space="preserve">
+    <value>Växellok</value>
+  </data>
 </root>

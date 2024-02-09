@@ -8,6 +8,7 @@ public interface IPrintedReportsService
     Task<(HttpStatusCode statusCode, DriverDutyBooklet? item)> GetDriverDutiesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, Layout? item)> GetLayoutAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId);
+    Task<(HttpStatusCode statusCode, IEnumerable<ShuntingLoco> items)> GetShuntingLocosAsync(int layoutId);
     Task<(HttpStatusCode statusCode, StationDutyBooklet? item)> GetStationDutiesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<StationTrainOrder>? items)> GetStationsTrainOrderAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretchesAsync(int layoutId, string? line);

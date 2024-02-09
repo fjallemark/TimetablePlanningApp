@@ -1,0 +1,34 @@
+﻿@inject IStringLocalizer<App> Localizer
+@if (Item is not null)
+{
+    <PocketCard>
+        <svg>
+            <line style="stroke: #ffc0cb;" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
+        </svg>
+        <div class="shunter">
+
+            <div class="shunter header">
+                <div><strong>@Item.Operator</strong>  @VehicleType.ToLowerInvariant()</div>
+            </div>
+            <div class="shunter station">@Item.HomeStationName</div>
+            @if (Item.Class.HasValue())
+            {
+                <div class="shunter class">
+                    <span>@Localizer["Class"]: @ClassAndNumber(Item)</span>
+                </div>
+            }
+            <div class="shunter note">
+                @Item.Note
+            </div>
+        </div>
+
+    </PocketCard>
+}
+
+
+@code {
+    [Parameter] public ShuntingLoco? Item { get; set; }
+    string ClassAndNumber(ShuntingLoco it) => $"{it.Class} {it.VehicleNumber}";
+    string VehicleType => Item is null ? string.Empty : Item.IsRailcar ? Localizer["Railcar"] : Localizer["ShunterLoco"];
+
+}

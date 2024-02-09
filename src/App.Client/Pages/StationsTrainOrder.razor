@@ -15,7 +15,8 @@ else
 
     foreach (var station in Items)
     {
-        foreach (var itemsPerPage in station.Trains.ItemsPerPage(27 - (int)(station.Trains.Where(t => t.Notes.Count() > 1).Count()*0.8)))
+
+        foreach (var itemsPerPage in station.Pages(27).ToList())
         {
             <A4LPage>
                 <div class="stationtrainorder">
@@ -30,13 +31,20 @@ else
                                 <th class="col">@Localizer["From"]</th>
                                 <th class="col">@Localizer["Dep"]</th>
                                 <th class="col">@Localizer["To"]</th>
-                                <th class="day">@Localizer["SundayShort"]</th>
+                                @if (IsSundayFirstDay)
+                                {
+                                    <th class="day">@Localizer["SundayShort"]</th>                               
+                                }
                                 <th class="day">@Localizer["MondayShort"]</th>
                                 <th class="day">@Localizer["TuesdayShort"]</th>
                                 <th class="day">@Localizer["WednesdayShort"]</th>
                                 <th class="day">@Localizer["ThursdayShort"]</th>
                                 <th class="day">@Localizer["FridayShort"]</th>
                                 <th class="day">@Localizer["SaturdayShort"]</th>
+                                @if (IsMondayFirstDay)
+                                {
+                                    <th class="day">@Localizer["SundayShort"]</th>
+                                }
                                 <th class="note">@Localizer["Note"]</th>
                             </tr>
                         </thead>
@@ -48,16 +56,23 @@ else
                                     <td class="col">@item.OperatingDayFlag.OperationDays().ShortName</td>
                                     <td class="col">@item.TrackNumber</td>
                                     <td class="col @item.OriginCssClass()">@item.DisplayedArrivalTime()</td>
-                                    <td class="col @item.OriginCssClass()" align="left">@item.Origin()</td>
+                                    <td class="coll @item.OriginCssClass()">@item.Origin()</td>
                                     <td class="col @item.DestinationCssClass()">@item.DisplayedDepartureTime()</td>
-                                    <td class="col @item.DestinationCssClass()" align="left">@item.Destination()</td>
-                                    <td class="day" style="@item.DayFillColor(0x40)"></td>
+                                    <td class="coll @item.DestinationCssClass()">@item.Destination()</td>
+                                    @if (IsSundayFirstDay)
+                                    {
+                                        <td class="day" style="@item.DayFillColor(0x40)"></td>
+                                    }
                                     <td class="day" style="@item.DayFillColor(0x01)"></td>
                                     <td class="day" style="@item.DayFillColor(0x02)"></td>
                                     <td class="day" style="@item.DayFillColor(0x04)"></td>
                                     <td class="day" style="@item.DayFillColor(0x08)"></td>
                                     <td class="day" style="@item.DayFillColor(0x10)"></td>
                                     <td class="day" style="@item.DayFillColor(0x20)"></td>
+                                    @if (IsMondayFirstDay)
+                                    {
+                                        <td class="day" style="@item.DayFillColor(0x40)"></td>
+                                    }
                                     <td class="note" width="500">
                                         @foreach (var note in item.Notes)
                                         {
@@ -77,17 +92,26 @@ else
 
 @code {
     private IEnumerable<StationTrainOrder>? Items;
+    private Layout? Layout;
 
     protected override async Task OnInitializedAsync()
     {
         Items = null;
         var settings = Options.Value;
+        var layout = await DataService.GetLayoutAsync(settings.LayoutId);
+        if (layout.statusCode.IsSuccess())
+        {
+            Layout = layout.item;
+        }
         var result = await DataService.GetStationsTrainOrderAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
             Items = result.items;
         }
     }
+
+    bool IsSundayFirstDay => Layout is null ? false : Layout.StartWeekdayId == 7;
+    bool IsMondayFirstDay => !IsSundayFirstDay;
 
 
 }

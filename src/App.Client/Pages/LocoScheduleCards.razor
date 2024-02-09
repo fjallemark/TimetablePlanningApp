@@ -6,7 +6,7 @@
 @inject IOptions<AppSettings> Options
 
 
-@if (Items == null)
+@if (Locos == null || Shunters is null)
 {
     <CreatingReport />
 }
@@ -14,12 +14,21 @@ else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
 
-    @foreach (var itemsOnPage in Items.ItemsPerPage(10))
+     @foreach (var itemsOnPage in Locos.ItemsPerPage(10))
     {
         <div class="pagebreak">
-            @foreach (var item in itemsOnPage)
+            @foreach (var loco in itemsOnPage)
             {
-                <VehicleScheduleCard Item="@item"></VehicleScheduleCard>
+                <VehicleScheduleCard Item="loco"/>
+            }
+        </div>
+    }
+    @foreach (var itemsOnPage in Shunters.ItemsPerPage(10))
+    {
+        <div class="pagebreak">
+            @foreach(var shunter in itemsOnPage)
+            {
+                <ShunterLocoCard Item="shunter"/>
             }
         </div>
     }
@@ -27,18 +36,25 @@ else
 
 @code {
     string? Operators { get; set; }
-    private IEnumerable<LocoSchedule>? Items { get; set; }
+    private IEnumerable<LocoSchedule>? Locos { get; set; }
+    private IEnumerable<ShuntingLoco>? Shunters { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         var settings = Options.Value;
-        Items = null;
-        var result = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
-        if (result.statusCode.IsSuccess())
+        Locos = null;
+        Shunters = null;
+        var locos = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
+        if (locos.statusCode.IsSuccess())
         {
-            var items = result.items.Where(i => i.ReplaceOrder == 0);
+            var items = locos.items.Where(i => i.ReplaceOrder == 0);
             SetQueryStringParameters();
-            Items = items.Where(i => string.IsNullOrWhiteSpace(Operators) || i.Operator.EqualsAny(Operators));
+            Locos = items.Where(i => string.IsNullOrWhiteSpace(Operators) || i.Operator.EqualsAny(Operators));
+        }
+        var shunters = await DataService.GetShuntingLocosAsync(settings.LayoutId);
+        if (shunters.statusCode.IsSuccess())
+        {
+            Shunters = shunters.items;
         }
     }
 

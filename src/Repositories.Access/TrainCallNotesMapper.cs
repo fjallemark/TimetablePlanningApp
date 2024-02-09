@@ -97,7 +97,7 @@ internal static class TrainCallNotesMapper
                 Prefix = me.GetString("TrainNumberPrefix"),
                 Number = me.GetInt("TrainNumber"),
                 OperationDaysFlags = me.GetByte("TrainOperationDaysFlag"),
-                OperatorName = me.GetString("TrainOperator")
+                OperatorName = me.GetString("DepartingLocoOperator")
             }
         };
 

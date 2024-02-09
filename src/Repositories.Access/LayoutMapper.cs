@@ -14,7 +14,8 @@ internal static class LayoutMapper
             ValidFrom = me.GetDate("ValidFromDate"),
             ValidTo = me.GetDate("ValidToDate"),
             MaxLocoDriversCount = me.GetInt("MaxLocoDriversCount"),
+            StartWeekdayId = me.GetInt("StartWeekday"),
             FontFamily = me.GetString("FontFamily")
-                .OrElse("'Segoe UI', Tahoma, Geneva, Verdana, sans-serif")
+                .OrElse("sans-serif")
         };
 }

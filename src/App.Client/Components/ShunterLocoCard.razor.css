@@ -1,0 +1,32 @@
+﻿svg {
+    stroke-width: 5;
+    z-index: -2;
+    position: absolute;
+    height: 90mm;
+    width: 52mm;
+}
+
+.shunter {
+    font-weight: 500;
+    text-align: center;
+}
+
+    .shunter.header {
+        line-height: 17pt;
+        font-size: 15pt;
+    }
+
+    .shunter.class {
+        font-size: 18pt;
+    }
+
+    .shunter.station {
+        margin-top: 1cm;
+        padding: 6px;
+        font-size: 18pt;
+        font-weight: bold;
+        color: black;
+    }
+    .shunter.note {
+        font-size: 15pt;
+    }

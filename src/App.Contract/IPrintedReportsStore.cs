@@ -9,6 +9,7 @@ public interface IPrintedReportsStore
     Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId);
     Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId);
     Task<IEnumerable<LocoSchedule>> GetLocoSchedulesAsync(int layoutId);
+    Task<IEnumerable<ShuntingLoco>> GetShuntingLocosAsync(int layoutId);
     Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId);
     Task<IEnumerable<StationDutyData>> GetStationDutiesDataAsync(int layoutId);
     Task<IEnumerable<TimetableStretch>> GetTimetableStretchesAsync(int layoutId, string? stretchNumber);

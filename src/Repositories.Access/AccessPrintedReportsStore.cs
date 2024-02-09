@@ -138,7 +138,10 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 Class = reader.GetString("Class"),
                 VehicleNumber = reader.GetString("VehicleNumber"),
                 DepartureTime = reader.GetString("DepartureTime"),
-                OwnerName = reader.GetString("Owner")
+                OwnerName = reader.GetString("Owner"),
+                LocoAddress = reader.GetString("Address"),
+                MaxNumberOfWagons = reader.GetInt("MaxNumberOfWagons"),
+                Note = reader.GetString("Note"),
             };
         }
     }
@@ -162,6 +165,18 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             lastUnique = currentUnique;
         }
         if (locoSchedule != null) result.Add(locoSchedule);
+        return Task.FromResult(result.AsEnumerable());
+    }
+
+    public Task<IEnumerable<ShuntingLoco>> GetShuntingLocosAsync(int layoutId)
+    {
+        var result = new List<ShuntingLoco>(30);
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection, $"SELECT * FROM ShuntingLocoReport WHERE LayoutId = {layoutId} ORDER BY HomeStationName");
+        while (reader.Read())
+        {
+            result.Add(reader.ToShuntingLoco());
+        }
         return Task.FromResult(result.AsEnumerable());
     }
 
@@ -572,7 +587,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         while (reader.Read())
         {
             var currentCallId = reader.GetInt("CallId");
-            if (currentCallId != lastCallId || reader.GetBool("IsTransfer"))
+            if (currentCallId != lastCallId )//|| reader.GetBool("IsTransfer"))
             {
                 if (current is not null) yield return current;
                 current = reader.ToBlockArrivalCallNote();

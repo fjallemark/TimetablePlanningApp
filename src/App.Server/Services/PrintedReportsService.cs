@@ -32,6 +32,9 @@ public class PrintedReportsService(IPrintedReportsStore store)
         return schedules.MergePartsOfSameTrain();
     }
 
+    public Task<IEnumerable<ShuntingLoco>> GetShuntingLocosAsync(int layoutId) =>
+         Store.GetShuntingLocosAsync(layoutId);
+
     public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
         await GetStationDutyBookletAsync(layoutId, false);
 

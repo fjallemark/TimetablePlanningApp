@@ -25,6 +25,9 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId) =>
        GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
 
+    public Task<(HttpStatusCode statusCode, IEnumerable<ShuntingLoco> items)> GetShuntingLocosAsync(int layoutId) =>
+           GetItems<ShuntingLoco>($"api/layouts/{layoutId}/reports/shuntinglocos");
+
     public Task<(HttpStatusCode statusCode, StationDutyBooklet? item)> GetStationDutiesAsync(int layoutId) =>
           GetItem<StationDutyBooklet>($"api/layouts/{layoutId}/reports/stationduties");
     public Task<(HttpStatusCode statusCode, IEnumerable<StationTrainOrder>? items)> GetStationsTrainOrderAsync(int layoutId) =>

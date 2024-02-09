@@ -345,4 +345,7 @@
   <data name="WagonTurnus" xml:space="preserve">
     <value>Wagon turnus</value>
   </data>
+  <data name="ShunterLoco" xml:space="preserve">
+    <value>Shunter</value>
+  </data>
 </root>

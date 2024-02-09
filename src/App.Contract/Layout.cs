@@ -8,4 +8,5 @@ public class Layout
     public DateTime ValidTo { get; set; } 
     public string? FontFamily { get; set; }
     public int MaxLocoDriversCount { get; set; }
+    public int StartWeekdayId { get; set; }
 }

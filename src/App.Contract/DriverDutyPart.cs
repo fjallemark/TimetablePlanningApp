@@ -50,7 +50,7 @@ public static class DutyPartExtensions
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"{ex.Message}: Call id = {me.FromCallId}");
             Debugger.Break();
             throw;
         }
@@ -86,7 +86,7 @@ public static class DutyPartExtensions
         IsLast = (i == me.Train.Calls.Count - 1)
     }).ToArray();
 
-    public static int NumberOfCalls(this DriverDutyPart me) => me.Train.Calls.Count;
+    public static int NumberOfCalls(this DriverDutyPart me) => me.Train.Calls.Count + me.Train.Calls.Count(c => c.IsStop && c.Departure?.IsHidden==false && c.Arrival?.IsHidden == false);
 
 }
 

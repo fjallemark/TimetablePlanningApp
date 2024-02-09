@@ -120,6 +120,7 @@ table {
 
     .stationtrainorder tr {
         border-bottom: 1px solid gray;
+        vertical-align:text-top;
     }
     .stationtrainorder td {
         text-align: center;
@@ -137,6 +138,11 @@ table {
     }
     .stationtrainorder .col {
         border-left: 1px solid gray;
+    }
+    .stationtrainorder .coll {
+        border-left: 1px solid gray;
+        text-align: left;
+        white-space: nowrap;
     }
     .stationtrainorder .bold {
         font-weight: bold;
