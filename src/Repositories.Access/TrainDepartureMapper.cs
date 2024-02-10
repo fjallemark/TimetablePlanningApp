@@ -31,7 +31,8 @@ internal static class TrainDepartureMapper
                 Number = me.GetInt("TrainNumber"),
                 OperationDaysFlags = me.GetByte("TrainOperationDaysFlag"),
                 OperatorName = me.GetString("TrainOperatorName"),
-                Prefix = me.GetString("TrainCategoryPrefix")
+                Prefix = me.GetString("TrainCategoryPrefix"),
+                OverriddenDestination = me.GetString("TrainDestination",null),
             }
         };
 }

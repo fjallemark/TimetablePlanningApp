@@ -2,24 +2,28 @@
 
 @if (Departure != null)
 {
-    <PocketCard>
+    <PocketCardDoubleHeight>
         <div class="departure" style="display: block; transform: rotate(180deg)">
-            <div class="departure station">@Departure.StationName @Localizer["Track"] @Departure.TrackNumber</div>
-            <div class="departure time">@Departure.DepartureTime.Time</div>
-            <div class="departure train">@Departure.Train.Prefix @Departure.Train.Number</div>
-            <div class="departure days">@Departure.Loco.OperationDays().FullName</div>
-            <div class="departure loco">@TurnusText</div>
-            <div class="departure loco">@LocoText</div>
+            <div class="station">@Departure.StationName</div>
+            <div class="track">@Localizer["Track"] @Departure.TrackNumber</div>
+            <div class="days">@Departure.Loco.OperationDays().ShortName</div>
+            <div class="time">@Departure.DepartureTime.Time</div>
+            <div class="train">@Departure.Train.Prefix @Departure.Train.Number</div>
+            <div class="destination">@Departure.Train.Destination</div>
+            <div class="loco">@TurnusText</div>
+            <div class="loco">@LocoText</div>
         </div>
-        <div class="departure">
-            <div class="departure station">@Departure.StationName @Localizer["Track"] @Departure.TrackNumber</div>
-            <div class="departure time">@Departure.DepartureTime.Time</div>
-            <div class="departure train">@Departure.Train.Prefix @Departure.Train.Number</div>
-            <div class="departure days">@Departure.Loco.OperationDays().FullName</div>
-            <div class="departure loco">@TurnusText</div>
-            <div class="departure loco">@LocoText</div>
+        <div class="departure" style="display: block;">
+            <div class="station">@Departure.StationName</div>
+            <div class="track">@Localizer["Track"] @Departure.TrackNumber</div>
+            <div class="days">@Departure.Loco.OperationDays().ShortName</div>
+            <div class="time">@Departure.DepartureTime.Time</div>
+            <div class="train">@Departure.Train.Prefix @Departure.Train.Number</div>
+            <div class="destination">@Departure.Train.Destination</div>
+            <div class="loco">@TurnusText</div>
+            <div class="loco">@LocoText</div>
         </div>
-    </PocketCard>
+    </PocketCardDoubleHeight>
 }
 
 

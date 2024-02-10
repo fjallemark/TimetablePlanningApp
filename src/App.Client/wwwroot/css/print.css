@@ -74,44 +74,6 @@ table {
 }
 
 
-.departure {
-    height: 46mm;
-    width: 48mm;
-    font-weight: bold;
-    font-size: 12pt;
-    text-align: center;
-}
-
-    .departure.station {
-        height: auto;
-        font-size: 12pt;
-        padding-top: 2mm;
-    }
-
-    .departure.loco {
-        height: auto;
-        font-size: 12pt
-    }
-
-    .departure.time {
-        height: auto;
-        color: maroon;
-        font-size: 18pt;
-        line-height: 22pt;
-    }
-
-    .departure.train {
-        height: auto;
-        font-size: 18pt;
-        color: darkcyan;
-        line-height: 22pt;
-    }
-
-    .departure.days {
-        height: auto;
-        font-size: 12pt;
-        color: darkcyan;
-    }
 
 .stationtrainorder {
     margin-top:0px;

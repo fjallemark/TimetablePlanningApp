@@ -1,0 +1,47 @@
+﻿.departure {
+    height: 92mm;
+    width: 48mm;
+    font-weight: bold;
+    font-size: 16pt;
+    text-align: center;
+    font-family: Nina;
+}
+
+.station {
+    padding-top: 2mm;
+}
+
+.destination {
+    padding-bottom: 2mm;
+    color: darkcyan;
+    border-bottom: 1px solid gray;
+}
+
+.track {
+    margin-bottom: 5mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid gray;
+}
+
+.loco {
+}
+
+.time {
+    height: auto;
+    color: maroon;
+    font-size: 18pt;
+    line-height: 22pt;
+}
+
+.train {
+    height: auto;
+    font-size: 18pt;
+    color: darkcyan;
+    line-height: 22pt;
+}
+
+.days {
+    height: auto;
+    font-size: 18pt;
+    color: darkcyan;
+}
