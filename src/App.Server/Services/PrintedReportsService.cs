@@ -94,6 +94,8 @@ public class PrintedReportsService(IPrintedReportsStore store)
         var schedules = await Store.GetTrainsetSchedulesAsync(layoutId);
         return schedules.SchedulesToPrint();
     }
+
+    public Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfoAsync(int layoutId) => Store.GetVehicleStartInfosAsync(layoutId);
 }
 
 internal static class StationTrainOrderExtensions

@@ -17,4 +17,6 @@ public interface IPrintedReportsService
     Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDeparturesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId);
+    Task<(HttpStatusCode statusCode, IEnumerable<VehicleStartInfo> items)> GetVehicleStartInfosAsync(int layoutId);
+
 }

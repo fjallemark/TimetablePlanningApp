@@ -471,4 +471,7 @@
   <data name="Bring" xml:space="preserve">
     <value>Medtar</value>
   </data>
+  <data name="Shunter" xml:space="preserve">
+    <value>Växellok</value>
+  </data>
 </root>

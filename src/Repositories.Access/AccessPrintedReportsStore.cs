@@ -215,6 +215,19 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return Task.FromResult(result.AsEnumerable());
     }
 
+    public Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfosAsync(int layoutId)
+    {
+        var result = new List<VehicleStartInfo>(200);
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY StartStationName, DepartureTrack, DepartureTime");
+        while (reader.Read())
+        {
+            result.Add(reader.ToVehicleStartInfo());
+        }
+
+        return Task.FromResult(result.AsEnumerable());
+    }
+
     public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
     {
         var result = new List<BlockDestinations>(100);

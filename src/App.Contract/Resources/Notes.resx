@@ -471,4 +471,7 @@
   <data name="Bring" xml:space="preserve">
     <value>Bring</value>
   </data>
+  <data name="Shunter" xml:space="preserve">
+    <value>Shunter loco</value>
+  </data>
 </root>

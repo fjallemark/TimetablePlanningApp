@@ -1,0 +1,105 @@
+﻿@page "/vehiclestartinfos"
+@page "/vehiclestartinfos/{option}"
+@layout PrintLayout
+
+@inject IStringLocalizer<App> Localizer
+@inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
+
+@if (StartInfos is null)
+{
+    <CreatingReport />
+
+}
+else
+{
+    @foreach (var station in StartInfos)
+    {
+        <A4LPage>
+            @if (IsPerOwner(Option))
+            {
+                <h1>@((MarkupString)station.First().OwnerOrNotBooked())</h1>
+
+            }
+            else
+            {
+                <h1>@station.First().StationName</h1>
+
+            }
+            <table cellspacing="2" cellpadding="5" width="100%">
+                <thead>
+                    <tr style="border-bottom: 1px solid gray">
+                        @if (IsPerOwner(Option))
+                        {
+                            <th align="left">@Localizer["Station"]</th>
+                        }
+                        <th align="center">@Localizer["Track"]</th>
+                        <th align="center">@Localizer["Time"]</th>
+                        <th align="center">@Localizer["VehicleType"]</th>
+                        <th align="center">@Localizer["Turnus"]</th>
+                        <th align="center">@Localizer["Operator"]</th>
+                        <th align="center">@Localizer["Class"]</th>
+                        <th align="center">@Localizer["Number"]</th>
+                        <th align="center">@Localizer["DccAddress"]</th>
+                        <th align="left">@Localizer["Notes"]</th>
+                        @if (!IsPerOwner(Option))
+                        {
+                            <th>@Localizer["Owner"]</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var info in station.OrderBy(s => s.StationName).ThenBy(s => s.TrackNumber).ThenBy(s => s.TurnusNumber))
+                    {
+                        <tr style="border-bottom: 1px solid gray">
+                            @if (IsPerOwner(Option))
+                            {
+                                <td>@info.StationName</td>
+                            }
+                            <td align="center">@info.TrackNumber</td>
+                            <td align="center">@info.DisplayedTime()</td>
+                            <td align="center">@info.VehicleType</td>
+                            <td align="center">@info.TurnusNumber</td>
+                            <td align="center">@info.OperatorSignature</td>
+                            <td align="center">@info.VehicleClass</td>
+                            <td align="center">@info.VehicleNumber</td>
+                            <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
+                            <td align="left">@info.Notes()</td>
+                            @if (!IsPerOwner(Option))
+                            {
+                                <td>@((MarkupString)info.OwnerOrNotBooked())</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div style="text-align: center">Utskrivet @DateTime.Now.ToShortDateString() @DateTime.Now.ToShortTimeString()</div>
+        </A4LPage>
+    }
+}
+
+
+@code {
+    [Parameter] public string? Option { get; set; }
+    IEnumerable<IGrouping<string?, VehicleStartInfo>>? StartInfos;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        var result = await DataService.GetVehicleStartInfosAsync(Options.Value.LayoutId);
+        if (result.statusCode.IsSuccess())
+        {
+            if (IsPerOwner(Option))
+            {
+                StartInfos = result.items.OrderBy(i => i.OwnerName).GroupBy(i => i.OwnerName);
+            }
+            else
+            {
+                StartInfos = result.items.OrderBy(i => i.StationName).GroupBy(i => i.StationName);
+
+            }
+        }
+    }
+
+    bool IsPerOwner(string? option) => "perowner".Equals(option, StringComparison.OrdinalIgnoreCase);
+
+}

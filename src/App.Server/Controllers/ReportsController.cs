@@ -56,4 +56,7 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     [HttpGet("trainsetschedules")]
     public async Task<IActionResult> GetLTrainsetSchedules(int id) => await this.GetScheduleItems(id, Service.GetTrainsetSchedulesAsync).ConfigureAwait(false);
 
+    [HttpGet("vehiclestartinfos")]
+    public async Task<IActionResult> GetVehicleStartInfo(int id) => await this.GetScheduleItems(id, Service.GetVehicleStartInfoAsync).ConfigureAwait(false);
+
 }

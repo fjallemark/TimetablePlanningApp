@@ -348,4 +348,13 @@
   <data name="ShunterLoco" xml:space="preserve">
     <value>Växellok</value>
   </data>
+  <data name="VehicleType" xml:space="preserve">
+    <value>Fordonstyp</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Nummer</value>
+  </data>
+  <data name="DccAddress" xml:space="preserve">
+    <value>DCC-adress</value>
+  </data>
 </root>

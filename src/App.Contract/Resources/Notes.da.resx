@@ -451,4 +451,7 @@
   <data name="Bring" xml:space="preserve">
     <value>Medtag</value>
   </data>
+  <data name="Shunter" xml:space="preserve">
+    <value>Skiftelokomotiv</value>
+  </data>
 </root>

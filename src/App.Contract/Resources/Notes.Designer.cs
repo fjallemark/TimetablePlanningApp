@@ -844,6 +844,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shunter loco.
+        /// </summary>
+        public static string Shunter {
+            get {
+                return ResourceManager.GetString("Shunter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shunting.
         /// </summary>
         public static string Shunting {

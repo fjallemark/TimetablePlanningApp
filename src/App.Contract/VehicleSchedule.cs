@@ -113,11 +113,26 @@ public static class VehicleScheduleExtensions
 
     public static IEnumerable<VehicleSchedule> SchedulesToPrint(this IEnumerable<VehicleSchedule>? schedules)
     {
-        foreach (var schedule in schedules ?? Enumerable.Empty<TrainsetSchedule>())
+        if (schedules is null) return Enumerable.Empty<VehicleSchedule>();
+        var x = schedules.GroupBy(s => s.TurnusNumber);
+        var result = new List<VehicleSchedule>(200);
+        foreach(var g in x)
         {
-            if (schedule.HasIndividualWagonCards()) { for (int i = 0; i < schedule.NumberOfUnits; i++) { yield return schedule; } }
-            else yield return schedule;
+            var numberToPrint = g.First().HasIndividualWagonCards() ? g.First().NumberOfUnits : 1;
+            for (var i = 0; i < numberToPrint; i++)
+            {
+                foreach(var v in g) result.Add(v);
+            }
+ 
+
+            
         }
+        //foreach (var schedule in schedules ?? Enumerable.Empty<TrainsetSchedule>())
+        //{
+        //    if (schedule.HasIndividualWagonCards()) { for (int i = 0; i < schedule.NumberOfUnits; i++) { yield return schedule; } }
+        //    else yield return schedule;
+        //}
+        return result;
     }
 }
 

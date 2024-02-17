@@ -50,7 +50,10 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
          GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
 
-     private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
+    public Task<(HttpStatusCode statusCode, IEnumerable<VehicleStartInfo> items)> GetVehicleStartInfosAsync(int layoutId) =>
+      GetItems<VehicleStartInfo>($"api/layouts/{layoutId}/reports/vehiclestartinfos");
+
+    private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
     {
         using var request = CreateRequest(requestUrl);
         var response = await Http.SendAsync(request).ConfigureAwait(false);

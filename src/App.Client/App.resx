@@ -348,4 +348,13 @@
   <data name="ShunterLoco" xml:space="preserve">
     <value>Shunter</value>
   </data>
+  <data name="VehicleType" xml:space="preserve">
+    <value>Vehicle type</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="DccAddress" xml:space="preserve">
+    <value>DCC-address</value>
+  </data>
 </root>
