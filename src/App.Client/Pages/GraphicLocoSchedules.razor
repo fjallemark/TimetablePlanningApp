@@ -53,6 +53,7 @@ else if (Layout is not null)
     {
         var settings = Options.Value;
         PageNumber = 1;
+        SetQueryStringParameters();
         var layoutResult = await DataService.GetLayoutAsync(settings.LayoutId);
         if (layoutResult.statusCode.IsSuccess())
         {

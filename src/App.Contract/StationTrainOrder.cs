@@ -5,6 +5,7 @@ public class StationTrainOrder
 {
     public string Name { get; init; }
     public string Designation { get; init; }
+    public string Country { get; init; }
     public List<StationTrain> Trains { get; init; }
     public override string ToString() => Name;
 }

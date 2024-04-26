@@ -454,4 +454,25 @@
   <data name="Shunter" xml:space="preserve">
     <value>Rangierlok</value>
   </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>{0} Wagen</value>
+  </data>
+  <data name="SpareVehicle" xml:space="preserve">
+    <value>Ersatzfahrzeug</value>
+  </data>
+  <data name="OtherVehicle" xml:space="preserve">
+    <value>Anderes Fahrzeug</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="NotBooked" xml:space="preserve">
+    <value>Nicht gebucht</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Fehlen</value>
+  </data>
 </root>

@@ -628,6 +628,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing.
+        /// </summary>
+        public static string Missing {
+            get {
+                return ResourceManager.GetString("Missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mixed train.
         /// </summary>
         public static string MixedTrain {
@@ -682,6 +691,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Normal freight train.
         /// </summary>
         public static string NormalFreightTrain {
@@ -696,6 +714,24 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string NoStop {
             get {
                 return ResourceManager.GetString("NoStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not booked.
+        /// </summary>
+        public static string NotBooked {
+            get {
+                return ResourceManager.GetString("NotBooked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} wagons.
+        /// </summary>
+        public static string NumberOfWagons {
+            get {
+                return ResourceManager.GetString("NumberOfWagons", resourceCulture);
             }
         }
         
@@ -741,6 +777,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string Origin {
             get {
                 return ResourceManager.GetString("Origin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other vehicle.
+        /// </summary>
+        public static string OtherVehicle {
+            get {
+                return ResourceManager.GetString("OtherVehicle", resourceCulture);
             }
         }
         
@@ -858,6 +903,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string Shunting {
             get {
                 return ResourceManager.GetString("Shunting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spare vehicle.
+        /// </summary>
+        public static string SpareVehicle {
+            get {
+                return ResourceManager.GetString("SpareVehicle", resourceCulture);
             }
         }
         
@@ -1128,6 +1182,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string WednesdayShort {
             get {
                 return ResourceManager.GetString("WednesdayShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

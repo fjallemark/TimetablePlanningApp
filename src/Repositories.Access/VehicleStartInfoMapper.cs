@@ -22,5 +22,9 @@ internal static class VehicleStartInfoMapper
             VehicleNumber = record.GetString("VehicleNumber"),
             VehicleType = record.GetStringResource("Type", ResourceManager),
             Note = record.GetString("Note", ""),
+            ReplaceOrder = record.GetInt("ReplaceOrder", -1),
+            HasFredThrottle = record.GetBool("HasFred"),
+            DayFlags = record.GetByte("OperationDaysFlag"),
+            IsFirstDay = record.GetBool("IsFirstDay"),
         };
 }

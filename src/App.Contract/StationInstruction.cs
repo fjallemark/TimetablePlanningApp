@@ -2,7 +2,11 @@
 
 public class StationInstruction
 {
-    public StationInfo? StationInfo { get; set; }
-    public IEnumerable<StationCall> Calls { get; set; } = Array.Empty<StationCall>();
-
+    public StationInstruction()
+    {
+        StationInfo = new StationInfo();
+    }
+    public StationInfo StationInfo { get; init; }
+    public string StationInstructionsMarkdown { get; init; } = string.Empty;
+    public string ShuntingInstructionsMarkdown { get; init; } = string.Empty;
 }

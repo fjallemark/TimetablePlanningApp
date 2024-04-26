@@ -23,6 +23,7 @@ public interface IPrintedReportsStore
     Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId);
     IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId);
     Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfosAsync(int layoutId);
+    Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId);
 }
 
 public class RepositoryOptions

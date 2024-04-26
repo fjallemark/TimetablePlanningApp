@@ -1,5 +1,4 @@
-﻿using Tellurian.Trains.Planning.App.Client.Extensions;
-using Tellurian.Trains.Planning.App.Contracts;
+﻿using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Server.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Server.Services;
@@ -23,6 +22,9 @@ public class PrintedReportsService(IPrintedReportsStore store)
         booklet.Duties = duties.OrderBy(d => d.DisplayOrder).ToArray();
         return booklet;
     }
+
+    public Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId) =>
+        Store.GetStationInstructionsAsync(layoutId);
 
     public async Task<Layout?> GetLayout(int layoutId) => await Store.GetLayout(layoutId).ConfigureAwait(false);
 

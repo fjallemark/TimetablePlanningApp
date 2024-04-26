@@ -474,4 +474,25 @@
   <data name="Shunter" xml:space="preserve">
     <value>Skiftelok</value>
   </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>{0} vogner</value>
+  </data>
+  <data name="SpareVehicle" xml:space="preserve">
+    <value>Reservekjøretøy</value>
+  </data>
+  <data name="OtherVehicle" xml:space="preserve">
+    <value>Annet kjøretøy</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nei</value>
+  </data>
+  <data name="NotBooked" xml:space="preserve">
+    <value>Ikke booket</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Savnes</value>
+  </data>
 </root>

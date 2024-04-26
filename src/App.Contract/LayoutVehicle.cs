@@ -11,10 +11,12 @@ public class LayoutVehicle
     public string? DepartureTime { get; init; }
     public string? Note { get; init; }
     public string? OwnerName { get; init;}
-    public string? LocoAddress { get; init; }
+    public int? LocoAddress { get; init; }
     public string? OperatingDays { get; init;}
     public int MaxNumberOfWagons { get; init; }
+    public required string VehicleType { get; init; }
 
     private string? _startTrack;
 
+    public bool IsLoco => VehicleType == "Loco" || VehicleType == "Railcar";
 }

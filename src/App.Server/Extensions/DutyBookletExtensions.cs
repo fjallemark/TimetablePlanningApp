@@ -1,4 +1,5 @@
-﻿using Tellurian.Trains.Planning.App.Contracts;
+﻿using System.Diagnostics;
+using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.App.Server.Extensions;
 
@@ -16,7 +17,8 @@ internal static class DutyBookletExtensions
         var trainNumberGroups = me.GroupBy(dd => dd.Train.Number);
         foreach (var group in trainNumberGroups)
         {
-            foreach (var item in group)
+            var sortedGroup = group.OrderBy(g => g.StartTime()).ToList();
+            foreach (var item in sortedGroup)
             {
                 foreach (var call in item.Calls())
                 {
@@ -25,10 +27,10 @@ internal static class DutyBookletExtensions
             }
             result.Add(new()
             {
-                Train = group.First().Train,
-                FromCallId = group.First().FromCallId,
-                ToCallId = group.Last().ToCallId,
-                Locos = group.SelectMany(p => p.Locos).ToArray()
+                Train = sortedGroup.First().Train,
+                FromCallId = sortedGroup.First().FromCallId,
+                ToCallId = sortedGroup.Last().ToCallId,
+                Locos = sortedGroup.SelectMany(p => p.Locos).ToArray()
             });
         }
 

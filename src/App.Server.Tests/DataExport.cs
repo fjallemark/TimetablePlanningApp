@@ -14,9 +14,9 @@ namespace Tellurian.Trains.Planning.App.Server.Tests;
 [TestClass]
 public class DataExport
 {
-    const string ConnecttionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-03 Grimslöv\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;";
-    const int LayoutId = 29;
-    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-03 Grimslöv\\Trafikplanering\\";
+    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-05 Furudal\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;";
+    const int LayoutId = 30;
+    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-05 Furudal\\Trafikplanering\\";
 
     //[Ignore("Use only for current plan.")]
     [TestMethod]
@@ -27,7 +27,7 @@ public class DataExport
         var options =
              Options.Create(new RepositoryOptions
              {
-                 ConnectionString = ConnecttionString
+                 ConnectionString = ConnectionString
              }); ;
         var store = new AccessPrintedReportsStore(options);
         var target = new PrintedReportsService(store);
@@ -52,12 +52,13 @@ public class DataExport
         }
         foreach (var call in stationCalls.Values.OrderBy(c => c.SortTime))
         {
-            output.WriteLine($"\"{call.Station.Signature}\";\"{call.Call.TrackNumber}\";\"{call.Train.Prefix} {call.Train.Number}\";\"{call.Train.OperationDays().ShortName}\";\"{call.Train.Origin}\";\"{call.Train.Destination}\";\"{call.Call.IsStop}\";\"{IsPassingThroug(call, call.Station.Name)}\";\"{call.ArrivalTime}\";\"{call.DepartureTime}\";\"{call.Train.CategoryName}. {string.Join(" ", call.Notes.Select(n => n.Text.WithHtmlRemoved()))}\"");
+            output.WriteLine($"\"{call.Station.Signature}\";\"{call.Call.TrackNumber}\";\"{call.Train.Prefix} {call.Train.Number}\";\"{call.Train.OperationDays().ShortName}\";\"{call.Train.Origin}\";\"{call.Train.Destination}\";\"{call.Call.IsStop}\";\"{IsPassingThroug(call, call.Station.Name)}\";\"{WithoutParenteses(call.ArrivalTime)}\";\"{call.DepartureTime}\";\"{call.Train.CategoryName}. {string.Join(" ", call.Notes.Select(n => n.Text.WithHtmlRemoved()))}\"");
         }
 
         static bool IsPassingThroug(StationCallWithAction call, string currentStationName) =>
-            !call.Train.Destination.Equals(currentStationName, System.StringComparison.OrdinalIgnoreCase) &&
-            !call.Train.Origin.Equals(currentStationName, System.StringComparison.OrdinalIgnoreCase);
+            !call.Train.Destination.Equals(currentStationName, StringComparison.OrdinalIgnoreCase) &&
+            !call.Train.Origin.Equals(currentStationName, StringComparison.OrdinalIgnoreCase);
+        static string WithoutParenteses(string time) => time.Length == 7 ? time.Substring(1,5) : time;
     }
 
     [TestMethod]
@@ -68,7 +69,7 @@ public class DataExport
         var options =
              Options.Create(new RepositoryOptions
              {
-                 ConnectionString = ConnecttionString
+                 ConnectionString = ConnectionString
              });
 
         using var stream = new FileStream(OutputPath + "LayoutVehicles.csv", FileMode.Create);
@@ -88,7 +89,8 @@ public class DataExport
         }
     }
 
-    int NumberOfWagons(LayoutVehicle vehicle) => (vehicle.Note?.Length > 0 && vehicle.Note?.First().IsDigit() == true) ||vehicle.MaxNumberOfWagons < 1 ? 1 : vehicle.MaxNumberOfWagons;
-    string LocoAddress(LayoutVehicle vehicle) => vehicle.LocoAddress.HasValue() ? vehicle.LocoAddress == "0" ? "Ange!" : vehicle.LocoAddress : string.Empty;
+    static int NumberOfWagons(LayoutVehicle vehicle) => (vehicle.Note?.Length > 0 && vehicle.Note?.First().IsDigit() == true) || vehicle.MaxNumberOfWagons < 1 ? 1 : vehicle.MaxNumberOfWagons;
+    static string LocoAddress(LayoutVehicle vehicle) =>      
+        vehicle.IsLoco ? vehicle.LocoAddress.HasValue ? vehicle.LocoAddress.Value == 0 ? "Ange!" : vehicle.LocoAddress.Value.ToString() : "Ange!" : string.Empty;
 
 }

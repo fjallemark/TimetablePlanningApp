@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -17,21 +18,25 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
           GetItems<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
 
     public Task<(HttpStatusCode statusCode, DriverDutyBooklet? item)> GetDriverDutiesAsync(int layoutId) =>
-         GetItem<DriverDutyBooklet>($"api/layouts/{layoutId}/reports/driverduties");
+        GetItem<DriverDutyBooklet>($"api/layouts/{layoutId}/reports/driverduties");
 
     public Task<(HttpStatusCode statusCode, Layout? item)> GetLayoutAsync(int layoutId) =>
         GetItem<Layout>($"api/layouts/{layoutId}/reports/layout");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<LocoSchedule> items)> GetLocoSchedulesAsync(int layoutId) =>
-       GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
+        GetItems<LocoSchedule>($"api/layouts/{layoutId}/reports/locoschedules");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<ShuntingLoco> items)> GetShuntingLocosAsync(int layoutId) =>
-           GetItems<ShuntingLoco>($"api/layouts/{layoutId}/reports/shuntinglocos");
+        GetItems<ShuntingLoco>($"api/layouts/{layoutId}/reports/shuntinglocos");
 
     public Task<(HttpStatusCode statusCode, StationDutyBooklet? item)> GetStationDutiesAsync(int layoutId) =>
-          GetItem<StationDutyBooklet>($"api/layouts/{layoutId}/reports/stationduties");
-    public Task<(HttpStatusCode statusCode, IEnumerable<StationTrainOrder>? items)> GetStationsTrainOrderAsync(int layoutId) =>
-           GetItem<IEnumerable<StationTrainOrder>>($"api/layouts/{layoutId}/reports/stationstrainorder");
+        GetItem<StationDutyBooklet>($"api/layouts/{layoutId}/reports/stationduties");
+
+    public Task<(HttpStatusCode statusCode, IEnumerable<StationInstruction> items)> GetStationInstructionsAsync(int layoutId) =>
+        GetItems<StationInstruction>($"api/layouts/{layoutId}/reports/stationsinstructions");
+
+    public Task<(HttpStatusCode statusCode, IEnumerable<StationTrainOrder> items)> GetStationsTrainOrderAsync(int layoutId) =>
+        GetItems<StationTrainOrder>($"api/layouts/{layoutId}/reports/stationstrainorders");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretchesAsync(int layoutId, string? line) =>
         GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches?line={line}");
@@ -43,15 +48,16 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
         GetItems<Train>($"api/layouts/{layoutId}/reports/trains?operator={operatorSignature}");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
-         GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
-   public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDeparturesAsync(int layoutId) =>
+        GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
+
+    public Task<(HttpStatusCode statusCode, IEnumerable<TrainDeparture> items)> GetTrainDeparturesAsync(int layoutId) =>
         GetItems<TrainDeparture>($"api/layouts/{layoutId}/reports/trainstartlabels");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainCallNote> items)> GetTrainCallNotesAsync(int layoutId) =>
-         GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
+        GetItems<TrainCallNote>($"api/layouts/{layoutId}/reports/traincallnotes");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<VehicleStartInfo> items)> GetVehicleStartInfosAsync(int layoutId) =>
-      GetItems<VehicleStartInfo>($"api/layouts/{layoutId}/reports/vehiclestartinfos");
+        GetItems<VehicleStartInfo>($"api/layouts/{layoutId}/reports/vehiclestartinfos");
 
     private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
     {
@@ -65,7 +71,8 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
     {
         using var request = CreateRequest(requestUrl);
         var response = await Http.SendAsync(request).ConfigureAwait(false);
-        if (response.IsSuccessStatusCode) return (response.StatusCode, await Item<T>(response).ConfigureAwait(false));
+        if (response.IsSuccessStatusCode)
+            return (response.StatusCode, await Item<T>(response).ConfigureAwait(false));
         return (response.StatusCode, null);
     }
 
@@ -77,4 +84,5 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
 
     private static async Task<T?> Item<T>(HttpResponseMessage response) =>
         await response.Content.ReadFromJsonAsync<T>(Options).ConfigureAwait(false);
+
 }

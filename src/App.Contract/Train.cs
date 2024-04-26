@@ -31,15 +31,15 @@ public class Train : TrainInfo
     public int MaxSpeed { get; set; }
     public int MaxNumberOfWaggons { get; set; }
     public string Instruction { get; set; } = string.Empty;
-    public IList<StationCall> Calls { get; set; } = Array.Empty<StationCall>();
+    public IList<StationCall> Calls { get; set; } = [];
     public override string ToString() => $"{base.ToString()} {Calls.Count} calls";
     public static Train Example => new()
     {
         OperatorName = "GC",
         Prefix = "G",
         Number = 51,
-        Calls = new[]
-        {
+        Calls =
+        [
             new StationCall {
                 Id = 21,
                 SequenceNumber = 1,
@@ -108,6 +108,6 @@ public class Train : TrainInfo
                 TrackNumber = "4",
                 Arrival = CallTime.Create( "13:38", "Vagnarna växlas in till respektive godskund enligt fraktsedel."),
             }
-        }
+        ]
     };
 }

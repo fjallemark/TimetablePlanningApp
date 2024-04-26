@@ -86,6 +86,19 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         }
     }
 
+    public Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId)
+    {
+        var result = new List<StationInstruction>(50);
+        using var connection = CreateConnection;
+        var sql = $"SELECT * FROM StationInstructionsReport WHERE LayoutId = {layoutId} ORDER BY DisplayOrder";
+        var reader = ExecuteReader(connection, sql);
+        while (reader.Read())
+        {
+            result.Add(reader.ToStationInstruction());
+        }
+        return Task.FromResult(result.AsEnumerable());
+    }
+
     public Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
     {
         var result = new List<DriverDuty>(100);
@@ -124,7 +137,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     public IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId)
     {
         using var connection = CreateConnection;
-        var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY StartStationName, DepartureTrack, DepartureTime, Number, OperatingDays, ReplaceOrder");
+        var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY StartStationName, DepartureTrack, DepartureTime, Number, OperationDaysFlag, ReplaceOrder");
         while (reader.Read())
         {
             yield return new LayoutVehicle()
@@ -132,16 +145,17 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 Id = reader.GetInt("Id"),
                 StartStationName = reader.GetString("StartStationName"),
                 StartTrack = reader.GetString("DepartureTrack"),
-                VehicleScheduleNumber = reader.GetString("Number"),
+                VehicleScheduleNumber = reader.GetInt("Number").ToString(),
                 OperatorSignature = reader.GetString("Operator"),
-                OperatingDays = reader.GetString("OperatingDays"),
+                OperatingDays = reader.GetByte("OperationDaysFlag").OperationDays().ShortName,
                 Class = reader.GetString("Class"),
                 VehicleNumber = reader.GetString("VehicleNumber"),
                 DepartureTime = reader.GetString("DepartureTime"),
                 OwnerName = reader.GetString("Owner"),
-                LocoAddress = reader.GetString("Address"),
+                LocoAddress = reader.GetIntOrNull("Address"),
                 MaxNumberOfWagons = reader.GetInt("MaxNumberOfWagons"),
                 Note = reader.GetString("Note"),
+                VehicleType = reader.GetString("Type")
             };
         }
     }

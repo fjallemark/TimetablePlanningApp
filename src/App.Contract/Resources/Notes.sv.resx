@@ -474,4 +474,25 @@
   <data name="Shunter" xml:space="preserve">
     <value>Växellok</value>
   </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>{0} vagnar</value>
+  </data>
+  <data name="SpareVehicle" xml:space="preserve">
+    <value>Reservfordon</value>
+  </data>
+  <data name="OtherVehicle" xml:space="preserve">
+    <value>Annat fordon</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nej</value>
+  </data>
+  <data name="NotBooked" xml:space="preserve">
+    <value>Ej bokad</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Saknas</value>
+  </data>
 </root>

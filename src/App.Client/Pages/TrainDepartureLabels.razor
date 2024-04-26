@@ -1,5 +1,6 @@
 ﻿@page "/trainstartlabels"
 @layout PrintLayout
+@inject NavigationManager Navigator
 @inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
 @inject IOptions<AppSettings> Options
@@ -24,14 +25,22 @@ else
 
 @code {
     private IEnumerable<TrainDeparture>? Data;
+    private string? Operators;
 
     protected async override Task OnInitializedAsync()
     {
         var settings = Options.Value;
+        SetQueryStringParameters();
         var result = await DataService.GetTrainDeparturesAsync(settings.LayoutId);
         if (result.statusCode.IsSuccess())
         {
-            Data = result.items;
+            Data = Operators.HasValue() ? result.items.Where(i => i.Loco.OperatorName.EqualsAny(Operators)): result.items;
         }
+    }
+
+    void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        Operators = q["operator"];
     }
 }

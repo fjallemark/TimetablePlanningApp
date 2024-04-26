@@ -7,7 +7,7 @@
             <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.OperatorName, Item.Train.Number)</span>
             <span>@Duty.TrainOperatingDay(Item.Train)</span>
         </h1>
-        <div>
+        <div style="border-bottom: 1px solid black;">
             <div>
                 <span class="value">
                     @Item.Train.CategoryName
@@ -37,8 +37,9 @@
         </div>
         @if (Item.Train.Instruction.HasValue())
         {
-            <div>
-                @Item.Train.Instruction
+            <div class="markdown" style="border-bottom: 1px solid black; ">
+                <h2>@Localizer["Instructions"]</h2>
+                @Item.Train.Instruction.ToHtml()
             </div>
         }
         <table width="100%" cellpadding="2">

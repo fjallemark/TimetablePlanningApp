@@ -56,6 +56,7 @@ a, .btn-link {
     font-size: 10pt;
     line-height: 14pt;
     margin: 0px;
+    padding-bottom: 5px;
 }
 
     .markdown p {
@@ -68,26 +69,38 @@ a, .btn-link {
     }
 
     .markdown h1 {
+        line-height: 20pt;
         margin: 0px;
-        padding: 2pt 0pt 6pt 0pt;
+        padding: 2pt 0pt 0px 0pt;
         font-size: 18pt;
     }
 
     .markdown h2 {
+        line-height: 16pt;
         margin: 0px;
-        padding: 4pt 0pt 2pt 0pt;
+        padding: 4px 0pt;
         font-size: 14pt;
     }
 
     .markdown h3 {
+        line-height: 14pt;
         margin: 0px;
-        padding: 4pt 0pt 2pt 0pt;
+        padding: 2pt 0pt;
         font-size: 13pt;
     }
     .markdown h4 {
+        line-height: 13pt;
         margin: 0px;
-        padding: 4pt 0pt 2pt 0pt;
+        padding: 0pt;
         font-size: 12pt;
+    }
+
+
+    .markdown ol {
+        margin: 2px 0px;
+    }
+    .markdown ul {
+        margin: 2px 0px;
     }
 
 svg {

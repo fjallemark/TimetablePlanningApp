@@ -474,4 +474,25 @@
   <data name="Shunter" xml:space="preserve">
     <value>Shunter loco</value>
   </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>{0} wagons</value>
+  </data>
+  <data name="SpareVehicle" xml:space="preserve">
+    <value>Spare vehicle</value>
+  </data>
+  <data name="OtherVehicle" xml:space="preserve">
+    <value>Other vehicle</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NotBooked" xml:space="preserve">
+    <value>Not booked</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Missing</value>
+  </data>
 </root>

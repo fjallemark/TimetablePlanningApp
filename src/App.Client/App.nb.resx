@@ -357,4 +357,22 @@
   <data name="DccAddress" xml:space="preserve">
     <value>DCC-adresse</value>
   </data>
+  <data name="VehiclesPerStation" xml:space="preserve">
+    <value>Kjøretøy per stasjon</value>
+  </data>
+  <data name="VehiclesPerOwner" xml:space="preserve">
+    <value>Kjøretøy per eier</value>
+  </data>
+  <data name="StationDuties" xml:space="preserve">
+    <value>Stasjonstjenester</value>
+  </data>
+  <data name="IsWith" xml:space="preserve">
+    <value>Er med?</value>
+  </data>
+  <data name="IsSetUp" xml:space="preserve">
+    <value>Er satt opp?</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Eier</value>
+  </data>
 </root>

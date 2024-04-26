@@ -178,7 +178,7 @@ public class TrainsetsDepartureCallNote : TrainsetsCallNote
     }
 
     public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) =>
-        ToNotes(t => t.HasCoupleNote, dutyDays);
+        ToNotes(t => t.HasCoupleNote, dutyDays, DisplayOrder);
 
     protected override string Text(IEnumerable<Trainset> trainsets) =>
         string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
@@ -200,7 +200,7 @@ public class TrainsetsArrivalCallNote : TrainsetsCallNote
         IsDriverNote = Trainsets.Any(t => t.HasUncoupleNote);
     }
 
-    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays, 500);
+    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays, DisplayOrder);
 
     protected override string Text(IEnumerable<Trainset> trainsets) =>
         string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));

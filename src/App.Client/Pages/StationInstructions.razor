@@ -1,0 +1,56 @@
+﻿@page "/stationinstructions"
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
+@inject Services.PrintedReportsService DataService
+@inject IOptions<AppSettings> Options
+
+@if (Instructions is null)
+{
+    <CreatingReport />
+}
+else
+{
+    foreach (var station in Instructions)
+    {
+        @if (station.StationInfo!.HasCombinedInstructions)
+        {
+            <A4LPage>
+                <h1>@station.StationInfo.Name - @Localizer["Instructions"]</h1>
+                <div>
+                    @station.StationInstructionsMarkdown.ToHtml()
+                </div>
+                <div>
+                    @station.ShuntingInstructionsMarkdown.ToHtml()
+                </div>
+            </A4LPage>
+        }
+        else
+        {
+            <A4LPage>
+                <h1>@station.StationInfo.Name - @Localizer["StationInstructions"]</h1>
+                <div>
+                    @station.StationInstructionsMarkdown.ToHtml()
+                </div>
+            </A4LPage>
+            <A4LPage>
+                <h1>@station.StationInfo.Name - @Localizer["ShuntingInstructions"]</h1>
+                <div>
+                    @station.ShuntingInstructionsMarkdown.ToHtml()
+                </div>
+            </A4LPage>
+        }
+    }
+}
+
+@code {
+    IEnumerable<StationInstruction>? Instructions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await DataService.GetStationInstructionsAsync(Options.Value.LayoutId);
+        if (result.statusCode.IsSuccess())
+        {
+            Instructions = result.items;
+        }
+    }
+}

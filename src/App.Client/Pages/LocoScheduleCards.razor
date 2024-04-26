@@ -35,9 +35,9 @@ else
 }
 
 @code {
-    string? Operators { get; set; }
     private IEnumerable<LocoSchedule>? Locos { get; set; }
     private IEnumerable<ShuntingLoco>? Shunters { get; set; }
+    string? Operators { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,12 +49,12 @@ else
         {
             var items = locos.items.Where(i => i.ReplaceOrder == 0);
             SetQueryStringParameters();
-            Locos = items.Where(i => string.IsNullOrWhiteSpace(Operators) || i.Operator.EqualsAny(Operators));
+            Locos = Operators.HasValue() ? locos.items.Where(i => i.Operator.EqualsAny(Operators)) : locos.items;
         }
         var shunters = await DataService.GetShuntingLocosAsync(settings.LayoutId);
         if (shunters.statusCode.IsSuccess())
         {
-            Shunters = shunters.items;
+            Shunters = Operators.HasValue() ? shunters.items.Where(i => i.Operator.EqualsAny(Operators)) : shunters.items;
         }
     }
 
