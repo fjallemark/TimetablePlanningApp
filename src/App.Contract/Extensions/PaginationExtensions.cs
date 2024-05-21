@@ -33,7 +33,7 @@ public static class PaginationExtensions
                 sizeCount = 0;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1.7 +  (train.Notes.Where(n => n.Length > noteBreakLength).Sum(n => n.Length)%noteBreakLength) * 0.047) : 1.0;
+            sizeCount += train.Notes.Count > 1 ? (1.0 +  (train.Notes.Count(n => n.Length > noteBreakLength) * 0.7)) : 1.0;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;

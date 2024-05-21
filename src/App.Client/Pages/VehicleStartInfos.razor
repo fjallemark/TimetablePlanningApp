@@ -58,7 +58,7 @@ else
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var info in infoGroup.OrderBy(s => s.ReplaceOrder).ThenBy(s => s.StationName).ThenBy(s => s.TrackNumber).ThenBy(s => s.DepartureTime).ThenBy(s => s.TurnusNumber))
+                        @foreach (var info in Sorted(infoGroup))
                         {
                             <tr style="border-bottom: 1px solid gray; background-color: @info.BackColor()">
                                 @if (IsPerOwner(Option))
@@ -113,16 +113,19 @@ else
         {
             if (IsPerOwner(Option))
             {
-                StartInfos = result.items.Where(i => i.IsFirstDay).OrderBy(i => i.OwnerName).ThenBy(i => i.ReplaceOrder).GroupBy(i => i.OwnerName);
+                StartInfos = result.items.Where(i => i.IsFirstDay).GroupBy(i => i.OwnerName);
             }
             else
             {
-                StartInfos = result.items.Where(i => i.ReplaceOrder < 9).OrderBy(i => i.StationName).ThenBy(i => i.TrackNumber).ThenBy(i => i.DayFlags).GroupBy(i => i.StationName);
-
+                StartInfos = result.items.Where(i => i.ReplaceOrder < 9).GroupBy(i => i.StationName);
             }
         }
     }
 
     bool IsPerOwner(string? option) => "perowner".Equals(option, StringComparison.OrdinalIgnoreCase);
+
+    IEnumerable<VehicleStartInfo> Sorted(IGrouping<string?, VehicleStartInfo> data) =>
+        IsPerOwner(Option) ? data.OrderBy(g => g.StationName).ThenBy(g => g.TrackNumber).ThenBy(i => i.TurnusNumber) :
+        data.OrderBy(g => g.ReplaceOrder).ThenByDescending(g => g.IsFirstDay).ThenByDescending(g => g.DayFlags).ThenBy(g => g.TurnusNumber).ThenBy(g => g.TrackNumber);
 
 }

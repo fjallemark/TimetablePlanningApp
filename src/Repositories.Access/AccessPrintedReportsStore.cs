@@ -145,7 +145,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 Id = reader.GetInt("Id"),
                 StartStationName = reader.GetString("StartStationName"),
                 StartTrack = reader.GetString("DepartureTrack"),
-                VehicleScheduleNumber = reader.GetInt("Number").ToString(),
+                VehicleScheduleNumber = reader.GetInt("Number", 0).ToString(),
                 OperatorSignature = reader.GetString("Operator"),
                 OperatingDays = reader.GetByte("OperationDaysFlag").OperationDays().ShortName,
                 Class = reader.GetString("Class"),
