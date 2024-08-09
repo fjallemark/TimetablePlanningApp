@@ -9,7 +9,7 @@ internal static class ShuntingLocoMapper
         new()
         {
             HomeStationName = record.GetString("HomeStationName"),
-            Operator = record.GetString("LocoOperator", ""),
+            OperatorName = record.GetString("LocoOperator", ""),
             Class = record.GetString("LocoClass"),
             VehicleNumber = record.GetString("LocoNumber"),
             OwnerName = record.GetString("OwnerName"),

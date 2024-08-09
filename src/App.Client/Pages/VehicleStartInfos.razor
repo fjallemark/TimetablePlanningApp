@@ -38,8 +38,8 @@ else
                             <th align="center">@Localizer["Track"]</th>
                             <th align="center">@Localizer["Time"]</th>
                             <th align="center">@Localizer["VehicleType"]</th>
-                            <th align="center">@Localizer["Turnus"]</th>
                             <th align="center">@Localizer["Operator"]</th>
+                            <th align="center">@Localizer["Turnus"]</th>
                             <th align="center">@Localizer["Class"]</th>
                             <th align="center">@Localizer["Number"]</th>
                             <th align="center">DCC</th>
@@ -72,8 +72,8 @@ else
                                 <td align="center">@info.TrackNumber</td>
                                 <td align="center">@info.DisplayedTime()</td>
                                 <td align="center">@info.VehicleType</td>
-                                <td align="center">@info.TurnusNumber</td>
                                 <td align="center">@info.OperatorSignature</td>
+                                <td align="center">@info.TurnusNumber</td>
                                 <td align="center">@info.VehicleClass</td>
                                 <td align="center">@info.VehicleNumber</td>
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
@@ -113,7 +113,7 @@ else
         {
             if (IsPerOwner(Option))
             {
-                StartInfos = result.items.Where(i => i.IsFirstDay).GroupBy(i => i.OwnerName);
+                StartInfos = result.items.Where(i => i.IsFirstDay).OrderBy(i => i.OwnerName).GroupBy(i => i.OwnerName);
             }
             else
             {

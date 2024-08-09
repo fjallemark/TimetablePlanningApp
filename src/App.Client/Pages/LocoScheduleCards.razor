@@ -6,7 +6,7 @@
 @inject IOptions<AppSettings> Options
 
 
-@if (Locos == null || Shunters is null)
+@if (Locos == null)
 {
     <CreatingReport />
 }
@@ -14,47 +14,45 @@ else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
 
-     @foreach (var itemsOnPage in Locos.ItemsPerPage(10))
+    @foreach (var itemsOnPage in Locos.ItemsPerPage(10))
     {
         <div class="pagebreak">
-            @foreach (var loco in itemsOnPage)
+            @foreach (var item in itemsOnPage)
             {
-                <VehicleScheduleCard Item="loco"/>
-            }
-        </div>
-    }
-    @foreach (var itemsOnPage in Shunters.ItemsPerPage(10))
-    {
-        <div class="pagebreak">
-            @foreach(var shunter in itemsOnPage)
-            {
-                <ShunterLocoCard Item="shunter"/>
+                if (item is LocoSchedule loco)
+                {
+                    <VehicleScheduleCard Item="loco" />
+                }
+                else if (item is ShuntingLoco shunter)
+                {
+                    <ShunterLocoCard Item="shunter" />
+                }
             }
         </div>
     }
 }
 
 @code {
-    private IEnumerable<LocoSchedule>? Locos { get; set; }
-    private IEnumerable<ShuntingLoco>? Shunters { get; set; }
+    private List<Vehicle>? Locos { get; set; } 
     string? Operators { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        Locos = new(50);
         var settings = Options.Value;
-        Locos = null;
-        Shunters = null;
-        var locos = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
-        if (locos.statusCode.IsSuccess())
+        SetQueryStringParameters();
+        var locoSchedules = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
+        if (locoSchedules.statusCode.IsSuccess())
         {
-            var items = locos.items.Where(i => i.ReplaceOrder == 0);
-            SetQueryStringParameters();
-            Locos = Operators.HasValue() ? locos.items.Where(i => i.Operator.EqualsAny(Operators)) : locos.items;
+            var items = locoSchedules.items.Where(i => i.ReplaceOrder == 0).ToList();
+            //var filtered = Operators.HasValue() ? locoSchedules.items.Where(i => i.Operator.EqualsAny(Operators)) : locoSchedules.items;
+            Locos.AddRange(items.Cast<Vehicle>());
         }
         var shunters = await DataService.GetShuntingLocosAsync(settings.LayoutId);
         if (shunters.statusCode.IsSuccess())
         {
-            Shunters = Operators.HasValue() ? shunters.items.Where(i => i.Operator.EqualsAny(Operators)) : shunters.items;
+            var filtered = Operators.HasValue() ? shunters.items.Where(i => i.OperatorName.EqualsAny(Operators)) : shunters.items;
+            Locos.AddRange(shunters.items.Cast<Vehicle>());
         }
     }
 

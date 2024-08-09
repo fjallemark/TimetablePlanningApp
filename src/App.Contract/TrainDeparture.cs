@@ -4,7 +4,7 @@ public class TrainDeparture
 {
     public string StationName { get; set; } = string.Empty;
     public string TrackNumber { get; set; } = string.Empty;
-    public Loco Loco { get; set; } = new Loco();
+    public TrainLoco Loco { get; set; } = new TrainLoco();
     public TrainInfo Train { get; set; } = new TrainInfo();
     public CallTime DepartureTime { get; set; } = new CallTime();
 }

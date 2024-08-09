@@ -14,15 +14,15 @@ public class LocoDepartureCallNoteTests
         {
             new LocoDepartureCallNote(1)
             {
-                DepartingLoco = new Loco() { TurnusNumber = 40, OperationDaysFlags = 0b_00000111 },
+                DepartingLoco = new TrainLoco() { TurnusNumber = 40, OperationDaysFlags = 0b_00000111 },
             },
             new LocoDepartureCallNote(1)
             {
-                DepartingLoco = new Loco() { TurnusNumber = 40, OperationDaysFlags = 0b_01111000 }
+                DepartingLoco = new TrainLoco() { TurnusNumber = 40, OperationDaysFlags = 0b_01111000 }
             },
             new LocoDepartureCallNote(2)
             {
-                DepartingLoco = new Loco() { TurnusNumber = 40, OperationDaysFlags = 0b_01111000 }
+                DepartingLoco = new TrainLoco() { TurnusNumber = 40, OperationDaysFlags = 0b_01111000 }
             }
         };
 

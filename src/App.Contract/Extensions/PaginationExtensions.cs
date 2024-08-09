@@ -33,7 +33,7 @@ public static class PaginationExtensions
                 sizeCount = 0;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1.0 +  (train.Notes.Count(n => n.Length > noteBreakLength) * 0.7)) : 1.0;
+            sizeCount += train.Notes.Count > 1 ? (1.0 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.7)) : 1.0;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
@@ -45,7 +45,7 @@ public static class PaginationExtensions
     }
     public static int ItemsPerPage2(this StationTrainOrder? station, int maxItemsPerPage) =>
         station is null ? maxItemsPerPage :
-        maxItemsPerPage - (int)(station.Trains.Where(t => t.Notes.Count > 2).Count() * 0.8); // - station.Trains.SelectMany(t => t.Notes.Where(n => n.Length > 50)).Count();
+        maxItemsPerPage - (int)(station.Trains.Where(t => t.Notes.Count > 2).Count() * 0.8);
 
 
     #region DriverDutyBooklet

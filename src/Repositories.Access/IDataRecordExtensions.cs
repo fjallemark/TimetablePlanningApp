@@ -120,10 +120,10 @@ public static class IDataRecordExtensions
         if (me.IsDBNull(i)) return false;
         var value = me.GetValue(i);
         if (value is bool a) return a;
-        if (value is short b) return b != 0;
-        if (value is int c) return c != 0;
-        if (value is double d) return d != 0;
-        if (defaultValue.HasValue) return defaultValue.Value;
+        else if (value is short b) return b != 0;
+        else if (value is int c) return c != 0;
+        else if (value is double d) return d != 0;
+        else if (defaultValue.HasValue) return defaultValue.Value;
         throw TypeErrorException(value, columnName);
     }
 

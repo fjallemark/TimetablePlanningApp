@@ -42,7 +42,7 @@
 
     private string LocoText =>
         Departure is null ? string.Empty :
-        $"{LocoType} {Departure.Loco.Class} {Departure.Loco.Number}";
+        $"{LocoType} {Departure.Loco.Class} {Departure.Loco.VehicleNumber}";
 
     string LocoType => Departure is null ? string.Empty : Departure.Loco.IsRailcar ? Localizer["Railcar"] : Localizer["Loco"];
 }

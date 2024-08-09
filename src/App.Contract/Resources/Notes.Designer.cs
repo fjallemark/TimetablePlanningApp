@@ -475,6 +475,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Freight goods.
+        /// </summary>
+        public static string Goods {
+            get {
+                return ResourceManager.GetString("Goods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Historical train.
         /// </summary>
         public static string HistoricalTrain {

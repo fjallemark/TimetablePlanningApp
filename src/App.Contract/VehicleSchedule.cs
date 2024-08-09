@@ -2,19 +2,17 @@
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 
-public abstract class VehicleSchedule
+public abstract class VehicleSchedule : Vehicle
 {
     public required string Type { get; set; }
     public bool IsLoco { init; get; }
     public bool IsTrainset { init; get; }
     public bool IsCargoOnly { init; get; }
     public string TurnusNumber { get; set; } = string.Empty;
-    public string VehicleNumber { get; set; } = string.Empty;
     public OperationDays OperationDays { get; set; } = new OperationDays();
     public string Operator { get; set; } = string.Empty;
     public string Note { get; set; } = string.Empty;
     public bool TurnForNextDay { get; set; }
-    public string Class { get; set; } = string.Empty;
     public int NumberOfUnits { get; set; } = 1;
     public int ReplaceOrder { get; set; }
     public bool PrintCard { get; set; }
@@ -27,8 +25,6 @@ public class LocoSchedule : VehicleSchedule
     {
         IsLoco = true;
     }
-
-    public bool IsRailcar { get; set; }
 }
 
 public class TrainsetSchedule : VehicleSchedule

@@ -79,13 +79,13 @@ internal static class TrainCallNotesMapper
     public static LocoExchangeCallNote ToLocoExchangeCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
-            ArrivingLoco = new Loco
+            ArrivingLoco = new TrainLoco
             {
                 TurnusNumber = me.GetInt("ArrivingLocoScheduleNumber"),
                 OperatorName = me.GetString("ArrivingLocoOperator"),
                 OperationDaysFlags = me.GetByte("ArrivingLocoOperationDaysFlag")
             },
-            DepartingLoco = new Loco
+            DepartingLoco = new TrainLoco
             {
                 TurnusNumber = me.GetInt("DepartingLocoScheduleNumber"),
                 OperatorName = me.GetString("DepartingLocoOperator"),
@@ -104,7 +104,7 @@ internal static class TrainCallNotesMapper
     public static LocoDepartureCallNote ToLocoDepartureCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
-            DepartingLoco = new Loco
+            DepartingLoco = new TrainLoco
             {
                 TurnusNumber = me.GetInt("LocoNumber"),
                 OperatorName = me.GetString("LocoOperator"),
@@ -118,7 +118,7 @@ internal static class TrainCallNotesMapper
     public static LocoArrivalCallNote ToLocoArrivalCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
-            ArrivingLoco = new Loco
+            ArrivingLoco = new TrainLoco
             {
                 TurnusNumber = me.GetInt("LocoNumber"),
                 OperatorName = me.GetString("LocoOperator"),

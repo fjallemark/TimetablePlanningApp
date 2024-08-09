@@ -28,7 +28,7 @@ public static class VehicleStartInfoExtensions
         info.DepartureTime.HasValue() && info.DepartureTime.Length >= 5 ? info.DepartureTime[0..5] : string.Empty;
 
     public static string OwnerOrNotBooked(this VehicleStartInfo info) =>
-        info.OwnerName.HasValue() ? info.OwnerName : $"""<span style="color: red">{Resources.Notes.NotBooked.ToUpperInvariant()}</span>""";
+        info.OwnerName.HasValue() ? info.OwnerName : info.MaxNumberOfVehicles==0 ? "" : $"""<span style="color: red">{Resources.Notes.NotBooked.ToUpperInvariant()}</span>""";
 
     public static string Notes(this VehicleStartInfo info)
     {

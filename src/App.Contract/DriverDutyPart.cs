@@ -6,17 +6,17 @@ public class DriverDutyPart
 {
     public DriverDutyPart(Train train) : this(train, null, 0, train.Calls.Count - 1) { }
     public DriverDutyPart(Train train, int fromCallId, int toCallId) : this(train, null, fromCallId, toCallId) { }
-    public DriverDutyPart(Train train, Loco? loco) : this(train, loco, 0, train.Calls.Count - 1) { }
+    public DriverDutyPart(Train train, TrainLoco? loco) : this(train, loco, 0, train.Calls.Count - 1) { }
 
-    public DriverDutyPart(Train train, Loco? loco, int fromCallId, int toCallId)
+    public DriverDutyPart(Train train, TrainLoco? loco, int fromCallId, int toCallId)
     {
         Train = train;
         FromCallId = fromCallId;
         ToCallId = toCallId;
-        if (loco != null) { Locos = new List<Loco> { loco }; }
+        if (loco != null) { Locos = new List<TrainLoco> { loco }; }
     }
     public Train Train { get; set; }
-    public ICollection<Loco> Locos { get; set; } = Array.Empty<Loco>();
+    public ICollection<TrainLoco> Locos { get; set; } = Array.Empty<TrainLoco>();
     public bool IsLastPart { get; set; }
     public int FromCallId { get; set; }
     public int ToCallId { get; set; }

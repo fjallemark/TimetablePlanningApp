@@ -295,8 +295,8 @@ public class LocoExchangeCallNote : TrainCallNote
         DisplayOrder = 6000; //
     }
 
-    public Loco ArrivingLoco { get; set; } = Loco.Empty;
-    public Loco DepartingLoco { get; set; } = Loco.Empty;
+    public TrainLoco ArrivingLoco { get; set; } = TrainLoco.Empty;
+    public TrainLoco DepartingLoco { get; set; } = TrainLoco.Empty;
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
         var days = (byte)(ArrivingLoco.OperationDaysFlags & DepartingLoco.OperationDaysFlags & onlyDays);
@@ -317,7 +317,7 @@ public abstract class LocoCallNote : TrainCallNote
 
     protected abstract string ParkingText(byte days, byte onlyDays);
 
-    protected static string LocoText(string format, Loco loco) =>
+    protected static string LocoText(string format, TrainLoco loco) =>
        string.Format(CultureInfo.CurrentCulture, format, loco.DisplayFormat(), loco.OperationDays());
 }
 
@@ -331,7 +331,7 @@ public class LocoDepartureCallNote : LocoCallNote
         DisplayOrder = 1000; //
     }
 
-    public Loco DepartingLoco { get; set; } = Loco.Empty;
+    public TrainLoco DepartingLoco { get; set; } = TrainLoco.Empty;
     public bool IsFromParking { get; set; }
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
@@ -363,7 +363,7 @@ public class LocoArrivalCallNote : LocoCallNote
         IsForArrival = true;
         DisplayOrder = 2000; //
     }
-    public Loco ArrivingLoco { get; set; } = Loco.Empty;
+    public TrainLoco ArrivingLoco { get; set; } = TrainLoco.Empty;
     public bool IsToParking { get; set; }
     public bool TurnLoco { get; set; }
     public bool CirculateLoco { get; set; }

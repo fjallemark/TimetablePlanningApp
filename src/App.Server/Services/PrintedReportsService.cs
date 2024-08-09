@@ -1,4 +1,5 @@
-﻿using Tellurian.Trains.Planning.App.Contracts;
+﻿using System.Diagnostics;
+using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Server.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Server.Services;
@@ -109,6 +110,7 @@ internal static class StationTrainOrderExtensions
         {
             foreach (var train in station.Trains)
             {
+                if (!train.IsStop) train.Notes.Add(Contracts.Resources.Notes.NoStop);
                 if (notesDictionary.TryGetValue(train.CallId, out List<TrainCallNote>? value))
                 {
                     var callNotes = value.Where(n => (n.IsStationNote || n.IsShuntingNote) && (train.IsArrival == n.IsForArrival || train.IsDeparture == n.IsForDeparture)).OrderBy(n => n.DisplayOrder);

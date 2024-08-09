@@ -14,9 +14,9 @@ namespace Tellurian.Trains.Planning.App.Server.Tests;
 [TestClass]
 public class DataExport
 {
-    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-05 Furudal\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;";
-    const int LayoutId = 30;
-    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-05 Furudal\\Trafikplanering\\";
+    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-06 Gävle\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;";
+    const int LayoutId = 31;
+    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-06 Gävle\\Trafikplanering\\";
 
     //[Ignore("Use only for current plan.")]
     [TestMethod]

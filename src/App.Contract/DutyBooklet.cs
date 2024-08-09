@@ -38,7 +38,7 @@ public sealed class DriverDutyBooklet: DutyBooklet
                      StartTime = "11:40",
                      EndTime = "15:38",
                      Parts = new [] {
-                         new DriverDutyPart(Train.Example, new Loco {  OperatorName="GC", TurnusNumber=52}, 22, 27)
+                         new DriverDutyPart(Train.Example, new TrainLoco {  OperatorName="GC", TurnusNumber=52}, 22, 27)
                      }
             }
         }

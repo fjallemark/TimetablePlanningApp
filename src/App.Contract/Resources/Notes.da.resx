@@ -475,4 +475,7 @@
   <data name="Missing" xml:space="preserve">
     <value>Mangler</value>
   </data>
+  <data name="Goods" xml:space="preserve">
+    <value>Fragtgods</value>
+  </data>
 </root>
