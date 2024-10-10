@@ -24,6 +24,7 @@ public class DriverDutyPart
     public bool GetLocoAtParking { get; set; }
     public bool ReverseLoco { get; set; }
     public bool TurnLoco { get; set; }
+    public bool IsReinforcement { get; set; }
     public int FromCallIndex { get; set; } = -1;
     public int ToCallIndex { get; set; } = -1;
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.

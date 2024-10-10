@@ -27,7 +27,7 @@ else
             }
             else if (pageLeft.IsFront)
             {
-                <DutyFrontPage PageNumber="pageLeft.Number" Item="pageLeft.Duty"></DutyFrontPage>
+                <DutyFrontPage PageNumber="pageLeft.Number" Item="pageLeft.Duty" HasInstructions="Pages.Any(p => p.IsInstructions)"></DutyFrontPage>
             }
             else if (pageLeft.IsPart)
             {

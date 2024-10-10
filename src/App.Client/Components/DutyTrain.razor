@@ -3,6 +3,7 @@
 <div class="duty train">
     @if (Duty is not null && Item is not null)
     {
+        
         <h1>
             <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.OperatorName, Item.Train.Number)</span>
             <span>@Duty.TrainOperatingDay(Item.Train)</span>
@@ -10,7 +11,14 @@
         <div style="border-bottom: 1px solid black;">
             <div>
                 <span class="value">
-                    @Item.Train.CategoryName
+                    @if (Item.IsReinforcement)
+                    {
+                        @string.Format(Localizer["ReinforcementLocoTo"], Item.Train.CategoryName)
+                    }
+                    else
+                    {
+                        @Item.Train.CategoryName
+                    }
                 </span>&nbsp;
                 <span class="group">
                     <span class="label">@Localizer["StartsAt"]:</span>
@@ -52,9 +60,10 @@
                 </tr>
             </thead>
             <tbody>
+
                 @foreach (var call in Item.Calls())
                 {
-                    @if (call.ShowArrival)
+                    @if ((call.ShowArrival && !Item.IsReinforcement) || call.IsArrivalInDuty)
                     {
                         <tr class="@call.ArrivalCssClass">
                             <td>
@@ -75,10 +84,9 @@
                                     }
                                 }
                             </td>
-
                         </tr>
                     }
-                    @if (call.ShowDeparture)
+                    @if ((call.ShowDeparture && !Item.IsReinforcement) || call.IsDepartureInDuty)
                     {
                         <tr class="@call.DepartureCssClass">
                             <td>
@@ -91,7 +99,7 @@
                             <td align="center"><strong>@call.TrackNumber</strong></td>
                             <td align="center"><strong>@call.Departure?.Time</strong></td>
                             <td>
-                                @if (call.Departure != null)
+                                @if (call.Departure is not null)
                                 {
                                     foreach (var note in call.Departure.Notes.OrderBy(n => n.DisplayOrder))
                                     {
@@ -100,8 +108,10 @@
                                 }
                             </td>
                         </tr>
+
                     }
                 }
+                
             </tbody>
         </table>
     }

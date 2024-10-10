@@ -15,7 +15,7 @@ else if (Layout is not null)
     <RefreshButton OnClick="OnInitializedAsync" />
 
     var lastTurnusNumber = "";
-    @foreach (var itemsOnPage in Items.ItemsPerPage(14))
+    @foreach (var itemsOnPage in Items.ItemsPerPage(16))
     {
         <div class="pagebreak">
             <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading</span> <span style="display: block; font-size: 12pt">@Venue</span></div>

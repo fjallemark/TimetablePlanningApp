@@ -49,7 +49,8 @@ internal static class DutyMapper
             ToCallId = me.GetInt("ToCallId"),
             PutLocoAtParking = me.GetBool("ToParking"),
             ReverseLoco = me.GetBool("ReverseLoco"),
-            TurnLoco = me.GetBool("TurnLoco")
+            TurnLoco = me.GetBool("TurnLoco"),
+            IsReinforcement = me.GetBool("IsReinforcement"),
         };
 
     public static StationDutyData ToStationDutyData(this IDataRecord me) =>

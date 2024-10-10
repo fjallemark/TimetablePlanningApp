@@ -375,4 +375,7 @@
   <data name="Owner" xml:space="preserve">
     <value>Ägare</value>
   </data>
+  <data name="ReinforcementLocoTo" xml:space="preserve">
+    <value>Förstärkningslok till {0}</value>
+  </data>
 </root>

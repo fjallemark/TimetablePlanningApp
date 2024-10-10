@@ -126,6 +126,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                     duty = reader.ToDuty();
                 }
                 duty?.Parts.Add(reader.ToDutyPart(train));
+                //if (duty.Parts.Last().IsReinforcement) Debugger.Break();
                 lastLocoScheduleTrainId = currentLocoScheduleTrainId;
             }
             train?.Calls.Add(reader.ToStationCall(++sequenceNumber));

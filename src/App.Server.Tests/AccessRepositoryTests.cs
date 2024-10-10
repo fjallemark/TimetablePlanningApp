@@ -28,10 +28,14 @@ public class AccessRepositoryTests
         var options =
             Options.Create(new RepositoryOptions
             {
-                ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2023\\2023-01 Halmstad\\Trafikplanering\\Timetable.accdb;Uid=Admin;Pwd=;"
+                ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-09 Nässjö\\Timetable.accdb;Uid=Admin;Pwd=;"
             });
         var target = new AccessTrainStore(options);
-        _ = await target.UpdateTrainTimes(934, 0);
+        int[] trainIds =  [1709, 1713];
+        foreach (var trainId in trainIds)
+        {
+            _ = await target.UpdateTrainTimes(trainId, 60);
+        }
 
     }
 }

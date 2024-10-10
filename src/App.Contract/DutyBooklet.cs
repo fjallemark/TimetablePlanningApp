@@ -8,7 +8,7 @@ public abstract class DutyBooklet
     public string ScheduleName { get; set; } = string.Empty;
     public DateTime ValidFromDate { get; set; }
     public DateTime ValidToDate { get; set; }
-    public IEnumerable<Instruction> Instructions { get; set; } = new List<Instruction>();
+    public IEnumerable<Instruction> Instructions { get; set; } = [];
 
 }
 
@@ -26,8 +26,8 @@ public sealed class DriverDutyBooklet: DutyBooklet
     public static DriverDutyBooklet Example => new()
     {
         ScheduleName = "Demo",
-        Duties = new[]
-        {
+        Duties =
+        [
             new DriverDuty
             {
                 Operator = "Green Cargo",
@@ -37,11 +37,11 @@ public sealed class DriverDutyBooklet: DutyBooklet
                      Number="22",
                      StartTime = "11:40",
                      EndTime = "15:38",
-                     Parts = new [] {
+                     Parts = [
                          new DriverDutyPart(Train.Example, new TrainLoco {  OperatorName="GC", TurnusNumber=52}, 22, 27)
-                     }
+                     ]
             }
-        }
+        ]
     };
 }
 

@@ -355,4 +355,7 @@
   <data name="Owner" xml:space="preserve">
     <value>Ejer</value>
   </data>
+  <data name="ReinforcementLocoTo" xml:space="preserve">
+    <value>Forstærkningsloko til {0}</value>
+  </data>
 </root>

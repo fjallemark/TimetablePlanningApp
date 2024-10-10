@@ -17,11 +17,14 @@
                 else
                 {
                     <div class="duty number">@Item.Number</div>
-                    
+
                 }
-                <div class="important">
-                    <div>@Localizer["FirstReadInstructionsOnLastPage"]</div>
-                </div>
+                @if (HasInstructions)
+                {
+                    <div class="important">
+                        <div>@Localizer["FirstReadInstructionsOnLastPage"]</div>
+                    </div>
+                }
                 @if (Item is DriverDuty d0)
                 {
                     <div class="duty days"><strong>@d0.OperationDays.FullName</strong></div>
@@ -48,8 +51,8 @@
                     }
                 }
             }
-             <hr />
-           @if (Item is DriverDuty d2)
+            <hr />
+            @if (Item is DriverDuty d2)
             {
                 <div class="duty description">@d2.TrainTypes()</div>
             }
@@ -71,6 +74,8 @@
     public int PageNumber { get; set; }
     [Parameter]
     public Duty? Item { get; set; }
+    [Parameter]
+    public bool HasInstructions { get; set; }
 
     string DifficultyColor(int difficulty) => difficulty switch
     {

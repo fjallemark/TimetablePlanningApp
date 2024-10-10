@@ -375,4 +375,7 @@
   <data name="Owner" xml:space="preserve">
     <value>Owner</value>
   </data>
+  <data name="ReinforcementLocoTo" xml:space="preserve">
+    <value>Reinforcement loco to {0}</value>
+  </data>
 </root>

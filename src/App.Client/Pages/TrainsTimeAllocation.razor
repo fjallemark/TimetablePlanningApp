@@ -69,13 +69,15 @@ else
     byte[] BuildTrainAllocationTable(Layout? layout, IEnumerable<Train> trains)
     {
         if (layout is null) return Array.Empty<byte>();
-        var minutes = (layout.EndHour - layout.StartHour) * 60;
+        var startTime = trains.Min(t => t.Calls[0].Arrival.AsTimeSpan());
+        var endTime = trains.Max(t => t.Calls[^1].Departure.AsTimeSpan());
+        var minutes = (int)(endTime - startTime).TotalMinutes;
         var table = new byte[minutes+1];
         foreach (var train in trains)
         {
             var calls = train.Calls.OrderBy(c => c.SortTime());
-            var startIndex = (int)(calls.First().Arrival.OffsetMinutes() - (layout.StartHour * 60));
-            var endIndex = (int)(calls.Last().Departure.OffsetMinutes() - (layout.StartHour * 60));
+            var startIndex = calls.First().Arrival.OffsetIndex(startTime);
+            var endIndex = calls.Last().Departure.OffsetIndex(startTime);
             for (var i = startIndex; i < endIndex; i++)
             {
                 table[i]++;

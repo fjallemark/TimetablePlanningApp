@@ -30,7 +30,9 @@ internal static class DutyBookletExtensions
                 Train = sortedGroup.First().Train,
                 FromCallId = sortedGroup.First().FromCallId,
                 ToCallId = sortedGroup.Last().ToCallId,
-                Locos = sortedGroup.SelectMany(p => p.Locos).ToArray()
+                Locos = sortedGroup.SelectMany(p => p.Locos).ToArray(),
+                IsReinforcement = sortedGroup.First().IsReinforcement,
+                
             });
         }
 

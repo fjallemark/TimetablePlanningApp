@@ -30,3 +30,9 @@ h1 {
     color: red;
     line-height: 15pt;
 }
+
+@media print {
+    @page {
+        size: A4 portrait;
+    }
+}

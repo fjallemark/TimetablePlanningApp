@@ -38,7 +38,7 @@ table {
 
 @media print {
     @page {
-        size: landscape;
+        size:landscape;
     }
 
     .no-print, .no-print * {
@@ -55,25 +55,6 @@ table {
         page-break-after: always;
     }
 }
-
-@media stationtrainorder {
-    @page {
-        size: portrait;
-    }
-
-    .pagebreak {
-        clear: both;
-        page-break-after: always;
-    }
-
-    .pagebreak-hard {
-        clear: both;
-        page-break-after: always;
-    }
-   
-}
-
-
 
 .stationtrainorder {
     margin-top:0px;

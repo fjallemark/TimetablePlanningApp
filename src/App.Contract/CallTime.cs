@@ -23,6 +23,9 @@ public static class CallTimeExtensions
     public static double OffsetMinutes(this CallTime? me) =>
         me.AsTimeSpan().TotalMinutes;
 
+    public static int OffsetIndex(this CallTime? me, TimeSpan offsetTime) =>
+        (int)((me.AsTimeSpan() - offsetTime).TotalMinutes);
+
 
     public static TimeSpan AsTimeSpan(this CallAction? me) =>
        me is null || me.Time is null ? TimeSpan.Zero : TimeSpan.Parse(me.Time.Time, CultureInfo.InvariantCulture);
