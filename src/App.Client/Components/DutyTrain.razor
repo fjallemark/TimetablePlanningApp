@@ -63,7 +63,7 @@
 
                 @foreach (var call in Item.Calls())
                 {
-                    @if ((call.ShowArrival && !Item.IsReinforcement) || call.IsArrivalInDuty)
+                    @if ((call.ShowArrival && !Item.IsReinforcement) || call.IsStop && call.IsArrivalInDuty)
                     {
                         <tr class="@call.ArrivalCssClass">
                             <td>

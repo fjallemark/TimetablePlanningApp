@@ -87,7 +87,10 @@ public static class DutyPartExtensions
         IsLast = (i == me.Train.Calls.Count - 1)
     }).ToArray();
 
-    public static int NumberOfCalls(this DriverDutyPart me) => me.Train.Calls.Count + me.Train.Calls.Count(c => c.IsStop && c.Departure?.IsHidden==false && c.Arrival?.IsHidden == false);
+    public static int NumberOfCalls(this DriverDutyPart me) => 5 +
+        me.Train.Calls
+            .Where((c,i) => i >= me.FromCallIndex() && i <= me.ToCallIndex())
+            .Count( c => c.Departure?.IsHidden==false || c.Arrival?.IsHidden == false) ;
 
 }
 

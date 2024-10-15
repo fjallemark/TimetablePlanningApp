@@ -17,7 +17,13 @@ else
         <A4LPage>
             @if (IsPerOwner(Option))
             {
-                <h2 style="line-height: 16pt">@((MarkupString)infoGroup.First().OwnerOrNotBooked())</h2>
+                @if (HasBookings) {
+                    <h2 style="line-height: 16pt">@((MarkupString)infoGroup.First().OwnerOrNotBooked())</h2>
+                }
+                else
+                {
+                    <h2 style="line-height: 16pt">@Localizer["NeedForVehicles"]</h2>
+                }
             }
             else
             {
@@ -105,12 +111,14 @@ else
 @code {
     [Parameter] public string? Option { get; set; }
     IEnumerable<IGrouping<string?, VehicleStartInfo>>? StartInfos;
+    bool HasBookings;
 
     protected async override Task OnParametersSetAsync()
     {
         var result = await DataService.GetVehicleStartInfosAsync(Options.Value.LayoutId);
         if (result.statusCode.IsSuccess())
         {
+            HasBookings = result.items.Any(i => i.OwnerName.HasValue());
             if (IsPerOwner(Option))
             {
                 StartInfos = result.items.Where(i => i.IsFirstDay).OrderBy(i => i.OwnerName).GroupBy(i => i.OwnerName);

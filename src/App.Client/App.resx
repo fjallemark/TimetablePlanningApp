@@ -378,4 +378,7 @@
   <data name="ReinforcementLocoTo" xml:space="preserve">
     <value>Reinforcement loco to {0}</value>
   </data>
+  <data name="NeedForVehicles" xml:space="preserve">
+    <value>Need for vehicles</value>
+  </data>
 </root>

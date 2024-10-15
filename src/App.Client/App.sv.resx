@@ -378,4 +378,7 @@
   <data name="ReinforcementLocoTo" xml:space="preserve">
     <value>Förstärkningslok till {0}</value>
   </data>
+  <data name="NeedForVehicles" xml:space="preserve">
+    <value>Behov av fordon</value>
+  </data>
 </root>

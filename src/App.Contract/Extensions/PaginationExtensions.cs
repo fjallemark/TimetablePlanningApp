@@ -20,7 +20,7 @@ public static class PaginationExtensions
 
     public static IEnumerable<IEnumerable<StationTrain>> Pages(this StationTrainOrder station, int maxItemsPerPage)
     {
-        var noteBreakLength = 95;
+        var noteBreakLength = 85;
         List<List<StationTrain>> pages = [];
         List<StationTrain> page = [];
         var sizeCount = 0.0;
@@ -33,7 +33,7 @@ public static class PaginationExtensions
                 sizeCount = 0;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1.0 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.50)) : 1.0;
+            sizeCount += train.Notes.Count > 1 ? (1 + train.Notes.Count * 0.6 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.55)) : 1.2;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
@@ -45,7 +45,7 @@ public static class PaginationExtensions
     }
     public static int ItemsPerPage2(this StationTrainOrder? station, int maxItemsPerPage) =>
         station is null ? maxItemsPerPage :
-        maxItemsPerPage - (int)(station.Trains.Where(t => t.Notes.Count > 2).Count() * 0.8);
+        maxItemsPerPage - (int)(station.Trains.Where(t => t.Notes.Count > 2).Count() * 0.7);
 
 
     #region DriverDutyBooklet
@@ -70,35 +70,36 @@ public static class PaginationExtensions
     public static IEnumerable<DriverDutyPage> GetDriverDutyPages(this DriverDuty me, IEnumerable<Instruction> instructions)
     {
         var pageNumber = 1;
-        var result = new List<DriverDutyPage> { DriverDutyPage.Front(pageNumber++, me) };
+        var pages = new List<DriverDutyPage> { DriverDutyPage.Front(pageNumber++, me) };
 
         var instruction = instructions.LanguageOrInvariantInstruction();
         var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
         dutyParts.Last().IsLastPart = true;
         var dutyPartsCount = dutyParts.Length;
+        var numberOfCallsOnCurrentPage = 0;
         for (var i = 0; i < dutyPartsCount; i++)
         {
-            result.Add(DriverDutyPage.Part(pageNumber, me, dutyParts[i]));
-            if (dutyPartsCount > 2 && i < (dutyPartsCount - 1) && result.Last().DutyParts.Count < 2)
+            pages.Add(DriverDutyPage.Part(pageNumber, me, dutyParts[i]));
+            numberOfCallsOnCurrentPage += dutyParts[i].NumberOfCalls();
+            while (i < dutyPartsCount - 1 && numberOfCallsOnCurrentPage + dutyParts[i + 1].NumberOfCalls() <= 25)
             {
-                if (dutyParts[i + 1].FitOnSamePageAs(dutyParts[i]))
-                {
-                    result.Last().DutyParts.Add(dutyParts[i + 1]);
-                    i++;
-                }
-            };
+                i++;
+                numberOfCallsOnCurrentPage += dutyParts[i].NumberOfCalls();
+                pages.Last().DutyParts.Add(dutyParts[i]);
+            }
+            numberOfCallsOnCurrentPage = 0;
             pageNumber++;
         }
 
         var blankPages = BlankPagesToAppend<DriverDutyPage>((pageNumber - 1), instruction.IsEmpty ? 0 : 1).ToArray();
         pageNumber += blankPages.Length;
-        result.AddRange(blankPages);
+        pages.AddRange(blankPages);
 
         if (!instruction.IsEmpty)
-            result.Add(DriverDutyPage.Instructions(pageNumber, instruction.Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Driver}"));
+            pages.Add(DriverDutyPage.Instructions(pageNumber, instruction.Markdown, $"{Resources.Notes.Instructions} {Resources.Notes.Driver}"));
 
-        if (result.Max(p => p.Number) % 4 != 0) Debugger.Break();
-        return result;
+        if (pages.Max(p => p.Number) % 4 != 0) Debugger.Break();
+        return pages;
     }
 
     private static bool FitOnSamePageAs(this DriverDutyPart? part2, DriverDutyPart? part1) =>
