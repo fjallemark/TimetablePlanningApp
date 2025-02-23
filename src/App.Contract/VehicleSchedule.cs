@@ -1,4 +1,5 @@
-﻿using Tellurian.Trains.Planning.App.Contracts.Resources;
+﻿using Tellurian.Trains.Planning.App.Contracts.Extensions;
+using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 
@@ -8,15 +9,16 @@ public abstract class VehicleSchedule : Vehicle
     public bool IsLoco { init; get; }
     public bool IsTrainset { init; get; }
     public bool IsCargoOnly { init; get; }
-    public string TurnusNumber { get; set; } = string.Empty;
+    public string Turnus { get; set; } = string.Empty;
     public OperationDays OperationDays { get; set; } = new OperationDays();
     public string Operator { get; set; } = string.Empty;
     public string Note { get; set; } = string.Empty;
+    public string OwnerNote { get; set; } = string.Empty;
     public bool TurnForNextDay { get; set; }
     public int NumberOfUnits { get; set; } = 1;
     public int ReplaceOrder { get; set; }
     public bool PrintCard { get; set; }
-    public IList<TrainPart> TrainParts { get; set; } = new List<TrainPart>();
+    public IList<TrainPart> TrainParts { get; set; } = [];
 }
 
 public class LocoSchedule : VehicleSchedule
@@ -49,7 +51,7 @@ public static class VehicleScheduleExtensions
     {
         var result = new List<(string label, string? value)>();
         if (me is null) return result;
-        result.Add((me.Type, me.TurnusNumber));
+        result.Add((me.Type, me.Turnus));
         if (!string.IsNullOrWhiteSpace(me.OperationDays.ShortName)) result.Add((Notes.Days, me.OperationDays.ShortName));
         if (!string.IsNullOrWhiteSpace(me.Operator)) result.Add((Notes.Operator, me.Operator));
         return result;
@@ -94,8 +96,13 @@ public static class VehicleScheduleExtensions
         me.PrintCard && me.NumberOfUnits > 1 ? Notes.Wagonset : Notes.WagonTurnus;
 
     public static string? Note(this VehicleSchedule me) =>
-        me.HasIndividualWagonCards() ? me.Note :
-        me.NumberOfUnits > 1 ? $"{me.NumberOfUnits}×{me.Note}" : me.Note;
+        me.HasIndividualWagonCards() ? me.WithOwnerNote() :
+        me.NumberOfUnits > 1 ? $"{me.NumberOfUnits}×{me.WithOwnerNote()}" : 
+        me.WithOwnerNote();
+
+    private static string? WithOwnerNote(this VehicleSchedule me) =>
+        me.OwnerNote.HasValue() ? $"{me.Note} {me.OwnerNote}" :
+        me.Note;
 
     public static string CrossLineColor(this VehicleSchedule me) =>
         me.IsLoco ? "#ffc0cb" :
@@ -110,7 +117,7 @@ public static class VehicleScheduleExtensions
     public static IEnumerable<VehicleSchedule> SchedulesToPrint(this IEnumerable<VehicleSchedule>? schedules)
     {
         if (schedules is null) return Enumerable.Empty<VehicleSchedule>();
-        var x = schedules.GroupBy(s => s.TurnusNumber);
+        var x = schedules.GroupBy(s => s.Turnus);
         var result = new List<VehicleSchedule>(200);
         foreach(var g in x)
         {

@@ -498,4 +498,10 @@
   <data name="Goods" xml:space="preserve">
     <value>Fraktgods</value>
   </data>
+  <data name="ConnectWagonsFrom" xml:space="preserve">
+    <value>Koble til vogner fra {0}.</value>
+  </data>
+  <data name="AdditionalVehicle" xml:space="preserve">
+    <value>Ekstra kjøretøy</value>
+  </data>
 </root>

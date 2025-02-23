@@ -47,10 +47,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await DataService.GetStationInstructionsAsync(Options.Value.LayoutId);
-        if (result.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            Instructions = result.items;
+            var result = await DataService.GetStationInstructionsAsync(layoutResult.item!.Id);
+            if (result.statusCode.IsSuccess())
+            {
+                Instructions = result.items;
+            }
         }
     }
 }

@@ -361,4 +361,10 @@
   <data name="NeedForVehicles" xml:space="preserve">
     <value>Behov for køretøj</value>
   </data>
+  <data name="FirstDay" xml:space="preserve">
+    <value>Første dag</value>
+  </data>
+  <data name="StationDutyGeneralNote" xml:space="preserve">
+    <value>Stationstjenesten skal bruges til at planlægge aktiviteter forude.</value>
+  </data>
 </root>

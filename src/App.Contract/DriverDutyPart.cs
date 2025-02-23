@@ -13,7 +13,7 @@ public class DriverDutyPart
         Train = train;
         FromCallId = fromCallId;
         ToCallId = toCallId;
-        if (loco != null) { Locos = new List<TrainLoco> { loco }; }
+        if (loco != null) { Locos = [loco]; }
     }
     public Train Train { get; set; }
     public ICollection<TrainLoco> Locos { get; set; } = Array.Empty<TrainLoco>();
@@ -73,7 +73,8 @@ public static class DutyPartExtensions
         }
     }
 
-    public static IEnumerable<DutyStationCall> Calls(this DriverDutyPart me) => me.Train.Calls.Select((c, i) => new DutyStationCall
+    public static IEnumerable<DutyStationCall> Calls(this DriverDutyPart me) => me.Train.Calls.Select((c, i) =>
+    new DutyStationCall
     {
         Id = c.Id,
         IsArrivalInDuty = i > me.FromCallIndex() && i <= me.ToCallIndex(),
@@ -87,11 +88,20 @@ public static class DutyPartExtensions
         IsLast = (i == me.Train.Calls.Count - 1)
     }).ToArray();
 
-    public static int NumberOfCalls(this DriverDutyPart me) => 5 +
-        me.Train.Calls
-            .Where((c,i) => i >= me.FromCallIndex() && i <= me.ToCallIndex())
-            .Count( c => c.Departure?.IsHidden==false || c.Arrival?.IsHidden == false) ;
 
+
+    public static int NumberOfCalls(this DriverDutyPart me) => 5 +
+        me.CallsInDutyPart().Count();
+
+    public static IEnumerable<StationCall> CallsInDutyPart(this DriverDutyPart me) =>
+         me.Train.Calls
+            .Where((c, i) => i >= me.FromCallIndex() && i <= me.ToCallIndex());
+
+    public static double Height(this DriverDutyPart dutyPart)
+    {
+        var calls = dutyPart.CallsInDutyPart();
+        return 7 + calls.Sum(c => c.CallTimes().Length * 1.3 + c.ArrivalAndDepartureNotesCount() * 1.3 );
+    }
 }
 
 public class DutyStationCall : StationCall

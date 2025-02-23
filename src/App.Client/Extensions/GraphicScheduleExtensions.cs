@@ -74,7 +74,7 @@ public static class GraphicScheduleExtensions
 
     #region X-axis
 
-    public static int XCanvas(this TimetableStretch me, int dayPart) => me.XLastHour(dayPart) + 20;
+    public static int XCanvas(this TimetableStretch me, int dayPart) => me.XLastHour(dayPart) + 30;
     public static int XStation(this TimetableStretch me) => me is null ? 0 : 1;
     public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 16;
     public static int XFirstHour(this TimetableStretch me, int dayPart=0) => (me?.XHour(me.FirstHour(dayPart), dayPart)) ?? 0;
@@ -174,14 +174,14 @@ public static class GraphicScheduleExtensions
 
 public class GraphicScheduleOptions
 {
-    public int Yoffset { get; set; } = 20;
+    public int Yoffset { get; set; } = 32;
     public int TrackHeight { get; set; } = 12;
     public int MinDistanceBeweenStations { get; set; } = 52;
     public int FirstHourOffset { get; set; } = 60;
     public int HourWidth { get; set; } = 240;
     public int DistanceFactor { get; set; } = 8;
     public bool OnlyScheduledTracks { get; set; } = true;
-    public int HourHeight { get; set; } = 20;
+    public int HourHeight { get; set; } = 24;
     public int StaionNameOffset { get; set; }
     public int TrainGraphThicknesPx { get; set; } = 2;
 }

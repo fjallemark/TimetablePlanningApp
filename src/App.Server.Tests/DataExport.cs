@@ -17,9 +17,9 @@ namespace Tellurian.Trains.Planning.App.Server.Tests;
 [TestClass]
 public class DataExport
 {
-    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-08 Värnamo\\Timetable.accdb;Uid=Admin;Pwd=;";
-    const int LayoutId = 32;
-    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2024\\2024-08 Värnamo\\";
+    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2025\\2025-03 Grimslöv\\Trafik\\Timetable.accdb;Uid=Admin;Pwd=;";
+    const int LayoutId = 36;
+    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2025\\2025-03 Grimslöv\\Trafik\\";
 
     //[Ignore("Use only for current plan.")]
     [TestMethod]
@@ -115,9 +115,11 @@ public class DataExport
             Result.ValidFrom = reader.GetDate("ValidFromDate").ToDateOnly();
             Result.ValidUntil = reader.GetDate("ValidToDate").ToDateOnly();
         }
-        
+
+        var json = Result.Serialize();
         using var writer = new StreamWriter($"{OutputPath}{Result.Name}.json", System.Text.Encoding.Unicode, new FileStreamOptions() { Access = FileAccess.Write, Mode= FileMode.OpenOrCreate});
-        writer.Write(Result.Serialize());
+        writer.Write(json);
+        writer.Close();
 
 
 

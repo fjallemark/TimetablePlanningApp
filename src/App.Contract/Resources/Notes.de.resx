@@ -478,4 +478,10 @@
   <data name="Goods" xml:space="preserve">
     <value>Frachtgüter</value>
   </data>
+  <data name="ConnectWagonsFrom" xml:space="preserve">
+    <value>Wagen von {0} anhängen.</value>
+  </data>
+  <data name="AdditionalVehicle" xml:space="preserve">
+    <value>Zusätzliches Fahrzeug</value>
+  </data>
 </root>

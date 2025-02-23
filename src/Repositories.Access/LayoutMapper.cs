@@ -8,6 +8,7 @@ internal static class LayoutMapper
     public static Layout? ToLayout(this IDataRecord me) =>
         new ()
         {
+            Id = me.GetInt("Id"),
             Name = me.GetString("Name"),
             StartHour = me.GetInt("StartHour"),
             EndHour = me.GetInt("EndHour"),

@@ -29,12 +29,15 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var settings = Options.Value;
-        SetQueryStringParameters();
-        var result = await DataService.GetTrainDeparturesAsync(settings.LayoutId);
-        if (result.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            Data = Operators.HasValue() ? result.items.Where(i => i.Loco.OperatorName.EqualsAny(Operators)): result.items;
+            SetQueryStringParameters();
+            var result = await DataService.GetTrainDeparturesAsync(layoutResult.item!.Id);
+            if (result.statusCode.IsSuccess())
+            {
+                Data = Operators.HasValue() ? result.items.Where(i => i.Loco.OperatorName.EqualsAny(Operators)): result.items;
+            }            
         }
     }
 

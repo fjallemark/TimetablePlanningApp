@@ -381,4 +381,10 @@
   <data name="NeedForVehicles" xml:space="preserve">
     <value>Behov av fordon</value>
   </data>
+  <data name="FirstDay" xml:space="preserve">
+    <value>Första dag</value>
+  </data>
+  <data name="StationDutyGeneralNote" xml:space="preserve">
+    <value>Stationstjänsten är avsedd att hjälpa till med att planera händelserna framåt.</value>
+  </data>
 </root>

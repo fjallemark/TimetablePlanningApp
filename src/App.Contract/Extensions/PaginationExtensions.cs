@@ -20,7 +20,7 @@ public static class PaginationExtensions
 
     public static IEnumerable<IEnumerable<StationTrain>> Pages(this StationTrainOrder station, int maxItemsPerPage)
     {
-        var noteBreakLength = 85;
+        var noteBreakLength = 100;
         List<List<StationTrain>> pages = [];
         List<StationTrain> page = [];
         var sizeCount = 0.0;
@@ -33,7 +33,7 @@ public static class PaginationExtensions
                 sizeCount = 0;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1 + train.Notes.Count * 0.6 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.55)) : 1.2;
+            sizeCount += train.Notes.Count > 1 ? (1.2 + train.Notes.Count * 0.50 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.50)) : 1.2;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
@@ -76,18 +76,18 @@ public static class PaginationExtensions
         var dutyParts = me.Parts.OrderBy(p => p.StartTime()).ToArray();
         dutyParts.Last().IsLastPart = true;
         var dutyPartsCount = dutyParts.Length;
-        var numberOfCallsOnCurrentPage = 0;
+        var currentHeight = 0.0;
         for (var i = 0; i < dutyPartsCount; i++)
         {
             pages.Add(DriverDutyPage.Part(pageNumber, me, dutyParts[i]));
-            numberOfCallsOnCurrentPage += dutyParts[i].NumberOfCalls();
-            while (i < dutyPartsCount - 1 && numberOfCallsOnCurrentPage + dutyParts[i + 1].NumberOfCalls() <= 25)
+            currentHeight += dutyParts[i].Height();
+            while (i < dutyPartsCount - 1 && currentHeight + dutyParts[i + 1].Height() <= 40)
             {
                 i++;
-                numberOfCallsOnCurrentPage += dutyParts[i].NumberOfCalls();
+                currentHeight += dutyParts[i].Height();
                 pages.Last().DutyParts.Add(dutyParts[i]);
             }
-            numberOfCallsOnCurrentPage = 0;
+            currentHeight = 0;
             pageNumber++;
         }
 
@@ -210,6 +210,7 @@ public class DutyPage
         Number = number;
         InstructionsMarkdown = instructionsMarkdown;
         InstructionsHeading = instructionsHeading;
+        IsInstructions = !string.IsNullOrEmpty(instructionsMarkdown);
     }
 
     protected DutyPage(int number)
@@ -223,7 +224,7 @@ public class DutyPage
     public virtual bool IsPart { get; } = false;
     public string? InstructionsMarkdown { get; }
     public string? InstructionsHeading { get; }
-    public virtual bool IsInstructions => !string.IsNullOrWhiteSpace(InstructionsMarkdown);
+    public virtual bool IsInstructions { get; }
 
     public static DutyPage Blank<TDutyPage>(int pageNumber) where TDutyPage : DutyPage =>
         typeof(TDutyPage) == typeof(StationDutyPage) ? StationDutyPage.Blank(pageNumber) : DriverDutyPage.Blank(pageNumber);

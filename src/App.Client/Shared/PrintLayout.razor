@@ -14,11 +14,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var settings = Options.Value;
-        var result = await DataService.GetLayoutAsync(settings.LayoutId);
+        var result = await DataService.GetLayoutAsync();
         if (result.statusCode.IsSuccess())
         {
-            FontFamily = result.item!.FontFamily ?? settings.FontFamily ?? DefaultFontFamily;
+            FontFamily = result.item!.FontFamily ?? DefaultFontFamily;
         }
     }
 }

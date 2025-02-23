@@ -10,6 +10,10 @@ public static partial class StringExtensions
 
     public static string OrElse(this string? value, string orElseValue) => string.IsNullOrWhiteSpace(value) ? orElseValue : value;
 
+    public static bool AnyOf(this string? value, string[] values) => 
+        value is null || values.Length == 0 ? false :
+        values.Contains(value);
+
     public static string WithHtmlRemoved(this string? withHtml) =>
         withHtml is null ? string.Empty :
         HtmlRemove().Replace(withHtml, string.Empty).Replace("&nbsp", " ").Replace(';', ' ');

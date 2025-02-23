@@ -15,5 +15,6 @@ internal static class ShuntingLocoMapper
             OwnerName = record.GetString("OwnerName"),
             Note = record.GetString("Note",""),
             IsRailcar = record.GetBool("IsRailCar"),
+            OperationDaysFlags = OperationDays.AllDays,
         };
 }

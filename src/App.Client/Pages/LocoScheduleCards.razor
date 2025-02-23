@@ -14,7 +14,7 @@ else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
 
-    @foreach (var itemsOnPage in Locos.ItemsPerPage(10))
+    @foreach (var itemsOnPage in SortedLocos.ItemsPerPage(10))
     {
         <div class="pagebreak">
             @foreach (var item in itemsOnPage)
@@ -33,28 +33,41 @@ else
 }
 
 @code {
-    private List<Vehicle>? Locos { get; set; } 
+    private List<Vehicle>? Locos { get; set; }
+    private Layout? Layout;
     string? Operators { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         Locos = new(50);
-        var settings = Options.Value;
-        SetQueryStringParameters();
-        var locoSchedules = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
-        if (locoSchedules.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            var items = locoSchedules.items.Where(i => i.ReplaceOrder == 0).ToList();
-            //var filtered = Operators.HasValue() ? locoSchedules.items.Where(i => i.Operator.EqualsAny(Operators)) : locoSchedules.items;
-            Locos.AddRange(items.Cast<Vehicle>());
-        }
-        var shunters = await DataService.GetShuntingLocosAsync(settings.LayoutId);
-        if (shunters.statusCode.IsSuccess())
-        {
-            var filtered = Operators.HasValue() ? shunters.items.Where(i => i.OperatorName.EqualsAny(Operators)) : shunters.items;
-            Locos.AddRange(shunters.items.Cast<Vehicle>());
+            SetQueryStringParameters();
+            Layout = layoutResult.item;
+            var locoSchedules = await DataService.GetLocoSchedulesAsync(Layout!.Id);
+            if (locoSchedules.statusCode.IsSuccess())
+            {
+                var items = locoSchedules.items.Where(i => i.ReplaceOrder == 0);
+                //var filtered = Operators.HasValue() ? locoSchedules.items.Where(i => i.Operator.EqualsAny(Operators)) : locoSchedules.items;
+                Locos.AddRange(items.Cast<Vehicle>());
+            }
+            var shunters = await DataService.GetShuntingLocosAsync(Layout.Id);
+            if (shunters.statusCode.IsSuccess())
+            {
+                var filtered = Operators.HasValue() ? shunters.items.Where(i => i.OperatorName.EqualsAny(Operators)) : shunters.items;
+                Locos.AddRange(shunters.items.Cast<Vehicle>());
+            }
+            
         }
     }
+
+    IEnumerable<Vehicle> SortedLocos =>
+        Locos is null ? [] :
+        Locos
+        .OrderBy(l => l.OperatorName)
+        .ThenBy(l => l.TurnusNumber)
+        .ThenBy(l => l.OperationDaysFlags.FirstOperationDay().Flags);
 
     void SetQueryStringParameters()
     {

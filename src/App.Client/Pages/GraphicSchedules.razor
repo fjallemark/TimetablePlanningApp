@@ -12,6 +12,16 @@
 else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
+    <div class="no-print" style="font-size:18pt;">
+        <InputSelect class="form-select update" @bind-Value="selectedTrainId">
+            @foreach( var item in TrainItems.OrderBy(i=>i.TrainNumber))
+            {
+                <option style="font-size: 18pt" value="@item.Id">@item.TrainNumber</option>
+            }
+        </InputSelect>
+        <InputNumber class="update" DisplayName="Minutes" @bind-Value="selectedMinutes"></InputNumber> 
+        <button class="update" type="button" @onclick="Update">Update</button>
+    </div>
     @if (TimetableStretches.Any(ts => ts.BreakHour.HasValue))
     {
         foreach (var timetableStretch in TimetableStretches)
@@ -38,24 +48,46 @@ else
 
 @code {
     private TimetableStretch[] TimetableStretches = Array.Empty<TimetableStretch>();
+    private IEnumerable<ListboxItem> TrainItems = [];
     private bool DataIsReady = false;
     private string? SelectedStretch;
     private string? SelectedDays;
+    private int selectedTrainId;
+    private int selectedMinutes;
+    private Layout? Layout;
 
     protected async override Task OnInitializedAsync()
     {
-        var settings = Options.Value;
-        SetQueryStringParameters();
         DataIsReady = false;
-        var result = await DataService.GetTimetableStretchesAsync(settings.LayoutId, SelectedStretch);
-        if (result.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            TimetableStretches = result.items.ToArray();
+            Layout = layoutResult.item;
+            SetQueryStringParameters();
+            var result = await DataService.GetTimetableStretchesAsync(Layout!.Id, SelectedStretch);
+            if (result.statusCode.IsSuccess())
+            {
+                TimetableStretches = result.items.ToArray();
+                TrainItems = GetTrainItems(result.items);
+            }
+            DataIsReady = true;
         }
-        else
+    }
+
+    private IEnumerable<ListboxItem> GetTrainItems(IEnumerable<TimetableStretch> stretches)
+    {
+        var result = new List<ListboxItem>(100);
+        foreach(var stretch in stretches)
         {
+            foreach(var train in stretch.TrainSections)
+            {
+                if (train.TrainId > 0 && !result.Any(r => r.Id == train.TrainId))
+                {
+                    result.Add(new(train.TrainId, train.TrainLabel()));
+                }
+            }
         }
-        DataIsReady = true;
+        return result;
     }
 
     void SetQueryStringParameters()
@@ -65,5 +97,17 @@ else
         SelectedDays = q["days"];
     }
 
-
+    async Task Update()
+    {
+        if (selectedMinutes != 0)
+        {
+            var settings = Options.Value;
+            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, selectedMinutes);
+            if (result.statusCode.IsSuccess())
+            {
+                TimetableStretches = result.items.ToArray();
+                TrainItems = GetTrainItems(result.items);
+            }
+        }
+    }
 }

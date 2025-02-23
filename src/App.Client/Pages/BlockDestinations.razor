@@ -28,9 +28,12 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        var settings = Options.Value;
         Items = null;
-        var result = await DataService.GetBlockDestinationsAsync(settings.LayoutId);
-        Items = result.items;
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
+        {
+            var result = await DataService.GetBlockDestinationsAsync(layoutResult.item!.Id);
+            Items = result.items;
+        }
     }
 }

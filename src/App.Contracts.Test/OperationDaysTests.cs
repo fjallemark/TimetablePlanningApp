@@ -67,7 +67,8 @@ namespace Tellurian.Trains.Planning.App.Contract.Tests;
 			var expected = new byte[] { 0b00000001, 0b00000010, 0b00000100 };
 			CollectionAssert.AreEquivalent(expected, dayFlags.UniqueDayCombinations());
 		}
-    [Ignore("Not ready for test.")]
+
+		[Ignore("Not ready for test.")]
 		[TestMethod]
 		public void IsFourDaygroupsFromFourDayCombinations()
 		{

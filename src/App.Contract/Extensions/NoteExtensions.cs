@@ -1,4 +1,6 @@
-﻿namespace Tellurian.Trains.Planning.App.Contracts.Extensions;
+﻿using System.Diagnostics;
+
+namespace Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 public static class NoteExtensions
 {
@@ -21,6 +23,7 @@ public static class NoteExtensions
         };
         for (int i = 1; i < notes.Length; i++)
         {
+            //if (notes[i] is LocoCirculationNote x && (x.ArrivingLoco.TurnusNumber==5 || x.ArrivingLoco.TurnusNumber==6) ) Debugger.Break();
             if (result.Last().CallId == notes[i].CallId && otherwiseAreSame(result.Last(), notes[i]))
             {
                 apply(result.Last(), notes[i]);
@@ -32,15 +35,18 @@ public static class NoteExtensions
         }
         return result;
     }
+
     public static IEnumerable<LocoDepartureCallNote> AggregateOperationDays(this IEnumerable<LocoDepartureCallNote> callNotes)
     {
         return callNotes.Aggregated(OtherwiseAreSame, AdditionalSortKey, ConcatOperationDays);
 
         static bool OtherwiseAreSame(LocoDepartureCallNote note1, LocoDepartureCallNote note2) =>
-            note1.DepartingLoco.TurnusNumber == note2.DepartingLoco.TurnusNumber && note1.GetType() == note2.GetType();
+            note1.GetType() == note2.GetType() && 
+            note1.DepartingLoco.OperatorName == note2.DepartingLoco.OperatorName && 
+            note1.DepartingLoco.TurnusNumber == note2.DepartingLoco.TurnusNumber;
 
         static string AdditionalSortKey(LocoDepartureCallNote note) =>
-            $"{note.DepartingLoco.TurnusNumber:00000}-{note.GetType().Name}";
+            $"{note.DepartingLoco.TurnusNumber:00000}-{note.GetType().Name}-{note.DepartingLoco.OperatorName}";
 
         static void ConcatOperationDays(LocoDepartureCallNote note1, LocoDepartureCallNote note2) =>
             note1.DepartingLoco.OperationDaysFlags |= note2.DepartingLoco.OperationDaysFlags;
@@ -48,12 +54,12 @@ public static class NoteExtensions
 
     public static IEnumerable<LocoArrivalCallNote> AggregateOperationDays(this IEnumerable<LocoArrivalCallNote> callNotes)
     {
-
         return callNotes.Aggregated(OtherwiseAreSame, AdditionalSortKey, ConcatOperationDays);
 
         static bool OtherwiseAreSame(LocoArrivalCallNote note1, LocoArrivalCallNote note2) =>
             note1.GetType() == note2.GetType() &&
-            (note1.ArrivingLoco.TurnusNumber == note2.ArrivingLoco.TurnusNumber || note1.GetType() == typeof(LocoCirculationNote) || note1.GetType() == typeof(LocoTurnNote));
+            note1.ArrivingLoco.OperatorName == note2.ArrivingLoco.OperatorName &&
+            (note1.ArrivingLoco.TurnusNumber == note2.ArrivingLoco.TurnusNumber || note1 is LocoCirculationNote || note1 is LocoTurnNote || note1 is LocoTurnOrReverseCallNote);
 
         static string AdditionalSortKey(LocoArrivalCallNote note) =>
             $"{note.ArrivingLoco.TurnusNumber:00000}-{note.GetType().Name}";

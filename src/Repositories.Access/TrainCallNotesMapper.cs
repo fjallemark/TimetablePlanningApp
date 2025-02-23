@@ -109,10 +109,12 @@ internal static class TrainCallNotesMapper
                 TurnusNumber = me.GetInt("LocoNumber"),
                 OperatorName = me.GetString("LocoOperator"),
                 OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
-                IsRailcar = me.GetBool("IsRailcar")
+                IsRailcar = me.GetBool("IsRailcar"),
+                Class = me.GetString("LocoClass"),
             },
             IsFromParking = me.GetBool("FromParking"),
-            TrainInfo = new() { OperationDaysFlags = me.GetByte("TrainOperationDaysFlag") }
+            TrainInfo = new() { OperationDaysFlags = me.GetByte("TrainOperationDaysFlag") },
+            UseNote = me.GetBool("UseNote"),
         };
 
     public static LocoArrivalCallNote ToLocoArrivalCallNote(this IDataRecord me) =>
@@ -123,12 +125,14 @@ internal static class TrainCallNotesMapper
                 TurnusNumber = me.GetInt("LocoNumber"),
                 OperatorName = me.GetString("LocoOperator"),
                 OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
-                IsRailcar = me.GetBool("IsRailcar")
+                IsRailcar = me.GetBool("IsRailcar"),
+                 Class = me.GetString("LocoClass"),
             },
             IsToParking = me.GetBool("ToParking"),
             CirculateLoco = me.GetBool("CirculateLoco"),
             TurnLoco = me.GetBool("TurnLoco"),
-            TrainInfo = new() { OperationDaysFlags = me.GetByte("TrainOperationDaysFlag") }
+            TrainInfo = new() { OperationDaysFlags = me.GetByte("TrainOperationDaysFlag") },
+            UseNote = me.GetBool("UseNote"),
         };
 
     public static LocoTurnOrReverseCallNote ToLocoReverseOrTurnCallNote(this IDataReader record) =>
@@ -138,6 +142,7 @@ internal static class TrainCallNotesMapper
             Turn = record.GetBool("TurnLoco"),
         };
 
+  
     public static BlockDestinationsCallNote ToBlockDestinationsCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {

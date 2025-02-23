@@ -1,4 +1,5 @@
 ﻿using Markdig;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
@@ -79,7 +80,7 @@ public sealed class ManualTrainCallNote : TrainCallNote
         }
     }
 
-    string FormattedNoteText(string text, byte onlyDays) =>  $"""<span style="font-weight: bold">{GetNoteDays(onlyDays)}</span>{Markdown.ToHtml(text, CreatePipeline())}""";
+    string FormattedNoteText(string text, byte onlyDays) => $"""<span style="font-weight: bold">{GetNoteDays(onlyDays)}</span>{Markdown.ToHtml(text, CreatePipeline())}""";
 
     private static MarkdownPipeline CreatePipeline()
     {
@@ -100,11 +101,8 @@ public sealed class ManualTrainCallNote : TrainCallNote
 
 public sealed record LocalizedManualTrainCallNote(string LanguageCode, string? Text);
 
-public abstract class TrainsetsCallNote : TrainCallNote
+public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
 {
-    protected TrainsetsCallNote(int callId) : base(callId)
-    {
-    }
     protected IList<Trainset> Trainsets { get; } = new List<Trainset>();
     public bool IsCargoOnly { init; get; }
     public void AddTrainset(Trainset trainset)
@@ -120,7 +118,7 @@ public abstract class TrainsetsCallNote : TrainCallNote
     protected IEnumerable<Note> ToNotes(Func<Trainset, bool> criteria, byte dutyDays = OperationDays.AllDays, int displayOrder = 1000)
     {
         return Merge(Trainsets.Where(t => criteria(t) && IsAnyDay(t.OperationDaysFlag, dutyDays)))
-            .OrderBy(t => t.PositionInTrain).ThenBy(t=> t.Number)
+            .OrderBy(t => t.PositionInTrain).ThenBy(t => t.Number)
             .GroupBy(t => Days(t.OperationDaysFlag, dutyDays))
             .OrderBy(t => t.Key)
             .Select(t => new Note
@@ -158,9 +156,9 @@ public abstract class TrainsetsCallNote : TrainCallNote
         ts.Operator.HasValue() ? $"""|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{ts.Number}</span>:&nbsp<i>{ts.WagonTypes}</i>| """ :
         $"""|<span style="font-weight: bold; background-color: white">{WagonSetOrWagon(ts)}&nbsp;{ts.Number}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
 
-    private static string WagonSetOrWagon(Trainset ts) => 
-        ts.MaxNumberOfWaggons==0? "" : 
-        ts.MaxNumberOfWaggons > 1 ? Notes.Wagonset : 
+    private static string WagonSetOrWagon(Trainset ts) =>
+        ts.MaxNumberOfWaggons == 0 ? "" :
+        ts.MaxNumberOfWaggons > 1 ? Notes.Wagonset :
         Notes.Wagon;
 }
 
@@ -264,7 +262,7 @@ public class TrainMeetCallNote : TrainCallNote
     private IEnumerable<OtherTrainCall> ActualMeetingTrains(byte onlyDays) => MeetingTrains.Where(mt => (mt.OperationDayFlag & onlyDays & OperationDayFlag) > 0);
 }
 
-public class LocoTurnOrReverseCallNote : TrainCallNote
+public class LocoTurnOrReverseCallNote : LocoArrivalCallNote
 {
     public LocoTurnOrReverseCallNote(int callId) : base(callId)
     {
@@ -278,10 +276,11 @@ public class LocoTurnOrReverseCallNote : TrainCallNote
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
+
         if (Turn && Reverse) { return Note.SingleNote(DisplayOrder, Notes.TurnAndReverseLoco); }
         else if (Turn) { return Note.SingleNote(DisplayOrder, Notes.TurnLoco); }
         else if (Reverse) { return Note.SingleNote(DisplayOrder, Notes.ReverseLoco); }
-        else { return Enumerable.Empty<Note>(); }
+        else { return []; }
     }
 }
 
@@ -313,8 +312,10 @@ public abstract class LocoCallNote : TrainCallNote
     {
         IsDriverNote = true;
         IsStationNote = true;
+        UseNote = true;
     }
 
+    public bool UseNote { get; set; }
     protected abstract string ParkingText(byte days, byte onlyDays);
 
     protected static string LocoText(string format, TrainLoco loco) =>
@@ -420,6 +421,21 @@ public class LocoTurnNote : LocoArrivalCallNote
 
 }
 
+public class BlockOriginCallNote : TrainCallNote
+{
+    public BlockOriginCallNote(int callId) : base(callId)
+    {
+        IsShuntingNote = true;
+        IsDriverNote = true;
+        IsForDeparture = true;
+        DisplayOrder = 21000; //
+    }
+    private readonly List<string> OriginNames = [];
+    public void AddOriginName(string originName) => OriginNames.Add(originName);
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
+        OriginNames.Any() ? Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.ConnectWagonsFrom, string.Join(", ", OriginNames))) :
+        [];
+}
 public class BlockDestinationsCallNote : TrainCallNote
 {
     public BlockDestinationsCallNote(int callId) : base(callId)
@@ -527,7 +543,7 @@ public class BlockDestination
     internal bool HasDestinationCountry => !string.IsNullOrWhiteSpace(DestinationCountryName);
     internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
     internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
-    internal string DestinationSpan => 
+    internal string DestinationSpan =>
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {ForeColor}; background-color: {BackColor}">{DestinationText}</span>""";
 
 
@@ -543,13 +559,13 @@ public static class BlockDestinationsExtensions
     public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
     {
         var result = new List<string>();
-        var destinationGroups = 
+        var destinationGroups =
             me.OrderBy(dg => dg.OrderInTrain)
             .GroupBy(bd => bd.StationId * 100000 + bd.OrderInTrain * 1000);
         foreach (var destinationGroup in destinationGroups)
         {
             var text = new StringBuilder(200);
-            var destinations = destinationGroup.OrderBy(dg=> !dg.IsRegion).ThenBy(dg=> dg.MaxNumberOfWagons).ToArray();
+            var destinations = destinationGroup.OrderBy(dg => !dg.IsRegion).ThenBy(dg => dg.MaxNumberOfWagons).ToArray();
             var destinationTextsInGroup = destinations.Select(d => d.ToString()).Distinct();
             if (useBrackets) text.Append('|');
             text.Append(string.Join(" ", destinationTextsInGroup));
@@ -606,3 +622,4 @@ public class OtherTrainCall : OtherTrain
             $"{commonDaysFlag.OperationDays().ShortName} {CategoryPrefix} {TrainNumber} {arrivalTime}-{departureTime}";
     }
 }
+

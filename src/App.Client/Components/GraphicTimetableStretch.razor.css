@@ -10,17 +10,18 @@
 
     .graphictimetable.station {
         font-weight: bold;
-        font-size: 12pt;
+        font-size: 16pt;
     }
 
     .graphictimetable.hour {
         font-weight: bold;
-        font-size: 12pt;
+        font-size: 24pt;
+        line-height: 32pt;
     }
 
     .graphictimetable.train {
         font-weight: bold;
-        font-size: 9pt;
+        font-size: 10pt;
         line-height: 12pt;
         padding-bottom: 5px;
     }

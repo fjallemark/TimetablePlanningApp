@@ -7,6 +7,7 @@ public static class TrainInfoExtensions
 }
 public class TrainInfo
 {
+    public int Id { get; set; }
     public string Prefix { get; set; } = string.Empty;
     public int Number { get; set; }
     public string OperatorName { get; set; } = string.Empty;

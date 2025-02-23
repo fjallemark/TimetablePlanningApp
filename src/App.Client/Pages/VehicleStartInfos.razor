@@ -17,7 +17,8 @@ else
         <A4LPage>
             @if (IsPerOwner(Option))
             {
-                @if (HasBookings) {
+                @if (HasBookings)
+                {
                     <h2 style="line-height: 16pt">@((MarkupString)infoGroup.First().OwnerOrNotBooked())</h2>
                 }
                 else
@@ -33,14 +34,15 @@ else
                 <table cellspacing="2" cellpadding="2" width="100%">
                     <thead>
                         <tr style="border-bottom: 1px solid gray">
+                            <th align="left">@Localizer["Pos"]</th>
                             @if (IsPerOwner(Option))
                             {
                                 <th align="left">@Localizer["Station"]</th>
                             }
                             else
                             {
-                                <th align="center">@Localizer["Days"]</th>
                             }
+                            <th align="center">@Localizer["FirstDay"]</th>
                             <th align="center">@Localizer["Track"]</th>
                             <th align="center">@Localizer["Time"]</th>
                             <th align="center">@Localizer["VehicleType"]</th>
@@ -51,29 +53,31 @@ else
                             <th align="center">DCC</th>
                             <th align="center">FRED?</th>
                             <th align="left">@Localizer["Notes"]</th>
-                            @if (!IsPerOwner(Option))
+                            @if (IsPerOwner(Option))
+                            {
+                                <th>@Localizer["IsWith"]</th>
+                            }
+                            else
                             {
                                 <th align="left">@Localizer["Owner"]</th>
                                 <th>@Localizer["IsSetUp"]</th>
                             }
-                            else
-                            {
-                                <th>@Localizer["IsWith"]</th>
-
-                            }
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach (var info in Sorted(infoGroup))
                         {
                             <tr style="border-bottom: 1px solid gray; background-color: @info.BackColor()">
+                                <td>@info.Position</td>
                                 @if (IsPerOwner(Option))
                                 {
                                     <td>@info.StationName</td>
+                                    <td align="center">@info.FirstOperationDay()</td>
                                 }
                                 else
                                 {
-                                    <td align="center">@info.DayFlags.OperationDays().ShortName</td>
+                                    <td align="center">@info.DayFlags.OperationDays(info.LayoutStartWeekday == 7).ShortName</td>
                                 }
                                 <td align="center">@info.TrackNumber</td>
                                 <td align="center">@info.DisplayedTime()</td>
@@ -81,7 +85,7 @@ else
                                 <td align="center">@info.OperatorSignature</td>
                                 <td align="center">@info.TurnusNumber</td>
                                 <td align="center">@info.VehicleClass</td>
-                                <td align="center">@info.VehicleNumber</td>
+                                <td align="center">@((MarkupString)info.LocoNumberOrMissingOrWagonNumber())</td>
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
                                 <td align="center">@info.FredYesNo()</td>
                                 <td align="left">@info.Notes()</td>
@@ -89,14 +93,12 @@ else
                                 {
                                     <td>@((MarkupString)info.OwnerOrNotBooked())</td>
                                 }
-                                @if (info.ReplaceOrder == 0)
-                                {
-                                    <td align="center"><input type="checkbox" /></td>
+                                @if (info.ReplaceOrder <= 1){
+                                <td align="center"><input type="checkbox" /></td>
                                 }
-                                else
-                                {
+                                else {
                                     <td></td>
-                                }
+                                }                              
                             </tr>
                         }
                     </tbody>
@@ -121,11 +123,16 @@ else
             HasBookings = result.items.Any(i => i.OwnerName.HasValue());
             if (IsPerOwner(Option))
             {
-                StartInfos = result.items.Where(i => i.IsFirstDay).OrderBy(i => i.OwnerName).GroupBy(i => i.OwnerName);
+                StartInfos = result.items
+                    .Where(i => i.IsFirstDay)
+                    .OrderBy(i => i.OwnerName)
+                    .GroupBy(i => i.OwnerName);
             }
             else
             {
-                StartInfos = result.items.Where(i => i.ReplaceOrder < 9).GroupBy(i => i.StationName);
+                StartInfos = result.items
+                    .Where(i => i.ReplaceOrder < 9)
+                    .GroupBy(i => i.StationName);
             }
         }
     }
@@ -133,7 +140,16 @@ else
     bool IsPerOwner(string? option) => "perowner".Equals(option, StringComparison.OrdinalIgnoreCase);
 
     IEnumerable<VehicleStartInfo> Sorted(IGrouping<string?, VehicleStartInfo> data) =>
-        IsPerOwner(Option) ? data.OrderBy(g => g.StationName).ThenBy(g => g.TrackNumber).ThenBy(i => i.TurnusNumber) :
-        data.OrderBy(g => g.ReplaceOrder).ThenByDescending(g => g.IsFirstDay).ThenByDescending(g => g.DayFlags).ThenBy(g => g.TurnusNumber).ThenBy(g => g.TrackNumber);
+        IsPerOwner(Option) ?
+        data
+            .OrderBy(g => g.StationName)
+            .ThenBy(g => g.TrackNumber)
+            .ThenBy(g => g.DayFlags.FirstOperationDay().Flags)
+            .ThenBy(i => i.TurnusNumber) :
+        data
+            .OrderBy(g => g.ReplaceOrder)
+            .ThenBy(g => g.TrackNumber)
+            .ThenBy(g => g.DayFlags.FirstOperationDay().Flags);
+
 
 }

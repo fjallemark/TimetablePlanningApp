@@ -43,7 +43,7 @@ else
             }
             else if (pageRight.IsFront)
             {
-                <DutyFrontPage PageNumber="pageRight.Number" Item="pageRight.Duty"></DutyFrontPage>
+                <DutyFrontPage PageNumber="pageRight.Number" Item="pageRight.Duty" HasInstructions="Pages.Any(p => p.IsInstructions)"></DutyFrontPage>
             }
             else if (pageRight.IsPart)
             {
@@ -69,16 +69,20 @@ else
 
     override protected async Task OnInitializedAsync()
     {
-        var settings = Options.Value;
-        SetQueryStringParameters();
         IsLoaded = false;
-        var result = await DataService.GetDriverDutiesAsync(settings.LayoutId);
-        if (result.statusCode.IsSuccess() && result.item != null)
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            var duties = FilterDuties(result.item.Duties);
-            Pages = duties.GetAllDriverDutyPagesInBookletOrder(result.item.Instructions).ToArray();
-            IsLoaded = true;
+            SetQueryStringParameters();
+            var result = await DataService.GetDriverDutiesAsync(layoutResult.item!.Id);
+            if (result.statusCode.IsSuccess() && result.item != null)
+            {
+                var duties = FilterDuties(result.item.Duties);
+                Pages = duties.GetAllDriverDutyPagesInBookletOrder(result.item.Instructions).ToArray();
+                IsLoaded = true;
+            }        
         }
+
     }
 
     private ICollection<DriverDuty> FilterDuties(ICollection<DriverDuty> duties)

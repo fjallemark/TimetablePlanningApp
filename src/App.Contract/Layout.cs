@@ -1,6 +1,7 @@
 ﻿namespace Tellurian.Trains.Planning.App.Contracts;
 public class Layout
 {
+    public int Id { get; set; }
     public string Name { get; set; }=string.Empty;
     public int StartHour { get; set; }
     public int EndHour { get; set; }

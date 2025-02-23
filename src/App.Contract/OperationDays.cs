@@ -33,8 +33,9 @@ public static class OperationDaysExtensions
         new Day(0, 0x80, "OnDemand") };
 
     private static Day[] GetDays(this byte flags) =>
-        flags == Days[0].Flag ? new Day[] { Days[0] } :
-        flags == Days[8].Flag ? new Day[] { Days[8] } :
+        flags == 0 ?[] :
+        flags == Days[0].Flag ? [Days[0]] :
+        flags == Days[8].Flag ? [Days[8]] :
         Days.Where(d => d.Number > 0 && (d.Flag & flags) > 0).ToArray();
 
     public static int DisplayOrder(this byte flags) => ~flags;
@@ -62,10 +63,53 @@ public static class OperationDaysExtensions
                 '7' => 0b01000000,
                 _ => 0
             });
-        return (byte)x.Sum() ;
+        return (byte)x.Sum();
     }
 
-    public static OperationDays OperationDays(this byte flags)
+    public static OperationDays FirstOperationDay(this byte flags, bool sundayIsFirst = false)
+    {
+
+        var days = GetDays(flags);
+
+        if (days.Length > 0)
+        {
+            var dailyIndex = sundayIsFirst ? 7 : 1;
+            var otherDayIndex = sundayIsFirst && days[days.Length - 1].Number == 7 ? days.Length - 1 : 0;
+            if (days[0].Number == 0)
+            {
+                return new OperationDays
+                {
+                    Flags = Days[dailyIndex].Flag,
+                    FullName = Days[dailyIndex].FullName,
+                    ShortName = Days[dailyIndex].ShortName,
+                    IsDaily = false,
+                    IsSingleDay = true,
+                };
+            }
+            else
+            {
+                return new OperationDays
+                {
+                    Flags = days[otherDayIndex].Flag,
+                    FullName = days[otherDayIndex].FullName,
+                    ShortName = days[otherDayIndex].ShortName,
+                    IsDaily = false,
+                    IsSingleDay = true,
+                };
+            }
+        }
+        return new OperationDays
+        {
+            Flags = flags,
+            FullName = "",
+            ShortName = "",
+            IsDaily = false,
+            IsSingleDay = false,
+        };
+
+    }
+
+    public static OperationDays OperationDays(this byte flags, bool sundayIsFirst = false)
     {
         var days = GetDays(flags);
         var isDaily = flags.IsAllDays();
@@ -95,15 +139,33 @@ public static class OperationDaysExtensions
                 Append(days[^1], fullName, shortName);
                 Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
                 Append(days[^2], fullName, shortName, true);
-
             }
             else if (flags == 0x5F)
             {
+                if (sundayIsFirst)
+                {
+                    Append(Days[7], fullName, shortName, true);
+                    Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
+                }
                 Append(Days[1], fullName, shortName);
                 Append(Resources.Notes.To.ToLowerInvariant(), "-", fullName, shortName);
                 Append(Days[5], fullName, shortName, true);
-                Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
+                if (!sundayIsFirst)
+                {
+                    Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
+                    Append(Days[7], fullName, shortName, true);
+                }
+            }
+            else if (flags == 0x6A && sundayIsFirst)
+            {
                 Append(Days[7], fullName, shortName, true);
+                Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
+                Append(Days[2], fullName, shortName, true);
+                Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
+                Append(Days[4], fullName, shortName, true);
+                Append(Resources.Notes.And.ToLowerInvariant(), ",", fullName, shortName);
+                Append(Days[6], fullName, shortName, true);
+
             }
             else if (flags == 0x4F)
             {
@@ -216,9 +278,9 @@ internal class Day
 
 internal static class DayExtensions
 {
-    public static bool IsConsecutiveFromMonday(this Day[] days) => 
-        days.Length == days.Last().Number - days[0].Number + 1;
+    public static bool IsConsecutiveFromMonday(this Day[] days) =>
+        days.Length > 1 && days.Length == days.Last().Number - days[0].Number + 1;
 
     public static bool IsConsecutiveFromSunday(this Day[] days) =>
-        days.Length >= 3 && days.Last().Number == 7 && days[0..^2].IsConsecutiveFromMonday();
+        days.Length >= 3 && days.Last().Number == 7 && days[0..^1].IsConsecutiveFromMonday();
 }

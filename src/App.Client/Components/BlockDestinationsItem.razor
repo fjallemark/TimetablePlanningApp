@@ -8,15 +8,18 @@
 else
 {
     <div class="pagebreak-hard">
-        <h3>@Localizer["BlockDestinations"] @BlockDestinations.OriginStationName</h3>
-        @if (BlockDestinations.BlockIsMaxInTrain)
-        {
-            <p>@Localizer["NumberOfWagonsPerBlockIndicatesMaxInTrain"]</p>
-        }
-        else
-        {
-            <p>@Localizer["NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation"]</p>
-        }
+        <h2>@BlockDestinations.OriginStationName</h2>
+        <p>
+            @Localizer["BlockDestinations"]:
+            @if (BlockDestinations.BlockIsMaxInTrain)
+            {
+                @Localizer["NumberOfWagonsPerBlockIndicatesMaxInTrain"]
+            }
+            else
+            {
+                @Localizer["NumberOfWagonsPerBlockIndicatesMaxToBeSentFromThisStation"]
+            }
+        </p>
         <br />
         <div>
             @foreach (var track in BlockDestinations.Tracks.OrderBy(t => t.TrackDisplayOrder))
@@ -87,4 +90,4 @@ else
         return count == 0 ? string.Empty : $"×{count}";
 
     }
-    }
+}

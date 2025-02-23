@@ -10,6 +10,7 @@ internal static class VehicleStartInfoMapper
     public static VehicleStartInfo ToVehicleStartInfo(this IDataRecord record) =>
         new()
         {
+            Type = record.GetString("Type"),
             DccAddress = (short?)record.GetIntOrNull("Address"),
             DepartureTime = record.GetString("DepartureTime"),
             MaxNumberOfVehicles = record.GetInt("MaxNumberOfWagons"),
@@ -26,5 +27,6 @@ internal static class VehicleStartInfoMapper
             HasFredThrottle = record.GetBool("HasFred"),
             DayFlags = record.GetByte("OperationDaysFlag"),
             IsFirstDay = record.GetBool("IsFirstDay"),
+            LayoutStartWeekday = record.GetInt("StartWeekday"),
         };
 }

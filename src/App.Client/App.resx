@@ -381,4 +381,10 @@
   <data name="NeedForVehicles" xml:space="preserve">
     <value>Need for vehicles</value>
   </data>
+  <data name="FirstDay" xml:space="preserve">
+    <value>First day</value>
+  </data>
+  <data name="StationDutyGeneralNote" xml:space="preserve">
+    <value>The station duty is intended to help planning activities ahead.</value>
+  </data>
 </root>

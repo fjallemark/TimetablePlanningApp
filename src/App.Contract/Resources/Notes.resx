@@ -498,4 +498,10 @@
   <data name="Goods" xml:space="preserve">
     <value>Freight goods</value>
   </data>
+  <data name="ConnectWagonsFrom" xml:space="preserve">
+    <value>Connect wagons from {0}.</value>
+  </data>
+  <data name="AdditionalVehicle" xml:space="preserve">
+    <value>Additional vehicle</value>
+  </data>
 </root>

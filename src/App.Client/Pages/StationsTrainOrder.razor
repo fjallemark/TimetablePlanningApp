@@ -97,16 +97,12 @@ else
     protected override async Task OnInitializedAsync()
     {
         Items = null;
-        var settings = Options.Value;
-        var layout = await DataService.GetLayoutAsync(settings.LayoutId);
-        if (layout.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            Layout = layout.item;
-        }
-        var result = await DataService.GetStationsTrainOrderAsync(settings.LayoutId);
-        if (result.statusCode.IsSuccess())
-        {
-            Items = result.items;
+            Layout = layoutResult.item;
+            var result = await DataService.GetStationsTrainOrderAsync(Layout!.Id);
+                Items = result.statusCode.IsSuccess() ? result.items : [];
         }
     }
 

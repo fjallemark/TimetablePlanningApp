@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
@@ -47,6 +48,9 @@ public static class StationCallExtensions
         return [.. result];
 #pragma warning restore CS8604 // Possible null reference argument.
     }
+
+    public static int ArrivalAndDepartureNotesCount(this StationCall me) =>
+        (me.IsArrival() ? me.Arrival!.Notes.Count : 0) + (me.IsDeparture() ? me.Departure!.Notes.Count : 0);
 
     public static void AddAutomaticNotes(this DutyStationCall me)
     {

@@ -41,7 +41,7 @@ public class DriverDuty : Duty
     public string Operator { get; init; } = string.Empty;
     public OperationDays OperationDays { get; init; } = new OperationDays();
     public int RemoveOrder { get; init; }
-    public ICollection<DriverDutyPart> Parts { get; set; } = new List<DriverDutyPart>();
+    public ICollection<DriverDutyPart> Parts { get; set; } = [];
 }
 
 public static class DriverDutyExtensions

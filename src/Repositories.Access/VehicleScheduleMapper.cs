@@ -11,7 +11,7 @@ public static class VehicleScheduleMapper
         {
             Type = "Loco",
             OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
-            TurnusNumber = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
+            Turnus = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
             Operator = me.GetString("LocoOperator"),
             Class = me.GetString("LocoClass"),
             VehicleNumber = me.GetString("VehicleNumber"),
@@ -26,13 +26,14 @@ public static class VehicleScheduleMapper
         {
             Type = "CargoWagon",
             OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
-            TurnusNumber = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+            Turnus = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
             Operator = me.GetString("TrainsetOperator"),
             Class = me.GetString("TrainsetClass"),
             TurnForNextDay = me.GetBool("TurnForNextDay"),
             NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
             Note = me.GetString("Note"),
-             PrintCard = me.GetBool("PrintCard", false),
+            OwnerNote = me.GetString("OwnerNote"),
+            PrintCard = me.GetBool("PrintCard", false),
         };
 
     public static TrainsetSchedule ToPassengerWagonSchedule(this IDataRecord me) =>
@@ -40,7 +41,7 @@ public static class VehicleScheduleMapper
         {
             Type = "PassengerWagon",
             OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
-            TurnusNumber = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+            Turnus = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
             Operator = me.GetString("TrainsetOperator"),
             Class = me.GetString("TrainsetClass"),
             TurnForNextDay = me.GetBool("TurnForNextDay"),
@@ -55,7 +56,7 @@ public static class VehicleScheduleMapper
         {
             Type = "CargoOnly",
             OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
-            TurnusNumber = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
+            Turnus = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
             Operator = me.GetString("TrainsetOperator"),
             Class = me.GetString("TrainsetClass"),
             TurnForNextDay = me.GetBool("TurnForNextDay"),

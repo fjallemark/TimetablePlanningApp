@@ -1,28 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
-		<RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Markdig" Version="0.37.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Update="Resources\Notes.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Notes.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Resources\Notes.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Notes.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-	</ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>Tellurian.Trains.Planning.App.Contracts</AssemblyName>
+    <RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.37.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\Notes.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Notes.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Notes.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Notes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

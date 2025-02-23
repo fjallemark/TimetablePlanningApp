@@ -69,6 +69,7 @@ public class OperationDayTests
         var actual = target.OperationDays();
         Assert.AreEqual("Måndag, onsdag och fredag", actual.FullName);
         Assert.AreEqual("M,O,F", actual.ShortName);
+        Assert.AreEqual("Måndag", target.FirstOperationDay().FullName);
     }
 
     [TestMethod]
@@ -79,6 +80,24 @@ public class OperationDayTests
         var actual = target.OperationDays();
         Assert.AreEqual("Söndag till fredag", actual.FullName);
         Assert.AreEqual("S-F", actual.ShortName);
+    }
+    [TestMethod]
+    public void MondayThursdayAndSundaySwedish()
+    {
+        Swedish();
+        const byte target = 73;
+        var actual = target.OperationDays();
+        Assert.AreEqual("Måndag, torsdag och söndag", actual.FullName);
+        Assert.AreEqual("M,To,S", actual.ShortName);
+        Assert.AreEqual("Måndag", target.FirstOperationDay().FullName);
+    }
+
+    [TestMethod]
+    public void FirstOperationDayFlagIsCorrect()
+    {
+        Assert.AreEqual((byte)1, ((byte)73).FirstOperationDay().Flags);
+        Assert.AreEqual((byte)2, ((byte)18).FirstOperationDay().Flags);
+        Assert.AreEqual((byte)4, ((byte)36).FirstOperationDay().Flags);
     }
 
     private static void English()

@@ -11,6 +11,7 @@ internal static class TrainMapper
     public static Train ToTrain(this IDataRecord me) =>
          new()
          {
+             Id = me.GetInt("TrainId"),
              OperatorName = me.GetString("TrainOperator"),
              Prefix = me.GetString("TrainNumberPrefix"),
              Number = me.GetInt("TrainNumber"),

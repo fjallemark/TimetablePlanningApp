@@ -79,6 +79,11 @@ public class PrintedReportsService(IPrintedReportsStore store)
         return stretches;
     }
 
+    public async Task<int> UpdateTrainAsync(int trainNumber, int minutes)
+    {
+        return await Store.UpdateTrainAsync(trainNumber, minutes);
+    }
+
     public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
     {
         var items = await Store.GetStationsTrainOrder(layoutId);
@@ -132,6 +137,7 @@ internal static class TrainExtensions
         // Add track usage
         result.AddRange(me.Calls.Select(c => new TimetableTrainSection
         {
+            TrainId = me.Id,
             FromStationId = c.Station.Id,
             FromTrackId = c.TrackId,
             ToStationId = c.Station.Id,

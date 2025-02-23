@@ -35,12 +35,20 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
 
     [HttpGet("timetablestretches")]
 
-    public async Task<IActionResult> GetTimetableStretches(int id, string? line)
+    public async Task<IActionResult> GetTimetableStretches(int id, string? line = null)
     {
-        if (id < 1) return BadRequest();
         var result = await Service.GetTimetableStretchesAsync(id, line).ConfigureAwait(false);
         if (result is null) return NotFound();
         return Ok(result);
+    }
+
+    [HttpGet("updatetrain")]
+    public async Task<IActionResult> UpdateTrainAndGetTimetableStretchesAsync(int id, int trainId, int minutes)
+    {
+        if (minutes > 1000) minutes -= (minutes - 1000) * 2 + 1000;
+   
+        var count = await Service.UpdateTrainAsync(trainId, minutes);
+        return await GetTimetableStretches(id);
     }
 
     [HttpGet("trains")]

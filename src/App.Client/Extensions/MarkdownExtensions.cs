@@ -5,17 +5,17 @@ namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class MarkdownExtensions
 {
-    private static readonly MarkdownPipelineBuilder _pipelineBuilder = Create();
+    private static readonly MarkdownPipeline _pipeline = Create();
 
-    private static MarkdownPipelineBuilder Create()
+    private static MarkdownPipeline Create()
     {
         var builder = new MarkdownPipelineBuilder();
-        //builder.Extensions.Add(new Markdig.Extensions.Tables.PipeTableExtension());
-        return builder;
+        builder.UseAdvancedExtensions();
+        return builder.Build();
     }
 
 
     public static MarkupString ToHtml(this string? markdown) =>
-        new(Markdown.ToHtml(markdown ?? string.Empty, _pipelineBuilder.Build()));
+        new(Markdown.ToHtml(markdown ?? string.Empty, _pipeline));
 
 }

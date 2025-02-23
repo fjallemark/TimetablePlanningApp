@@ -61,6 +61,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional vehicle.
+        /// </summary>
+        public static string AdditionalVehicle {
+            get {
+                return ResourceManager.GetString("AdditionalVehicle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All destinations.
         /// </summary>
         public static string AllDestinations {
@@ -201,6 +210,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string ConnectTrainset {
             get {
                 return ResourceManager.GetString("ConnectTrainset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect wagons from {0}..
+        /// </summary>
+        public static string ConnectWagonsFrom {
+            get {
+                return ResourceManager.GetString("ConnectWagonsFrom", resourceCulture);
             }
         }
         

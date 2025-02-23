@@ -43,6 +43,7 @@ public class TimetableStretchStation
 
 public class TimetableTrainSection
 {
+    public int TrainId { get; set; }
     public int FromStationId { get; set; }
     public int FromTrackId { get; set; }
     public int ToStationId { get; set; }

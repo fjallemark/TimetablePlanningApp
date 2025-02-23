@@ -51,12 +51,11 @@ else
     {
         SetQueryStringParameters();
         Minutes = 0;
-        var settings = Options.Value;
-        var result1 = await DataService.GetLayoutAsync(settings.LayoutId);
+        var result1 = await DataService.GetLayoutAsync();
         if (result1.statusCode.IsSuccess())
         {
             Layout = result1.item;
-            var result2 = await DataService.GetTrainsAsync(settings.LayoutId, SelectedOperatorSignature);
+            var result2 = await DataService.GetTrainsAsync(Layout!.Id, SelectedOperatorSignature);
             if (result2.statusCode.IsSuccess())
             {
                 AllocationTable = BuildTrainAllocationTable(Layout, result2.items);
@@ -66,6 +65,7 @@ else
         }
     }
 
+    // TODO: Take operation days into account!
     byte[] BuildTrainAllocationTable(Layout? layout, IEnumerable<Train> trains)
     {
         if (layout is null) return Array.Empty<byte>();

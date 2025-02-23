@@ -35,8 +35,8 @@ else if (Layout is not null)
 
                 @foreach (var item in itemsOnPage)
                 {
-                    <GraphicVehicleScheduleItem Item="@item" StartHour="@Layout.StartHour" EndHour="Layout.EndHour" IsNewSection="@IsNewTurnusNumber(lastTurnusNumber, item.TurnusNumber)"></GraphicVehicleScheduleItem>
-                    lastTurnusNumber = item.TurnusNumber;
+                    <GraphicVehicleScheduleItem Item="@item" StartHour="@Layout.StartHour" EndHour="Layout.EndHour" IsNewSection="@IsNewTurnusNumber(lastTurnusNumber, item.Turnus)"></GraphicVehicleScheduleItem>
+                    lastTurnusNumber = item.Turnus;
                 }
             </div>
             <div style="width: 1100px; text-align:center">@PageNumbering</div>
@@ -54,11 +54,11 @@ else if (Layout is not null)
         var settings = Options.Value;
         PageNumber = 1;
         SetQueryStringParameters();
-        var layoutResult = await DataService.GetLayoutAsync(settings.LayoutId);
+        var layoutResult = await DataService.GetLayoutAsync();
         if (layoutResult.statusCode.IsSuccess())
         {
             Layout = layoutResult.item;
-            var schedulesResult = await DataService.GetLocoSchedulesAsync(settings.LayoutId);
+            var schedulesResult = await DataService.GetLocoSchedulesAsync(Layout!.Id);
             if (schedulesResult.statusCode.IsSuccess())
             {
                 var items = schedulesResult.items.Where(i => i.ReplaceOrder == 0);

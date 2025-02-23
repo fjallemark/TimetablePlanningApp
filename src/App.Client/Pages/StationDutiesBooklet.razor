@@ -30,7 +30,7 @@ else
             }
             else if (PageLeft(i).IsInstructions)
             {
-                <DutyInstructionsPage PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown" Heading="@PageLeft(i).InstructionsHeading"></DutyInstructionsPage>
+                <DutyInstructionsPage PageNumber="PageLeft(i).Number" MarkdownContent="@PageLeft(i).InstructionsMarkdown" Heading="@PageLeft(i).InstructionsHeading" GeneralNote="@Localizer["StationDutyGeneralNote"]"></DutyInstructionsPage>
             }
 
             @if (PageRight(i).IsBlank)
@@ -47,7 +47,7 @@ else
             }
             else if (PageRight(i).IsInstructions)
             {
-                <DutyInstructionsPage PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown" Heading="@PageRight(i).InstructionsHeading"></DutyInstructionsPage>
+                <DutyInstructionsPage PageNumber="PageRight(i).Number" MarkdownContent="@PageRight(i).InstructionsMarkdown" Heading="@PageRight(i).InstructionsHeading" GeneralNote="@Localizer["StationDutyGeneralNote"]"></DutyInstructionsPage>
             }
         </div>
     }
@@ -62,15 +62,18 @@ else
 
     override protected async Task OnInitializedAsync()
     {
-        var settings = Options.Value;
         SetQueryStringParameters();
         IsLoaded = false;
-        var result = await DataService.GetStationDutiesAsync(settings.LayoutId);
-        if (result.statusCode.IsSuccess() && result.item != null)
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            var duties = FilterDuties(result.item.Duties);
-            Pages = duties.GetAllStationDutyPagesInBookletOrder(result.item.Instructions).ToArray();
-            IsLoaded = true;
+            var result = await DataService.GetStationDutiesAsync(layoutResult.item!.Id);
+            if (result.statusCode.IsSuccess() && result.item != null)
+            {
+                var duties = FilterDuties(result.item.Duties);
+                Pages = duties.GetAllStationDutyPagesInBookletOrder(result.item.Instructions).ToArray();
+                IsLoaded = true;
+            }            
         }
     }
 

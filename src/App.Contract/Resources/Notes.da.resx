@@ -478,4 +478,10 @@
   <data name="Goods" xml:space="preserve">
     <value>Fragtgods</value>
   </data>
+  <data name="ConnectWagonsFrom" xml:space="preserve">
+    <value>Tilkoble vogne fra {0}.</value>
+  </data>
+  <data name="AdditionalVehicle" xml:space="preserve">
+    <value>Ekstra køretøj</value>
+  </data>
 </root>

@@ -30,12 +30,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var settings = Options.Value;
-        var result = await DataService.GetTrainsetSchedulesAsync(settings.LayoutId);
-        if (result.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            SetQueryStringParameters();
-            Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.EqualsAny(Operator));
+            var result = await DataService.GetTrainsetSchedulesAsync(layoutResult.item!.Id);
+            if (result.statusCode.IsSuccess())
+            {
+                SetQueryStringParameters();
+                Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.EqualsAny(Operator));
+            }            
         }
     }
 
