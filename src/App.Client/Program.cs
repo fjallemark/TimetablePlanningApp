@@ -9,8 +9,8 @@ public static class Program
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
         builder.RootComponents.Add<App>("#app");
-        builder.Services.Configure<AppSettings>(
-            builder.Configuration.GetSection("AppSettings"));
+        //builder.Services.Configure<AppSettings>(
+        //    builder.Configuration.GetSection("AppSettings"));
         builder.Services.AddLocalization();
         builder.Services.AddScoped<LanguageService>();
         builder.Services.AddScoped<PrintedReportsService>();

@@ -43,12 +43,12 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     }
 
     [HttpGet("updatetrain")]
-    public async Task<IActionResult> UpdateTrainAndGetTimetableStretchesAsync(int id, int trainId, int minutes)
+    public async Task<IActionResult> UpdateTrainAndGetTimetableStretchesAsync(int id, int trainId, int minutes, string? line)
     {
         if (minutes > 1000) minutes -= (minutes - 1000) * 2 + 1000;
    
         var count = await Service.UpdateTrainAsync(trainId, minutes);
-        return await GetTimetableStretches(id);
+        return await GetTimetableStretches(id, line);
     }
 
     [HttpGet("trains")]

@@ -1,8 +1,8 @@
 ﻿@inject IStringLocalizer<App> Localizer
 
-@if (Item is not null)
-{
-    <PocketCard>
+<PocketCard>
+    @if (Item is not null)
+    {
         <svg>
             <line style="stroke: @Item.CrossLineColor();" x1="50mm" y1="0mm" x2="0mm" y2="91mm" />
         </svg>
@@ -54,8 +54,8 @@
                 }
             </div>
         </div>
-    </PocketCard>
-}
+    }
+</PocketCard>
 
 @code {
     [Parameter] public VehicleSchedule? Item { get; set; }
@@ -66,7 +66,7 @@
     LocalizedString ClassOrContent(VehicleSchedule it) => it.IsCargoOnly ? Localizer["Content"] : Localizer["Class"];
     string ClassAndNumber(VehicleSchedule it) => $"{it.Class} {it.VehicleNumber}";
 
-    string SpareType(VehicleSchedule it) => it is LocoSchedule s ? s.IsRailcar ? "SpareRailcar": "SpareLoco" : "SpareWagon";
+    string SpareType(VehicleSchedule it) => it is LocoSchedule s ? s.IsRailcar ? "SpareRailcar" : "SpareLoco" : "SpareWagon";
     string FormatNote(string? text) => string.IsNullOrWhiteSpace(text) ? string.Empty :
     !text.TrimEnd().EndsWith(".") ? text.TrimEnd() + ". " : text + " ";
 

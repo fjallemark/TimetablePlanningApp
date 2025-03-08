@@ -30,7 +30,7 @@ else
             {
                 <h2>@infoGroup.First().StationName</h2>
             }
-            <div style="font-size: 11pt">
+            <div style="font-size: 10pt">
                 <table cellspacing="2" cellpadding="2" width="100%">
                     <thead>
                         <tr style="border-bottom: 1px solid gray">
@@ -68,7 +68,7 @@ else
 
                         @foreach (var info in Sorted(infoGroup))
                         {
-                            <tr style="border-bottom: 1px solid gray; background-color: @info.BackColor()">
+                            <tr style="border-bottom: 1px solid gray; background-color: @info.BackColor(IsPerOwner(Option))">
                                 <td>@info.Position</td>
                                 @if (IsPerOwner(Option))
                                 {
@@ -89,16 +89,15 @@ else
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
                                 <td align="center">@info.FredYesNo()</td>
                                 <td align="left">@info.Notes()</td>
-                                @if (!IsPerOwner(Option))
+                                @if (IsPerOwner(Option))
+                                {
+                                    <td align="center"><input type="checkbox" /></td>
+                                }
+                                else
                                 {
                                     <td>@((MarkupString)info.OwnerOrNotBooked())</td>
+                                    <td align="center"><input type="checkbox" /></td>
                                 }
-                                @if (info.ReplaceOrder <= 1){
-                                <td align="center"><input type="checkbox" /></td>
-                                }
-                                else {
-                                    <td></td>
-                                }                              
                             </tr>
                         }
                     </tbody>
@@ -117,25 +116,30 @@ else
 
     protected async override Task OnParametersSetAsync()
     {
-        var result = await DataService.GetVehicleStartInfosAsync(Options.Value.LayoutId);
-        if (result.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            HasBookings = result.items.Any(i => i.OwnerName.HasValue());
-            if (IsPerOwner(Option))
+            var result = await DataService.GetVehicleStartInfosAsync(layoutResult.item!.Id);
+            if (result.statusCode.IsSuccess())
             {
-                StartInfos = result.items
-                    .Where(i => i.IsFirstDay)
-                    .OrderBy(i => i.OwnerName)
-                    .GroupBy(i => i.OwnerName);
-            }
-            else
-            {
-                StartInfos = result.items
-                    .Where(i => i.ReplaceOrder < 9)
-                    .GroupBy(i => i.StationName);
+                HasBookings = result.items.Any(i => i.OwnerName.HasValue());
+                if (IsPerOwner(Option))
+                {
+                    StartInfos = result.items
+                        .Where(i => i.IsFirstDay)
+                        .OrderBy(i => i.OwnerName)
+                        .GroupBy(i => i.OwnerName);
+                }
+                else
+                {
+                    StartInfos = result.items
+                        .Where(i => i.ReplaceOrder < 9)
+                        .GroupBy(i => i.StationName);
+                }
             }
         }
     }
+
 
     bool IsPerOwner(string? option) => "perowner".Equals(option, StringComparison.OrdinalIgnoreCase);
 

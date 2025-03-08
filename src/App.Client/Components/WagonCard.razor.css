@@ -1,0 +1,33 @@
+﻿
+.card {
+    font-weight: 500;
+    font-size: 11pt;
+}
+
+    .card.frame {
+        width: 145mm;
+        height: 102mm;
+        padding: 0pt;
+        margin: 0px;
+        /* border-color: gainsboro;
+        border-width: 1px;
+        border-style: solid;*/
+        padding: 2pt;
+        display: inline-block;
+    }
+
+    .card.header {
+        font-size: 11pt;
+        line-height: 13pt;
+        font-weight: 600;
+    }
+
+    .card th {
+        font-style: italic;
+        font-size: 11pt;
+        font-weight: 500;
+    }
+
+    .card tr {
+        height: 16pt;
+    }

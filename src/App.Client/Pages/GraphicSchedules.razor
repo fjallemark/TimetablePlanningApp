@@ -3,7 +3,6 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject PrintedReportsService DataService
-@inject IOptions<AppSettings> Options
 
 @if (!DataIsReady)
 {
@@ -101,8 +100,7 @@ else
     {
         if (selectedMinutes != 0)
         {
-            var settings = Options.Value;
-            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, selectedMinutes);
+            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, selectedMinutes, SelectedStretch);
             if (result.statusCode.IsSuccess())
             {
                 TimetableStretches = result.items.ToArray();

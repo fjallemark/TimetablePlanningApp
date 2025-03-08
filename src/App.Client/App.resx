@@ -387,4 +387,10 @@
   <data name="StationDutyGeneralNote" xml:space="preserve">
     <value>The station duty is intended to help planning activities ahead.</value>
   </data>
+  <data name="Trainset" xml:space="preserve">
+    <value>Wagonset</value>
+  </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>Number of wagons</value>
+  </data>
 </root>

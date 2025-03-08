@@ -8,6 +8,7 @@
     /*    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 */
 }
+
 p {
     padding: 0px;
     margin: 0px;
@@ -30,7 +31,7 @@ table {
 
 .print .creatingreport {
     width: 100%;
-    text-align:center;
+    text-align: center;
     font-size: 36pt;
     padding-top: 3cm;
 }
@@ -38,7 +39,7 @@ table {
 
 @media print {
     @page {
-        size:landscape;
+        size: landscape;
     }
 
     .no-print, .no-print * {
@@ -57,41 +58,47 @@ table {
 }
 
 .stationtrainorder {
-    margin-top:0px;
+    margin-top: 0px;
     width: 28.8cm;
 }
 
     .stationtrainorder tr {
         border-bottom: 1px solid gray;
-        vertical-align:text-top;
+        vertical-align: text-top;
     }
+
     .stationtrainorder td {
         text-align: center;
         padding: 4px 2px 4px 2px;
         font-size: 9pt;
     }
+
     .stationtrainorder h1 {
         background-color: white;
         color: black;
         margin: 0px
     }
+
     .stationtrainorder .day {
         border-left: 1px solid gray;
         width: 6mm;
     }
+
     .stationtrainorder .col {
         border-left: 1px solid gray;
     }
+
     .stationtrainorder .coll {
         border-left: 1px solid gray;
         text-align: left;
         white-space: nowrap;
     }
+
     .stationtrainorder .bold {
         font-weight: bold;
     }
+
     .stationtrainorder .note {
         border-left: 1px solid gray;
         text-align: left;
     }
-

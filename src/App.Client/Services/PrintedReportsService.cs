@@ -40,7 +40,7 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretchesAsync(int layoutId, string? line) =>
         GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches?line={line}");
-    public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> UpdateTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes) =>
+    public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> UpdateTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? line) =>
         GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/updatetrain?trainId={trainId}&minutes={minutes}");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrainsAsync(int layoutId) =>

@@ -367,4 +367,10 @@
   <data name="StationDutyGeneralNote" xml:space="preserve">
     <value>Stationstjenesten skal bruges til at planlægge aktiviteter forude.</value>
   </data>
+  <data name="Trainset" xml:space="preserve">
+    <value>Vognsæt</value>
+  </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>Antal vogne</value>
+  </data>
 </root>

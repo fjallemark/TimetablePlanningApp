@@ -1,4 +1,4 @@
-﻿@page "/trainsetschedules"
+﻿@page "/turnuswagoncards"
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
@@ -12,16 +12,21 @@ else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
 
-    @foreach (var itemsOnPage in Items.ItemsPerPage(10))
-    {
-        <div class="pagebreak">
-            @foreach (var item in itemsOnPage)
-            {
-                <VehicleScheduleCard Item="@item"></VehicleScheduleCard>
-            }
-        </div>
-    }
+    <div >
+
+        @foreach (var itemsOnPage in Items.ItemsPerPage(4))
+        {
+            <div class="pagebreak" style="display: flex; flex-direction: row">
+                @foreach (var item in itemsOnPage)
+                {
+                    <TurnusWagonCard Item="@item"></TurnusWagonCard>
+                }
+            </div>
+        }
+    </div>
+
 }
+
 
 @code {
     string? Operator { get; set; }
@@ -36,8 +41,8 @@ else
             if (result.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();
-                Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.EqualsAny(Operator));
-            }            
+                Items = result.items.Where(i => i.PrintCard && i.Operator.EqualsAny(Operator));
+            }
         }
     }
 

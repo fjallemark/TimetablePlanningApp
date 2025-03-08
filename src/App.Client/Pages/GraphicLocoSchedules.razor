@@ -3,7 +3,6 @@
 @inject IStringLocalizer<App> Localizer
 @inject NavigationManager Navigator
 @inject Services.PrintedReportsService DataService
-@inject IOptions<AppSettings> Options
 
 
 @if (Items is null)
@@ -51,7 +50,6 @@ else if (Layout is not null)
 
     protected override async Task OnInitializedAsync()
     {
-        var settings = Options.Value;
         PageNumber = 1;
         SetQueryStringParameters();
         var layoutResult = await DataService.GetLayoutAsync();

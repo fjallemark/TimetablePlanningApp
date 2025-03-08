@@ -79,6 +79,9 @@ public static class VehicleStartInfoExtensions
         info.VehicleNumber ?? "-";
 
 
-    public static string BackColor(this VehicleStartInfo info) =>
-        info.ReplaceOrder == 0 && !info.IsFirstDay && info.DayFlags > 0 && info.DayFlags < 127? "lightyellow": info.ReplaceOrder == 9 ? "gainsboro": info.ReplaceOrder > 1 ? "gainsboro" : string.Empty;
+    public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false) =>
+        isPerOwner && info.ReplaceOrder <= 1 ? "white" :
+        info.ReplaceOrder <= 1 ?
+            info.DayFlags == 127 ? "white" : info.IsFirstDay ? "lightyellow" : "#e6f5ff" :
+        "gainsboro";
 }

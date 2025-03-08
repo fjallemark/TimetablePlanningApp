@@ -387,4 +387,10 @@
   <data name="StationDutyGeneralNote" xml:space="preserve">
     <value>Der Stationsdienst soll dabei helfen, vorausschauende Aktivitäten zu planen.</value>
   </data>
+  <data name="Trainset" xml:space="preserve">
+    <value>Wagenset</value>
+  </data>
+  <data name="NumberOfWagons" xml:space="preserve">
+    <value>Anzahl Wagen</value>
+  </data>
 </root>

@@ -1,0 +1,34 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+<WagonCard>
+    <div style="margin-left: 20px">
+        <div style="width:80mm">
+            <h1>@Localizer["Trainset"]</h1>
+            <h2>@Item?.Note</h2>
+
+            <table style="font-size: 16pt; line-height: 24pt">
+                <tr>
+                    <td>@Localizer["Operator"]: </td>
+                    <td>@Item?.Operator</td>
+                </tr>
+                <tr>
+                    <td>@Localizer["Class"]: </td>
+                    <td>@Item?.Class</td>
+                </tr>
+                <tr>
+                    <td>@Localizer["NumberOfWagons"]: </td>
+                    <td>@Item?.NumberOfUnits</td>
+                </tr>
+                <tr>
+                    <td>@Localizer["Turnus"]: </td>
+                    <td>@Item?.Turnus</td>
+                </tr>
+            </table>
+
+
+        </div>
+    </div>
+</WagonCard>
+@code {
+    [Parameter] public VehicleSchedule? Item { get; set; }
+}
