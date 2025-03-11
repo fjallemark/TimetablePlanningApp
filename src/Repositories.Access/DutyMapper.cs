@@ -37,7 +37,8 @@ internal static class DutyMapper
             Operator = me.GetString("DutyOperator"),
             RemoveOrder = me.GetInt("DutyRemoveOrder", 0),
             StartTime = me.GetTime("DutyStartsTime", ""),
-            Parts = new List<DriverDutyPart>()
+            StaffingNumber = me.GetInt("Staffing"),
+            Parts = []
         };
 
     public static DriverDutyPart ToDutyPart(this IDataRecord me, Train train) =>

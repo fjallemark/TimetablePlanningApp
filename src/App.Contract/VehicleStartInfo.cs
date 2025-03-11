@@ -1,9 +1,11 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 public class VehicleStartInfo
 {
+    public int Id { get; set; }
     public string? StationName { get; init; }
     public string? TrackNumber { get; init; }
     public bool IsFirstDay { get; init; }
@@ -21,13 +23,17 @@ public class VehicleStartInfo
     public string Note { get; init; } = string.Empty;
     public int ReplaceOrder { get; init; }
     public bool HasFredThrottle { get; init; }
+    [Obsolete("Use booking id")]
     public int Position { get; set; }
+    public string? BookingId { get; set; }
     public required string Type { get; set; }
     public override string ToString() => $"{OperatorSignature} {VehicleClass} {VehicleNumber} {DayFlags.OperationDays().ShortName} {LayoutStartWeekday}";
 }
 
 public static class VehicleStartInfoExtensions
 {
+    public static string BookingId(this VehicleStartInfo info) =>
+        $"{info.Type.Substring(0, 1)}{info.Id}";
     public static string FirstOperationDay(this VehicleStartInfo info) =>
         info.DayFlags.FirstOperationDay(info.LayoutStartWeekday == 7).FullName;
     public static string DisplayedTime(this VehicleStartInfo info) =>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 using System.Globalization;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Client.Extensions;
 

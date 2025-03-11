@@ -393,4 +393,22 @@
   <data name="NumberOfWagons" xml:space="preserve">
     <value>Anzahl Wagen</value>
   </data>
+  <data name="WagonCard" xml:space="preserve">
+    <value>Wagenkarte</value>
+  </data>
+  <data name="WagonsetWith" xml:space="preserve">
+    <value>Wagenset mit {0}</value>
+  </data>
+  <data name="InitialStart" xml:space="preserve">
+    <value>Erster Start</value>
+  </data>
+  <data name="TrainNumber" xml:space="preserve">
+    <value>Zugnummer</value>
+  </data>
+  <data name="OptionalTrain" xml:space="preserve">
+    <value>Optionaler Zug</value>
+  </data>
+  <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
+    <value>Kann mit {0} Personen besetzt sein.</value>
+  </data>
 </root>

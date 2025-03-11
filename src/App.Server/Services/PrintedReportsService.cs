@@ -11,6 +11,8 @@ public class PrintedReportsService(IPrintedReportsStore store)
     public Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId) =>
         Store.GetBlockDestinationsAsync(layoutId);
 
+    public ValueTask RenumberDuties(int layoutId) => Store.RenumberDuties(layoutId);
+
     public async Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId)
     {
         var booklet = await Store.GetDriverDutyBookletAsync(layoutId).ConfigureAwait(false);

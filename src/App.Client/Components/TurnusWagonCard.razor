@@ -2,33 +2,40 @@
 
 <WagonCard>
     <div style="margin-left: 20px">
-        <div style="width:80mm">
-            <h1>@Localizer["Trainset"]</h1>
-            <h2>@Item?.Note</h2>
+        <div style="width:85mm">
+            <h1 style="">@Localizer["WagonCard"]</h1>
+            <h2>@WagonsetHeader(Item)</h2>
 
-            <table style="font-size: 16pt; line-height: 24pt">
+            <table style="font-size: 16pt; color: @TextColor(Item);)">
                 <tr>
-                    <td>@Localizer["Operator"]: </td>
-                    <td>@Item?.Operator</td>
+                    <td class="label"><span>@Localizer["Operator"]:</span> </td>
+                    <td class="value"><span>@Item?.Operator</span></td>
                 </tr>
                 <tr>
-                    <td>@Localizer["Class"]: </td>
-                    <td>@Item?.Class</td>
+                    <td class="label"><span>@Localizer["Class"]:</span> </td>
+                    <td class="value"><span>@Item?.Class</span></td>
                 </tr>
                 <tr>
-                    <td>@Localizer["NumberOfWagons"]: </td>
-                    <td>@Item?.NumberOfUnits</td>
+                    <td class="label"><span>@Localizer["NumberOfWagons"]:</span> </td>
+                    <td class="value"><span>@Item?.NumberOfUnits</span></td>
                 </tr>
                 <tr>
-                    <td>@Localizer["Turnus"]: </td>
-                    <td>@Item?.Turnus</td>
+                    <td class="label"><span>@Localizer["Turnus"]:</span> </td>
+                    <td class="value"><span>@Item?.Turnus</span> </td>
                 </tr>
             </table>
-
-
         </div>
     </div>
 </WagonCard>
 @code {
     [Parameter] public VehicleSchedule? Item { get; set; }
+
+    string WagonsetHeader(VehicleSchedule? item) =>
+        item is null ? string.Empty :
+        item.NumberOfUnits == 1 ? item.Note :
+        string.Format(Localizer["WagonsetWith"], item.Note.ToLower(CultureInfo.CurrentCulture));
+
+    string TextColor(VehicleSchedule? item) =>
+        item is null ? string.Empty :
+        item.TrainParts.First().TrainColor();
 }

@@ -15,6 +15,7 @@ public abstract class Duty
     public string StartTime { get; init; } = string.Empty;
     public string EndTime { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
+    public int StaffingNumber { get; init; } = 1;
 }
 
 public static class DutyExtensions

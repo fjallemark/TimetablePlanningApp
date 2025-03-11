@@ -61,6 +61,9 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<VehicleStartInfo> items)> GetVehicleStartInfosAsync(int layoutId) =>
         GetItems<VehicleStartInfo>($"api/layouts/{layoutId}/reports/vehiclestartinfos");
 
+    public Task<HttpStatusCode> RenumberDuties(int layoutId) =>
+        ExecuteCommand($"api/layouts/{layoutId}/reports/renumberduties");
+
     private async Task<(HttpStatusCode statusCode, IEnumerable<T> items)> GetItems<T>(string requestUrl)
     {
         using var request = CreateRequest(requestUrl);
@@ -76,6 +79,13 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
         if (response.IsSuccessStatusCode)
             return (response.StatusCode, await Item<T>(response).ConfigureAwait(false));
         return (response.StatusCode, null);
+    }
+
+    private async Task<HttpStatusCode> ExecuteCommand(string requestUrl)
+    {
+        using var request = CreateRequest(requestUrl);
+        var response = await Http.SendAsync(request).ConfigureAwait(false);
+        return response.StatusCode;
     }
 
     private static HttpRequestMessage CreateRequest(string requestUri) =>

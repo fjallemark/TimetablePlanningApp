@@ -48,7 +48,7 @@ else
                                     @foreach (var destinationGroup in trainBlocking.BlockDestinations.GroupBy(bd => bd.OrderInTrain))
                                     {
                                         <div class="track destination">
-                                            @foreach (var destination in destinationGroup.OrderBy(dg => dg.TransferDestinationName).ThenBy(dg => dg.StationName))
+                                            @foreach (var destination in destinationGroup)
                                             {
                                                 @if (destination.IsRegion)
                                                 {

@@ -70,4 +70,10 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     [HttpGet("vehiclestartinfos")]
     public async Task<IActionResult> GetVehicleStartInfo(int id) => await this.GetScheduleItems(id, Service.GetVehicleStartInfoAsync).ConfigureAwait(false);
 
+    [HttpGet("renumberduties")]
+    public async Task<IActionResult> RenumberDuties(int id) { 
+        await Service.RenumberDuties(id);
+        return Ok();
+    }
+
 }

@@ -69,7 +69,7 @@ else
                         @foreach (var info in Sorted(infoGroup))
                         {
                             <tr style="border-bottom: 1px solid gray; background-color: @info.BackColor(IsPerOwner(Option))">
-                                <td>@info.Position</td>
+                                <td>@info.BookingId()</td>
                                 @if (IsPerOwner(Option))
                                 {
                                     <td>@info.StationName</td>

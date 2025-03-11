@@ -18,6 +18,7 @@ public abstract class VehicleSchedule : Vehicle
     public int NumberOfUnits { get; set; } = 1;
     public int ReplaceOrder { get; set; }
     public bool PrintCard { get; set; }
+    public bool IsFirstDay { get; set; }
     public IList<TrainPart> TrainParts { get; set; } = [];
 }
 

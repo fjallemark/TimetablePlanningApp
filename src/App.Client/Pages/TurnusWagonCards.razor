@@ -41,7 +41,7 @@ else
             if (result.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();
-                Items = result.items.Where(i => i.PrintCard && i.Operator.EqualsAny(Operator));
+                Items = result.items.Where(i => i.PrintCard && i.IsFirstDay &&  i.Operator.EqualsAny(Operator));
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Tellurian.Trains.Planning.App.Contracts;
+﻿using System.Diagnostics;
+
+namespace Tellurian.Trains.Planning.App.Contracts;
 public class StationDutyData
 {
     public int StationId { get; set; }
@@ -72,6 +74,8 @@ public static class StationDutyDataExtensions
             var calls = train.Calls.Where(c => c.Station.Id == me.StationId);
             var callNotes = notes
                 .Where(n => (n.IsStationNote || n.IsShuntingNote) && n is not TrainMeetCallNote && calls.Any(c => c.Id == n.CallId));
+
+
             foreach (var note in callNotes) note.TrainInfo = train;
             foreach (var call in calls)
             {

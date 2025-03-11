@@ -43,6 +43,35 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return Task.FromResult((Layout?)null);
     }
 
+    private record DutyToRenumber(int Id, byte OperationDays);
+    public ValueTask RenumberDuties(int layoutId)
+    {
+        var duties = new List<DutyToRenumber>(200);
+        using var connection = CreateConnection;
+        var sql = $"SELECT * FROM DutyNumbering WHERE LayoutId = {layoutId}";
+        var reader = ExecuteReader(connection, sql);
+        while (reader.Read())
+        {
+            var duty = new DutyToRenumber(reader.GetInt("Id"), reader.GetByte("OperatingDays"));
+            duties.Add(duty);
+        }
+        connection.Close();
+        using var updateConnection = CreateConnection;
+        updateConnection.Open();
+        var dutyNumber = 0;
+        DutyToRenumber? last = null;
+        foreach (var duty in duties)
+        {
+            if (last is null || last?.OperationDays.IsAllDays()==true || duty.OperationDays.IsAllDays()) dutyNumber++;
+            using var command = updateConnection.CreateCommand();
+            command.CommandText = $"UPDATE [Duty] SET [Number] = {dutyNumber} WHERE [Id] = {duty.Id};";
+            command.CommandType = CommandType.Text;
+            command.ExecuteNonQuery();
+            last = duty;
+        }
+        return ValueTask.CompletedTask;
+    }
+
     public Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
         ReadDutyBooklet<StationDutyBooklet>(layoutId);
 
@@ -239,11 +268,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var result = new List<VehicleStartInfo>(200);
         using var connection = CreateConnection;
         var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY SortOrder, StartStationName, DepartureTrack, DepartureTime");
-        var position = 0;
         while (reader.Read())
         {
             var info = reader.ToVehicleStartInfo();
-            info.Position = ++position;
             result.Add(info);
         }
 
@@ -256,7 +283,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var categories = await GetTrainCategories(layoutId);
         {
             using var connection1 = CreateConnection;
-            var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, TransferDestinationName");
+            var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, DisplayOrder, DestinationStationName, TransferDestinationName");
             Read(result, categories, reader);
         }
 

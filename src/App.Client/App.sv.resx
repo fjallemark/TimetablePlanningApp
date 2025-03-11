@@ -393,4 +393,22 @@
   <data name="NumberOfWagons" xml:space="preserve">
     <value>Antal vagnar</value>
   </data>
+  <data name="WagonCard" xml:space="preserve">
+    <value>Vagnkort</value>
+  </data>
+  <data name="WagonsetWith" xml:space="preserve">
+    <value>Vagnsätt med {0}</value>
+  </data>
+  <data name="InitialStart" xml:space="preserve">
+    <value>Första start</value>
+  </data>
+  <data name="TrainNumber" xml:space="preserve">
+    <value>Tågnummer</value>
+  </data>
+  <data name="OptionalTrain" xml:space="preserve">
+    <value>Valfritt tåg</value>
+  </data>
+  <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
+    <value>Kan vara bemannad med {0} personer.</value>
+  </data>
 </root>

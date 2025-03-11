@@ -10,6 +10,7 @@ internal static class VehicleStartInfoMapper
     public static VehicleStartInfo ToVehicleStartInfo(this IDataRecord record) =>
         new()
         {
+            Id = record.GetInt("Id"),
             Type = record.GetString("Type"),
             DccAddress = (short?)record.GetIntOrNull("Address"),
             DepartureTime = record.GetString("DepartureTime"),

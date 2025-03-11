@@ -373,4 +373,22 @@
   <data name="NumberOfWagons" xml:space="preserve">
     <value>Antal vogne</value>
   </data>
+  <data name="WagonCard" xml:space="preserve">
+    <value>Vognkort</value>
+  </data>
+  <data name="WagonsetWith" xml:space="preserve">
+    <value>Vognsæt med {0}</value>
+  </data>
+  <data name="InitialStart" xml:space="preserve">
+    <value>Første start</value>
+  </data>
+  <data name="TrainNumber" xml:space="preserve">
+    <value>Tognummer</value>
+  </data>
+  <data name="OptionalTrain" xml:space="preserve">
+    <value>Valgfrit tog</value>
+  </data>
+  <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
+    <value>Kan være bemandet med {0} personer.</value>
+  </data>
 </root>

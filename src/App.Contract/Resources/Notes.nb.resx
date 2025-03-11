@@ -310,7 +310,7 @@
     <value>Skift vogner til godskunder.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Koble fra vogner til {0} og videre.</value>
+    <value>Koble fra vogner til {0} og utover.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
     <value>Koble fra vogner til {0}.</value>

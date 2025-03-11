@@ -1,0 +1,24 @@
+﻿td.label {
+    width: 4cm;
+}
+
+td span {
+    background-color: #FFF;
+}
+
+td.label:before {
+    clip: rect(0px, 7cm, 20px, 0px);
+    content: " ............................................................ ";
+    position: absolute;
+    z-index: -1;
+}
+
+td.value {
+    text-align: right;
+    width:3cm;
+}
+
+h1 {
+    text-decoration: underline;
+    text-transform: capitalize;
+}

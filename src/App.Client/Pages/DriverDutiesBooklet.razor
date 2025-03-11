@@ -13,6 +13,7 @@
 else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
+    <RefreshButton OnClick="Renumber" Label="Renumber"/>
 
     @for (var p = 0; p < Pages.Length; p += 2)
     {
@@ -65,6 +66,7 @@ else
     private bool IsLoaded;
     string? SelectedOperator;
     string? SelectedDutyNumber;
+    Layout? Layout;
 
     override protected async Task OnInitializedAsync()
     {
@@ -72,8 +74,9 @@ else
         var layoutResult = await DataService.GetLayoutAsync();
         if (layoutResult.statusCode.IsSuccess())
         {
+            Layout = layoutResult.item;
             SetQueryStringParameters();
-            var result = await DataService.GetDriverDutiesAsync(layoutResult.item!.Id);
+            var result = await DataService.GetDriverDutiesAsync(Layout!.Id);
             if (result.statusCode.IsSuccess() && result.item != null)
             {
                 var duties = FilterDuties(result.item.Duties);
@@ -102,5 +105,12 @@ else
     {
         pageNumber++;
         return pageNumber % 2 == 0 ? "pagebreak" : "";
+    }
+
+    private async Task Renumber()
+    {
+        if (Layout is null) return;
+        await DataService.RenumberDuties(Layout!.Id);
+        await OnInitializedAsync();
     }
 }

@@ -290,7 +290,7 @@
     <value>Skift vogne til godskunder.</value>
   </data>
   <data name="DisconnectWagonsToHereAndFurther" xml:space="preserve">
-    <value>Frakoble vogne til {0} og videre.</value>
+    <value>Frakoble vogne til {0} og ud over.</value>
   </data>
   <data name="DisconnectWagonsToHere" xml:space="preserve">
     <value>Frakoble vogne til {0}.</value>

@@ -1,5 +1,6 @@
-﻿<div class="no-print"><button class="btn btn-primary update" @onclick="OnClick">Refresh report</button></div>
+﻿<div class="no-print"><button class="btn btn-primary update" @onclick="OnClick">@Label</button></div>
 
 @code {
     [Parameter, EditorRequired] public EventCallback OnClick { get; set; }
+    [Parameter] public string Label { get; set; } = "Refresh report";
 }
