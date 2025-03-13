@@ -15,6 +15,7 @@ internal static class LayoutMapper
             ValidFrom = me.GetDate("ValidFromDate"),
             ValidTo = me.GetDate("ValidToDate"),
             MaxLocoDriversCount = me.GetInt("MaxLocoDriversCount"),
+            TrainCategoryCountryId = me.GetInt("TrainCategoryCountry"),
             StartWeekdayId = me.GetInt("StartWeekday"),
             FontFamily = me.GetString("FontFamily")
                 .OrElse("sans-serif")

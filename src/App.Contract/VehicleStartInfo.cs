@@ -13,6 +13,9 @@ public class VehicleStartInfo
     public byte DayFlags { get; init; }
     public string? OperatorSignature { get; init; }
     public int? TurnusNumber { get; init; }
+    public int TrainCategoryId { get; init; }
+    public string TrainPrefix { get; set; } = "";
+    public int TrainNumber { get; init; }
     public string? VehicleClass { get; init; }
     public string? VehicleNumber { get; init; }
     public int MaxNumberOfVehicles { get; init; }
@@ -32,29 +35,47 @@ public class VehicleStartInfo
 
 public static class VehicleStartInfoExtensions
 {
+    public static string TrainLabel(this VehicleStartInfo info) =>
+        info.TrainNumber == 0 ? "-" :
+        $"{info.TrainPrefix} {info.TrainNumber}";
+
+    public static string TrackLabel(this VehicleStartInfo info) =>
+        info.TrackNumber.HasValue() ? info.TrackNumber : "-";
+
+    public static string VehicleClassLabel(this VehicleStartInfo info) =>
+        info.VehicleClass == "?" ?
+            info.OwnerName.HasValue() ? Highlight(Resources.Notes.Missing): Resources.Notes.Optional :
+        info.VehicleClass ?? "-";
+
     public static string BookingId(this VehicleStartInfo info) =>
+        info.IsOther() ? $"X{info.Id}":
         $"{info.Type.Substring(0, 1)}{info.Id}";
     public static string FirstOperationDay(this VehicleStartInfo info) =>
         info.DayFlags.FirstOperationDay(info.LayoutStartWeekday == 7).FullName;
     public static string DisplayedTime(this VehicleStartInfo info) =>
-        info.DepartureTime.HasValue() && info.DepartureTime.Length >= 5 ? info.DepartureTime[0..5] : string.Empty;
+        info.DepartureTime.HasValue() && info.DepartureTime.Length >= 5 ? info.DepartureTime[0..5] : "-";
 
     public static string OwnerOrNotBooked(this VehicleStartInfo info) =>
-        info.OwnerName.HasValue() ? info.OwnerName : info.MaxNumberOfVehicles==0 ? "" : $"""<span style="color: red">{Resources.Notes.NotBooked.ToUpperInvariant()}</span>""";
+        info.OwnerName.HasValue() ? info.OwnerName : info.MaxNumberOfVehicles == 0 ? "" : Highlight(Resources.Notes.NotBooked);
+
+    public static string Highlight(string resourceKey) => $"""<span style="color: red">{resourceKey.ToUpperInvariant()}</span>""";
 
     public static string Notes(this VehicleStartInfo info)
     {
         var text = new StringBuilder(100);
-        if (info.ReplaceOrder == 1)
+        if (info.IsExtra())
         {
             text.Append(Resources.Notes.AdditionalVehicle);
             text.Append(". ");
-
         }
-        else if (info.ReplaceOrder > 0)
+        else if (info.IsSpare())
         {
-            if(info.ReplaceOrder < 9) text.Append(Resources.Notes.SpareVehicle);
-            else text.Append(Resources.Notes.OtherVehicle);
+            text.Append(Resources.Notes.SpareVehicle);
+            text.Append(". ");
+        }
+        else if (info.IsOther())
+        {
+            text.Append(Resources.Notes.OtherVehicle);
             text.Append(". ");
         }
         if (info.Note.HasValue())
@@ -69,7 +90,14 @@ public static class VehicleStartInfoExtensions
         return text.ToString();
     }
 
-    public static string FredYesNo(this VehicleStartInfo info) => info.DccAddress.HasValue ? info.HasFredThrottle ? Resources.Notes.Yes : Resources.Notes.No : "-";
+    public static bool IsOrdinary(this VehicleStartInfo info) => info.ReplaceOrder == 0;
+    private static bool IsExtra(this VehicleStartInfo info) => info.ReplaceOrder == 1;
+    private static bool IsSpare(this VehicleStartInfo info) => info.ReplaceOrder > 1 && info.ReplaceOrder < 9;
+    private static bool IsOther(this VehicleStartInfo info) => info.ReplaceOrder == 9;
+
+    public static string FredYesNo(this VehicleStartInfo info) => 
+        info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) ?
+            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : Resources.Notes.No : "?": "-";
 
 
     public static string DccAddressOrMissingOrNotApplicable(this VehicleStartInfo info) =>
@@ -80,9 +108,9 @@ public static class VehicleStartInfoExtensions
 
     public static string LocoNumberOrMissingOrWagonNumber(this VehicleStartInfo info) =>
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) && info.OwnerName.HasValue() ?
-        info.VehicleNumber.HasValue() ? $"{info.VehicleNumber}" :
-        $"""<span style="color: red">{Resources.Notes.Missing.ToUpperInvariant()}</span>""" :
-        info.VehicleNumber ?? "-";
+                info.VehicleNumber.HasValue() ? $"{info.VehicleNumber}" :
+                $"""<span style="color: red">{Resources.Notes.Missing.ToUpperInvariant()}</span>""" :
+        info.MaxNumberOfVehicles == 1 ? info.VehicleNumber ?? "-": Resources.Notes.NotApplicable;
 
 
     public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false) =>

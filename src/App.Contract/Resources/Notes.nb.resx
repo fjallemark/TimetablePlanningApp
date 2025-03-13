@@ -394,7 +394,7 @@
     <value>Last {0}.</value>
   </data>
   <data name="Unload" xml:space="preserve">
-    <value>Lesse {0}.</value>
+    <value>Loss  {0}.</value>
   </data>
   <data name="TrainClearance" xml:space="preserve">
     <value>Togklarering</value>
@@ -493,7 +493,7 @@
     <value>Ikke booket</value>
   </data>
   <data name="Missing" xml:space="preserve">
-    <value>Savnes</value>
+    <value>Mangler</value>
   </data>
   <data name="Goods" xml:space="preserve">
     <value>Fraktgods</value>
@@ -503,5 +503,11 @@
   </data>
   <data name="AdditionalVehicle" xml:space="preserve">
     <value>Ekstra kjøretøy</value>
+  </data>
+  <data name="NotApplicable" xml:space="preserve">
+    <value>n/a</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Valgfri</value>
   </data>
 </root>

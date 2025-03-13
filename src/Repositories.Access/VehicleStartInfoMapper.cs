@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
@@ -19,6 +20,8 @@ internal static class VehicleStartInfoMapper
             OwnerName = record.GetString("Owner"),
             StationName = record.GetString("StartStationName"),
             TrackNumber = record.GetString("DepartureTrack"),
+            TrainCategoryId = record.GetInt("TrainCategoryId"),
+            TrainNumber = record.GetInt("TrainNumber"),
             TurnusNumber = record.GetIntOrNull("Number"),
             VehicleClass = record.GetString("Class"),
             VehicleNumber = record.GetString("VehicleNumber"),

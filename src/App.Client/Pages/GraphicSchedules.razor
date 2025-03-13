@@ -18,7 +18,7 @@ else
                 <option style="font-size: 18pt" value="@item.Id">@item.TrainNumber</option>
             }
         </InputSelect>
-        <InputNumber class="update" DisplayName="Minutes" @bind-Value="selectedMinutes"></InputNumber> 
+        <InputText class="update" DisplayName="Minutes" @bind-Value="selectedMinutes"></InputText> 
         <button class="update" type="button" @onclick="Update">Update</button>
     </div>
     @if (TimetableStretches.Any(ts => ts.BreakHour.HasValue))
@@ -52,7 +52,7 @@ else
     private string? SelectedStretch;
     private string? SelectedDays;
     private int selectedTrainId;
-    private int selectedMinutes;
+    private string? selectedMinutes;
     private Layout? Layout;
 
     protected async override Task OnInitializedAsync()
@@ -67,7 +67,7 @@ else
             if (result.statusCode.IsSuccess())
             {
                 TimetableStretches = result.items.ToArray();
-                TrainItems = GetTrainItems(result.items);
+                TrainItems = GetTrainItems(TimetableStretches);
             }
             DataIsReady = true;
         }
@@ -78,11 +78,11 @@ else
         var result = new List<ListboxItem>(100);
         foreach(var stretch in stretches)
         {
-            foreach(var train in stretch.TrainSections)
+            foreach(var train in stretch.TrainSections.OrderBy(ts => ts.TrainNumber))
             {
                 if (train.TrainId > 0 && !result.Any(r => r.Id == train.TrainId))
                 {
-                    result.Add(new(train.TrainId, train.TrainLabel()));
+                    result.Add(new(train.TrainId, train.TrainNumber.ToString()));
                 }
             }
         }
@@ -98,9 +98,10 @@ else
 
     async Task Update()
     {
-        if (selectedMinutes != 0)
+        if (int.TryParse(selectedMinutes, out int minutes))
         {
-            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, selectedMinutes, SelectedStretch);
+            minutes = minutes < 0 ? -minutes + 1000 : minutes;
+            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, minutes, SelectedStretch);
             if (result.statusCode.IsSuccess())
             {
                 TimetableStretches = result.items.ToArray();

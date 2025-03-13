@@ -68,6 +68,10 @@ public class PrintedReportsService(IPrintedReportsStore store)
                     if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) &&
                         stretch.Stations.Any(s => s.Station.Id == trainSection.ToStationId))
                     {
+                        trainSection.TryHideTrainLabel = train.Number % 2 == 0 ?
+                                stretch.Stations.First(x => x.Station.Id == trainSection.FromStationId).TryHideTrainLabel :
+                                stretch.Stations.First(x => x.Station.Id == trainSection.ToStationId).TryHideTrainLabel;
+                        if (trainSection.TrainNumber != train.Number) Debugger.Break();
                         stretch.TrainSections.Add(trainSection);
                     }
                 }
@@ -149,6 +153,7 @@ internal static class TrainExtensions
             StartTime = c.Arrival.OffsetMinutes(),
             EndTime = c.Departure.OffsetMinutes(),
             OperatorSignature = me.OperatorName,
+            TrainPrefix = me.Prefix,
             TrainNumber = me.Number,
             OperationDays = me.OperationDays(),
             Color = me.Color
@@ -167,6 +172,7 @@ internal static class TrainExtensions
                 StartTime = me.Calls[i].Departure.OffsetMinutes(),
                 EndTime = me.Calls[i + 1].Arrival.OffsetMinutes(),
                 OperatorSignature = me.OperatorName,
+                TrainPrefix = me.Prefix,
                 TrainNumber = me.Number,
                 OperationDays = me.OperationDays(),
                 Color = me.Color

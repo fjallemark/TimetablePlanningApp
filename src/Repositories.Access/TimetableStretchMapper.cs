@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Runtime.CompilerServices;
 using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access;
@@ -16,6 +17,7 @@ internal static class TimetableStretchMapper
             BreakHour = me.GetIntOrNull("BreakHour"),
             EndHour = me.GetInt("EndHour"),
             ShowTrainOperatorSignature = me.GetBool("ShowOperator"),
+            ShowTrainCategory = me.GetBool("ShowTrainCategory"),
         };
 
     public static TimetableStretchStation ToTimetableStretchStation(this IDataRecord me) =>
@@ -24,5 +26,6 @@ internal static class TimetableStretchMapper
             DisplayOrder = me.GetInt("StationDisplayOrder"),
             DistanceFromPrevious = me.GetDouble("DistanceFromPrevious"),
             Station = me.ToStation(),
+            TryHideTrainLabel = me.GetBool("TryHideTrainLabel")
         };
 }

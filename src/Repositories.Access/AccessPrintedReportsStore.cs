@@ -263,24 +263,29 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return Task.FromResult(result.AsEnumerable());
     }
 
-    public Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfosAsync(int layoutId)
+    public async Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfosAsync(int layoutId)
     {
         var result = new List<VehicleStartInfo>(200);
         using var connection = CreateConnection;
+        var layout = await GetLayout(layoutId);
+        var categories = await GetTrainCategoriesAsync(layoutId);
         var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY SortOrder, StartStationName, DepartureTrack, DepartureTime");
+        if (layout is null) return result;
+
         while (reader.Read())
         {
             var info = reader.ToVehicleStartInfo();
+            info.TrainPrefix = categories.FirstOrDefault(x => x.Id == info.TrainCategoryId &&  x.CountryId.HasValue && x.CountryId.Value == layout.TrainCategoryCountryId)?.Prefix ?? "";
             result.Add(info);
         }
 
-        return Task.FromResult(result.AsEnumerable());
+        return result;
     }
 
     public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
     {
         var result = new List<BlockDestinations>(100);
-        var categories = await GetTrainCategories(layoutId);
+        var categories = await GetTrainCategoriesAsync(layoutId);
         {
             using var connection1 = CreateConnection;
             var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, DisplayOrder, DestinationStationName, TransferDestinationName");
@@ -373,7 +378,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null)
     {
         var result = new List<Train>(100);
-        var categories = await GetTrainCategories(layoutId);
+        var categories = await GetTrainCategoriesAsync(layoutId);
         Train? current = null;
         var lastTrainNumber = string.Empty;
         var sequenceNumber = 0;
@@ -404,7 +409,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     {
         var sql = $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime, IsArrival";
         var result = new List<StationTrainOrder>();
-        var categories = await GetTrainCategories(layoutId);
+        var categories = await GetTrainCategoriesAsync(layoutId);
         using var connection = CreateConnection;
         var reader = ExecuteReader(connection, sql);
         var stationName = "";
@@ -432,7 +437,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var sql = onlyInitialTrains ? $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} AND IsInitial <> 0 ORDER BY StationName, TrackNumber" :
         $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber";
         var result = new List<TrainDeparture>(100);
-        var categories = await GetTrainCategories(layoutId);
+        var categories = await GetTrainCategoriesAsync(layoutId);
         using var connection = CreateConnection;
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
@@ -444,7 +449,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return result.AsEnumerable();
     }
 
-    public Task<IEnumerable<TrainCategory>> GetTrainCategories(int layoutId)
+    public Task<IEnumerable<TrainCategory>> GetTrainCategoriesAsync(int layoutId)
     {
         var result = new List<TrainCategory>(20);
         using var connection = CreateConnection;

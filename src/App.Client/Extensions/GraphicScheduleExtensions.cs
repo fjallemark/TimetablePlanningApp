@@ -6,7 +6,18 @@ namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
 public static class GraphicScheduleExtensions
 {
+    private const int TrainCategoryHeight = 30;
+    private const int TrainOperatorSignatureHeight = 30;
+    private const int YCanvasBottomMargin = 20;
+    private const int XCanvasRightMargin = 30;
+    private const int TrackNumberXOffset = -16;
+
     public static readonly GraphicScheduleOptions Options = new();
+
+    public static int MinDistanceBeweenStations(this TimetableStretch stretch) =>
+        Options.MinDistanceBeweenStations +
+            (stretch.ShowTrainCategory ? TrainCategoryHeight : 0) +
+            (stretch.ShowTrainOperatorSignature ? TrainOperatorSignatureHeight : 0);
 
     public static string Heading(this TimetableStretch me, byte onlyDays = OperationDays.AllDays)
     {
@@ -17,10 +28,10 @@ public static class GraphicScheduleExtensions
     #region Time
 
 
-    public static IEnumerable<(int XHour, string Text)> Hours(this TimetableStretch me, int dayPart =0)
+    public static IEnumerable<(int XHour, string Text)> Hours(this TimetableStretch me, int dayPart = 0)
     {
-        var first = dayPart==2 && me.BreakHour.HasValue ? me.BreakHour.Value : me.FirstHour();
-        var last = dayPart == 1 && me.BreakHour.HasValue? me.BreakHour.Value : me.LastHour();
+        var first = dayPart == 2 && me.BreakHour.HasValue ? me.BreakHour.Value : me.FirstHour();
+        var last = dayPart == 1 && me.BreakHour.HasValue ? me.BreakHour.Value : me.LastHour();
         return Enumerable.Range(first, last - first + 1).Select(i => (me.XHour(i, dayPart), i.ToString("00", CultureInfo.InvariantCulture)));
     }
 
@@ -37,10 +48,14 @@ public static class GraphicScheduleExtensions
         Hour
     }
     public static int YCanvas(this TimetableStretch me) =>
-        me.YStationsBottom() + 20;
+        me.YStationsBottom() + YCanvasBottomMargin;
 
     public static int YHour(this TimetableStretch me) => me is null ? 0 : Options.Yoffset;
-    public static int YStationsTop(this TimetableStretch me) => me is null ? 0 : Options.Yoffset + Options.HourHeight;
+    public static int YStationsTop(this TimetableStretch me)
+    {
+        return me is null ? 0 : Options.Yoffset + Options.HourHeight;
+    }
+
     public static int YStationsBottom(this TimetableStretch me) =>
         (me?.YStation(me.Stations.Last(), me.Stations.Last().Tracks().OrderBy(t => t.DisplayOrder).Last())) ?? 0;
 
@@ -55,7 +70,7 @@ public static class GraphicScheduleExtensions
         for (var i = index; i > 0; i--)
         {
             y += i > 0 ? me.Stations[i - 1].XHeight() : 0;
-            y += Math.Max(me.Stations[i].DistanceFromPrevious * Options.DistanceFactor, Options.MinDistanceBeweenStations);
+            y += Math.Max(me.Stations[i].DistanceFromPrevious * Options.DistanceFactor, me.MinDistanceBeweenStations());
         }
         if (track != null)
         {
@@ -74,18 +89,22 @@ public static class GraphicScheduleExtensions
 
     #region X-axis
 
-    public static int XCanvas(this TimetableStretch me, int dayPart) => me.XLastHour(dayPart) + 30;
+    public static int XCanvas(this TimetableStretch me, int dayPart) => me.XLastHour(dayPart) + XCanvasRightMargin;
     public static int XStation(this TimetableStretch me) => me is null ? 0 : 1;
-    public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() - 16;
-    public static int XFirstHour(this TimetableStretch me, int dayPart=0) => (me?.XHour(me.FirstHour(dayPart), dayPart)) ?? 0;
+    public static int XTrackNumber(this TimetableStretch me) => me is null ? 0 : me.XFirstHour() + TrackNumberXOffset;
+    public static int XFirstHour(this TimetableStretch me, int dayPart = 0) => (me?.XHour(me.FirstHour(dayPart), dayPart)) ?? 0;
     public static int XLastHour(this TimetableStretch me, int dayPart) => (me?.XHour(me.LastHour(dayPart), dayPart)) ?? 0;
-    public static int XHour(this TimetableStretch me, int hour, int dayPart) => 
-        me is null ? 0 : Options.FirstHourOffset + (hour - me.FirstHour(dayPart)) * Options.HourWidth;
+    public static int XHour(this TimetableStretch me, int hour, int dayPart)
+    {
+        return me is null ? 0 : Options.FirstHourOffset + (hour - me.FirstHour(dayPart)) * Options.HourWidth;
+    }
 
-    public static int XHeight(this TimetableStretchStation me) =>
-        Options.OnlyScheduledTracks ?
+    public static int XHeight(this TimetableStretchStation me)
+    {
+        return Options.OnlyScheduledTracks ?
         (me.Station.Tracks.Count(t => t.IsScheduledTrack) - 1) * Options.TrackHeight :
         (me.Station.Tracks.Count - 1) * Options.TrackHeight;
+    }
 
     #endregion
 
@@ -138,12 +157,15 @@ public static class GraphicScheduleExtensions
     public static bool IsBetweenStations(this TimetableTrainSection me) =>
         me.FromStationId != me.ToStationId;
 
-    public static string TrainLabel(this TimetableTrainSection me, byte onlyDays = OperationDays.AllDays, bool showOperatorSignature = false) =>
-        me.OperationDays.IsDaily ? $"{me.TrainIdentity(showOperatorSignature)}" :
+    public static string TrainLabel(this TimetableTrainSection me, byte onlyDays = OperationDays.AllDays, bool showOperatorSignature = false, bool showTrainPrefix = false) =>
+        me.TryHideTrainLabel ? string.Empty :
+        me.OperationDays.IsDaily ? $"{me.TrainIdentity(showOperatorSignature, showTrainPrefix)}" :
         onlyDays.IsAllOtherDays(me.OperationDays.Flags) ? $"{me.TrainIdentity(showOperatorSignature)}" :
         $"{me.TrainIdentity(showOperatorSignature)}\n{me.OperationDays.ShortName}";
 
-    private static string TrainIdentity(this TimetableTrainSection me, bool withOperatorSignature = false) =>
+    private static string TrainIdentity(this TimetableTrainSection me, bool withOperatorSignature = false, bool withTrainPrefix = false ) =>
+        withOperatorSignature && withTrainPrefix ? $"{me.OperatorSignature} {me.TrainPrefix} {me.TrainNumber}" :
+        withTrainPrefix ? $"{me.TrainPrefix} {me.TrainNumber}" :
         withOperatorSignature ? $"{me.OperatorSignature} {me.TrainNumber}" :
         $"{me.TrainNumber}";
 
@@ -172,7 +194,7 @@ public static class GraphicScheduleExtensions
     #endregion
 }
 
-public class GraphicScheduleOptions
+public record class GraphicScheduleOptions
 {
     public int Yoffset { get; set; } = 32;
     public int TrackHeight { get; set; } = 12;

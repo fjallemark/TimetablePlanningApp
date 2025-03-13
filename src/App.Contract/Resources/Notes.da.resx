@@ -374,7 +374,7 @@
     <value>Læs {0}.</value>
   </data>
   <data name="Unload" xml:space="preserve">
-    <value>Losse {0}.</value>
+    <value>Aflæs {0}.</value>
   </data>
   <data name="TrainClearance" xml:space="preserve">
     <value>Toggodkendelse</value>
@@ -483,5 +483,11 @@
   </data>
   <data name="AdditionalVehicle" xml:space="preserve">
     <value>Ekstra køretøj</value>
+  </data>
+  <data name="NotApplicable" xml:space="preserve">
+    <value>n/a</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Valgfri</value>
   </data>
 </root>

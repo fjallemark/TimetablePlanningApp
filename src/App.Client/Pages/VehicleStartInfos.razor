@@ -31,7 +31,7 @@ else
                 <h2>@infoGroup.First().StationName</h2>
             }
             <div style="font-size: 10pt">
-                <table cellspacing="2" cellpadding="2" width="100%">
+                <table cellspacing="1" cellpadding="1" width="100%">
                     <thead>
                         <tr style="border-bottom: 1px solid gray">
                             <th align="left">@Localizer["Pos"]</th>
@@ -44,6 +44,7 @@ else
                             }
                             <th align="center">@Localizer["FirstDay"]</th>
                             <th align="center">@Localizer["Track"]</th>
+                            <th align="center">@Localizer["Train"]</th>
                             <th align="center">@Localizer["Time"]</th>
                             <th align="center">@Localizer["VehicleType"]</th>
                             <th align="center">@Localizer["Operator"]</th>
@@ -79,12 +80,13 @@ else
                                 {
                                     <td align="center">@info.DayFlags.OperationDays(info.LayoutStartWeekday == 7).ShortName</td>
                                 }
-                                <td align="center">@info.TrackNumber</td>
+                                <td align="center">@info.TrackLabel()</td>
+                                <td align="center">@info.TrainLabel()</td>
                                 <td align="center">@info.DisplayedTime()</td>
                                 <td align="center">@info.VehicleType</td>
                                 <td align="center">@info.OperatorSignature</td>
-                                <td align="center">@info.TurnusNumber</td>
-                                <td align="center">@info.VehicleClass</td>
+                                <td align="center">@(info.TurnusNumber.HasValue ? info.TurnusNumber : "-")</td>
+                                <td align="center">@((MarkupString)info.VehicleClassLabel())</td>
                                 <td align="center">@((MarkupString)info.LocoNumberOrMissingOrWagonNumber())</td>
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
                                 <td align="center">@info.FredYesNo()</td>
@@ -149,7 +151,8 @@ else
             .OrderBy(g => g.StationName)
             .ThenBy(g => g.TrackNumber)
             .ThenBy(g => g.DayFlags.FirstOperationDay().Flags)
-            .ThenBy(i => i.TurnusNumber) :
+            .ThenBy(i => i.TurnusNumber)
+            .ThenBy(i => i.ReplaceOrder) :
         data
             .OrderBy(g => g.ReplaceOrder)
             .ThenBy(g => g.TrackNumber)

@@ -10,6 +10,7 @@ public class TimetableStretch
     public int? BreakHour { get; set; }
     public int? EndHour { get; set; }
     public bool ShowTrainOperatorSignature { get; set; }
+    public bool ShowTrainCategory { get; set; }
     public override string ToString() => $"{Number} {Name}";
 }
 
@@ -39,6 +40,7 @@ public class TimetableStretchStation
     public override bool Equals(object? obj) => obj is TimetableStretchStation other && other.Station.Equals(Station);
     public override int GetHashCode() => Station.GetHashCode();
     public override string ToString() => Station.Signature;
+    public bool TryHideTrainLabel {  get; set; }
 }
 
 public class TimetableTrainSection
@@ -52,11 +54,13 @@ public class TimetableTrainSection
     public double EndTime { get; set; }
 
     public string? OperatorSignature { get; set; }
+    public string? TrainPrefix { get; set; }
     public int TrainNumber { get; set; }
     public OperationDays OperationDays { get; set; } = new OperationDays();
     public bool IsCargo { get; set; }
     public bool IsPassenger { get; set; }
     public string Color { get; set; } = string.Empty;
+    public bool TryHideTrainLabel { get; set; }
     public override string ToString() => $"Train {TrainNumber} {OperationDays.ShortName} {FromStationId}:{StartTime.ToTime()}-{EndTime.ToTime()}:{ToStationId}";
 
 }
