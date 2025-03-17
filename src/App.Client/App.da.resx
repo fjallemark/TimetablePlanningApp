@@ -391,4 +391,7 @@
   <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
     <value>Kan være bemandet med {0} personer.</value>
   </data>
+  <data name="WagonNumber" xml:space="preserve">
+    <value>Vognnummer</value>
+  </data>
 </root>

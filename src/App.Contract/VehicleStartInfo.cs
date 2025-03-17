@@ -97,7 +97,7 @@ public static class VehicleStartInfoExtensions
 
     public static string FredYesNo(this VehicleStartInfo info) => 
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) ?
-            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : Resources.Notes.No : "?": "-";
+            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : $"""<span style="color:red;">{Resources.Notes.No}</span>""" : "?": "-";
 
 
     public static string DccAddressOrMissingOrNotApplicable(this VehicleStartInfo info) =>

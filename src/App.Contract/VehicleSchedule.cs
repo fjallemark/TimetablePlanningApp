@@ -20,6 +20,7 @@ public abstract class VehicleSchedule : Vehicle
     public bool PrintCard { get; set; }
     public bool IsFirstDay { get; set; }
     public IList<TrainPart> TrainParts { get; set; } = [];
+    public string? OwnerName { get; set; }
 }
 
 public class LocoSchedule : VehicleSchedule

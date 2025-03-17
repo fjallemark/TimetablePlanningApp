@@ -89,7 +89,7 @@ else
                                 <td align="center">@((MarkupString)info.VehicleClassLabel())</td>
                                 <td align="center">@((MarkupString)info.LocoNumberOrMissingOrWagonNumber())</td>
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
-                                <td align="center">@info.FredYesNo()</td>
+                                <td align="center">@((MarkupString)info.FredYesNo())</td>
                                 <td align="left">@info.Notes()</td>
                                 @if (IsPerOwner(Option))
                                 {
@@ -128,7 +128,7 @@ else
                 if (IsPerOwner(Option))
                 {
                     StartInfos = result.items
-                        .Where(i => i.IsFirstDay)
+                        .Where(i => i.IsFirstDay && i.MaxNumberOfVehicles>0)
                         .OrderBy(i => i.OwnerName)
                         .GroupBy(i => i.OwnerName);
                 }

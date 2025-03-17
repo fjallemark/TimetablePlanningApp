@@ -19,6 +19,7 @@ public static class VehicleScheduleMapper
             Note = me.GetString("Note"),
             IsRailcar = me.GetBool("IsRailcar"),
             ReplaceOrder = me.GetInt("ReplaceOrder"),
+            OwnerName = me.GetString("OwnerName"),
         };
 
      public static TrainsetSchedule ToCargoWagonSchedule(this IDataRecord me) =>
@@ -35,6 +36,8 @@ public static class VehicleScheduleMapper
             OwnerNote = me.GetString("OwnerNote"),
             PrintCard = me.GetBool("PrintCard", false),
             IsFirstDay = me.GetBool("IsFirstDay"),
+            VehicleNumber = me.GetString("VehicleNumber"),
+            OwnerName = me.GetString("OwnerName"),
         };
 
     public static TrainsetSchedule ToPassengerWagonSchedule(this IDataRecord me) =>
@@ -50,6 +53,8 @@ public static class VehicleScheduleMapper
             Note = me.GetString("Note"),
             PrintCard = me.GetBool("PrintCard", false),
             IsFirstDay = me.GetBool("IsFirstDay"),
+            VehicleNumber = me.GetString("VehicleNumber"),
+            OwnerName = me.GetString("OwnerName"),
         };
 
 
@@ -65,6 +70,8 @@ public static class VehicleScheduleMapper
             NumberOfUnits = me.GetInt("MaxNumberOfWagons", 1),
             Note = me.GetString("Note"),
             IsFirstDay = me.GetBool("IsFirstDay"),
+            VehicleNumber = me.GetString("VehicleNumber"),
+            OwnerName = me.GetString("OwnerName"),
         };
 
 

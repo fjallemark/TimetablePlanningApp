@@ -3,27 +3,45 @@
 <WagonCard>
     <div style="margin-left: 20px">
         <div style="width:85mm">
-            <h1 style="">@Localizer["WagonCard"]</h1>
-            <h2>@WagonsetHeader(Item)</h2>
+            @if (Item is not null)
+            {
 
-            <table style="font-size: 16pt; color: @TextColor(Item);)">
-                <tr>
-                    <td class="label"><span>@Localizer["Operator"]:</span> </td>
-                    <td class="value"><span>@Item?.Operator</span></td>
-                </tr>
-                <tr>
-                    <td class="label"><span>@Localizer["Class"]:</span> </td>
-                    <td class="value"><span>@Item?.Class</span></td>
-                </tr>
-                <tr>
-                    <td class="label"><span>@Localizer["NumberOfWagons"]:</span> </td>
-                    <td class="value"><span>@Item?.NumberOfUnits</span></td>
-                </tr>
-                <tr>
-                    <td class="label"><span>@Localizer["Turnus"]:</span> </td>
-                    <td class="value"><span>@Item?.Turnus</span> </td>
-                </tr>
-            </table>
+                <h1 style="">@Localizer["WagonCard"]</h1>
+                <h2>@WagonsetHeader(Item)</h2>
+
+                <table style="font-size: 16pt; color: @TextColor(Item);)">
+                    <tr>
+                        <td class="label"><span>@Localizer["Operator"]:</span> </td>
+                        <td class="value"><span>@Item.Operator</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><span>@Localizer["Class"]:</span> </td>
+                        <td class="value"><span>@Item.Class</span></td>
+                    </tr>
+                    @if (Item.VehicleNumber.HasValue())
+                    {
+                        <tr>
+                            <td class="label"><span>@Localizer["WagonNumber"]:</span> </td>
+                            <td class="value"><span>@Item.VehicleNumber</span></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="label"><span>@Localizer["NumberOfWagons"]:</span> </td>
+                        <td class="value"><span>@Item.NumberOfUnits</span></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><span>@Localizer["Turnus"]:</span> </td>
+                        <td class="value"><span>@Item.Turnus</span> </td>
+                    </tr>
+                    @if (Item.OwnerName.HasValue())
+                    {
+                        <tr>
+                            <td class="label"><span>@Localizer["Owner"]:</span> </td>
+                            <td class="value"><span>@Item.OwnerName</span> </td>
+                        </tr>
+                    }
+                </table>
+            }
         </div>
     </div>
 </WagonCard>
