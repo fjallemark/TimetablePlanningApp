@@ -349,7 +349,7 @@
     <value>Rangierlokomotive</value>
   </data>
   <data name="VehicleType" xml:space="preserve">
-    <value>Fahrzeugtyp</value>
+    <value>Fahrzeug</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Nummer</value>
@@ -405,13 +405,22 @@
   <data name="TrainNumber" xml:space="preserve">
     <value>Zugnummer</value>
   </data>
-  <data name="OptionalTrain" xml:space="preserve">
-    <value>Optionaler Zug</value>
-  </data>
   <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
     <value>Kann mit {0} Personen besetzt sein.</value>
   </data>
   <data name="WagonNumber" xml:space="preserve">
     <value>Wagennummer</value>
+  </data>
+  <data name="VehiclesOverview" xml:space="preserve">
+    <value>Fahrzeugübersicht</value>
+  </data>
+  <data name="TrainsetCards" xml:space="preserve">
+    <value>Wagenset Karten</value>
+  </data>
+  <data name="LocoAdresses" xml:space="preserve">
+    <value>Lokadressen</value>
+  </data>
+  <data name="ForbiddenDccAddress" xml:space="preserve">
+    <value>§ bedeutet verbotene DCC-Adresse</value>
   </data>
 </root>

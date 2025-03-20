@@ -349,7 +349,7 @@
     <value>Shunter</value>
   </data>
   <data name="VehicleType" xml:space="preserve">
-    <value>Vehicle type</value>
+    <value>Vehicle</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Number</value>
@@ -405,13 +405,22 @@
   <data name="TrainNumber" xml:space="preserve">
     <value>Train number</value>
   </data>
-  <data name="OptionalTrain" xml:space="preserve">
-    <value>Optional train</value>
-  </data>
   <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
     <value>May be staffed with {0} persons.</value>
   </data>
   <data name="WagonNumber" xml:space="preserve">
     <value>Wagon number</value>
+  </data>
+  <data name="VehiclesOverview" xml:space="preserve">
+    <value>Vehicles overview</value>
+  </data>
+  <data name="TrainsetCards" xml:space="preserve">
+    <value>Trainset cards</value>
+  </data>
+  <data name="LocoAdresses" xml:space="preserve">
+    <value>Loco adresses</value>
+  </data>
+  <data name="ForbiddenDccAddress" xml:space="preserve">
+    <value>§ means forbidden DCC address</value>
   </data>
 </root>

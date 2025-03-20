@@ -349,7 +349,7 @@
     <value>Skiftelokomotiv</value>
   </data>
   <data name="VehicleType" xml:space="preserve">
-    <value>Køretøy type</value>
+    <value>Kjøretøy</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Nummer</value>
@@ -405,13 +405,22 @@
   <data name="TrainNumber" xml:space="preserve">
     <value>Tognummer</value>
   </data>
-  <data name="OptionalTrain" xml:space="preserve">
-    <value>Valgfritt tog</value>
-  </data>
   <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
     <value>Kan være bemannet med {0} personer.</value>
   </data>
   <data name="WagonNumber" xml:space="preserve">
     <value>Vognnummer</value>
+  </data>
+  <data name="VehiclesOverview" xml:space="preserve">
+    <value>Kjøretøy oversikt</value>
+  </data>
+  <data name="TrainsetCards" xml:space="preserve">
+    <value>Vognsett kort</value>
+  </data>
+  <data name="LocoAdresses" xml:space="preserve">
+    <value>Lokomotivadresser</value>
+  </data>
+  <data name="ForbiddenDccAddress" xml:space="preserve">
+    <value>§ betyr forbudt DCC-adresse</value>
   </data>
 </root>

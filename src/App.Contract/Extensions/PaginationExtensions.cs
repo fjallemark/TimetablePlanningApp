@@ -33,7 +33,7 @@ public static class PaginationExtensions
                 sizeCount = 0;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1.2 + train.Notes.Count * 0.50 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.50)) : 1.2;
+            sizeCount += train.Notes.Count > 1 ? (1.1 + train.Notes.Count * 0.45 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.40)) : 1.2;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
@@ -51,7 +51,7 @@ public static class PaginationExtensions
     #region DriverDutyBooklet
 
     public static IEnumerable<DriverDutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me, IEnumerable<Instruction> instructions) =>
-        me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder(instructions)).ToList();
+        [.. me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder(instructions))];
 
 
     public static IEnumerable<DriverDutyPage> GetDriverDutyPagesInBookletOrder(this DriverDuty me, IEnumerable<Instruction> instructions)

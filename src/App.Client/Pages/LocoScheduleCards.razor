@@ -22,7 +22,7 @@ else
                 {
                     <VehicleScheduleCard Item="loco" />
                 }
-                else if (item is ShuntingLoco shunter)
+                else if (item is ShuntingLoco shunter && Layout?.PrintShuntingLocos == true)
                 {
                     <ShunterLocoCard Item="shunter" />
                 }
@@ -57,7 +57,7 @@ else
                 var filtered = Operators.HasValue() ? shunters.items.Where(i => i.OperatorName.EqualsAny(Operators)) : shunters.items;
                 Locos.AddRange(shunters.items.Cast<Vehicle>());
             }
-            
+
         }
     }
 

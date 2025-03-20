@@ -510,4 +510,7 @@
   <data name="Optional" xml:space="preserve">
     <value>Valfri</value>
   </data>
+  <data name="OptionalTrain" xml:space="preserve">
+    <value>Valfritt tåg</value>
+  </data>
 </root>

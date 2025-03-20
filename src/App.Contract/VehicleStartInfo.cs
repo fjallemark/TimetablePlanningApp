@@ -37,7 +37,7 @@ public static class VehicleStartInfoExtensions
 {
     public static string TrainLabel(this VehicleStartInfo info) =>
         info.TrainNumber == 0 ? "-" :
-        $"{info.TrainPrefix} {info.TrainNumber}";
+        $"{info.TrainPrefix}{info.TrainNumber}";
 
     public static string TrackLabel(this VehicleStartInfo info) =>
         info.TrackNumber.HasValue() ? info.TrackNumber : "-";
@@ -58,7 +58,9 @@ public static class VehicleStartInfoExtensions
     public static string OwnerOrNotBooked(this VehicleStartInfo info) =>
         info.OwnerName.HasValue() ? info.OwnerName : info.MaxNumberOfVehicles == 0 ? "" : Highlight(Resources.Notes.NotBooked);
 
-    public static string Highlight(string resourceKey) => $"""<span style="color: red">{resourceKey.ToUpperInvariant()}</span>""";
+    public static string Highlight(string? text) =>
+        string.IsNullOrWhiteSpace(text) ? string.Empty :
+        $"""<span style="color: red">{text}</span>""";
 
     public static string Notes(this VehicleStartInfo info)
     {
@@ -95,26 +97,32 @@ public static class VehicleStartInfoExtensions
     private static bool IsSpare(this VehicleStartInfo info) => info.ReplaceOrder > 1 && info.ReplaceOrder < 9;
     private static bool IsOther(this VehicleStartInfo info) => info.ReplaceOrder == 9;
 
+    public static bool IsVehicleWithDccAddress(this VehicleStartInfo info) => 
+        info.Type.AnyOf(["Loco", "Shunter", "Railcar"]);
     public static string FredYesNo(this VehicleStartInfo info) => 
-        info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) ?
-            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : $"""<span style="color:red;">{Resources.Notes.No}</span>""" : "?": "-";
+        info.IsVehicleWithDccAddress()?
+            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : Highlight(Resources.Notes.No): "?": "-";
 
+    public static bool HasIllegalDccAddress(this VehicleStartInfo info) => info.DccAddress > 0 && info.DccAddress < 128;
 
     public static string DccAddressOrMissingOrNotApplicable(this VehicleStartInfo info) =>
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) && info.OwnerName.HasValue() ?
+        info.DccAddress > 0 && info.DccAddress.Value < 128 ? Highlight($"{info.DccAddress}§") :
         info.DccAddress > 0 ? $"{info.DccAddress.Value}" :  
-        $"""<span style="color: red">{Resources.Notes.Missing.ToUpperInvariant()}</span>""" :
+        Highlight(Resources.Notes.Missing) :
         "-" ;
 
     public static string LocoNumberOrMissingOrWagonNumber(this VehicleStartInfo info) =>
-        info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) && info.OwnerName.HasValue() ?
-                info.VehicleNumber.HasValue() ? $"{info.VehicleNumber}" :
-                $"""<span style="color: red">{Resources.Notes.Missing.ToUpperInvariant()}</span>""" :
+        info.IsVehicleWithDccAddress() && info.OwnerName.HasValue() ?
+            info.VehicleNumber.HasValue() ? $"{info.VehicleNumber}" :
+            Highlight(Resources.Notes.Missing) :
         info.MaxNumberOfVehicles == 1 ? info.VehicleNumber ?? "-": Resources.Notes.NotApplicable;
 
 
-    public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false) =>
-        isPerOwner && info.ReplaceOrder <= 1 ? "white" :
+    public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false, bool isOverview = false) =>
+        isOverview ?
+            info.ReplaceOrder <= 1 ? "white" : "gainsboro" :
+        isPerOwner && info.ReplaceOrder <= 1  ? "white" :
         info.ReplaceOrder <= 1 ?
             info.DayFlags == 127 ? "white" : info.IsFirstDay ? "lightyellow" : "#e6f5ff" :
         "gainsboro";

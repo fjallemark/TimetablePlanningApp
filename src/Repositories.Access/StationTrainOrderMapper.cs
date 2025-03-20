@@ -10,6 +10,7 @@ internal static class StationTrainOrderMapper
             Designation = me.GetString("Signature"),
             Name = me.GetString("FullName"),
             Trains = new List<StationTrain>(100),
+            UseCompactTrainList = me.GetBool("UseCompactTrainList")
         };
 
     public static StationTrain ToStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>

@@ -606,6 +606,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         while (reader.Read())
         {
             var note = reader.ToLocoDepartureCallNote();
+            if (note.DepartingLoco.OperationDaysFlags == 254) note.DepartingLoco.OperationDaysFlags = 127;// Fix of no bitwise operators in database.
             if (ShouldAdd(note)) result.Add(note);
         }
         return result.AggregateOperationDays();
@@ -622,6 +623,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         {
 
             var note = reader.ToLocoArrivalCallNote();
+            if (note.ArrivingLoco.OperationDaysFlags == 254) note.ArrivingLoco.OperationDaysFlags = 127; // Fix of no bitwise operators in database.
             if (note.CirculateLoco && !note.ArrivingLoco.IsRailcar) result.Add(new LocoCirculationNote(note.CallId)
             {
                 ArrivingLoco = note.ArrivingLoco,

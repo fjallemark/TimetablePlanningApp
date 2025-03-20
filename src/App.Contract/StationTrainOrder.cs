@@ -6,11 +6,13 @@ public class StationTrainOrder
     public string Name { get; init; }
     public string Designation { get; init; }
     public string Country { get; init; }
+    public bool UseCompactTrainList { get; init; }
     public List<StationTrain> Trains { get; init; }
     public override string ToString() => Name;
+
 }
 
-public class StationTrain
+public record class StationTrain
 {
     public int CallId { get; init; }
     public double SortTime { get; init; }
@@ -27,7 +29,7 @@ public class StationTrain
     public bool HideDeparture { get; init; }
     public string OriginName { get; init; }
     public string DestinationName { get; init; }
-    public byte OperatingDayFlag { get; init; }
+    public byte OperatingDayFlag { get; set; }
     public bool IsStop { get; init; }
     public bool ShowOperatorName { get; init; }
     public string Time => $"{ArrivalTime}{DepartureTime}";

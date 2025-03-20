@@ -131,8 +131,51 @@ internal static class StationTrainOrderExtensions
                 }
             }
         }
-        return stations;
+        return stations.Compacted();
     }
+
+    public static IEnumerable<StationTrainOrder> Compacted(this IEnumerable<StationTrainOrder> stationTrainOrders)
+    {
+        List<StationTrainOrder> result = new(50);
+        foreach (var station in stationTrainOrders)
+        {
+            if (station.UseCompactTrainList)
+            {
+                var order = new StationTrainOrder() { Country = station.Country, Designation = station.Designation, Name = station.Name, Trains = new(200) };
+                var trains = station.Trains.OrderBy(t => t.SortTime).ThenBy(t => t.TrainNumber).ToList();
+                var count = trains.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    if (i < count - 1)
+                    {
+                        if (trains[i].TrainNumber == trains[i + 1].TrainNumber && (trains[i+1].SortTime - trains[i].SortTime <= 2))
+                        {
+                            var compacted = trains[i] with { IsArrival = trains[i].IsArrival, IsDeparture = trains[i + 1].IsDeparture };
+                            compacted.Notes.AddRange(trains[i + 1].Notes.Except(trains[i].Notes));
+                            order.Trains.Add(compacted);
+                            i++;
+                        }
+                        else
+                        {
+                            order.Trains.Add(trains[i]);
+                        }
+                    }
+                    else
+                    {
+                        order.Trains.Add(trains[i]);
+                    }
+                }
+                result.Add(order);
+            }
+            else
+            {
+                result.Add(station);
+            }
+        }
+        return result;
+    }
+
+
 }
 
 internal static class TrainExtensions

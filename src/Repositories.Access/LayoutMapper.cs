@@ -17,6 +17,7 @@ internal static class LayoutMapper
             MaxLocoDriversCount = me.GetInt("MaxLocoDriversCount"),
             TrainCategoryCountryId = me.GetInt("TrainCategoryCountry"),
             StartWeekdayId = me.GetInt("StartWeekday"),
+            PrintShuntingLocos = me.GetBool("PrintShuntingLocos"),
             FontFamily = me.GetString("FontFamily")
                 .OrElse("sans-serif")
         };

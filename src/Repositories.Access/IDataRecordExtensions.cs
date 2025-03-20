@@ -41,14 +41,14 @@ public static class IDataRecordExtensions
         return defaultValue;
     }
 
-    public static byte GetByte(this IDataRecord me, string columnName)
+    public static byte GetByte(this IDataRecord me, string columnName, byte maxValue = 255)
     {
         var i = me.GetColumIndex(columnName);
         if (i < 0 || me.IsDBNull(i)) return 0;
         var value = me.GetValue(i);
-        if (value is byte a) return a;
-        if (value is int c) return (byte)c;
-        if (value is double b) return (byte)b;
+        if (value is byte a) return a < maxValue ? a : maxValue;
+        if (value is int c) return (byte)(c < maxValue ? c : maxValue);
+        if (value is double b) return (byte)(b < maxValue? b: maxValue);
         throw TypeErrorException(value, columnName);
     }
 

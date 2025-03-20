@@ -808,6 +808,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional train.
+        /// </summary>
+        public static string OptionalTrain {
+            get {
+                return ResourceManager.GetString("OptionalTrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ore train.
         /// </summary>
         public static string OreTrain {

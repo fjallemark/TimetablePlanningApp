@@ -1,10 +1,14 @@
 ﻿@page "/vehiclestartinfos"
-@page "/vehiclestartinfos/{option}"
+@page "/vehiclestartinfos/perowner"
+@page "/vehiclestartinfos/perstation"
+@page "/vehiclestartinfos/overview"
+@page "/vehiclestartinfos/addresses"
 @layout PrintLayout
 
 @inject IStringLocalizer<App> Localizer
 @inject Services.PrintedReportsService DataService
 @inject IOptions<AppSettings> Options
+@inject NavigationManager Navigator
 
 @if (StartInfos is null)
 {
@@ -14,10 +18,20 @@ else
 {
     @foreach (var infoGroup in StartInfos)
     {
+
         <A4LPage>
-            @if (IsPerOwner(Option))
+
+            @if (IsPerStation)
             {
-                @if (HasBookings)
+                <h2>@infoGroup.First().StationName</h2>
+            }
+            else
+            {
+                @if (IsAddresses)
+                {
+                    <h2 style="line-height: 16pt">@Localizer["LocoAdresses"]</h2>
+                }
+                else if (HasBookings && !IsOverview)
                 {
                     <h2 style="line-height: 16pt">@((MarkupString)infoGroup.First().OwnerOrNotBooked())</h2>
                 }
@@ -26,35 +40,50 @@ else
                     <h2 style="line-height: 16pt">@Localizer["NeedForVehicles"]</h2>
                 }
             }
-            else
+            @if (infoGroup.Any(i => i.HasIllegalDccAddress()))
             {
-                <h2>@infoGroup.First().StationName</h2>
+                <h4 style="color: red;">@Localizer["ForbiddenDccAddress"]!</h4>
             }
             <div style="font-size: 10pt">
-                <table cellspacing="1" cellpadding="1" width="100%">
+                <table cellspacing="1" cellpadding="1" width="100%" class="print-friendly">
                     <thead>
                         <tr style="border-bottom: 1px solid gray">
                             <th align="left">@Localizer["Pos"]</th>
-                            @if (IsPerOwner(Option))
+                            @if (IsOverview || IsAddresses)
                             {
                                 <th align="left">@Localizer["Station"]</th>
                             }
+                            else if (IsPerStation)
+                            {
+                                <th align="left">@Localizer["Station"]</th>
+                                <th align="center">@Localizer["Days"]</th>
+                                <th align="center">@Localizer["Track"]</th>
+                                <th align="center">@Localizer["Time"]</th>
+
+                            }
                             else
                             {
+                                <th align="left">@Localizer["Station"]</th>
+                                <th align="center">@Localizer["FirstDay"]</th>
+                                <th align="center">@Localizer["Track"]</th>
+                                <th align="center">@Localizer["Time"]</th>
                             }
-                            <th align="center">@Localizer["FirstDay"]</th>
-                            <th align="center">@Localizer["Track"]</th>
-                            <th align="center">@Localizer["Train"]</th>
-                            <th align="center">@Localizer["Time"]</th>
-                            <th align="center">@Localizer["VehicleType"]</th>
+
+
+                            <th align="left">@Localizer["VehicleType"]</th>
                             <th align="center">@Localizer["Operator"]</th>
+                            <th align="center">@Localizer["Train"]</th>
                             <th align="center">@Localizer["Turnus"]</th>
                             <th align="center">@Localizer["Class"]</th>
                             <th align="center">@Localizer["Number"]</th>
                             <th align="center">DCC</th>
                             <th align="center">FRED?</th>
                             <th align="left">@Localizer["Notes"]</th>
-                            @if (IsPerOwner(Option))
+                            @if (IsOverview || IsAddresses)
+                            {
+                                <th align="left">@Localizer["Owner"]</th>
+                            }
+                            else if (IsPerOwner)
                             {
                                 <th>@Localizer["IsWith"]</th>
                             }
@@ -69,29 +98,42 @@ else
 
                         @foreach (var info in Sorted(infoGroup))
                         {
-                            <tr style="border-bottom: 1px solid gray; background-color: @info.BackColor(IsPerOwner(Option))">
+                            <tr style=" border-bottom: 1px solid gray; background-color: @info.BackColor(IsPerOwner, IsOverview)">
                                 <td>@info.BookingId()</td>
-                                @if (IsPerOwner(Option))
+                                @if (IsOverview || IsAddresses)
                                 {
                                     <td>@info.StationName</td>
-                                    <td align="center">@info.FirstOperationDay()</td>
+                                }
+                                else if (IsPerStation)
+                                {
+                                    <td>@info.StationName</td>
+                                    <td align="center">@info.DayFlags.OperationDays(info.LayoutStartWeekday == 7).ShortName</td>
+                                    <td align="center">@info.TrackLabel()</td>
+                                    <td align="center">@info.DisplayedTime()</td>
+
                                 }
                                 else
                                 {
-                                    <td align="center">@info.DayFlags.OperationDays(info.LayoutStartWeekday == 7).ShortName</td>
+                                    <td>@info.StationName</td>
+                                    <td align="center">@info.FirstOperationDay()</td>
+                                    <td align="center">@info.TrackLabel()</td>
+                                    <td align="center">@info.DisplayedTime()</td>
                                 }
-                                <td align="center">@info.TrackLabel()</td>
-                                <td align="center">@info.TrainLabel()</td>
-                                <td align="center">@info.DisplayedTime()</td>
-                                <td align="center">@info.VehicleType</td>
+
+                                <td>@info.VehicleType</td>
                                 <td align="center">@info.OperatorSignature</td>
+                                <td align="center">@info.TrainLabel()</td>
                                 <td align="center">@(info.TurnusNumber.HasValue ? info.TurnusNumber : "-")</td>
                                 <td align="center">@((MarkupString)info.VehicleClassLabel())</td>
                                 <td align="center">@((MarkupString)info.LocoNumberOrMissingOrWagonNumber())</td>
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
                                 <td align="center">@((MarkupString)info.FredYesNo())</td>
                                 <td align="left">@info.Notes()</td>
-                                @if (IsPerOwner(Option))
+                                @if (IsOverview || IsAddresses)
+                                {
+                                    <td>@((MarkupString)info.OwnerOrNotBooked())</td>
+                                }
+                                else if (IsPerOwner)
                                 {
                                     <td align="center"><input type="checkbox" /></td>
                                 }
@@ -106,6 +148,7 @@ else
                 </table>
             </div>
             <div style="text-align: center">Utskrivet @DateTime.Now.ToShortDateString() @DateTime.Now.ToShortTimeString()</div>
+
         </A4LPage>
     }
 }
@@ -115,6 +158,15 @@ else
     [Parameter] public string? Option { get; set; }
     IEnumerable<IGrouping<string?, VehicleStartInfo>>? StartInfos;
     bool HasBookings;
+    TypeOfList ListVariant;
+
+    private enum TypeOfList
+    {
+        Overview,
+        PerOwner,
+        PerStation,
+        Addresses
+    }
 
     protected async override Task OnParametersSetAsync()
     {
@@ -124,39 +176,61 @@ else
             var result = await DataService.GetVehicleStartInfosAsync(layoutResult.item!.Id);
             if (result.statusCode.IsSuccess())
             {
+                ListVariant = GetListVariant;
                 HasBookings = result.items.Any(i => i.OwnerName.HasValue());
-                if (IsPerOwner(Option))
-                {
-                    StartInfos = result.items
-                        .Where(i => i.IsFirstDay && i.MaxNumberOfVehicles>0)
-                        .OrderBy(i => i.OwnerName)
-                        .GroupBy(i => i.OwnerName);
-                }
-                else
-                {
-                    StartInfos = result.items
-                        .Where(i => i.ReplaceOrder < 9)
-                        .GroupBy(i => i.StationName);
-                }
+                StartInfos = Grouped(result.items);
             }
         }
     }
 
+    private TypeOfList GetListVariant =>
+        UriEndsWith("perowner") ? TypeOfList.PerOwner :
+        UriEndsWith("perstation") ? TypeOfList.PerStation :
+        UriEndsWith("addresses") ? TypeOfList.Addresses :
+        TypeOfList.Overview;
 
-    bool IsPerOwner(string? option) => "perowner".Equals(option, StringComparison.OrdinalIgnoreCase);
+    bool IsPerOwner => ListVariant == TypeOfList.PerOwner;
+    bool IsOverview => ListVariant == TypeOfList.Overview;
+    bool IsAddresses => ListVariant == TypeOfList.Addresses;
+    bool IsPerStation => ListVariant == TypeOfList.PerStation;
 
-    IEnumerable<VehicleStartInfo> Sorted(IGrouping<string?, VehicleStartInfo> data) =>
-        IsPerOwner(Option) ?
-        data
-            .OrderBy(g => g.StationName)
-            .ThenBy(g => g.TrackNumber)
-            .ThenBy(g => g.DayFlags.FirstOperationDay().Flags)
-            .ThenBy(i => i.TurnusNumber)
-            .ThenBy(i => i.ReplaceOrder) :
-        data
+    bool UriEndsWith(string text) => Navigator.Uri.EndsWith(text, StringComparison.OrdinalIgnoreCase);
+
+    IEnumerable<IGrouping<string?, VehicleStartInfo>> Grouped(IEnumerable<VehicleStartInfo> items) => ListVariant switch
+    {
+        TypeOfList.PerOwner => items
+            .Where(i => i.IsFirstDay && i.MaxNumberOfVehicles > 0)
+            .OrderBy(i => i.OwnerName)
+            .GroupBy(i => i.OwnerName),
+        TypeOfList.PerStation => items
+            .Where(i => i.ReplaceOrder < 9)
+            .GroupBy(i => i.StationName),
+        TypeOfList.Addresses => items
+            .Where(i => i.IsVehicleWithDccAddress() && i.IsFirstDay && i.MaxNumberOfVehicles > 0)
+            .GroupBy(i => "-"),
+        _ => items
+            .Where(i => i.IsFirstDay && i.MaxNumberOfVehicles > 0)
+            .GroupBy(i => "-")
+    };
+
+
+    IEnumerable<VehicleStartInfo> Sorted(IGrouping<string?, VehicleStartInfo> data) => ListVariant switch
+    {
+        TypeOfList.PerOwner => data
+             .OrderBy(g => g.StationName)
+             .ThenBy(g => g.TrackNumber)
+             .ThenBy(g => g.DayFlags.FirstOperationDay().Flags)
+             .ThenBy(i => i.TurnusNumber)
+             .ThenBy(i => i.ReplaceOrder),
+        TypeOfList.PerStation => data
             .OrderBy(g => g.ReplaceOrder)
             .ThenBy(g => g.TrackNumber)
-            .ThenBy(g => g.DayFlags.FirstOperationDay().Flags);
-
-
+            .ThenBy(g => g.DayFlags.FirstOperationDay().Flags),
+        TypeOfList.Addresses => data
+            .OrderBy(g => g.DccAddress),
+        _ => data
+            .OrderBy(g => g.StationName).ThenBy(g => g.ReplaceOrder)
+            .ThenBy(g => g.TrackNumber)
+            .ThenBy(g => g.DayFlags.FirstOperationDay().Flags)
+    };
 }

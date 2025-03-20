@@ -349,7 +349,7 @@
     <value>Växellok</value>
   </data>
   <data name="VehicleType" xml:space="preserve">
-    <value>Fordonstyp</value>
+    <value>Fordon</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Nummer</value>
@@ -405,13 +405,22 @@
   <data name="TrainNumber" xml:space="preserve">
     <value>Tågnummer</value>
   </data>
-  <data name="OptionalTrain" xml:space="preserve">
-    <value>Valfritt tåg</value>
-  </data>
   <data name="MayBeStaffedWithNumberOfPersons" xml:space="preserve">
     <value>Kan vara bemannad med {0} personer.</value>
   </data>
   <data name="WagonNumber" xml:space="preserve">
     <value>Vagnsnummer</value>
+  </data>
+  <data name="VehiclesOverview" xml:space="preserve">
+    <value>Fordonsöversikt</value>
+  </data>
+  <data name="TrainsetCards" xml:space="preserve">
+    <value>Vagnsättkort</value>
+  </data>
+  <data name="LocoAdresses" xml:space="preserve">
+    <value>Lokadresser</value>
+  </data>
+  <data name="ForbiddenDccAddress" xml:space="preserve">
+    <value>§ betyder förbjuden DCC-adress</value>
   </data>
 </root>
