@@ -33,7 +33,7 @@ internal static class TrainCallNotesMapper
     public static TrainsetsArrivalCallNote ToTrainsetArrivalCallNote(this IDataReader me) =>
         new(me.GetInt("CallId"))
         {
-            IsCargoOnly = me.GetBool("IsLoadOnly")
+            IsCargoOnly = me.GetBool("IsLoadOnly"),
         };
 
 
@@ -200,6 +200,7 @@ internal static class TrainCallNotesMapper
             HasUncoupleNote = me.GetBool("HasUncoupleNote"),
             MaxNumberOfWaggons = me.GetInt("MaxNumberOfWagons"),
             WagonTypes = me.GetString("Description"),
+            WagonNumbers = me.GetString("VehicleNumber"),
             Number = me.GetInt("Number"),
             OperationDaysFlag = me.GetByte("OperatingDaysFlag"),
             Operator = me.GetString("Operator"),

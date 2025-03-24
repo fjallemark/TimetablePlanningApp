@@ -60,14 +60,14 @@ public static class StationCallExtensions
     public static double SortTime(this CallTime me) =>
         me.OffsetMinutes();
 
-    public static void AddGeneratedNotes(this DutyStationCall me, DriverDuty duty, DriverDutyPart part, IEnumerable<TrainCallNote> notes)
+    public static void AddGeneratedNotes(this DutyStationCall me, DriverDuty duty, DriverDutyPart part, IEnumerable<TrainCallNote> notes, bool useCompactNotes = true)
     {
         var train = part.Train;
         foreach (var note in notes.OrderBy(n => n.DisplayOrder))
         {
             note.TrainInfo = train;
-            if (note.IsForArrival && (me.IsArrivalInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddArrivalNote(n);
-            if (note.IsForDeparture && (me.IsDepartureInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags)) me.AddDepartureNote(n);
+            if (note.IsForArrival && (me.IsArrivalInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags, useCompactNotes)) me.AddArrivalNote(n);
+            if (note.IsForDeparture && (me.IsDepartureInDuty || note is ManualTrainCallNote)) foreach (var n in note.ToNotes(duty.OperationDays.Flags, useCompactNotes)) me.AddDepartureNote(n);
         }
     }
 

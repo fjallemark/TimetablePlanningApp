@@ -8,6 +8,7 @@ public class Trainset
     public int Number { get; set; }
     public string Class { get; set; } = string.Empty;
     public string WagonTypes { get; set; } = string.Empty;
+    public string WagonNumbers { get; set; } = string.Empty;
     public bool IsCargo { get; set; }
     public int PositionInTrain { get; set; }
     public int MaxNumberOfWaggons { get; set; }

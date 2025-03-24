@@ -5,7 +5,7 @@
     <RootNamespace>Tellurian.Trains.Planning.App.Contracts</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.37.0" />
+    <PackageReference Include="Markdig" Version="0.40.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Notes.Designer.cs">

@@ -102,8 +102,6 @@ public static class PaginationExtensions
         return pages;
     }
 
-    private static bool FitOnSamePageAs(this DriverDutyPart? part2, DriverDutyPart? part1) =>
-       part1 is not null && part2 is not null && (part1.NumberOfCalls() + part2.NumberOfCalls() <= 15);
 
     #endregion
 
