@@ -85,6 +85,7 @@ public static class StationDutyDataExtensions
                     if (call.HasArrivalTime() )
                     {
                         var item = new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting);
+                        item.Train.OverriddenOrigin = train.Origin;
                         item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
                         result.Add(item);
                         ;
@@ -94,15 +95,22 @@ public static class StationDutyDataExtensions
                     {
                         var item = new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting);
                         item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
+                        item.Train.OverriddenDestination = train.Destination;
                         result.Add(item);
                     }
                 }
                 else if (includeAllTrains)
                 {
-                    if (call.Arrival is not null )
-                        result.Add(new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting));
+                    if (call.Arrival is not null)
+                    {
+                        var item = new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting);
+                        item.Train.OverriddenOrigin = train.Origin;
+                    }
                     if (call.Departure is not null)
-                        result.Add(new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting));
+                    {
+                        var item =new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting);
+                        item.Train.OverriddenDestination = train.Destination;
+                    }
                 }
             }
         }

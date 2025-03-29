@@ -30,7 +30,7 @@ public class StationCallWithAction
     public TrainInfo Train { get; init; }
     public bool IsArrival { get; init; }
     public bool IsShuntingOnly { get; init; }
-    public IEnumerable<Note> Notes { get; private set; } = Enumerable.Empty<Note>();
+    public IEnumerable<Note> Notes { get; private set; } = [];
     [JsonIgnore] public bool IsDeparture => !IsArrival;
     [JsonIgnore] private bool UseShuntingNotes => 
         Call.Station.HasCombinedInstructions || IsShuntingOnly;
@@ -45,6 +45,7 @@ public class StationCallWithAction
         Call.Departure?.IsHidden == true ? "" : IsDeparture ? Call.Departure!.Time : $"({Call.Departure?.Time})";
     [JsonIgnore] public string SortTime => IsArrival ? ArrivalTime : DepartureTime;
     [JsonIgnore] public int Rows => Notes.Any() ? 1 + Notes.Count() : 1;
+    [JsonIgnore] public string? OriginOrDestination => IsArrival ? $"{Resources.Notes.From.ToLowerInvariant()} {Train.Origin}" : $"{Resources.Notes.To.ToLowerInvariant()} {Train.Destination}";
 
     public void AddNotes(IEnumerable<TrainCallNote> notes) =>
         Notes = MergeNotes(notes).Where(n => AddNote(n))

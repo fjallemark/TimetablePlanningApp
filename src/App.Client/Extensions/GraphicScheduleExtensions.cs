@@ -156,6 +156,9 @@ public static class GraphicScheduleExtensions
 
     public static bool IsBetweenStations(this TimetableTrainSection me) =>
         me.FromStationId != me.ToStationId;
+    public static bool IsBetweenTracks(this TimetableTrainSection me) => 
+        me.FromStationId == me.ToStationId && me.FromTrackId != me.ToTrackId;
+    public static bool IsShortStop(this TimetableTrainSection me) => me.EndTime - me.StartTime <= 2;
 
     public static string TrainLabel(this TimetableTrainSection me, byte onlyDays = OperationDays.AllDays, bool showOperatorSignature = false, bool showTrainPrefix = false) =>
         me.TryHideTrainLabel ? string.Empty :
@@ -163,16 +166,18 @@ public static class GraphicScheduleExtensions
         onlyDays.IsAllOtherDays(me.OperationDays.Flags) ? $"{me.TrainIdentity(showOperatorSignature)}" :
         $"{me.TrainIdentity(showOperatorSignature)}\n{me.OperationDays.ShortName}";
 
-    private static string TrainIdentity(this TimetableTrainSection me, bool withOperatorSignature = false, bool withTrainPrefix = false ) =>
+    private static string TrainIdentity(this TimetableTrainSection me, bool withOperatorSignature = false, bool withTrainPrefix = false) =>
         withOperatorSignature && withTrainPrefix ? $"{me.OperatorSignature} {me.TrainPrefix} {me.TrainNumber}" :
         withTrainPrefix ? $"{me.TrainPrefix} {me.TrainNumber}" :
         withOperatorSignature ? $"{me.OperatorSignature} {me.TrainNumber}" :
         $"{me.TrainNumber}";
 
     public static string CssClass(this TimetableTrainSection me) =>
-        $"{me.Stroke()}; {StrokeWidth}";
+        $"{me.Stroke()}; stroke-width:{me.StrokeWidth()}px";
 
-    private static string StrokeWidth => $"stroke-width: {Options.TrainGraphThicknesPx}px";
+    private static int StrokeWidth(this TimetableTrainSection me) =>
+        me.IsBetweenStations() || me.IsBetweenTracks() || me.IsShortStop() ? DefaultStrokeWidth : DefaultStrokeWidth * 2;
+    private static int DefaultStrokeWidth => Options.TrainGraphThicknesPx;
     private static string Stroke(this TimetableTrainSection me) =>
         me.Color.HasValue() ? $"stroke: {me.Color}; " :
         me.IsCargo && me.IsPassenger ? $"stroke: #cc00cc; " :

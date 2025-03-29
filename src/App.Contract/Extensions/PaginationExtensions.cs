@@ -108,7 +108,7 @@ public static class PaginationExtensions
     #region StationDutyBooklet
 
     public static IEnumerable<StationDutyPage> GetAllStationDutyPagesInBookletOrder(this IEnumerable<StationDuty> me, IEnumerable<Instruction> instructions) =>
-        me.SelectMany(d => d.GetStationDutyPagesInBookletOrder(instructions)).ToList();
+        [.. me.SelectMany(d => d.GetStationDutyPagesInBookletOrder(instructions))];
     public static IEnumerable<StationDutyPage> GetStationDutyPagesInBookletOrder(this StationDuty me, IEnumerable<Instruction> instructions)
     {
         var pages = me.GetStationDutyPages(instructions).ToArray();
