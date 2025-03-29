@@ -33,6 +33,11 @@ public static class DutyExtensions
        me is DriverDuty driverDuty ? driverDuty.Parts.OrderBy(p => p.StartTime()).Last().EndTime() :
        "##:##";
 
+    public static string? StartStation(this DriverDuty me) =>
+        me.Parts.OrderBy(p => p.StartTime()).FirstOrDefault()?.Calls().First().Station.Name;
+    public static string? EndStation(this DriverDuty me) =>
+    me.Parts.OrderBy(p => p.StartTime()).LastOrDefault()?.Calls().Last().Station.Name;
+
     public static string Description(this DriverDuty me) => $"{Notes.Duty} {me.Number} - {me.OperationDays.ShortName}"; 
 }
 

@@ -423,4 +423,7 @@
   <data name="ForbiddenDccAddress" xml:space="preserve">
     <value>§ betyder förbjuden DCC-adress</value>
   </data>
+  <data name="At" xml:space="preserve">
+    <value>Vid</value>
+  </data>
 </root>

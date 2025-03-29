@@ -37,7 +37,7 @@ else
         var layoutResult = await DataService.GetLayoutAsync();
         if (layoutResult.statusCode.IsSuccess())
         {
-            var result = await DataService.GetTrainsetSchedulesAsync(layoutResult.item!.Id);
+            var result = await DataService.GetTrainsetWagonCardsAsync(layoutResult.item!.Id);
             if (result.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();

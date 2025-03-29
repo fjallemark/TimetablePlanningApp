@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
 
@@ -14,6 +15,8 @@ public class Note
     public int DisplayOrder { get; set; }
     public byte OperatingDaysFlag { get; set; } = 0x7F;
     public override string ToString() => Text ?? "";
+    public int TextLength => Regex.Replace(Text, "<.*?>", string.Empty).Length;
+    public bool IsShortNote => TextLength <= 30;
     public static Note[] SingleNote(int displayOrder, string text, byte operationDaysFlag = 0x7F) => [new Note { DisplayOrder = displayOrder, Text = text, OperatingDaysFlag = operationDaysFlag }];
     public override bool Equals(object? obj) => obj is Note other && other.Text.Equals(Text, StringComparison.OrdinalIgnoreCase);
     public override int GetHashCode() => Text.GetHashCode(StringComparison.OrdinalIgnoreCase);

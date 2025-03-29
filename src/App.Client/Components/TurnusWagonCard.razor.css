@@ -11,7 +11,7 @@ td span {
 }
 
 td.label:before {
-    clip: rect(0px, 8cm, 20px, 0px);
+    clip: rect(0px, 74mm, 20px, 0px);
     content: " ...................................................................... ";
     position: absolute;
     z-index: -1;

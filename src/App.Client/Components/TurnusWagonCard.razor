@@ -2,7 +2,7 @@
 
 <WagonCard>
     <div style="margin-left: 20px">
-        <div style="width:85mm">
+        <div style="width:75mm">
             @if (Item is not null)
             {
 
@@ -33,14 +33,11 @@
                         <td class="label"><span>@Localizer["Turnus"]:</span> </td>
                         <td class="value"><span>@Item.Turnus</span> </td>
                     </tr>
-                    @if (Item.OwnerName.HasValue())
-                    {
-                        <tr>
-                            <td class="label"><span>@Localizer["Owner"]:</span> </td>
-                            <td class="value"><span>@Item.OwnerName</span> </td>
-                        </tr>
-                    }
                 </table>
+                @if (Item.OwnerName.HasValue())
+                {
+                    <p style="margin-top: 2cm; font-size: 16pt; color: @TextColor(Item);"><span class="label">@Localizer["Owner"]: </span><span class="value">@Item.OwnerName</span></p>
+                }
             }
         </div>
     </div>

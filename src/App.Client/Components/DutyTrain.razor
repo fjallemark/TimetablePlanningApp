@@ -3,7 +3,7 @@
 <div class="duty train">
     @if (Duty is not null && Item is not null)
     {
-        
+
         <h1>
             <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.Train.OperatorName, Item.Train.Number)</span>
             <span>@Duty.TrainOperatingDay(Item.Train)</span>
@@ -101,17 +101,21 @@
                             <td>
                                 @if (call.Departure is not null)
                                 {
-                                    foreach (var note in call.Departure.Notes.OrderBy(n => n.DisplayOrder))
+                                    if (TryGetShortFirstNote(call.Departure, out var firstNote))
+                                    {
+                                        <span class="@firstNote.CssClass()">@((MarkupString)(firstNote.ToString())) </span>
+
+                                    }
+                                    foreach (var note in GetNotes(call.Departure))
                                     {
                                         <span class="@note.CssClass()">@((MarkupString)(note.ToString())) </span>
                                     }
+
                                 }
                             </td>
                         </tr>
-
-                    }
+                      }
                 }
-                
             </tbody>
         </table>
     }
@@ -120,4 +124,27 @@
 @code {
     [Parameter] public DriverDutyPart? Item { get; set; }
     [Parameter] public DriverDuty? Duty { get; set; }
+
+    bool TryGetShortFirstNote(CallTime? call, [NotNullWhen(true)] out Note? note)
+    {
+        note = null;
+        if (call is null || call.Notes.Count == 0)
+        {
+            return false;
+        }
+        var first = call.Notes.OrderBy(n => n.DisplayOrder).First();
+        if (first.IsShortNote) { note = first; return true; }
+        return false;
+    }
+
+    IEnumerable<Note> GetNotes(CallTime? call)
+    {
+        if (call is null) return [];
+        var notes = call.Notes.OrderBy(n => n.DisplayOrder);
+        if (TryGetShortFirstNote(call, out var _))
+        {
+            return notes.Skip(1);
+        }
+        return notes;
+    }
 }

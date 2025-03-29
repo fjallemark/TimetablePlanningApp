@@ -25,6 +25,7 @@ public interface IPrintedReportsStore
     Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfosAsync(int layoutId);
     Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId);
     ValueTask RenumberDuties(int layoutId);
+    Task<IEnumerable<VehicleSchedule>> GetTrainsetWagonCardsAsync(int layoutId);
 }
 
 public class RepositoryOptions

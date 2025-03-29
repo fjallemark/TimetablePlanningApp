@@ -109,6 +109,12 @@ public class PrintedReportsService(IPrintedReportsStore store)
         return schedules.SchedulesToPrint();
     }
 
+    public async Task<IEnumerable<VehicleSchedule>> GetTrainsetWagonCardsAsync(int layoutId)
+    {
+        var schedules = await Store.GetTrainsetWagonCardsAsync(layoutId);
+        return schedules.SchedulesToPrint();
+    }
+
     public Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfoAsync(int layoutId) => Store.GetVehicleStartInfosAsync(layoutId);
 }
 

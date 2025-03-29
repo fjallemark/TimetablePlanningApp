@@ -227,12 +227,17 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         }
         return Task.FromResult(result.AsEnumerable());
     }
+    public Task<IEnumerable<VehicleSchedule>> GetTrainsetWagonCardsAsync(int layoutId)=> GetTrainsetSchedulesAsync(layoutId, false);
+    public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>  GetTrainsetSchedulesAsync(layoutId, true);
 
-    public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId)
+    private Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId, bool forVehicleSchedules)
     {
         var result = new List<VehicleSchedule>(100);
         using var connection = CreateConnection;
-        var reader = ExecuteReader(connection, $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetOperator, TrainsetNumber, TrainsetDays, DepartureTime");
+        var sql = forVehicleSchedules ?
+                $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintSchedule = TRUE ORDER BY TrainsetOperator, TrainsetNumber, TrainsetDays, DepartureTime" :
+                $"SELECT * FROM TrainsetTurnusReport WHERE LayoutId = {layoutId} AND PrintCard = TRUE ORDER BY TrainsetOperator, TrainsetNumber, TrainsetDays, DepartureTime";
+        var reader = ExecuteReader(connection, sql);
         var lastUnique = "";
         VehicleSchedule? schedule = null;
         try
