@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Tellurian.Trains.Planning.App.Client.Tests</AssemblyName>
     <RootNamespace>Tellurian.Trains.Planning.App.Client.Tests</RootNamespace>
     <IsPackable>false</IsPackable>

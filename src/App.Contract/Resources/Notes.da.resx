@@ -113,7 +113,7 @@
     <value>og</value>
   </data>
   <data name="Daily" xml:space="preserve">
-    <value>Dagligt</value>
+    <value>Daglig</value>
   </data>
   <data name="Friday" xml:space="preserve">
     <value>Fredag</value>
@@ -140,7 +140,7 @@
     <value>Onsdag</value>
   </data>
   <data name="DailyShort" xml:space="preserve">
-    <value>Dagligt</value>
+    <value>Dagl</value>
   </data>
   <data name="DayNameCasing" xml:space="preserve">
     <value>LOWER</value>
@@ -236,7 +236,7 @@
     <value>Rangering</value>
   </data>
   <data name="SpecialFreightTrain" xml:space="preserve">
-    <value>Specielt godstog</value>
+    <value>Special godstog</value>
   </data>
   <data name="SpeedTrain" xml:space="preserve">
     <value>Lyntog</value>
@@ -269,10 +269,10 @@
     <value>{1}: Hent {0} fra opstilling.</value>
   </data>
   <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{1}: Tilkoble {0}.</value>
+    <value>{1}: Brug {0}.</value>
   </data>
   <data name="UseLoco" xml:space="preserve">
-    <value>Tilkoble {0}.</value>
+    <value>Brug {0}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
     <value>{1}: Kør {0} til opstilling.</value>
@@ -407,7 +407,7 @@
     <value>{0}: Omløb lokomotiv.</value>
   </data>
   <data name="Driver" xml:space="preserve">
-    <value>Togfører</value>
+    <value>Lokomotivfører</value>
   </data>
   <data name="MoveContinuingWagonsToDepartureTracks" xml:space="preserve">
     <value>Flyt fortsættende vogne til afgangsspor.</value>

@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Tellurian.Trains.Planning.App.Client</AssemblyName>
     <RootNamespace>Tellurian.Trains.Planning.App.Client</RootNamespace>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
@@ -15,18 +14,18 @@
     <Content Include="Components\VehicleScheduleCard.razor.css" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.40.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
+    <PackageReference Include="Markdig" Version="0.41.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.3" />
-    <PackageReference Include="System.Net.Http.Json" Version="9.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.3" />
-    <PackageReference Include="System.Text.Json" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4" />
+    <PackageReference Include="System.Net.Http.Json" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.4" />
+    <PackageReference Include="System.Text.Json" Version="9.0.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App.Contract\App.Contracts.csproj" />

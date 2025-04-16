@@ -176,7 +176,7 @@ public static class GraphicScheduleExtensions
         $"{me.Stroke()}; stroke-width:{me.StrokeWidth()}px";
 
     private static int StrokeWidth(this TimetableTrainSection me) =>
-        me.IsBetweenStations() || me.IsBetweenTracks() || me.IsShortStop() ? DefaultStrokeWidth : DefaultStrokeWidth * 2;
+        me.IsBetweenStations() || me.IsBetweenTracks() || me.IsShortStop() ? DefaultStrokeWidth : DefaultStrokeWidth;
     private static int DefaultStrokeWidth => Options.TrainGraphThicknesPx;
     private static string Stroke(this TimetableTrainSection me) =>
         me.Color.HasValue() ? $"stroke: {me.Color}; " :

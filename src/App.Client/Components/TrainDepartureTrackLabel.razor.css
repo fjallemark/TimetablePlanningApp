@@ -9,11 +9,12 @@
 
 .station {
     padding-top: 2mm;
+    color: darkcyan;
 }
 
 .destination {
     padding-bottom: 2mm;
-    color: darkcyan;
+    color: black;
     border-bottom: 1px solid gray;
 }
 
@@ -21,9 +22,11 @@
     margin-bottom: 5mm;
     padding-bottom: 1mm;
     border-bottom: 1px solid gray;
+    font-size: 18pt;
 }
 
 .loco {
+    color: gray;
 }
 
 .time {
@@ -36,7 +39,7 @@
 .train {
     height: auto;
     font-size: 18pt;
-    color: darkcyan;
+    color: black;
     line-height: 22pt;
 }
 
