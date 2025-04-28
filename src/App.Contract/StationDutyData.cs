@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Tellurian.Trains.Planning.App.Contracts;
+﻿namespace Tellurian.Trains.Planning.App.Contracts;
 public class StationDutyData
 {
     public int StationId { get; set; }
@@ -52,7 +50,7 @@ public static class StationDutyDataExtensions
         return duties;
     }
 
-    private static ICollection<Instruction>? MergeInstructions(this IEnumerable<Instruction> instructions)
+    private static Instruction[]? MergeInstructions(this IEnumerable<Instruction> instructions)
     {
         var result = new List<Instruction>();
         var perLanguage = instructions.GroupBy(x => x.Language).ToList();
@@ -62,10 +60,10 @@ public static class StationDutyDataExtensions
             var instruction = new Instruction() { Language = language, Markdown = string.Join("\r\n\n", i.Select(i => i.Markdown)) };
             result.Add(instruction);
         }
-        return result;
+        return [.. result];
     }
 
-    private static ICollection<StationCallWithAction> AsStationCallsWithAction(this StationDuty me, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false)
+    private static StationCallWithAction[] AsStationCallsWithAction(this StationDuty me, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false)
     {
         var result = new List<StationCallWithAction>();
         var trainsAtStation = trains.Where(t => t.Calls.Any(c => c.Station.Id == me.StationId)).ToList();
