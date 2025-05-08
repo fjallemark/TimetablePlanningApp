@@ -551,6 +551,7 @@ public class BlockDestination
     internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
     internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
     internal string DestinationSpan =>
+        ForeColor == "#FFFFFF" && BackColor == "#777777" ? $"""<span style="font-weight: bold; padding: 0px 2px;">{DestinationText}</span>""" :
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {ForeColor}; background-color: {BackColor}">{DestinationText}</span>""";
 
 

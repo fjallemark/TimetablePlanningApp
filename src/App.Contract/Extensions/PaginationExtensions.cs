@@ -18,6 +18,7 @@ public static class PaginationExtensions
         return Enumerable.Range(1, totalPages).Select(page => me.Page(itemsPerPage, page));
     }
 
+    #region Station train order
     public static IEnumerable<IEnumerable<StationTrain>> Pages(this StationTrainOrder station, int maxItemsPerPage)
     {
         var noteBreakLength = 100;
@@ -33,7 +34,7 @@ public static class PaginationExtensions
                 sizeCount = 0;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1.0 + train.Notes.Count * 0.44 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.40)) : 1.2;
+            sizeCount += train.Notes.Count > 1 ? (1.0 + train.Notes.Count * 0.40 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.40)) : 1.1;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
@@ -46,9 +47,9 @@ public static class PaginationExtensions
     public static int ItemsPerPage2(this StationTrainOrder? station, int maxItemsPerPage) =>
         station is null ? maxItemsPerPage :
         maxItemsPerPage - (int)(station.Trains.Where(t => t.Notes.Count > 2).Count() * 0.7);
+    #endregion
 
-
-    #region DriverDutyBooklet
+    #region Driver duty booklet
 
     public static IEnumerable<DriverDutyPage> GetAllDriverDutyPagesInBookletOrder(this IEnumerable<DriverDuty> me, IEnumerable<Instruction> instructions) =>
         [.. me.SelectMany(d => d.GetDriverDutyPagesInBookletOrder(instructions))];
@@ -105,7 +106,7 @@ public static class PaginationExtensions
 
     #endregion
 
-    #region StationDutyBooklet
+    #region Station duty booklet
 
     public static IEnumerable<StationDutyPage> GetAllStationDutyPagesInBookletOrder(this IEnumerable<StationDuty> me, IEnumerable<Instruction> instructions) =>
         [.. me.SelectMany(d => d.GetStationDutyPagesInBookletOrder(instructions))];

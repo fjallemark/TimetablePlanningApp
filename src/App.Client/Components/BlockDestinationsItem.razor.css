@@ -20,7 +20,7 @@
     .track.destination {
         height: 8mm;
         border: none;
-        background-color: gray;
+        background-color: #666666;
         color: white;
         display: block;
         padding: 1mm 1mm 1mm 1mm;
@@ -40,7 +40,14 @@
         border: none;
     }
 
-.block.destination {
+.block {
     padding: 0pt 3pt 0pt 3pt;
     display: inline-block;
 }
+
+    .block.freight {
+        background-color: #666666;
+    }
+
+    .block.trainset {
+    }

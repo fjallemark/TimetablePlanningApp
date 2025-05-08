@@ -37,7 +37,7 @@ else
                                     @foreach (var blockDestination in trainBlocking.BlockDestinations.OrderBy(bd => bd.OrderInTrain))
                                     {
                                         <div class="track destination">
-                                            <div class="block destination" style="color : #000000; background-color: #FAFAFA">
+                                            <div class="block">
                                                 @((MarkupString)blockDestination.ToString())
                                             </div>
                                         </div>
@@ -56,13 +56,13 @@ else
                                                 }
                                                 else if (destination.IsTrainset)
                                                 {
-                                                    <div class="block destination" style="color : #000000; background-color: #FAFAFA">
+                                                    <div class="block trainset" >
                                                         @((MarkupString)destination.ToString())
                                                     </div>
                                                 }
                                                 else
                                                 {
-                                                    <div class="block destination" style="color : #FFFFFF; background-color: #777777">
+                                                    <div class="block freight" >
                                                         @((MarkupString)destination.ToString())
                                                     </div>
                                                 }
