@@ -11,5 +11,6 @@ public class Layout
     public int MaxLocoDriversCount { get; set; }
     public int StartWeekdayId { get; set; }
     public int TrainCategoryCountryId { get; set; }
+    public int TrainCategoryYear { get; set; }
     public bool PrintShuntingLocos { get; set; }
 }

@@ -51,7 +51,7 @@ else
                             @foreach (var item in itemsPerPage)
                             {
                                 <tr style="@item.RowStyle()">
-                                    <td class="col" style="font-weight: bold">@item.TrainIdentity()</td>
+                                    <td class="col" style="white-space: nowrap; font-weight: bold">@item.TrainIdentity()</td>
                                     <td class="col">@item.OperatingDayFlag.OperationDays().ShortName</td>
                                     <td class="col">@item.TrackNumber</td>
                                     <td class="col @item.OriginCssClass()">@item.DisplayedArrivalTime()</td>

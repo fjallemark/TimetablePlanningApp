@@ -406,4 +406,7 @@
   <data name="At" xml:space="preserve">
     <value>Ved</value>
   </data>
+  <data name="ShuntingInstructions" xml:space="preserve">
+    <value>Rangeringsinstruktioner</value>
+  </data>
 </root>

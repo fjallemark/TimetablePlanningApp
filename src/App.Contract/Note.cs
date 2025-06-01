@@ -1,7 +1,5 @@
 ﻿using Markdig;
-using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
@@ -9,25 +7,26 @@ using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 
-public class Note
+public partial class Note
 {
     public string Text { get; set; } = string.Empty;
     public int DisplayOrder { get; set; }
     public byte OperatingDaysFlag { get; set; } = 0x7F;
     public override string ToString() => Text ?? "";
-    public int TextLength => Regex.Replace(Text, "<.*?>", string.Empty).Length;
     public bool IsShortNote => TextLength <= 30;
     public static Note[] SingleNote(int displayOrder, string text, byte operationDaysFlag = 0x7F) => [new Note { DisplayOrder = displayOrder, Text = text, OperatingDaysFlag = operationDaysFlag }];
     public override bool Equals(object? obj) => obj is Note other && other.Text.Equals(Text, StringComparison.OrdinalIgnoreCase);
     public override int GetHashCode() => Text.GetHashCode(StringComparison.OrdinalIgnoreCase);
     public bool IsValidDays(byte operatingDaysFlag) => OperatingDaysFlag.And(operatingDaysFlag) > 0;
+    public int TextLength => TextLengthRegEx().Replace(Text, string.Empty).Length;
+    [GeneratedRegex("<.*?>")]
+    private static partial Regex TextLengthRegEx();
 }
 
 
-public abstract class TrainCallNote
+public abstract class TrainCallNote(int callId)
 {
-    protected TrainCallNote(int callId) => CallId = callId;
-    public int CallId { get; }
+    public int CallId { get; } = callId;
     public int DisplayOrder { get; set; }
     public bool IsDriverNote { get; set; }
     public bool IsStationNote { get; set; }
@@ -35,7 +34,7 @@ public abstract class TrainCallNote
     public bool IsForArrival { get; set; }
     public bool IsForDeparture { get; set; }
     public TrainInfo? TrainInfo { get; set; }
-    public abstract IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact =true);
+    public abstract IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays);
 
     public bool IsAnyDay(byte days, byte dutyDays = OperationDays.AllDays) =>
        dutyDays.IsOnDemand() || TrainInfo.IsOnDemand() || Days(days, dutyDays) > 0;
@@ -62,7 +61,7 @@ public sealed class ManualTrainCallNote : TrainCallNote
     public ManualTrainCallNote(int callId) : base(callId) => DisplayOrder = 0;
     public byte OperationDayFlag { get; set; } = OperationDays.AllDays;
     public string Text { get; set; } = string.Empty;
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsAnyDay(OperationDayFlag, onlyDays) ? Note.SingleNote(DisplayOrderWithDays(onlyDays), GetNoteText(onlyDays)) : Enumerable.Empty<Note>();
 
     private readonly List<LocalizedManualTrainCallNote> LocalizedNotes = [];
@@ -126,7 +125,7 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
             .Select(t => new Note
             {
                 DisplayOrder = displayOrder,
-                Text = Text(t.Key, dutyDays, t, compact)
+                Text = Text(t.Key, dutyDays, t)
             });
     }
     protected static IEnumerable<Trainset> Merge(IEnumerable<Trainset> trainsets)
@@ -146,18 +145,18 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
                 WagonNumbers = string.Join(',',ts.Where(x => x.WagonNumbers.HasValue()).Select(x=>x.WagonNumbers)),
             });
     }
-    protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets, bool compact) =>
-         IsAllDays(days, dutyDays) ? Text(trainsets, compact) : $"""<span style="font-weight: bold; background-color: white;">{days.OperationDays()}</span>: {Text(trainsets, compact)}""";
+    protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
+         IsAllDays(days, dutyDays) ? Text(trainsets) : $"""<span style="font-weight: bold; background-color: white;">{days.OperationDays()}</span>: {Text(trainsets)}""";
 
-    protected abstract string Text(IEnumerable<Trainset> t, bool compact);
+    protected abstract string Text(IEnumerable<Trainset> t);
 
-    protected static string TrainsetTexts(IEnumerable<Trainset> trainsets, bool compact) =>
-        string.Join(" ", trainsets.Select(ts => TrainsetFormat(ts, compact)));
+    protected static string TrainsetTexts(IEnumerable<Trainset> trainsets) =>
+        string.Join(" ", trainsets.Select(ts => TrainsetFormat(ts)));
 
     // TODO: Add final destination and note about exchange trainset under way.
-    private static string TrainsetFormat(Trainset ts, bool compact) =>
-        ts.Operator.HasValue() ? $"""{(compact ? "":"<br/>")}|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i>|  """ :
-        $"""{(compact ? "" : "<br/>")}|<span style="font-weight: bold; background-color: white">{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
+    private static string TrainsetFormat(Trainset ts) =>
+        ts.Operator.HasValue() ? $"""|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i>|  """ :
+        $"""|<span style="font-weight: bold; background-color: white">{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
 
     private static string TrainsetIdentity(Trainset t) =>
         t.MaxNumberOfWaggons == 1 && t.WagonNumbers.HasValue() ? t.WagonNumbers :
@@ -182,11 +181,11 @@ public class TrainsetsDepartureCallNote : TrainsetsCallNote
         IsDriverNote = Trainsets.Any(t => t.HasCoupleNote);
     }
 
-    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) =>
         ToNotes(t => t.HasCoupleNote, dutyDays, DisplayOrder);
 
-    protected override string Text(IEnumerable<Trainset> trainsets, bool compact) =>
-        string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets, compact));
+    protected override string Text(IEnumerable<Trainset> trainsets) =>
+        string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
 
     private string Action => IsCargoOnly ? Notes.Load : Notes.ConnectTrainset;
 }
@@ -205,10 +204,10 @@ public class TrainsetsArrivalCallNote : TrainsetsCallNote
         IsDriverNote = Trainsets.Any(t => t.HasUncoupleNote);
     }
 
-    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays, bool compact = true) => ToNotes(t => t.HasUncoupleNote, dutyDays, DisplayOrder, compact);
+    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays, DisplayOrder);
 
-    protected override string Text(IEnumerable<Trainset> trainsets, bool compact) =>
-        string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets, compact));
+    protected override string Text(IEnumerable<Trainset> trainsets) =>
+        string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
     private string Action => IsCargoOnly ? Notes.Unload : Notes.DisconnectTrainset;
 
 }
@@ -226,7 +225,7 @@ public class TrainContinuationNumberCallNote : TrainCallNote
 
     public byte LocoOperationDaysFlag { get; set; }
 
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         ContinuingTrain is null || IsNoDay(ContinuingTrain.OperationDayFlag, onlyDays) ?
         [] :
         Note.SingleNote(DisplayOrder, FormatText(ContinuingTrain.OperationDayFlag, onlyDays));
@@ -249,7 +248,7 @@ public class TrainMeetCallNote : TrainCallNote
     }
     public byte OperationDayFlag { get; set; }
     public IList<OtherTrainCall> MeetingTrains { get; } = new List<OtherTrainCall>();
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true)
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
         var meetingTrains = ActualMeetingTrains(onlyDays);
         if (meetingTrains.Any())
@@ -281,7 +280,7 @@ public class LocoTurnOrReverseCallNote : LocoArrivalCallNote
     public bool Turn { get; set; }
     public bool Reverse { get; set; }
 
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true)
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
 
         if (Turn && Reverse) { return Note.SingleNote(DisplayOrder, Notes.TurnAndReverseLoco); }
@@ -303,7 +302,7 @@ public class LocoExchangeCallNote : TrainCallNote
 
     public TrainLoco ArrivingLoco { get; set; } = TrainLoco.Empty;
     public TrainLoco DepartingLoco { get; set; } = TrainLoco.Empty;
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true)
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
         var days = (byte)(ArrivingLoco.OperationDaysFlags & DepartingLoco.OperationDaysFlags & onlyDays);
         return days == OperationDays.AllDays ? Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.EngineChange, ArrivingLoco.DisplayFormat(), DepartingLoco.DisplayFormat()), days) :
@@ -342,7 +341,7 @@ public class LocoDepartureCallNote : LocoCallNote
     public TrainLoco DepartingLoco { get; set; } = TrainLoco.Empty;
     public bool IsFromParking { get; set; }
 
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true)
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
         var days = (byte)(onlyDays & TrainInfo!.OperationDaysFlags);
         if (days == 0) days = OperationDays.OnDemand;
@@ -376,7 +375,7 @@ public class LocoArrivalCallNote : LocoCallNote
     public bool TurnLoco { get; set; }
     public bool CirculateLoco { get; set; }
 
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true)
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
         var result = new List<Note>();
         if (IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays)) return result;
@@ -405,7 +404,7 @@ public class LocoCirculationNote : LocoArrivalCallNote
     {
         DisplayOrder = 5000; //
     }
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
         Note.SingleNote(GetDisplayOrder(onlyDays, DisplayOrder), CirculateText(ArrivingLoco.OperationDaysFlags, onlyDays));
 
@@ -422,7 +421,7 @@ public class LocoTurnNote : LocoArrivalCallNote
     {
         DisplayOrder = 4000; //
     }
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         IsNoDay(ArrivingLoco.OperationDaysFlags, onlyDays) ? Enumerable.Empty<Note>() :
         Note.SingleNote(GetDisplayOrder(onlyDays, DisplayOrder), Notes.TurnLoco);
 
@@ -439,7 +438,7 @@ public class BlockOriginCallNote : TrainCallNote
     }
     private readonly List<string> OriginNames = [];
     public void AddOriginName(string originName) => OriginNames.Add(originName);
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         OriginNames.Any() ? Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.ConnectWagonsFrom, string.Join(", ", OriginNames))) :
         [];
 }
@@ -455,7 +454,7 @@ public class BlockDestinationsCallNote : TrainCallNote
 
     public IList<BlockDestination> BlockDestinations { get; } = new List<BlockDestination>();
 
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true) =>
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
 
     public override string ToString() => $"Uncouple to {string.Join(", ", BlockDestinations.Select(bd => bd.ToString()))}";
@@ -479,7 +478,7 @@ public class BlockArrivalCallNote : TrainCallNote
     public bool AtShadowStation { get; set; }
     public int OrderInTrain { get; set; }
 
-    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays, bool compact = true)
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays)
     {
         var result = new List<Note>();
         if (AlsoSwitch)

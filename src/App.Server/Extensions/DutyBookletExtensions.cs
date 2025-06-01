@@ -70,7 +70,7 @@ internal static class DutyBookletExtensions
         return result;
     }
 
-    public static int AddTrainCallNotes(this IEnumerable<DriverDuty> me, IEnumerable<TrainCallNote> trainCallNotes, bool useCompactNotes = true)
+    public static int AddTrainCallNotes(this IEnumerable<DriverDuty> me, IEnumerable<TrainCallNote> trainCallNotes)
     {
         var notes = trainCallNotes.ToDictionary();
         var count = 0;
@@ -84,7 +84,7 @@ internal static class DutyBookletExtensions
                     if (notes.TryGetValue(call.Id, out var callNotes))
                     {
                         count += callNotes.Count;
-                        call.AddGeneratedNotes(duty, part, callNotes, useCompactNotes);
+                        call.AddGeneratedNotes(duty, part, callNotes);
                     }
                 }
             }

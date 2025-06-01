@@ -454,17 +454,24 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return result.AsEnumerable();
     }
 
-    public Task<IEnumerable<TrainCategory>> GetTrainCategoriesAsync(int layoutId)
+    public async Task<IEnumerable<TrainCategory>> GetTrainCategoriesAsync(int layoutId)
     {
+        var layout = await GetLayout(layoutId);
+        if (layout is null) return [];
         var result = new List<TrainCategory>(20);
         using var connection = CreateConnection;
-        var reader = ExecuteReader(connection, $"SELECT * FROM HistoricalTrainCategory WHERE LayoutId = {layoutId}");
+        var reader = ExecuteReader(connection,
+            $"""
+            SELECT * 
+            FROM TrainCategories 
+            WHERE CountryId = {layout.TrainCategoryCountryId} AND (FromYear IS NULL OR FromYear <= {layout.TrainCategoryYear}) AND (UptoYear IS NULL OR UptoYear > {layout.TrainCategoryYear})
+            """);
 
         while (reader.Read())
         {
             result.Add(reader.ToTrainCategory());
         }
-        return Task.FromResult(result.AsEnumerable());
+        return result;
     }
 
     public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId)

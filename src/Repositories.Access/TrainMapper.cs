@@ -78,7 +78,7 @@ internal static class TrainMapper
             Suffix = me.GetString("Suffix"),
             FromYear = me.GetIntOrNull("FromYear"),
             ToYear = me.GetIntOrNull("UptoYear"),
-            CountryId = me.GetIntOrNull("CountryId")
+            CountryId = me.GetIntOrNull("CountryId"),          
         };
 
 }

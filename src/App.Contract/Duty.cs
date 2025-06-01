@@ -34,9 +34,9 @@ public static class DutyExtensions
        "##:##";
 
     public static string? StartStation(this DriverDuty me) =>
-        me.Parts.OrderBy(p => p.StartTime()).FirstOrDefault()?.Calls().First().Station.Name;
+        me.Parts.OrderBy(p => p.StartTime()).FirstOrDefault()?.StartStation().Name;
     public static string? EndStation(this DriverDuty me) =>
-    me.Parts.OrderBy(p => p.StartTime()).LastOrDefault()?.Calls().Last().Station.Name;
+        me.Parts.OrderBy(p => p.StartTime()).LastOrDefault()?.EndStation().Name;
 
     public static string Description(this DriverDuty me) => $"{Notes.Duty} {me.Number} - {me.OperationDays.ShortName}"; 
 }

@@ -18,7 +18,8 @@ public class TrainCategory
 
 public static class TrainCategoryExtensions
 {
-    public static TrainCategory Category(this IEnumerable<TrainCategory> items, string resourceCode) => items.SingleOrDefault(items => 
+    public static TrainCategory Category(this IEnumerable<TrainCategory> items, string resourceCode) => 
+        items.SingleOrDefault(items => 
         items.ResourceCode.Equals(resourceCode, StringComparison.OrdinalIgnoreCase)) ?? 
         new TrainCategory { ResourceCode = resourceCode };
 }

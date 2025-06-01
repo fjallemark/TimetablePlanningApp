@@ -21,7 +21,7 @@ public class PrintedReportsService(IPrintedReportsStore store)
         var readNotesCount = notes.Count();
         var duties = await Store.GetDriverDutiesAsync(layoutId).ConfigureAwait(false);
         duties.MergeTrainPartsWithSameTrainNumber();
-        var addedNotesCount = duties.AddTrainCallNotes(notes, false);
+        var addedNotesCount = duties.AddTrainCallNotes(notes);
         booklet.Duties = duties.OrderBy(d => d.DisplayOrder).ToArray();
         return booklet;
     }
