@@ -43,7 +43,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return Task.FromResult((Layout?)null);
     }
 
-    private record DutyToRenumber(int Id, byte OperationDays);
+    private record DutyToRenumber(int Id, byte OperationDays, DateTime Start, DateTime End);
     public ValueTask RenumberDuties(int layoutId)
     {
         var duties = new List<DutyToRenumber>(200);
@@ -52,7 +52,11 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
-            var duty = new DutyToRenumber(reader.GetInt("Id"), reader.GetByte("OperatingDays"));
+            var duty = new DutyToRenumber(
+                reader.GetInt("Id"),
+                reader.GetByte("OperatingDays"),
+                reader.GetDateTime("StartTime"),
+                reader.GetDateTime("EndTime"));
             duties.Add(duty);
         }
         connection.Close();
@@ -60,13 +64,16 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         updateConnection.Open();
         var dutyNumber = 0;
         DutyToRenumber? last = null;
+        byte days = 0;
         foreach (var duty in duties)
         {
-            if (last is null || last?.OperationDays.IsAllDays()==true || duty.OperationDays.IsAllDays()) dutyNumber++;
+
+            if (last is null || last.OperationDays.IsAllDays() || days.IsAllDays() || last.Start != duty.Start || last.End != duty.End) { dutyNumber++; days = 0; }
             using var command = updateConnection.CreateCommand();
             command.CommandText = $"UPDATE [Duty] SET [Number] = {dutyNumber} WHERE [Id] = {duty.Id};";
             command.CommandType = CommandType.Text;
             command.ExecuteNonQuery();
+            days += duty.OperationDays;
             last = duty;
         }
         return ValueTask.CompletedTask;
@@ -227,8 +234,8 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         }
         return Task.FromResult(result.AsEnumerable());
     }
-    public Task<IEnumerable<VehicleSchedule>> GetTrainsetWagonCardsAsync(int layoutId)=> GetTrainsetSchedulesAsync(layoutId, false);
-    public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) =>  GetTrainsetSchedulesAsync(layoutId, true);
+    public Task<IEnumerable<VehicleSchedule>> GetTrainsetWagonCardsAsync(int layoutId) => GetTrainsetSchedulesAsync(layoutId, false);
+    public Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId) => GetTrainsetSchedulesAsync(layoutId, true);
 
     private Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId, bool forVehicleSchedules)
     {
@@ -280,7 +287,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         while (reader.Read())
         {
             var info = reader.ToVehicleStartInfo();
-            info.TrainPrefix = categories.FirstOrDefault(x => x.Id == info.TrainCategoryId &&  x.CountryId.HasValue && x.CountryId.Value == layout.TrainCategoryCountryId)?.Prefix ?? "";
+            info.TrainPrefix = categories.FirstOrDefault(x => x.Id == info.TrainCategoryId && x.CountryId.HasValue && x.CountryId.Value == layout.TrainCategoryCountryId)?.Prefix ?? "";
             result.Add(info);
         }
 
