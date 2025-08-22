@@ -24,7 +24,7 @@ public class TrainBlocking
     public CallTime DepartureTime { get; set; } = new CallTime();
     public bool IsScheduled { get; set; }
     public bool ReverseBlockDestinations { get; set; }
-    public IList<BlockDestination> BlockDestinations { get; set; } = new List<BlockDestination>();
+    public IList<BlockDestinationDetailed> BlockDestinations { get; set; } = new List<BlockDestinationDetailed>();
 }
 
 public static class TrackDestinationExtensions
@@ -34,7 +34,7 @@ public static class TrackDestinationExtensions
         me is null || me.BlockDestinations is null ? Array.Empty<string>() :
         me.BlockDestinations.Select(bd => bd.Display());
 
-    private static string Display(this BlockDestination me) =>
+    private static string Display(this BlockDestinationDetailed me) =>
             me is null ? string.Empty :
             string.IsNullOrWhiteSpace(me.TransferDestinationName) ? me.StationName :
             me.TransferDestinationName;

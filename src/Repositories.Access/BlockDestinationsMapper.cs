@@ -37,7 +37,7 @@ internal static class BlockDestinationsMapper
                 OperationDaysFlags = me.GetByte("TrainOperationDaysFlag"),
                 Prefix = me.GetString("TrainCategoryPrefix")
             },
-            BlockDestinations = new List<BlockDestination>(),
+            BlockDestinations = new List<BlockDestinationDetailed>(),
             IsScheduled = me.GetBool("IsScheduled"),
         };
 }

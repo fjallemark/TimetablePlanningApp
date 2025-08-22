@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~M:Tellurian.Trains.Planning.App.Contracts.BlockDestination.ToString~System.String")]
+[assembly: SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>", Scope = "member", Target = "~M:Tellurian.Trains.Planning.App.Contracts.BlockDestinationDetailed.ToString~System.String")]

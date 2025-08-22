@@ -20,7 +20,7 @@ internal static class TrainCallNotesMapper
         };
 
     public static LocalizedManualTrainCallNote ToLocalizedManualTrainCallNote(this IDataRecord me) =>
-        new( 
+        new(
             me.GetString("LanguageCode"),
             me.GetString("Note"));
 
@@ -126,7 +126,7 @@ internal static class TrainCallNotesMapper
                 OperatorName = me.GetString("LocoOperator"),
                 OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
                 IsRailcar = me.GetBool("IsRailcar"),
-                 Class = me.GetString("LocoClass"),
+                Class = me.GetString("LocoClass"),
             },
             IsToParking = me.GetBool("ToParking"),
             CirculateLoco = me.GetBool("CirculateLoco"),
@@ -142,7 +142,7 @@ internal static class TrainCallNotesMapper
             Turn = record.GetBool("TurnLoco"),
         };
 
-  
+
     public static BlockDestinationsCallNote ToBlockDestinationsCallNote(this IDataRecord me) =>
         new(me.GetInt("CallId"))
         {
@@ -160,36 +160,41 @@ internal static class TrainCallNotesMapper
             IsTransfer = me.GetBool("IsTransfer"),
         };
 
-    internal static BlockDestination ToBlockDestination(this IDataRecord me)
-    {
-        var item = new BlockDestination
+    internal static BlockDestination ToBlockDestination(this IDataRecord me) =>
+        new()
         {
-            StationId = me.GetInt("DestinationStationId"),
             StationName = me.GetString("DestinationStationName"),
-            TransferDestinationName = me.GetString("TransferDestinationName", ""),
-            ToAllDestinations = me.GetBool("ToAllDestinations"),
-            AndBeyond = me.GetBool("AndBeyond"),
-            AndLocalDestinations = me.GetBool("AndLocalDestinations"),
-            TransferAndBeyond = me.GetBool("TransferAndBeyond"),
-            OrderInTrain = me.GetInt("OrderInTrain"),
-            MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
-            DestinationCountryName = me.GetString("CountryLocalName"),
-            IsInternational = me.GetBool("IsInternational"),
-            IsRegion = me.GetBool("IsRegion"),
-            IsCargo = me.GetBool("IsCargo", false),
-            IsTrainset = me.GetBool("IsTrainset", false),
-            HasCouplingNote = me.GetBool("HasCoupleNote"),
-            HasUncouplingNote = me.GetBool("HasUncoupleNote"),
             ForeColor = me.GetString("ForeColor", "#000000"),
             BackColor = me.GetString("BackColor", "#FFFFFF"),
-            TrainsetNumber = me.GetInt("TrainsetNumber", 0),
-            TrainsetOperatorName = me.GetString("TrainsetOperatorName", ""),
-            TrainsetOperationDaysFlag = me.GetByte("TrainsetOperationDaysFlag"),
-            Note = me.GetString("Note", ""),
-
         };
-        return item;
-    }
+
+
+    internal static BlockDestinationDetailed ToBlockDestinationDetailed(this IDataRecord me) =>
+    new()
+    {
+        StationId = me.GetInt("DestinationStationId"),
+        StationName = me.GetString("DestinationStationName"),
+        TransferDestinationName = me.GetString("TransferDestinationName", ""),
+        ToAllDestinations = me.GetBool("ToAllDestinations"),
+        AndBeyond = me.GetBool("AndBeyond"),
+        AndLocalDestinations = me.GetBool("AndLocalDestinations"),
+        TransferAndBeyond = me.GetBool("TransferAndBeyond"),
+        OrderInTrain = me.GetInt("OrderInTrain"),
+        MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
+        DestinationCountryName = me.GetString("CountryLocalName"),
+        IsInternational = me.GetBool("IsInternational"),
+        IsRegion = me.GetBool("IsRegion"),
+        IsCargo = me.GetBool("IsCargo", false),
+        IsTrainset = me.GetBool("IsTrainset", false),
+        HasCouplingNote = me.GetBool("HasCoupleNote"),
+        HasUncouplingNote = me.GetBool("HasUncoupleNote"),
+        ForeColor = me.GetString("ForeColor", "#000000"),
+        BackColor = me.GetString("BackColor", "#FFFFFF"),
+        TrainsetNumber = me.GetInt("TrainsetNumber", 0),
+        TrainsetOperatorName = me.GetString("TrainsetOperatorName", ""),
+        TrainsetOperationDaysFlag = me.GetByte("TrainsetOperationDaysFlag"),
+        Note = me.GetString("Note", ""),
+    };
 
     internal static Trainset ToTrainset(this IDataRecord me) =>
         new()

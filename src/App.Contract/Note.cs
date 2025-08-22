@@ -134,6 +134,10 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
             .GroupBy(ts => ts.Number)
             .Select(ts => new Trainset
             {
+                Class = string.Join(",", ts.Where(t => t.Class.HasValue()).Select(t => t.Class)),
+                Destination = ts.First().Destination,
+                FinalDestination = ts.First().FinalDestination,
+                PositionInTrain = ts.First().PositionInTrain,
                 Operator = ts.First().Operator,
                 Number = ts.First().Number,
                 WagonTypes = ts.First().WagonTypes,
@@ -142,7 +146,7 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
                 HasUncoupleNote = ts.First().HasUncoupleNote,
                 IsCargo = ts.First().IsCargo,
                 MaxNumberOfWaggons = ts.Max(x => x.MaxNumberOfWaggons),
-                WagonNumbers = string.Join(',',ts.Where(x => x.WagonNumbers.HasValue()).Select(x=>x.WagonNumbers)),
+                WagonNumbers = string.Join(',', ts.Where(x => x.WagonNumbers.HasValue()).Select(x => x.WagonNumbers)),
             });
     }
     protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
@@ -155,8 +159,8 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
 
     // TODO: Add final destination and note about exchange trainset under way.
     private static string TrainsetFormat(Trainset ts) =>
-        ts.Operator.HasValue() ? $"""|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i>|  """ :
-        $"""|<span style="font-weight: bold; background-color: white">{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
+        ts.Operator.HasValue() ? $"""|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{ts.Class}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i>|  """ :
+        $"""|<span style="font-weight: bold; background-color: white">{ts.Class}&nbsp;{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
 
     private static string TrainsetIdentity(Trainset t) =>
         t.MaxNumberOfWaggons == 1 && t.WagonNumbers.HasValue() ? t.WagonNumbers :
@@ -433,7 +437,7 @@ public class BlockOriginCallNote : TrainCallNote
     {
         IsShuntingNote = true;
         IsDriverNote = true;
-        IsForDeparture = true;
+        IsForArrival = true;
         DisplayOrder = 21000; //
     }
     private readonly List<string> OriginNames = [];
@@ -452,12 +456,11 @@ public class BlockDestinationsCallNote : TrainCallNote
         DisplayOrder = 20000; //
     }
 
-    public IList<BlockDestination> BlockDestinations { get; } = new List<BlockDestination>();
+    public IList<BlockDestinationDetailed> BlockDestinations { get; } = [];
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
         Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
 
-    public override string ToString() => $"Uncouple to {string.Join(", ", BlockDestinations.Select(bd => bd.ToString()))}";
 }
 
 public class BlockArrivalCallNote : TrainCallNote
@@ -469,6 +472,7 @@ public class BlockArrivalCallNote : TrainCallNote
         IsForArrival = true;
         DisplayOrder = 21000;//
     }
+    public IList<BlockDestination> BlockDestinations = [];
     public string StationName => StationNames.Count > 0 ? StationNames[0] : string.Empty;
     public IList<string> StationNames { get; } = new List<string>();
     public bool ToAllDestinations { get; set; }
@@ -506,15 +510,19 @@ public class BlockArrivalCallNote : TrainCallNote
     public override string ToString() =>
         ToAllDestinations ?
         string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, Notes.AllDestinations) :
-        AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, StationName) :
-        string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, string.Join(", ", StationNames));
+        AndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHereAndFurther, BlockDestinations.ArrivalText()) :
+        string.Format(CultureInfo.CurrentCulture, Notes.DisconnectWagonsToHere, BlockDestinations.ArrivalText());
 }
-
 
 public class BlockDestination
 {
-    public int StationId { get; set; }
     public string StationName { get; set; } = string.Empty;
+    public string ForeColor { get; set; } = "#000000";
+    public string BackColor { get; set; } = "#FFFFFF";
+}
+public class BlockDestinationDetailed : BlockDestination
+{
+    public int StationId { get; set; }
     public string? TransferDestinationName { get; set; }
     public bool ToAllDestinations { get; set; }
     public bool AndBeyond { get; set; }
@@ -534,8 +542,6 @@ public class BlockDestination
     public string? Note { get; set; }
     public bool HasCouplingNote { get; set; }
     public bool HasUncouplingNote { get; set; }
-    public string ForeColor { get; set; } = "#000000";
-    public string BackColor { get; set; } = "#FFFFFF";
     public override string ToString() =>
         IsTrainset && TrainsetOperationDaysFlag.IsAllDays() ? $"{TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
         IsTrainset ? $"{TrainsetOperationDaysFlag.OperationDays().ShortName}: {TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
@@ -554,16 +560,22 @@ public class BlockDestination
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {ForeColor}; background-color: {BackColor}">{DestinationText}</span>""";
 
 
-    public override bool Equals(object? obj) => obj is BlockDestination other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
+    public override bool Equals(object? obj) => obj is BlockDestinationDetailed other && other.ToString().Equals(ToString(), StringComparison.OrdinalIgnoreCase);
     public override int GetHashCode() => ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
 }
 
 public static class BlockDestinationsExtensions
 {
-    public static string DestinationText(this IEnumerable<BlockDestination> me, bool useBrackets = false) =>
+    public static string ArrivalText(this IEnumerable<BlockDestination> destinations) =>
+        string.Join(" ", destinations.OrderBy(d=> d.BackColor).Select(x => x.ArrivalText()));
+    public static string ArrivalText(this BlockDestination destination) =>
+        destination.ForeColor == "#FFFFFF" && destination.BackColor == "#777777" ? $"""<span style="font-weight: bold; padding: 0px 2px;">{destination.StationName}</span>""" :
+         $"""<span style="font-weight: bold; padding: 0px 2px; color: {destination.ForeColor}; background-color: {destination.BackColor}">{destination.StationName}</span>""";
+
+    public static string DestinationText(this IEnumerable<BlockDestinationDetailed> me, bool useBrackets = false) =>
         string.Join(", ", me.GroupText(useBrackets));
 
-    public static IEnumerable<string> GroupText(this IEnumerable<BlockDestination> me, bool useBrackets = false)
+    public static IEnumerable<string> GroupText(this IEnumerable<BlockDestinationDetailed> me, bool useBrackets = false)
     {
         var result = new List<string>();
         var destinationGroups =

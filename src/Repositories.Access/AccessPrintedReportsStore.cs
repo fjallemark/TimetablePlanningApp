@@ -339,7 +339,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                         trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
                         current.Tracks.Last().TrainBlocks.Add(trainBlocking);
                     }
-                    var destination = reader.ToBlockDestination();
+                    var destination = reader.ToBlockDestinationDetailed();
                     if (destination.HasCouplingNote) current.Tracks.Last().TrainBlocks.Last().BlockDestinations.Add(destination);
                 }
                 lastPositionInTrain = currentPositionInTrain;
@@ -696,7 +696,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 if (current != null) yield return current;
                 current = reader.ToBlockDestinationsCallNote();
             }
-            var blockDestination = reader.ToBlockDestination();
+            var blockDestination = reader.ToBlockDestinationDetailed();
             current?.BlockDestinations.Add(blockDestination);
             lastCallId = currentCallId;
         }
@@ -719,9 +719,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             }
             if (current is not null)
             {
-                var stationName = reader.GetString("ArrivalStationName");
-                if (!current.StationNames.Contains(stationName))
-                    current.StationNames.Add(reader.GetString("ArrivalStationName"));
+                var destination = reader.ToBlockDestination();
+                current.BlockDestinations.Add(destination);
+
                 lastKey = currentKey;
             }
         }
