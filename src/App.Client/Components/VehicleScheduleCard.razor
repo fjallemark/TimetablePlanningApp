@@ -8,7 +8,7 @@
         </svg>
         <div>
             <div class="schedule header">
-                <div><strong>@Item.Operator</strong> @Item.TurnusTypeName()</div>
+                <div><strong>@Item.OperatorName</strong> @Item.TurnusTypeName()</div>
                 <div>@ScheduleHeader(Item):&nbsp;<strong>@Item.Turnus&nbsp;@OperationDays(Item)</strong></div>
                 @if (Item.Class.HasValue())
                 {

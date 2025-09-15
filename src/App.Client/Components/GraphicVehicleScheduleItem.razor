@@ -3,7 +3,7 @@
 @if (Item is not null)
 {
 	<svg class="container" height="@Item.Height()" width="@Item.Width()">
-		<text class="turnusNumber" x="0" y="14" fill="black">@Item.Operator @Item.Turnus: @Item.OperationDays.ShortName</text>
+		<text class="turnusNumber" x="0" y="14" fill="black">@Item.OperatorName @Item.Turnus: @Item.OperationDays.ShortName</text>
 		<text x="0" y="25" fill="black">@Item.Class @Item.VehicleNumber @Item.Note </text>
 		@foreach(var part in Item.TrainParts)
 		{

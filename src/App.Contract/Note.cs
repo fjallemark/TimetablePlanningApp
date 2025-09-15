@@ -101,6 +101,32 @@ public sealed class ManualTrainCallNote : TrainCallNote
 
 public sealed record LocalizedManualTrainCallNote(string LanguageCode, string? Text);
 
+public sealed class PassengerDepartureCallNote : TrainCallNote
+{
+    public PassengerDepartureCallNote(int callId) : base(callId)
+    {
+        DisplayOrder = -12000;
+        IsForDeparture = true;
+        IsDriverNote = true;
+    }
+
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
+        Note.SingleNote(DisplayOrder, Notes.PickUpPassenger, onlyDays);
+}
+
+public sealed class PassengerInterchangeCallNote : TrainCallNote
+{
+    public PassengerInterchangeCallNote(int callId) : base(callId)
+    {
+        DisplayOrder = -12000;
+        IsForArrival = true;
+        IsDriverNote = true;
+        IsStationNote = true;
+    }
+    public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
+    Note.SingleNote(DisplayOrder, Notes.LeaveOffInterchangingPassengers, onlyDays);
+
+}
 public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
 {
     protected IList<Trainset> Trainsets { get; } = [];
@@ -453,12 +479,14 @@ public class BlockDestinationsCallNote : TrainCallNote
         IsShuntingNote = true;
         IsDriverNote = true;
         IsForDeparture = true;
-        DisplayOrder = 20000; //
+        DisplayOrder = 20000;
     }
 
     public IList<BlockDestinationDetailed> BlockDestinations { get; } = [];
+    private string[] TransferOrigins => [.. BlockDestinations.Where(bd => bd.TransferOriginName.HasValue()).Select(bd => bd.TransferOriginName ?? string.Empty).Distinct()];
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
+        TransferOrigins.Length != 0 ? Note.SingleNote(DisplayOrder, $"{string.Format(Notes.BringsWaggonsFromOriginsToDestinations, BlockDestinations.DestinationText(true), string.Join(", ", TransferOrigins))} {Notes.BringsNoWagonsFromThisStation}"):
         Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
 
 }
@@ -524,6 +552,7 @@ public class BlockDestinationDetailed : BlockDestination
 {
     public int StationId { get; set; }
     public string? TransferDestinationName { get; set; }
+    public string? TransferOriginName { get; set; }
     public bool ToAllDestinations { get; set; }
     public bool AndBeyond { get; set; }
     public bool AndLocalDestinations { get; set; }
@@ -545,17 +574,22 @@ public class BlockDestinationDetailed : BlockDestination
     public override string ToString() =>
         IsTrainset && TrainsetOperationDaysFlag.IsAllDays() ? $"{TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
         IsTrainset ? $"{TrainsetOperationDaysFlag.OperationDays().ShortName}: {TrainsetOperatorName} {Notes.Turnus} {TrainsetNumber}: {FinalDestinationStationName}" :
-        IsRegion ? DestinationSpan :
+        IsRegion ? DestinationColourized :
         ToAllDestinations ? AllDestinations :
-        AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationSpan) :
-        DestinationSpan;
+        BeyondAndOrLocalDestinations;
+
+    private string BeyondAndOrLocalDestinations =>
+        (AndBeyond || TransferAndBeyond) && AndLocalDestinations ? string.Format(CultureInfo.CurrentCulture, Notes.LocalDestionationsAndBeyond, DestinationColourized) :
+        AndLocalDestinations ? string.Format(CultureInfo.CurrentCulture, Notes.LocalDestinations, DestinationColourized) :
+        AndBeyond || TransferAndBeyond ? string.Format(CultureInfo.CurrentCulture, Notes.AndBeyond, DestinationColourized) :
+        DestinationColourized;
 
     internal string AllDestinations => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, Notes.AllDestinations, DestinationCountryName) : Notes.AllDestinations;
     internal bool UseDestinationCountry => HasDestinationCountry && IsInternational;
     internal bool HasDestinationCountry => !string.IsNullOrWhiteSpace(DestinationCountryName);
     internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
     internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
-    internal string DestinationSpan =>
+    internal string DestinationColourized =>
         ForeColor == "#FFFFFF" && BackColor == "#777777" ? $"""<span style="font-weight: bold; padding: 0px 2px;">{DestinationText}</span>""" :
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {ForeColor}; background-color: {BackColor}">{DestinationText}</span>""";
 
@@ -567,7 +601,7 @@ public class BlockDestinationDetailed : BlockDestination
 public static class BlockDestinationsExtensions
 {
     public static string ArrivalText(this IEnumerable<BlockDestination> destinations) =>
-        string.Join(" ", destinations.OrderBy(d=> d.BackColor).Select(x => x.ArrivalText()));
+        string.Join(" ", destinations.OrderBy(d => d.BackColor).Select(x => x.ArrivalText()));
     public static string ArrivalText(this BlockDestination destination) =>
         destination.ForeColor == "#FFFFFF" && destination.BackColor == "#777777" ? $"""<span style="font-weight: bold; padding: 0px 2px;">{destination.StationName}</span>""" :
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {destination.ForeColor}; background-color: {destination.BackColor}">{destination.StationName}</span>""";
@@ -588,11 +622,11 @@ public static class BlockDestinationsExtensions
             var destinationTextsInGroup = destinations.Select(d => d.ToString()).Distinct();
             if (useBrackets) text.Append('|');
             text.Append(string.Join(" ", destinationTextsInGroup));
-            if (destinationGroup.First().AndLocalDestinations)
-            {
-                text.Append(' ');
-                text.Append(Notes.LocalDestinations);
-            }
+            //if (destinationGroup.First().AndLocalDestinations)
+            //{
+            //    text.Append(' ');
+            //    text.Append(Notes.LocalDestinations);
+            //}
             if (useBrackets) text.Append('|');
             var maxNumberOfWagons = destinations.Sum(d => d.MaxNumberOfWagons);
             if (maxNumberOfWagons > 0)

@@ -435,9 +435,6 @@
   <data name="MoveRestOfWagonsToTable" xml:space="preserve">
     <value>Move rest of the wagons to the table.</value>
   </data>
-  <data name="LocalDestinations" xml:space="preserve">
-    <value>Local destinations</value>
-  </data>
   <data name="MixedTrain" xml:space="preserve">
     <value>Mixed train</value>
   </data>
@@ -512,5 +509,23 @@
   </data>
   <data name="OptionalTrain" xml:space="preserve">
     <value>Optional train</value>
+  </data>
+  <data name="PickUpPassenger" xml:space="preserve">
+    <value>Pick up passenger with destination in trains direction and beyond.</value>
+  </data>
+  <data name="LeaveOffInterchangingPassengers" xml:space="preserve">
+    <value>Leave off passengers that have to change train.</value>
+  </data>
+  <data name="LocalDestionationsAndBeyond" xml:space="preserve">
+    <value>{0} and local destinations as well as {0} and beyond.</value>
+  </data>
+  <data name="ToLocalDestinations" xml:space="preserve">
+    <value>{0} and local destinations.</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>{0} and local destinations.</value>
+  </data>
+  <data name="BringsWaggonsFromOriginsToDestinations" xml:space="preserve">
+    <value>Brings wagons from {1} to {0}.</value>
   </data>
 </root>

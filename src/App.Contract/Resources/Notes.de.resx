@@ -415,9 +415,6 @@
   <data name="MoveRestOfWagonsToTable" xml:space="preserve">
     <value>Legen Sie den Rest der Wagen auf den Tisch.</value>
   </data>
-  <data name="LocalDestinations" xml:space="preserve">
-    <value>Lokale Ziele</value>
-  </data>
   <data name="MixedTrain" xml:space="preserve">
     <value>Gemischter Zug</value>
   </data>
@@ -492,5 +489,23 @@
   </data>
   <data name="OptionalTrain" xml:space="preserve">
     <value>Optional Zug</value>
+  </data>
+  <data name="PickUpPassenger" xml:space="preserve">
+    <value>Nehmen Sie Passagiere mit Ziel in Zugrichtung und darüber hinaus auf.</value>
+  </data>
+  <data name="LeaveOffInterchangingPassengers" xml:space="preserve">
+    <value>Lassen Sie Passagiere aussteigen, die umsteigen müssen.</value>
+  </data>
+  <data name="LocalDestionationsAndBeyond" xml:space="preserve">
+    <value>{0} und lokale Ziele sowie {0} und darüber hinaus.</value>
+  </data>
+  <data name="ToLocalDestinations" xml:space="preserve">
+    <value>Nach {0} und lokale Ziele.</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>{0} und lokale Ziele.</value>
+  </data>
+  <data name="BringsWaggonsFromOriginsToDestinations" xml:space="preserve">
+    <value>Bringt Wagen von {1} nach {0}.</value>
   </data>
 </root>

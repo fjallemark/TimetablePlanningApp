@@ -24,7 +24,7 @@ else
 
 @code {
     private IEnumerable<TrainDeparture>? Data;
-    private string? Operators;
+    private string? SelectedOperatorNames;
 
     protected async override Task OnInitializedAsync()
     {
@@ -35,7 +35,7 @@ else
             var result = await DataService.GetTrainDeparturesAsync(layoutResult.item!.Id);
             if (result.statusCode.IsSuccess())
             {
-                Data = Operators.HasValue() ? result.items.Where(i => i.Loco.OperatorName.EqualsAny(Operators)): result.items;
+                Data = SelectedOperatorNames.HasValue() ? result.items.Where(i => i.Loco.OperatorName.EqualsAny(SelectedOperatorNames)): result.items;
             }            
         }
     }
@@ -43,6 +43,6 @@ else
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        Operators = q["operator"];
+        SelectedOperatorNames = q["operator"];
     }
 }

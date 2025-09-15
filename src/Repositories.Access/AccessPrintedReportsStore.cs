@@ -481,7 +481,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return result;
     }
 
-    public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId)
+    public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId, bool forStations = false)
     {
         var result = new List<TrainCallNote>(500);
         result.AddRange(GetManualTrainStationCallNotes(layoutId));
@@ -496,7 +496,10 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         result.AddRange(GetBlockArrivalCallNotes(layoutId));
         result.AddRange(GetLocoTurnOrReverseCallNotes(layoutId));
         result.AddRange(GetBlockOriginCallNotes(layoutId));
-        return Task.FromResult(result.AsEnumerable());
+        //result.AddRange(GetPassengerDepartureCallNotes(layoutId));
+        result.AddRange(GetPassengerInterchangeCallNotes(layoutId));
+        if (forStations) return Task.FromResult( result.Where(r => r.IsStationNote || r.IsShuntingNote));
+        return Task.FromResult(result.Where(r => r.IsDriverNote));
     }
 
     private IEnumerable<ManualTrainCallNote> GetManualTrainStationCallNotes(int layoutId)
@@ -735,6 +738,18 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         while (reader.Read()) { yield return reader.ToLocoReverseOrTurnCallNote(); }
     }
 
+    private IEnumerable<PassengerDepartureCallNote> GetPassengerDepartureCallNotes(int layoutId)
+    {
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection, $"SELECT * FROM PassengerDepartureCallNote WHERE LayoutId = {layoutId}");
+        while (reader.Read()) { yield return reader.ToPassengerDepartureCallNote(); }
+    }
+    private IEnumerable<PassengerInterchangeCallNote> GetPassengerInterchangeCallNotes(int layoutId)
+    {
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection, $"SELECT * FROM PassengerInterchangeCallNote WHERE LayoutId = {layoutId}");
+        while (reader.Read()) { yield return reader.ToPassengerInterchangeCallNote(); }
+    }
     private static OdbcDataReader ExecuteReader(OdbcConnection connection, string sql)
     {
         var command = new OdbcCommand(sql, connection);

@@ -435,9 +435,6 @@
   <data name="MoveRestOfWagonsToTable" xml:space="preserve">
     <value>Flytta resten av vagnarna till bordet.</value>
   </data>
-  <data name="LocalDestinations" xml:space="preserve">
-    <value>Lokala destinationer</value>
-  </data>
   <data name="MixedTrain" xml:space="preserve">
     <value>Blandat tåg</value>
   </data>
@@ -512,5 +509,23 @@
   </data>
   <data name="OptionalTrain" xml:space="preserve">
     <value>Valfritt tåg</value>
+  </data>
+  <data name="PickUpPassenger" xml:space="preserve">
+    <value>Plocka upp passagerare med destination i tågriktning och bortom.</value>
+  </data>
+  <data name="LeaveOffInterchangingPassengers" xml:space="preserve">
+    <value>Lämna av passagerare som måste byta tåg.</value>
+  </data>
+  <data name="LocalDestionationsAndBeyond" xml:space="preserve">
+    <value>{0} och lokala destinationer samt {0} och bortom.</value>
+  </data>
+  <data name="ToLocalDestinations" xml:space="preserve">
+    <value>Till {0} och lokala destinationer</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>{0} och lokala destinationer.</value>
+  </data>
+  <data name="BringsWaggonsFromOriginsToDestinations" xml:space="preserve">
+    <value>Medtar vagnar från {1} till {0}.</value>
   </data>
 </root>

@@ -17,7 +17,7 @@ public interface IPrintedReportsStore
     Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null);
     Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId);
     Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId, bool onlyItitialTrains = false);
-    Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId);
+    Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId, bool forStations = false);
     Task<Layout?> GetLayout(int layoutId);
     Task<IEnumerable<TrainCategory>> GetTrainCategoriesAsync(int layoutId);
     Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId);

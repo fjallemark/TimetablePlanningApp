@@ -43,7 +43,7 @@ else if (Layout is not null)
     }
 }
 @code {
-    string? Operators { get; set; }
+    string? SelectedOperatorNames { get; set; }
     private IEnumerable<LocoSchedule>? Items { get; set; }
     private Layout? Layout;
     int PageNumber;
@@ -60,7 +60,7 @@ else if (Layout is not null)
             if (schedulesResult.statusCode.IsSuccess())
             {
                 var items = schedulesResult.items.Where(i => i.ReplaceOrder == 0);
-                Items = Operators.HasValue() ? items.Where(i => i.Operator.EqualsAny(Operators)) : items;
+                Items = SelectedOperatorNames.HasValue() ? items.Where(i => i.OperatorName.EqualsAny(SelectedOperatorNames)) : items;
             }
         }
 
@@ -69,7 +69,7 @@ else if (Layout is not null)
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        Operators = q["operator"];
+        SelectedOperatorNames = q["operator"];
     }
 
     int NextPage()

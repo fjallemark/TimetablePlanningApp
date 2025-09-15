@@ -64,7 +64,7 @@ else
     private DriverDutyPage[] Pages = Array.Empty<DriverDutyPage>();
     private int pageNumber;
     private bool IsLoaded;
-    string? SelectedOperator;
+    string? SelectedOperatorName;
     string? SelectedDutyNumber;
     Layout? Layout;
 
@@ -90,14 +90,14 @@ else
     private ICollection<DriverDuty> FilterDuties(ICollection<DriverDuty> duties)
     {
         if (SelectedDutyNumber.HasValue()) return duties.Where(d => d.Number.EqualsAny(SelectedDutyNumber)).ToArray();
-        if (SelectedOperator.HasValue()) return duties.Where(d => d.Operator.EqualsAny(SelectedOperator)).ToArray();
+        if (SelectedOperatorName.HasValue()) return duties.Where(d => d.Operator.EqualsAny(SelectedOperatorName)).ToArray();
         return duties;
     }
 
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        SelectedOperator = q["operator"];
+        SelectedOperatorName = q["operator"];
         SelectedDutyNumber = q["duty"];
     }
 

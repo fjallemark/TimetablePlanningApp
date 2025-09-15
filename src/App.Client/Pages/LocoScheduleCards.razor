@@ -34,7 +34,7 @@ else
 @code {
     private List<Vehicle>? Locos { get; set; }
     private Layout? Layout;
-    string? Operators { get; set; }
+    string? SelectedOperatorNames { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -48,14 +48,14 @@ else
             if (locoSchedules.statusCode.IsSuccess())
             {
                 var items = locoSchedules.items.Where(i => i.ReplaceOrder == 0);
-                //var filtered = Operators.HasValue() ? locoSchedules.items.Where(i => i.Operator.EqualsAny(Operators)) : locoSchedules.items;
-                Locos.AddRange(items.Cast<Vehicle>());
+                var filtered = SelectedOperatorNames.HasValue() ? items.Where(i => i.OperatorName.EqualsAny(SelectedOperatorNames)) : items;
+                Locos.AddRange(filtered.Cast<Vehicle>());
             }
             var shunters = await DataService.GetShuntingLocosAsync(Layout.Id);
             if (shunters.statusCode.IsSuccess())
             {
-                var filtered = Operators.HasValue() ? shunters.items.Where(i => i.OperatorName.EqualsAny(Operators)) : shunters.items;
-                Locos.AddRange(shunters.items.Cast<Vehicle>());
+                var filtered = SelectedOperatorNames.HasValue() ? shunters.items.Where(i => i.OperatorName.EqualsAny(SelectedOperatorNames)) : shunters.items;
+                Locos.AddRange(filtered.Cast<Vehicle>());
             }
 
         }
@@ -66,11 +66,12 @@ else
         Locos
         .OrderBy(l => l.OperatorName)
         .ThenBy(l => l.TurnusNumber)
-        .ThenBy(l => l.OperationDaysFlags.FirstOperationDay().Flags);
+        .ThenBy(l => l.OperationDaysFlags.FirstOperationDay().Flags)
+        .ToList();
 
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        Operators = q["operator"];
+        SelectedOperatorNames = q["operator"];
     }
 }

@@ -435,9 +435,6 @@
   <data name="MoveRestOfWagonsToTable" xml:space="preserve">
     <value>Flytt resten av vognene til bordet.</value>
   </data>
-  <data name="LocalDestinations" xml:space="preserve">
-    <value>Lokale destinasjoner</value>
-  </data>
   <data name="MixedTrain" xml:space="preserve">
     <value>Blandet tog</value>
   </data>
@@ -512,5 +509,23 @@
   </data>
   <data name="OptionalTrain" xml:space="preserve">
     <value>Valgfritt tog</value>
+  </data>
+  <data name="PickUpPassenger" xml:space="preserve">
+    <value>Plukk opp passasjer med destinasjon i togets retning og videre.</value>
+  </data>
+  <data name="LeaveOffInterchangingPassengers" xml:space="preserve">
+    <value>Slipp av passasjerer som må bytte tog.</value>
+  </data>
+  <data name="LocalDestionationsAndBeyond" xml:space="preserve">
+    <value>{0} og lokale destinasjoner samt {0} og utover.</value>
+  </data>
+  <data name="ToLocalDestinations" xml:space="preserve">
+    <value>Til {0} og lokale destinasjoner</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>{0} og lokale destinasjoner.</value>
+  </data>
+  <data name="BringsWaggonsFromOriginsToDestinations" xml:space="preserve">
+    <value>Bringer vogner fra {1} til {0}.</value>
   </data>
 </root>

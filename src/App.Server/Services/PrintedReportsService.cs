@@ -49,7 +49,7 @@ public class PrintedReportsService(IPrintedReportsStore store)
         if (booklet is null) return null;
         var data = await Store.GetStationDutiesDataAsync(layoutId).ConfigureAwait(false);
         var trains = await Store.GetTrainsAsync(layoutId).ConfigureAwait(false);
-        var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
+        var notes = await Store.GetTrainCallNotesAsync(layoutId, forStations: true).ConfigureAwait(false);
         var duties = data.AsStationDuties(trains, notes, includeAllTrains);
         booklet.Duties = duties;
         return booklet;
@@ -93,7 +93,7 @@ public class PrintedReportsService(IPrintedReportsStore store)
     public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
     {
         var items = await Store.GetStationsTrainOrder(layoutId);
-        var notes = await Store.GetTrainCallNotesAsync(layoutId);
+        var notes = await Store.GetTrainCallNotesAsync(layoutId, forStations: true);
         return items.WithNotes(notes.ToArray());
     }
 

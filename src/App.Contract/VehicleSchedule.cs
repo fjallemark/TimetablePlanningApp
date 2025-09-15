@@ -11,7 +11,6 @@ public abstract class VehicleSchedule : Vehicle
     public bool IsCargoOnly { init; get; }
     public string Turnus { get; set; } = string.Empty;
     public OperationDays OperationDays { get; set; } = new OperationDays();
-    public string Operator { get; set; } = string.Empty;
     public string Note { get; set; } = string.Empty;
     public string OwnerNote { get; set; } = string.Empty;
     public bool TurnForNextDay { get; set; }
@@ -55,7 +54,7 @@ public static class VehicleScheduleExtensions
         if (me is null) return result;
         result.Add((me.Type, me.Turnus));
         if (!string.IsNullOrWhiteSpace(me.OperationDays.ShortName)) result.Add((Notes.Days, me.OperationDays.ShortName));
-        if (!string.IsNullOrWhiteSpace(me.Operator)) result.Add((Notes.Operator, me.Operator));
+        if (!string.IsNullOrWhiteSpace(me.OperatorName)) result.Add((Notes.Operator, me.OperatorName));
         return result;
     }
 

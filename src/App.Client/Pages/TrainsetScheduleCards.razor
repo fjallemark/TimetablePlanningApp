@@ -24,7 +24,7 @@ else
 }
 
 @code {
-    string? Operator { get; set; }
+    string? SelectedOperatorNames { get; set; }
     private IEnumerable<TrainsetSchedule>? Items { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -36,7 +36,7 @@ else
             if (result.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();
-                Items = result.items.Where(i => string.IsNullOrWhiteSpace(Operator) || i.Operator.EqualsAny(Operator));
+                Items = result.items.Where(i => string.IsNullOrWhiteSpace(SelectedOperatorNames) || i.OperatorName.EqualsAny(SelectedOperatorNames));
             }            
         }
     }
@@ -44,6 +44,6 @@ else
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        Operator = q["operator"];
+        SelectedOperatorNames = q["operator"];
     }
 }

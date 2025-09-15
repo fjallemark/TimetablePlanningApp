@@ -175,6 +175,7 @@ internal static class TrainCallNotesMapper
         StationId = me.GetInt("DestinationStationId"),
         StationName = me.GetString("DestinationStationName"),
         TransferDestinationName = me.GetString("TransferDestinationName", ""),
+        TransferOriginName=me.GetString("TransferOriginName", ""),
         ToAllDestinations = me.GetBool("ToAllDestinations"),
         AndBeyond = me.GetBool("AndBeyond"),
         AndLocalDestinations = me.GetBool("AndLocalDestinations"),

@@ -133,6 +133,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brings wagons from {1} to {0}..
+        /// </summary>
+        public static string BringsWaggonsFromOriginsToDestinations {
+            get {
+                return ResourceManager.GetString("BringsWaggonsFromOriginsToDestinations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Brings wagons to {0}..
         /// </summary>
         public static string BringsWaggonsToDestinations {
@@ -556,6 +565,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leave off passengers that have to change train..
+        /// </summary>
+        public static string LeaveOffInterchangingPassengers {
+            get {
+                return ResourceManager.GetString("LeaveOffInterchangingPassengers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load {0}..
         /// </summary>
         public static string Load {
@@ -565,11 +583,20 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Local destinations.
+        ///   Looks up a localized string similar to {0} and local destinations..
         /// </summary>
         public static string LocalDestinations {
             get {
                 return ResourceManager.GetString("LocalDestinations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} and local destinations as well as {0} and beyond..
+        /// </summary>
+        public static string LocalDestionationsAndBeyond {
+            get {
+                return ResourceManager.GetString("LocalDestionationsAndBeyond", resourceCulture);
             }
         }
         
@@ -853,6 +880,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pick up passenger with destination in trains direction and beyond..
+        /// </summary>
+        public static string PickUpPassenger {
+            get {
+                return ResourceManager.GetString("PickUpPassenger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drive {0} to parking area..
         /// </summary>
         public static string PutLocoAtParking {
@@ -1056,6 +1092,15 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         public static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} and local destinations..
+        /// </summary>
+        public static string ToLocalDestinations {
+            get {
+                return ResourceManager.GetString("ToLocalDestinations", resourceCulture);
             }
         }
         

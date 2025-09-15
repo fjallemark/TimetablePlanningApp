@@ -278,7 +278,7 @@
     <value>{1}: Kør {0} til opstilling.</value>
   </data>
   <data name="BringsWaggonsToDestinations" xml:space="preserve">
-    <value>Medtager vogne til {0}.</value>
+    <value>Bringer vogne til {0}.</value>
   </data>
   <data name="AndBeyond" xml:space="preserve">
     <value>{0} og videre</value>
@@ -415,9 +415,6 @@
   <data name="MoveRestOfWagonsToTable" xml:space="preserve">
     <value>Flyt resten af vognene til bordet.</value>
   </data>
-  <data name="LocalDestinations" xml:space="preserve">
-    <value>Lokale destinationer</value>
-  </data>
   <data name="MixedTrain" xml:space="preserve">
     <value>Blandet tog</value>
   </data>
@@ -492,5 +489,23 @@
   </data>
   <data name="OptionalTrain" xml:space="preserve">
     <value>Valgfrit tog</value>
+  </data>
+  <data name="PickUpPassenger" xml:space="preserve">
+    <value>Saml passager op med destination i togretning og videre.</value>
+  </data>
+  <data name="LeaveOffInterchangingPassengers" xml:space="preserve">
+    <value>Slip passagerer, der skal skifte tog, af.</value>
+  </data>
+  <data name="LocalDestionationsAndBeyond" xml:space="preserve">
+    <value>{0} og lokale destinationer samt {0} og videre.</value>
+  </data>
+  <data name="ToLocalDestinations" xml:space="preserve">
+    <value>Til {0} og lokale destinationer.</value>
+  </data>
+  <data name="LocalDestinations" xml:space="preserve">
+    <value>{0} og lokale destinationer.</value>
+  </data>
+  <data name="BringsWaggonsFromOriginsToDestinations" xml:space="preserve">
+    <value>Bringer vogne fra {1} til {0}.</value>
   </data>
 </root>

@@ -28,12 +28,12 @@ else
     byte[] AllocationTable = Array.Empty<byte>();
     byte MaxTrainCount;
     int Minutes;
-    string? SelectedOperatorSignature;
+    string? SelectedOperatorNames;
 
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
-        SelectedOperatorSignature = q["operator"];
+        SelectedOperatorNames = q["operator"];
     }
 
     string Time(int index) => $"{Layout!.StartHour + index / 60:00}:{index % 60:00}";
@@ -50,11 +50,11 @@ else
     {
         SetQueryStringParameters();
         Minutes = 0;
-        var result1 = await DataService.GetLayoutAsync();
-        if (result1.statusCode.IsSuccess())
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
         {
-            Layout = result1.item;
-            var result2 = await DataService.GetTrainsAsync(Layout!.Id, SelectedOperatorSignature);
+            Layout = layoutResult.item;
+            var result2 = await DataService.GetTrainsAsync(Layout!.Id, SelectedOperatorNames);
             if (result2.statusCode.IsSuccess())
             {
                 AllocationTable = BuildTrainAllocationTable(Layout, result2.items);
