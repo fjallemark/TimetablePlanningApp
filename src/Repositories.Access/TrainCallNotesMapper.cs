@@ -181,7 +181,7 @@ internal static class TrainCallNotesMapper
         AndLocalDestinations = me.GetBool("AndLocalDestinations"),
         TransferAndBeyond = me.GetBool("TransferAndBeyond"),
         OrderInTrain = me.GetInt("OrderInTrain"),
-        MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons"),
+        MaxNumberOfWagons = me.GetInt("MaxNumberOfWagons", 0),
         DestinationCountryName = me.GetString("CountryLocalName"),
         IsInternational = me.GetBool("IsInternational"),
         IsRegion = me.GetBool("IsRegion"),

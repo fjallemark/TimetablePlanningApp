@@ -7,7 +7,7 @@ namespace Tellurian.Trains.Planning.App.Client.Extensions;
 public static class GraphicScheduleExtensions
 {
     private const int TrainCategoryHeight = 30;
-    private const int TrainOperatorSignatureHeight = 30;
+    private const int TrainOperatorSignatureHeight = 50;
     private const int YCanvasBottomMargin = 20;
     private const int XCanvasRightMargin = 30;
     private const int TrackNumberXOffset = -16;

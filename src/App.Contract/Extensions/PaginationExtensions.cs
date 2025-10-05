@@ -82,7 +82,7 @@ public static class PaginationExtensions
         {
             pages.Add(DriverDutyPage.Part(pageNumber, me, dutyParts[i]));
             currentHeight += dutyParts[i].Height();
-            while (i < dutyPartsCount - 1 && currentHeight + dutyParts[i + 1].Height() <= 40)
+            while (i < dutyPartsCount - 1 && currentHeight + dutyParts[i + 1].Height() <= 45)
             {
                 i++;
                 currentHeight += dutyParts[i].Height();

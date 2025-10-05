@@ -693,7 +693,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         while (reader.Read())
         {
             var currentCallId = reader.GetInt("CallId");
-            var maxNumberOfWagons = reader.GetInt("MaxNumberOfWagons");
+            var maxNumberOfWagons = reader.GetInt("MaxNumberOfWagons", 0);
             if (currentCallId != lastCallId)
             {
                 if (current != null) yield return current;
