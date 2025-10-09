@@ -139,9 +139,10 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         return Task.FromResult(result.AsEnumerable());
     }
 
-    public Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
+    public async Task<IEnumerable<DriverDuty>> GetDriverDutiesAsync(int layoutId)
     {
         var result = new List<DriverDuty>(100);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
         using var connection = CreateConnection;
 
         var sql = $"SELECT * FROM DutyBookletReport WHERE LayoutId = {layoutId} ORDER BY DutyId, LocoScheduleTrainId, DepartureTime";
@@ -159,6 +160,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             {
                 sequenceNumber = 0;
                 train = reader.ToTrain();
+                train.Prefix = categories.Category(train.CategoryResourceCode, TrainCountryId(train.OperatorName)).Prefix;
                 if (currentDutyId != lastDutyId)
                 {
                     lastDutyId = currentDutyId;
@@ -172,7 +174,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             train?.Calls.Add(reader.ToStationCall(++sequenceNumber));
         }
         if (duty != null) result.Add(duty);
-        return Task.FromResult(result.AsEnumerable());
+        return result.AsEnumerable();
     }
 
     public IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId)
@@ -280,14 +282,15 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var result = new List<VehicleStartInfo>(200);
         using var connection = CreateConnection;
         var layout = await GetLayout(layoutId);
-        var categories = await GetTrainCategoriesAsync(layoutId);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
         var reader = ExecuteReader(connection, $"SELECT * FROM LocoAndTrainsetStartReport WHERE LayoutId = {layoutId} ORDER BY SortOrder, StartStationName, DepartureTrack, DepartureTime");
         if (layout is null) return result;
 
         while (reader.Read())
         {
             var info = reader.ToVehicleStartInfo();
-            info.TrainPrefix = categories.FirstOrDefault(x => x.Id == info.TrainCategoryId && x.CountryId.HasValue && x.CountryId.Value == layout.TrainCategoryCountryId)?.Prefix ?? "";
+            info.TrainPrefix = categories.Category(info.TrainCategoryId, TrainCountryId(info.OperatorName)).Prefix;
+
             result.Add(info);
         }
 
@@ -297,7 +300,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     public async Task<IEnumerable<BlockDestinations>> GetBlockDestinationsAsync(int layoutId)
     {
         var result = new List<BlockDestinations>(100);
-        var categories = await GetTrainCategoriesAsync(layoutId);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
         {
             using var connection1 = CreateConnection;
             var reader = ExecuteReader(connection1, $"SELECT * FROM TrainBlockDestinations WHERE LayoutId = {layoutId} ORDER BY OriginStationName, TrackDisplayOrder, DepartureTime, TrainNumber, OrderInTrain, DisplayOrder, DestinationStationName, TransferDestinationName");
@@ -306,7 +309,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
 
         return result;
 
-        static void Read(List<BlockDestinations> result, IEnumerable<TrainCategory> categories, IDataReader reader)
+        static void Read(List<BlockDestinations> result, TrainCategories categories, IDataReader reader)
         {
             BlockDestinations? current = null;
             var lastOriginStationName = "";
@@ -336,7 +339,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                     if (currentTrainNumber != lastTrainNumber)
                     {
                         var trainBlocking = reader.ToTrainBlocking();
-                        trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode).Prefix;
+                        trainBlocking.Train.Prefix = categories.Category(trainBlocking.Train.CategoryResourceCode, TrainCountryId(trainBlocking.Train.OperatorName)).Prefix;
                         current.Tracks.Last().TrainBlocks.Add(trainBlocking);
                     }
                     var destination = reader.ToBlockDestinationDetailed();
@@ -390,7 +393,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null)
     {
         var result = new List<Train>(100);
-        var categories = await GetTrainCategoriesAsync(layoutId);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
         Train? current = null;
         var lastTrainNumber = string.Empty;
         var sequenceNumber = 0;
@@ -408,7 +411,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 if (current != null) result.Add(current);
                 sequenceNumber = 0;
                 current = reader.ToTrain();
-                current.Prefix = categories.Category(current.CategoryResourceCode).Prefix;
+                current.Prefix = categories.Category(current.CategoryResourceCode, TrainCountryId(current.OperatorName)).Prefix;
             }
             current?.Calls.Add(reader.ToStationCall(++sequenceNumber));
             lastTrainNumber = currentTrainNumber;
@@ -421,7 +424,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     {
         var sql = $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime, IsArrival";
         var result = new List<StationTrainOrder>();
-        var categories = await GetTrainCategoriesAsync(layoutId);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
         using var connection = CreateConnection;
         var reader = ExecuteReader(connection, sql);
         var stationName = "";
@@ -435,8 +438,8 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 item = reader.ToStationTrainOrder();
                 stationName = currentStationName;
             }
-            var stationTrain = reader.ToStationTrain(categories);
-
+            var stationTrain = reader.ToStationTrain();
+            stationTrain.TrainPrefix = categories.Category(stationTrain.ProductResourcCode, TrainCountryId(stationTrain.OperatorName)).Prefix;
             item?.Trains.Add(stationTrain);
         }
         if (item is not null) result.Add(item);
@@ -449,16 +452,17 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var sql = onlyInitialTrains ? $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} AND IsInitial <> 0 ORDER BY StationName, TrackNumber" :
         $"SELECT * FROM TrainStartReport WHERE LayoutId = {layoutId} ORDER BY StationName, TrackNumber";
         var result = new List<TrainDeparture>(100);
-        var categories = await GetTrainCategoriesAsync(layoutId);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
         using var connection = CreateConnection;
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
             var departure = reader.ToTrainDeparture();
-            departure.Train.Prefix = categories.Category(departure.Train.CategoryResourceCode).Prefix;
+            departure.Train.Prefix = categories.Category(departure.Train.CategoryResourceCode, TrainCountryId(departure.Train.OperatorName)).Prefix;
             result.Add(departure);
         }
         return result.AsEnumerable();
+
     }
 
     public async Task<IEnumerable<TrainCategory>> GetTrainCategoriesAsync(int layoutId)
@@ -471,7 +475,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             $"""
             SELECT * 
             FROM TrainCategories 
-            WHERE CountryId = {layout.TrainCategoryCountryId} AND (FromYear IS NULL OR FromYear <= {layout.TrainCategoryYear}) AND (UptoYear IS NULL OR UptoYear > {layout.TrainCategoryYear})
+            WHERE (FromYear IS NULL OR FromYear <= {layout.TrainCategoryYear}) AND (UptoYear IS NULL OR UptoYear > {layout.TrainCategoryYear})
             """);
 
         while (reader.Read())
@@ -479,6 +483,33 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             result.Add(reader.ToTrainCategory());
         }
         return result;
+    }
+
+    // This is a temporary fix. TODO: Add Operator with reference to country in database.
+    static int TrainCountryId(string? operatorName) => (operatorName ?? "").ToUpperInvariant() switch
+    {
+        "NSB" => 2,
+        "DSB" => 3,
+        _ => 1,
+    };
+    private async Task<TrainCategories> GetTrainCategoriesInternalAsync(int layoutId)
+    {
+        var result = new List<TrainCategory>(50);
+        var layout = await GetLayout(layoutId);
+        if (layout is null) return new(result, 0, 0);
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection,
+            $"""
+            SELECT * 
+            FROM TrainCategories 
+            WHERE (FromYear IS NULL OR FromYear <= {layout.TrainCategoryYear}) AND (UptoYear IS NULL OR UptoYear > {layout.TrainCategoryYear})
+            """);
+
+        while (reader.Read())
+        {
+            result.Add(reader.ToTrainCategory());
+        }
+        return new(result, layout.TrainCategoryYear, layout.TrainCategoryYear);
     }
 
     public Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId, bool forStations = false)
@@ -498,7 +529,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         result.AddRange(GetBlockOriginCallNotes(layoutId));
         //result.AddRange(GetPassengerDepartureCallNotes(layoutId));
         result.AddRange(GetPassengerInterchangeCallNotes(layoutId));
-        if (forStations) return Task.FromResult( result.Where(r => r.IsStationNote || r.IsShuntingNote));
+        if (forStations) return Task.FromResult(result.Where(r => r.IsStationNote || r.IsShuntingNote));
         return Task.FromResult(result.Where(r => r.IsDriverNote));
     }
 

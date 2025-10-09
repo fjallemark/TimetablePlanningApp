@@ -70,12 +70,13 @@ else
                             }
 
 
+                            <th align="center">@Localizer["Train"]</th>
                             <th align="left">@Localizer["VehicleType"]</th>
                             <th align="center">@Localizer["Operator"]</th>
-                            <th align="center">@Localizer["Train"]</th>
                             <th align="center">@Localizer["Turnus"]</th>
                             <th align="center">@Localizer["Class"]</th>
                             <th align="center">@Localizer["Number"]</th>
+                            <th align="center">@Localizer["Card"]</th>
                             <th align="center">DCC</th>
                             <th align="center">FRED?</th>
                             <th align="left">@Localizer["Notes"]</th>
@@ -120,12 +121,13 @@ else
                                     <td align="center">@info.DisplayedTime()</td>
                                 }
 
-                                <td>@info.VehicleType</td>
-                                <td align="center">@info.OperatorSignature</td>
                                 <td align="center">@info.TrainLabel()</td>
-                                <td align="center">@(info.TurnusNumber.HasValue ? info.TurnusNumber : "-")</td>
+                                <td>@info.VehicleType</td>
+                                <td align="center">@info.OperatorName</td>
+                                <td align="center">@(info.TurnusNumber.HasValue? info.TurnusNumber: "-")</td>
                                 <td align="center">@((MarkupString)info.VehicleClassLabel())</td>
                                 <td align="center">@((MarkupString)info.LocoNumberOrMissingOrWagonNumber())</td>
+                                <td align="center">@info.CardYesNo()</td>
                                 <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
                                 <td align="center">@((MarkupString)info.FredYesNo())</td>
                                 <td align="left">@info.Notes()</td>

@@ -216,6 +216,9 @@
   <data name="TrainsetTurnus" xml:space="preserve">
     <value>Vognsettløp</value>
   </data>
+  <data name="TurnForNextDay" xml:space="preserve">
+    <value>Bytt til neste dag?</value>
+  </data>
   <data name="Wagons" xml:space="preserve">
     <value>Vogner</value>
   </data>
@@ -233,9 +236,6 @@
   </data>
   <data name="CreatingReport" xml:space="preserve">
     <value>Oppretter rapport...</value>
-  </data>
-  <data name="TurnForNextDay" xml:space="preserve">
-    <value>Bytt til neste dag?</value>
   </data>
   <data name="TrainStartLabels" xml:space="preserve">
     <value>Tog startetiketter</value>
@@ -279,11 +279,11 @@
   <data name="Turnus" xml:space="preserve">
     <value>Turnus</value>
   </data>
+  <data name="TrainsWithSpecialAttension" xml:space="preserve">
+    <value>Tog med spesiell oppmerksomhet</value>
+  </data>
   <data name="Days" xml:space="preserve">
     <value>Dager</value>
-  </data>
-  <data name="TrainsWithAttensionBetween" xml:space="preserve">
-    <value>Tog med spesiell oppmerksomhet {0} - {1}</value>
   </data>
   <data name="Railcar" xml:space="preserve">
     <value>Motorvogn</value>
@@ -428,5 +428,8 @@
   </data>
   <data name="ShuntingInstructions" xml:space="preserve">
     <value>Rangeringsinstruksjoner</value>
+  </data>
+  <data name="Card" xml:space="preserve">
+    <value>Kort?</value>
   </data>
 </root>

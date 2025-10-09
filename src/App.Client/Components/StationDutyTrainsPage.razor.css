@@ -3,7 +3,8 @@
 }
 
 tbody {
-    font-size: 12pt;
+    font-size: 10pt;
+    line-height: 14pt;
 }
 h1 {
     font-size: 14pt;
@@ -22,8 +23,6 @@ tr {
 
 }
 td {
-    font-size: 10pt;
-    line-height: 11pt;
 }
 
 .train-start {

@@ -18,23 +18,36 @@ public static class PaginationExtensions
         return Enumerable.Range(1, totalPages).Select(page => me.Page(itemsPerPage, page));
     }
 
+    public static double Height(this StationCallWithAction call) =>
+        1.1 + call.Notes.Count() * 1.1 + call.Notes.Where(n => n.TextLength > 80).Count() * 1.0;
+
+    public static double Height(this StationTrain train) =>
+        train.Notes.Count <= 1 ? 1.1 : (1.05 + (train.Notes.Count - 1) * 1.05 + train.Notes.Where(n => n.Length > noteBreakLength).Sum(n => ((n.Length / noteBreakLength) - 1) * 0.025 + 0.03));
+
+    private const int noteBreakLength = 100;
+
     #region Station train order
-    public static IEnumerable<IEnumerable<StationTrain>> Pages(this StationTrainOrder station, int maxItemsPerPage)
+    public static IEnumerable<IEnumerable<StationTrain>> Pages(this StationTrainOrder station, int maxHeight)
     {
-        var noteBreakLength = 100;
         List<List<StationTrain>> pages = [];
         List<StationTrain> page = [];
-        var sizeCount = 0.0;
+        var initialHeight = 1.0;
+        var currentHeight = initialHeight;
         foreach (var train in station.Trains)
         {
-            if (sizeCount > maxItemsPerPage)
+            var trainHeight = train.Height();
+            var nextHeight = currentHeight + trainHeight;
+            if (nextHeight > maxHeight)
             {
                 pages.Add(page);
                 page = [];
-                sizeCount = 0;
+                currentHeight = initialHeight+ trainHeight;
+            }
+            else
+            {
+                currentHeight += trainHeight;
             }
             page.Add(train);
-            sizeCount += train.Notes.Count > 1 ? (1.0 + train.Notes.Count * 0.40 + (train.Notes.Count(n => n.Length > noteBreakLength) * 0.40)) : 1.1;
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
@@ -133,23 +146,28 @@ public static class PaginationExtensions
 
         //if (instruction is not null) result.Add(StationDutyPage.Instructions(pageNumber++, instruction.Markdown));
 
-        const int maxRowsOnPage = 26;
+        const int maxPageHeight = 30;
         var callsCount = me.Calls.Count - 1;
-        var usedPageRows = 0;
+        var currentHeight = 0.0;
         var fromCallIndex = 0;
         var toCallIndex = 0;
         foreach (var call in me.Calls)
         {
-            usedPageRows += call.Rows;
-            if (usedPageRows > maxRowsOnPage)
+            var callHeight = call.Height();
+            var nextHeight = currentHeight + callHeight;
+            if (nextHeight > maxPageHeight)
             {
-                result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
+                result.Add(StationDutyPage.TrainCalls(pageNumber++, [.. me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex)]));
                 fromCallIndex = toCallIndex;
-                usedPageRows = 0;
+                currentHeight = callHeight;
+            }
+            else
+            {
+                currentHeight = nextHeight;
             }
             toCallIndex++;
         }
-        if (fromCallIndex < toCallIndex) result.Add(StationDutyPage.TrainCalls(pageNumber++, me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex).ToList()));
+        if (fromCallIndex < toCallIndex) result.Add(StationDutyPage.TrainCalls(pageNumber++, [.. me.Calls.Skip(fromCallIndex).Take(toCallIndex - fromCallIndex)]));
         var blankPages = BlankPagesToAppend<StationDutyPage>(result.Count, instructionPagesCount);
         result.AddRange(blankPages);
         pageNumber += blankPages.Count();
@@ -161,6 +179,8 @@ public static class PaginationExtensions
 
         return result;
     }
+
+
 
 
 
@@ -201,6 +221,7 @@ public static class PaginationExtensions
 
     #endregion
 }
+
 
 public class DutyPage
 {

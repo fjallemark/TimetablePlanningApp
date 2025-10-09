@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Resources;
 using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Resources;
@@ -16,7 +15,7 @@ internal static class VehicleStartInfoMapper
             DccAddress = (short?)record.GetIntOrNull("Address"),
             DepartureTime = record.GetString("DepartureTime"),
             MaxNumberOfVehicles = record.GetInt("MaxNumberOfWagons"),
-            OperatorSignature = record.GetString("Operator"),
+            OperatorName = record.GetString("Operator"),
             OwnerName = record.GetString("Owner"),
             StationName = record.GetString("StartStationName"),
             TrackNumber = record.GetString("DepartureTrack"),
@@ -31,6 +30,7 @@ internal static class VehicleStartInfoMapper
             HasFredThrottle = record.GetBool("HasFred"),
             DayFlags = record.GetByte("OperationDaysFlag"),
             IsFirstDay = record.GetBool("IsFirstDay"),
+            PrintCard = record.GetBool("PrintCard"),
             LayoutStartWeekday = record.GetInt("StartWeekday"),
         };
 }

@@ -11,7 +11,7 @@ internal static class StationMapper
             Id = me.GetInt("StationId"),
             Name = me.GetString("StationName"),
             Signature = me.GetString("StationSignature"),
-            Tracks = new List<StationTrack>()
+            Tracks = []
         };
 
     public static StationTrack ToStationStrack(this IDataRecord me) =>

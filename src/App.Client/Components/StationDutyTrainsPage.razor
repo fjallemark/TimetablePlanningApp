@@ -48,7 +48,7 @@
 
 
 
-    string Heading => Calls is null ? "" : string.Format(Localizer["TrainsWithAttensionBetween"], FirstTrainTime(Calls), LastTrainTime(Calls));
+    string Heading => Calls is null ? "" : Calls.First().SortTime == Calls.Last().SortTime ? $"{Localizer["TrainsWithSpecialAttension"]} {Calls.First().SortTime}" : $"{Localizer["TrainsWithSpecialAttension"]} {Calls.First().SortTime}-{Calls.Last().SortTime}";
 
     string FirstTrainTime(IEnumerable<StationCallWithAction> trains) => trains.First().SortTime;
     string LastTrainTime(IEnumerable<StationCallWithAction> trains) => trains.Last().SortTime;

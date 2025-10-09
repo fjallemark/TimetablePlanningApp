@@ -47,7 +47,7 @@ public static class StationTrainExtensions
     {
         if (me is null) return string.Empty;
         var rm = Notes.ResourceManager;
-        return rm.GetString(me.ProductResourcName) ?? string.Empty;
+        return rm.GetString(me.ProductResourcCode) ?? string.Empty;
     }
 
 

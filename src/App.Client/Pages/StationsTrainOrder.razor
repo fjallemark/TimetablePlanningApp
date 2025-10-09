@@ -15,7 +15,7 @@ else
     foreach (var station in Items)
     {
 
-        foreach (var itemsPerPage in station.Pages(34).ToList())
+        foreach (var itemsPerPage in station.Pages(33).ToList())
         {
             <A4LPage>
                 <div class="stationtrainorder">
@@ -62,7 +62,7 @@ else
                                     {
                                         <td class="day" style="@item.DayFillColor(0x40)"></td>
                                     }
-                                    <td class="day" style="@item.DayFillColor(0x01)"></td>
+                                    <td class="day" style="@item.DayFillColor(0x01)">@(item.Height().ToString("F2"))</td>
                                     <td class="day" style="@item.DayFillColor(0x02)"></td>
                                     <td class="day" style="@item.DayFillColor(0x04)"></td>
                                     <td class="day" style="@item.DayFillColor(0x08)"></td>

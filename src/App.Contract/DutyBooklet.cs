@@ -19,7 +19,7 @@ public static class DutyBookletExtensions
 
 }
 
-public sealed class DriverDutyBooklet: DutyBooklet
+public sealed class DriverDutyBooklet : DutyBooklet
 {
     public ICollection<DriverDuty> Duties { get; set; } = Array.Empty<DriverDuty>();
 
@@ -31,13 +31,13 @@ public sealed class DriverDutyBooklet: DutyBooklet
             new DriverDuty
             {
                 Operator = "Green Cargo",
-                     OperationDays = ((byte)31).OperationDays(),
-                     Difficulty = 2,
-                     Description = "Chemicals transport",
-                     Number="22",
-                     StartTime = "11:40",
-                     EndTime = "15:38",
-                     Parts = [
+                OperationDays = ((byte)31).OperationDays(),
+                Difficulty = 2,
+                Description = "Chemicals transport",
+                Number="22",
+                StartTime = "11:40",
+                EndTime = "15:38",
+                Parts = [
                          new DriverDutyPart(Train.Example, new TrainLoco {  OperatorName="GC", TurnusNumber=52}, 22, 27)
                      ]
             }

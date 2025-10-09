@@ -16,9 +16,9 @@ public record class StationTrain
 {
     public int CallId { get; init; }
     public double SortTime { get; init; }
-    public string ProductResourcName { get; init; }
+    public string ProductResourcCode { get; init; }
     public string OperatorName { get; init; }
-    public string TrainPrefix { get; init; }
+    public string TrainPrefix { get; set; }
     public int TrainNumber { get; init; }
     public string TrackNumber { get; init; }
     public bool IsArrival { get; init; }

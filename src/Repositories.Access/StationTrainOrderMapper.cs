@@ -13,7 +13,7 @@ internal static class StationTrainOrderMapper
             UseCompactTrainList = me.GetBool("UseCompactTrainList")
         };
 
-    public static StationTrain ToStationTrain(this IDataRecord me, IEnumerable<TrainCategory> trainCategories) =>
+    public static StationTrain ToStationTrain(this IDataRecord me) =>
         new()
         {
             CallId = me.GetInt("CallId"),
@@ -27,10 +27,9 @@ internal static class StationTrainOrderMapper
             OperatingDayFlag = me.GetByte("OperatingDayFlag"),
             OperatorName = me.GetString("Operator"),
             OriginName = me.GetString("Origin"),
-            ProductResourcName = me.GetString("ProductResourceCode"),
+            ProductResourcCode = me.GetString("ProductResourceCode"),
             SortTime = me.GetTimeAsDouble("SortTime"),
             TrackNumber = me.GetString("Designation"),
-            TrainPrefix = trainCategories.SingleOrDefault(c => c.ResourceCode == me.GetString("ProductResourceCode"))?.Prefix,
             TrainNumber = me.GetInt("Number"),
             IsStop = me.GetBool("IsStop"),
             ShowOperatorName = me.GetBool("ShowOperatorName"),

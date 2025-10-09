@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text;
+﻿using System.Text;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
@@ -9,9 +8,9 @@ public class VehicleStartInfo
     public string? StationName { get; init; }
     public string? TrackNumber { get; init; }
     public bool IsFirstDay { get; init; }
-    public int LayoutStartWeekday {  get; init; }
+    public int LayoutStartWeekday { get; init; }
     public byte DayFlags { get; init; }
-    public string? OperatorSignature { get; init; }
+    public string? OperatorName { get; init; }
     public int? TurnusNumber { get; init; }
     public int TrainCategoryId { get; init; }
     public string TrainPrefix { get; set; } = "";
@@ -25,12 +24,13 @@ public class VehicleStartInfo
     public string? OwnerName { get; init; }
     public string Note { get; init; } = string.Empty;
     public int ReplaceOrder { get; init; }
+    public bool PrintCard { get; init; }
     public bool HasFredThrottle { get; init; }
     [Obsolete("Use booking id")]
     public int Position { get; set; }
     public string? BookingId { get; set; }
     public required string Type { get; set; }
-    public override string ToString() => $"{OperatorSignature} {VehicleClass} {VehicleNumber} {DayFlags.OperationDays().ShortName} {LayoutStartWeekday}";
+    public override string ToString() => $"{OperatorName} {VehicleClass} {VehicleNumber} {DayFlags.OperationDays().ShortName} {LayoutStartWeekday}";
 }
 
 public static class VehicleStartInfoExtensions
@@ -44,11 +44,11 @@ public static class VehicleStartInfoExtensions
 
     public static string VehicleClassLabel(this VehicleStartInfo info) =>
         info.VehicleClass == "?" ?
-            info.OwnerName.HasValue() ? Highlight(Resources.Notes.Missing): Resources.Notes.Optional :
+            info.OwnerName.HasValue() ? Highlight(Resources.Notes.Missing) : Resources.Notes.Optional :
         info.VehicleClass ?? "-";
 
     public static string BookingId(this VehicleStartInfo info) =>
-        info.IsOther() ? $"X{info.Id}":
+        info.IsOther() ? $"X{info.Id}" :
         $"{info.Type.Substring(0, 1)}{info.Id}";
     public static string FirstOperationDay(this VehicleStartInfo info) =>
         info.DayFlags.FirstOperationDay(info.LayoutStartWeekday == 7).FullName;
@@ -96,33 +96,37 @@ public static class VehicleStartInfoExtensions
     private static bool IsExtra(this VehicleStartInfo info) => info.ReplaceOrder == 1;
     private static bool IsSpare(this VehicleStartInfo info) => info.ReplaceOrder > 1 && info.ReplaceOrder < 9;
     private static bool IsOther(this VehicleStartInfo info) => info.ReplaceOrder == 9;
+    private static bool IsCardRequired(this VehicleStartInfo info) => info.PrintCard == false;
 
-    public static bool IsVehicleWithDccAddress(this VehicleStartInfo info) => 
+    public static bool IsVehicleWithDccAddress(this VehicleStartInfo info) =>
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]);
-    public static string FredYesNo(this VehicleStartInfo info) => 
-        info.IsVehicleWithDccAddress()?
-            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : Highlight(Resources.Notes.No): "?": "-";
+    public static string FredYesNo(this VehicleStartInfo info) =>
+        info.IsVehicleWithDccAddress() ?
+            info.OwnerName.HasValue() ? info.HasFredThrottle ? Resources.Notes.Yes : Highlight(Resources.Notes.No) : "?" : "-";
 
-    public static bool HasIllegalDccAddress(this VehicleStartInfo info) => info.DccAddress > 0 && info.DccAddress < 128;
+    public static string CardYesNo(this VehicleStartInfo info) =>
+        info.IsCardRequired() ? Resources.Notes.Yes : Resources.Notes.No;
+
+    public static bool HasIllegalDccAddress(this VehicleStartInfo info) => info.DccAddress == 3;
 
     public static string DccAddressOrMissingOrNotApplicable(this VehicleStartInfo info) =>
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) && info.OwnerName.HasValue() ?
-        info.DccAddress > 0 && info.DccAddress.Value < 128 ? Highlight($"{info.DccAddress}§") :
-        info.DccAddress > 0 ? $"{info.DccAddress.Value}" :  
+        info.HasIllegalDccAddress() ? Highlight($"{info.DccAddress}§") :
+        info.DccAddress > 0 ? $"{info.DccAddress.Value}" :
         Highlight(Resources.Notes.Missing) :
-        "-" ;
+        "-";
 
     public static string LocoNumberOrMissingOrWagonNumber(this VehicleStartInfo info) =>
         info.IsVehicleWithDccAddress() && info.OwnerName.HasValue() ?
             info.VehicleNumber.HasValue() ? $"{info.VehicleNumber}" :
             Highlight(Resources.Notes.Missing) :
-        info.MaxNumberOfVehicles == 1 ? info.VehicleNumber ?? "-": Resources.Notes.NotApplicable;
+        info.MaxNumberOfVehicles == 1 ? info.VehicleNumber ?? "-" : Resources.Notes.NotApplicable;
 
 
     public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false, bool isOverview = false) =>
         isOverview ?
             info.ReplaceOrder <= 1 ? "white" : "gainsboro" :
-        isPerOwner && info.ReplaceOrder <= 1  ? "white" :
+        isPerOwner && info.ReplaceOrder <= 1 ? "white" :
         info.ReplaceOrder <= 1 ?
             info.DayFlags == 127 ? "white" : info.IsFirstDay ? "lightyellow" : "#e6f5ff" :
         "gainsboro";
