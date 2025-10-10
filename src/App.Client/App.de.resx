@@ -432,4 +432,10 @@
   <data name="Card" xml:space="preserve">
     <value>Karte?</value>
   </data>
+  <data name="TrainCompositions" xml:space="preserve">
+    <value>Zugbildung</value>
+  </data>
+  <data name="FinalDestination" xml:space="preserve">
+    <value>Endziel</value>
+  </data>
 </root>

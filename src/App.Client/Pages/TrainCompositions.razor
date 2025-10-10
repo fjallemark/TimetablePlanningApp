@@ -1,0 +1,106 @@
+﻿@page "/traincompositions"
+
+@layout PrintLayout
+@inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
+@inject Services.PrintedReportsService DataService
+@if (Items is null)
+{
+    <CreatingReport />
+}
+else
+{
+    <RefreshButton OnClick="OnInitializedAsync" />
+
+    foreach (var pageContent in SortedTrainCompositions.Pages(30))
+    {
+        <A4LPage>
+            <h2>@StationName(pageContent)</h2>
+            @foreach (var train in pageContent)
+            {
+                <h3>@Heading(train)</h3>
+                <table cellspacing="1" cellpadding="1" width="100%" class="print-friendly">
+                    <thead>
+                        <tr>
+@*                             <th align="left">@Localizer["Pos"]</th>
+ *@                            <th align="left">@Localizer["Days"]</th>
+                            <th align="center">@Localizer["Trainset"]</th>
+                            <th align="center">@Localizer["NumberOfWagons"]</th>
+                            <th align="left">@Localizer["Notes"]</th>
+                            <th class="borderleft" align="left">@Localizer["From"]</th>
+                            <th align="center">@Localizer["Time"]</th>
+                            <th class="borderleft" align="left">@Localizer["To"]</th>
+                            <th align="center">@Localizer["Time"]</th>
+                            <th class="borderleft" align="left">@Localizer["FinalDestination"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var trainset in SortedTrainsets(train))
+                        {
+                            <tr>
+@*                                 <td>@trainset.OrderInTrain</td>
+ *@                                <td>@trainset.OperationDaysFlags.OperationDays().ShortName</td>
+                                <td align="center">@trainset.Number</td>
+                                <td align="center">@trainset.MaxNumberOfUnits</td>
+                                <td>@trainset.Note</td>
+                                <td class="borderleft">@trainset.DepartureStationName</td>
+                                <td align="center">@trainset.DepartureTime.TotalMinutes.AsTime()</td>
+                                <td class="borderleft">@trainset.ArrivalStationName</td>
+                                <td>@trainset.ArrivalTime.TotalMinutes.AsTime()</td>
+                                <td class="borderleft">@trainset.FinalStationName</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </A4LPage>
+    }
+}
+
+
+@code {
+    Layout? Layout;
+    List<TrainComposition>? Items { get; set; }
+    string? SelectedOperatorNames;
+
+    void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        SelectedOperatorNames = q["operator"];
+    }
+
+    List<TrainComposition> SortedTrainCompositions =>
+    Items is null ? [] :
+    Items
+        .OrderBy(tc => tc.StartStationName())
+        .ThenBy(tc => tc.TrainNumber)
+        .ThenBy(l => l.OperationDaysFlags.FirstOperationDay().Flags)
+        .ToList();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Items = new(50);
+        var layoutResult = await DataService.GetLayoutAsync();
+        if (layoutResult.statusCode.IsSuccess())
+        {
+            SetQueryStringParameters();
+            Layout = layoutResult.item;
+            var result = await DataService.GetTrainCompositionsAsync(Layout!.Id, SelectedOperatorNames);
+            Items = result.items.ToList();
+        }
+    }
+
+    string StationName(IEnumerable<TrainComposition> items) =>
+        items.Any() ? items.First().StartStationName() : string.Empty;
+
+    string Heading(TrainComposition train) =>
+        $"{train.OperatorName} {train.Prefix} {train.TrainNumber} {train.OperationDaysFlags.OperationDays().ShortName}";
+
+
+    IEnumerable<TrainsetInTrainComposition> SortedTrainsets(TrainComposition train) =>
+    train.TrainNumber % 2 == 0 ?
+        train.Trainsets.OrderBy(ts => ts.OperationDaysFlags.FirstOperationDayFlag()).ThenByDescending(ts => ts.Number) :
+        train.Trainsets.OrderBy(ts => ts.OperationDaysFlags.FirstOperationDayFlag()).ThenBy(ts => ts.Number);
+
+}

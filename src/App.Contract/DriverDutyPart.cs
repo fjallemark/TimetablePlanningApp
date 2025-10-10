@@ -99,11 +99,7 @@ public static class DutyPartExtensions
             .Where((c, i) => i >= me.FromCallIndex() && i <= me.ToCallIndex());
     }
 
-    public static double Height(this DriverDutyPart dutyPart)
-    {
-        var calls = dutyPart.Train.Calls; // dutyPart.CallsInDutyPart();
-        return 7 + calls.Sum(c => c.CallTimes().Length * 1.5 + c.ArrivalAndDepartureNotesCount() * 1.3 + dutyPart.Train.Instruction.Length / 50 );
-    }
+   
 }
 
 public class DutyStationCall : StationCall

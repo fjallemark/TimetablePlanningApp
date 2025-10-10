@@ -1,0 +1,12 @@
+﻿table {
+    font-size: 10pt;
+    line-height: 14pt;
+}
+
+tr {
+    border-bottom: 1px solid gray;
+}
+
+.borderleft {
+    border-left: 1px solid gray;
+}

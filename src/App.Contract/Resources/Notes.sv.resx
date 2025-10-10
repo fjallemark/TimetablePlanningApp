@@ -520,7 +520,7 @@
     <value>{0} och lokala destinationer samt {0} och bortom.</value>
   </data>
   <data name="ToLocalDestinations" xml:space="preserve">
-    <value>Till {0} och lokala destinationer</value>
+    <value>Till {0} och lokala destinationer.</value>
   </data>
   <data name="LocalDestinations" xml:space="preserve">
     <value>{0} och lokala destinationer.</value>

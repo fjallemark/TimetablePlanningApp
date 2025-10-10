@@ -100,6 +100,10 @@ public class PrintedReportsService(IPrintedReportsStore store)
     public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null) =>
         Store.GetTrainsAsync(layoutId, operatorSignature);
 
+    public Task<IEnumerable<TrainComposition>> GetTrainCompositionsAsync(int layoutId, string? operatorSignature = null) =>
+        Store.GetTrainCompositionsAsync(layoutId, operatorSignature);
+
+
     public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
         Store.GetTrainDeparturesAsync(layoutId);
 

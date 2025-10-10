@@ -1,9 +1,10 @@
 ﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 
-public class OperationDays
+public class OperationDays : IComparer<OperationDays>
 {
     public string FullName { get; set; } = string.Empty;
     public string ShortName { get; set; } = string.Empty;
@@ -14,6 +15,7 @@ public class OperationDays
     public override bool Equals(object? obj) => obj is OperationDays other && other.ShortName.Equals(ShortName, StringComparison.OrdinalIgnoreCase);
     public override int GetHashCode() => ShortName.GetHashCode(StringComparison.OrdinalIgnoreCase);
     public override string ToString() => ShortName;
+    public int Compare(OperationDays? x, OperationDays? y) => x?.Flags ?? -1 - y?.Flags ?? 0;
 
     public const byte AllDays = 0x7F;
     public const byte OnDemand = 0x80;
@@ -21,7 +23,7 @@ public class OperationDays
 
 public static class OperationDaysExtensions
 {
-    private static readonly Day[] Days = new[] {
+    private static readonly Day[] Days = [
         new Day(0, 0x7F, "Daily"),
         new Day(1, 0x01, "Monday"),
         new Day(2, 0x02, "Tuesday"),
@@ -30,13 +32,14 @@ public static class OperationDaysExtensions
         new Day(5, 0x10, "Friday"),
         new Day(6, 0x20, "Saturday"),
         new Day(7, 0x40, "Sunday"),
-        new Day(0, 0x80, "OnDemand") };
+        new Day(0, 0x80, "OnDemand") ];
 
     private static Day[] GetDays(this byte flags) =>
-        flags == 0 ?[] :
+        flags == 0 ? [] :
         flags == Days[0].Flag ? [Days[0]] :
         flags == Days[8].Flag ? [Days[8]] :
-        Days.Where(d => d.Number > 0 && (d.Flag & flags) > 0).ToArray();
+        [.. Days.Where(d => d.Number > 0 && (d.Flag & flags) > 0)];
+
 
     public static int DisplayOrder(this byte flags) => ~flags;
 
@@ -64,6 +67,27 @@ public static class OperationDaysExtensions
                 _ => 0
             });
         return (byte)x.Sum();
+    }
+
+    public static int FirstOperationDayFlag(this byte flags, bool sundayIsFirst = false)
+    {
+        var days = GetDays(flags);
+
+        if (days.Length > 0)
+        {
+            var dailyIndex = sundayIsFirst ? 7 : 1;
+            var otherDayIndex = sundayIsFirst && days[days.Length - 1].Number == 7 ? days.Length - 1 : 0;
+            if (days[0].Number == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return days[otherDayIndex].Flag;
+            }
+        }
+        return flags;
+
     }
 
     public static OperationDays FirstOperationDay(this byte flags, bool sundayIsFirst = false)
@@ -259,7 +283,7 @@ public static class OperationDaysExtensions
     }
 }
 
-internal class Day
+public class Day
 {
     public Day(byte number, byte flag, string resourceKey)
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using Tellurian.Trains.Planning.App.Server.Extensions;
 using Tellurian.Trains.Planning.App.Server.Services;
 
@@ -46,19 +47,27 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     public async Task<IActionResult> UpdateTrainAndGetTimetableStretchesAsync(int id, int trainId, int minutes, string? line)
     {
         if (minutes > 1000) minutes -= (minutes - 1000) * 2 + 1000;
-   
+
         var count = await Service.UpdateTrainAsync(trainId, minutes);
         return await GetTimetableStretches(id, line);
     }
 
     [HttpGet("trains")]
-    public async Task<IActionResult> GetTrains(int id, string? @operator = null)
+    public async Task<IActionResult> GetTrains(int id, string? operatorName = null)
     {
         if (id < 1) return BadRequest();
-        var result = await Service.GetTrainsAsync(id, @operator).ConfigureAwait(false);
+        var result = await Service.GetTrainsAsync(id, operatorName).ConfigureAwait(false);
         if (result is null) return NotFound();
         return Ok(result);
 
+    }
+    [HttpGet("traincompositions")]
+    public async Task<IActionResult> GetTrainCompositions(int id, string? operatorName = null)
+    {
+        if (id < 1) return BadRequest();
+        var result = await Service.GetTrainCompositionsAsync(id, operatorName).ConfigureAwait(false);
+        if (result is null) return NotFound();
+        return Ok(JsonSerializer.Serialize(result.ToList()));
     }
 
     [HttpGet("trainstartlabels")]
@@ -74,7 +83,8 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     public async Task<IActionResult> GetVehicleStartInfo(int id) => await this.GetScheduleItems(id, Service.GetVehicleStartInfoAsync).ConfigureAwait(false);
 
     [HttpGet("renumberduties")]
-    public async Task<IActionResult> RenumberDuties(int id) { 
+    public async Task<IActionResult> RenumberDuties(int id)
+    {
         await Service.RenumberDuties(id);
         return Ok();
     }

@@ -432,4 +432,10 @@
   <data name="Card" xml:space="preserve">
     <value>Kort?</value>
   </data>
+  <data name="TrainCompositions" xml:space="preserve">
+    <value>Togsammensetning</value>
+  </data>
+  <data name="FinalDestination" xml:space="preserve">
+    <value>Endelig destinasjon</value>
+  </data>
 </root>

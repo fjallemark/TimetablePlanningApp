@@ -10,7 +10,9 @@ public static class VehicleScheduleMapper
         new()
         {
             Type = "Loco",
+            OperationDaysFlags = me.GetByte("LocoOperationDaysFlag"),
             OperationDays = me.GetByte("LocoOperationDaysFlag").OperationDays(),
+            TurnusNumber = me.GetInt("LocoNumber"),
             Turnus = me.GetInt("LocoNumber").ToString(CultureInfo.InvariantCulture),
             OperatorName = me.GetString("LocoOperator"),
             Class = me.GetString("LocoClass"),
@@ -26,7 +28,9 @@ public static class VehicleScheduleMapper
         new()
         {
             Type = "CargoWagon",
+            OperationDaysFlags = me.GetByte("TrainsetOperationDaysFlag"),
             OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
+            TurnusNumber = me.GetInt("TrainsetNumber"),
             Turnus = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
             OperatorName = me.GetString("TrainsetOperator"),
             Class = me.GetString("TrainsetClass"),
@@ -44,7 +48,9 @@ public static class VehicleScheduleMapper
         new()
         {
             Type = "PassengerWagon",
+            OperationDaysFlags = me.GetByte("TrainsetOperationDaysFlag"),
             OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
+            TurnusNumber = me.GetInt("TrainsetNumber"),
             Turnus = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
             OperatorName = me.GetString("TrainsetOperator"),
             Class = me.GetString("TrainsetClass"),
@@ -62,7 +68,9 @@ public static class VehicleScheduleMapper
         new()
         {
             Type = "CargoOnly",
+            OperationDaysFlags = me.GetByte("TrainsetOperationDaysFlag"),
             OperationDays = me.GetByte("TrainsetOperationDaysFlag").OperationDays(),
+            TurnusNumber = me.GetInt("TrainsetNumber"),
             Turnus = me.GetInt("TrainsetNumber").ToString(CultureInfo.InvariantCulture),
             OperatorName = me.GetString("TrainsetOperator"),
             Class = me.GetString("TrainsetClass"),

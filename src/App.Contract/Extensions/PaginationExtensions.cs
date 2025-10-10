@@ -18,49 +18,49 @@ public static class PaginationExtensions
         return Enumerable.Range(1, totalPages).Select(page => me.Page(itemsPerPage, page));
     }
 
-    public static double Height(this StationCallWithAction call) =>
-        1.1 + call.Notes.Count() * 1.1 + call.Notes.Where(n => n.TextLength > 80).Count() * 1.0;
-
-    public static double Height(this StationTrain train) =>
-        train.Notes.Count <= 1 ? 1.1 : (1.05 + (train.Notes.Count - 1) * 1.05 + train.Notes.Where(n => n.Length > noteBreakLength).Sum(n => ((n.Length / noteBreakLength) - 1) * 0.025 + 0.03));
-
-    private const int noteBreakLength = 100;
-
-    #region Station train order
-    public static IEnumerable<IEnumerable<StationTrain>> Pages(this StationTrainOrder station, int maxHeight)
+    public static IEnumerable<IEnumerable<T>> Pages<T>(this IEnumerable<T> items, Func<T, double> height, int maxHeight, Func<T, T, bool>? pagebreak, double initialHeight = 0.0)
     {
-        List<List<StationTrain>> pages = [];
-        List<StationTrain> page = [];
-        var initialHeight = 1.0;
+        List<List<T>> pages = [];
+        List<T> page = [];
         var currentHeight = initialHeight;
-        foreach (var train in station.Trains)
+        foreach (var item in items)
         {
-            var trainHeight = train.Height();
-            var nextHeight = currentHeight + trainHeight;
-            if (nextHeight > maxHeight)
+            var itemHeight = height(item);
+            var nextHeight = currentHeight + itemHeight;
+            if (nextHeight > maxHeight || (pagebreak is not null && page.Count != 0 && pagebreak(page.Last(), item)))
             {
                 pages.Add(page);
                 page = [];
-                currentHeight = initialHeight+ trainHeight;
+                currentHeight = initialHeight + itemHeight;
             }
             else
             {
-                currentHeight += trainHeight;
+                currentHeight += itemHeight;
             }
-            page.Add(train);
+            page.Add(item);
         }
         if (page.Count > 0) { pages.Add(page); }
         return pages;
+
     }
-    public static int ItemsPerPage(this StationTrainOrder? station, int itemsPerPage)
+
+    public static double Height(this StationTrain train)
     {
-        var x = station.ItemsPerPage2(itemsPerPage);
-        return x;
+        int noteBreakLength = 100;
+        return train.Notes.Count <= 1 ? 1.1 : (1.05 + (train.Notes.Count - 1) * 1.05 + train.Notes.Where(n => n.Length > noteBreakLength).Sum(n => ((n.Length / noteBreakLength) - 1) * 0.025 + 0.03));
     }
-    public static int ItemsPerPage2(this StationTrainOrder? station, int maxItemsPerPage) =>
-        station is null ? maxItemsPerPage :
-        maxItemsPerPage - (int)(station.Trains.Where(t => t.Notes.Count > 2).Count() * 0.7);
-    #endregion
+
+    public static IEnumerable<IEnumerable<StationTrain>> Pages(this IEnumerable<StationTrain> trains, int maxHeight) =>
+        Pages(trains, Height, maxHeight, null, 1.0);
+
+    public static double Height(this TrainComposition train) =>
+        3 + train.Trainsets.Count;
+
+    public static bool PageBreak(this TrainComposition train, TrainComposition next) =>
+        train.StartStationName() != next.StartStationName();
+
+    public static IEnumerable<IEnumerable<TrainComposition>> Pages(this IEnumerable<TrainComposition> all, int maxHeight) =>
+        Pages(all, Height, maxHeight, PageBreak);
 
     #region Driver duty booklet
 
@@ -79,6 +79,12 @@ public static class PaginationExtensions
         }
         return result;
 
+    }
+
+    public static double Height(this DriverDutyPart dutyPart)
+    {
+        var calls = dutyPart.Train.Calls; // dutyPart.CallsInDutyPart();
+        return 7 + calls.Sum(c => c.CallTimes().Length * 1.5 + c.ArrivalAndDepartureNotesCount() * 1.3 + dutyPart.Train.Instruction.Length / 50);
     }
 
     public static IEnumerable<DriverDutyPage> GetDriverDutyPages(this DriverDuty me, IEnumerable<Instruction> instructions)
@@ -120,6 +126,9 @@ public static class PaginationExtensions
     #endregion
 
     #region Station duty booklet
+
+    public static double Height(this StationCallWithAction call) =>
+        1.1 + call.Notes.Count() * 1.1 + call.Notes.Where(n => n.TextLength > 80).Count() * 1.0;
 
     public static IEnumerable<StationDutyPage> GetAllStationDutyPagesInBookletOrder(this IEnumerable<StationDuty> me, IEnumerable<Instruction> instructions) =>
         [.. me.SelectMany(d => d.GetStationDutyPagesInBookletOrder(instructions))];

@@ -46,9 +46,11 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrainsAsync(int layoutId) =>
         GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");
 
-    public Task<(HttpStatusCode statusCode, IEnumerable<Train> items)> GetTrainsAsync(int layoutId, string? operatorSignature = null) =>
-        GetItems<Train>($"api/layouts/{layoutId}/reports/trains?operator={operatorSignature}");
+    public Task<(HttpStatusCode statusCode, IEnumerable<Train> items)> GetTrainsAsync(int layoutId, string? operatorName = null) =>
+        GetItems<Train>($"api/layouts/{layoutId}/reports/trains?operatorname={operatorName}");
 
+    public Task<(HttpStatusCode statusCode, IEnumerable<TrainComposition> items)> GetTrainCompositionsAsync(int layoutId, string? operatorName = null) =>
+       GetItems<TrainComposition>($"api/layouts/{layoutId}/reports/traincompositions?operatorname={operatorName}");
     public Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId) =>
         GetItems<TrainsetSchedule>($"api/layouts/{layoutId}/reports/trainsetschedules");
 
@@ -99,5 +101,5 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
 
     private static async Task<T?> Item<T>(HttpResponseMessage response) =>
         await response.Content.ReadFromJsonAsync<T>(Options).ConfigureAwait(false);
-
+    public Task<HttpStatusCode> RenumberDuties(int layouyId, string? operatorSignature = null) => throw new NotImplementedException();
 }

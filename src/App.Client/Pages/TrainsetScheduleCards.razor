@@ -27,6 +27,13 @@ else
     string? SelectedOperatorNames { get; set; }
     private IEnumerable<TrainsetSchedule>? Items { get; set; }
 
+    IEnumerable<TrainsetSchedule> Sorted (IEnumerable<TrainsetSchedule> items) =>
+        items
+            .Where(i => string.IsNullOrWhiteSpace(SelectedOperatorNames) || i.OperatorName.EqualsAny(SelectedOperatorNames))
+            .OrderBy(i => i.OperatorName).ThenBy(i => i.TurnusNumber).ThenBy(i => i.OperationDaysFlags.FirstOperationDayFlag())
+            .ToList();
+
+
     protected override async Task OnInitializedAsync()
     {
         var layoutResult = await DataService.GetLayoutAsync();
@@ -36,7 +43,7 @@ else
             if (result.statusCode.IsSuccess())
             {
                 SetQueryStringParameters();
-                Items = result.items.Where(i => string.IsNullOrWhiteSpace(SelectedOperatorNames) || i.OperatorName.EqualsAny(SelectedOperatorNames));
+                Items = Sorted(result.items);
             }            
         }
     }

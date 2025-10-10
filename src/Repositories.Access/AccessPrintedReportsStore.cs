@@ -408,7 +408,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             var currentTrainNumber = $"{reader.GetString("TrainOperator")}{reader.GetInt("TrainNumber")}";
             if (currentTrainNumber != lastTrainNumber)
             {
-                if (current != null) result.Add(current);
+                if (current is not null) result.Add(current);
                 sequenceNumber = 0;
                 current = reader.ToTrain();
                 current.Prefix = categories.Category(current.CategoryResourceCode, TrainCountryId(current.OperatorName)).Prefix;
@@ -418,6 +418,37 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         }
         if (current != null) result.Add(current);
         return result.AsEnumerable();
+    }
+
+    public async Task<IEnumerable<TrainComposition>> GetTrainCompositionsAsync(int layoutId, string? operatorName)
+    {
+        var result = new List<TrainComposition>(50);
+        var categories = await GetTrainCategoriesInternalAsync(layoutId);
+        TrainComposition? current = null;
+        var lastTrainNumber = string.Empty;
+
+        var sql = SQL(layoutId, operatorName);
+        using var connection = CreateConnection;
+        var reader = ExecuteReader(connection, sql);
+        while (reader.Read())
+        {
+            var currentTrainNumber = $"{reader.GetString("TrainOperator")}{reader.GetInt("TrainNumber")}";
+            if (currentTrainNumber != lastTrainNumber)
+            {
+                if (current is not null) result.Add(current);
+                current = reader.ToTrainComposition();
+                current.Prefix = categories.Category(current.TrainCategoryResourceCode, TrainCountryId(current.OperatorName)).Prefix;
+            }
+            current?.Trainsets.Add(reader.ToTrainsetInTrainComposition());
+            lastTrainNumber = currentTrainNumber;
+        }
+        if (current != null) result.Add(current);
+        return result.ToList();
+
+        static string SQL(int layoutId, string? operatorName) => operatorName.HasValue() ?
+            $"SELECT * FROM TrainCompositionReport WHERE LayoutId = {layoutId} AND TrainOperator = '{operatorName}' ORDER BY TrainOperator, TrainNumber" :
+            $"SELECT * FROM TrainCompositionReport WHERE LayoutId = {layoutId} ORDER BY TrainOperator, TrainNumber";
+
     }
 
     public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
