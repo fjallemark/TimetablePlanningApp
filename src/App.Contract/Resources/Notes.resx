@@ -271,7 +271,7 @@
     <value>Saturday</value>
   </data>
   <data name="ConnectTrainset" xml:space="preserve">
-    <value>Connect {0}.</value>
+    <value>Connect {0}</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
     <value>Disconnect {0}.</value>

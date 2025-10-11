@@ -31,7 +31,7 @@ else
                             <th align="center">@Localizer["Time"]</th>
                             <th class="borderleft" align="left">@Localizer["To"]</th>
                             <th align="center">@Localizer["Time"]</th>
-                            <th class="borderleft" align="left">@Localizer["FinalDestination"]</th>
+                            <th class="borderleft" align="left">@Localizer["OtherFinalDestination"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +41,7 @@ else
 @*                                 <td>@trainset.OrderInTrain</td>
  *@                                <td>@trainset.OperationDaysFlags.OperationDays().ShortName</td>
                                 <td align="center">@trainset.Number</td>
-                                <td align="center">@trainset.MaxNumberOfUnits</td>
+                                <td align="center"><WagonIcon Count="@trainset.MaxNumberOfUnits" Image="PassengerCar.png"/></td>
                                 <td>@trainset.Note</td>
                                 <td class="borderleft">@trainset.DepartureStationName</td>
                                 <td align="center">@trainset.DepartureTime.TotalMinutes.AsTime()</td>

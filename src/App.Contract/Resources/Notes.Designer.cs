@@ -214,7 +214,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect {0}..
+        ///   Looks up a localized string similar to Connect {0}.
         /// </summary>
         public static string ConnectTrainset {
             get {

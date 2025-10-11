@@ -42,6 +42,7 @@ public static class NoteExtensions
 
         static bool OtherwiseAreSame(LocoDepartureCallNote note1, LocoDepartureCallNote note2) =>
             note1.GetType() == note2.GetType() && 
+            note1.DepartingLoco.Class == note2.DepartingLoco.Class &&
             note1.DepartingLoco.OperatorName == note2.DepartingLoco.OperatorName && 
             note1.DepartingLoco.TurnusNumber == note2.DepartingLoco.TurnusNumber;
 
@@ -58,6 +59,7 @@ public static class NoteExtensions
 
         static bool OtherwiseAreSame(LocoArrivalCallNote note1, LocoArrivalCallNote note2) =>
             note1.GetType() == note2.GetType() &&
+            note1.ArrivingLoco.Class == note2.ArrivingLoco.Class &&
             note1.ArrivingLoco.OperatorName == note2.ArrivingLoco.OperatorName &&
             (note1.ArrivingLoco.TurnusNumber == note2.ArrivingLoco.TurnusNumber || note1 is LocoCirculationNote || note1 is LocoTurnNote || note1 is LocoTurnOrReverseCallNote);
 

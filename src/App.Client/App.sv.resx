@@ -435,7 +435,7 @@
   <data name="TrainCompositions" xml:space="preserve">
     <value>Tågsammansättning</value>
   </data>
-  <data name="FinalDestination" xml:space="preserve">
-    <value>Slutdestination</value>
+  <data name="OtherFinalDestination" xml:space="preserve">
+    <value>Annan slutdestination</value>
   </data>
 </root>

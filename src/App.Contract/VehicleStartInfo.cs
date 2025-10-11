@@ -113,6 +113,7 @@ public static class VehicleStartInfoExtensions
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) && info.OwnerName.HasValue() ?
         info.HasIllegalDccAddress() ? Highlight($"{info.DccAddress}§") :
         info.DccAddress > 0 ? $"{info.DccAddress.Value}" :
+        info.DccAddress == -1 ? "FREMO":
         Highlight(Resources.Notes.Missing) :
         "-";
 

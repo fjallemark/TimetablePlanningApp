@@ -435,7 +435,7 @@
   <data name="TrainCompositions" xml:space="preserve">
     <value>Zugbildung</value>
   </data>
-  <data name="FinalDestination" xml:space="preserve">
-    <value>Endziel</value>
+  <data name="OtherFinalDestination" xml:space="preserve">
+    <value>Anderes Endziel</value>
   </data>
 </root>

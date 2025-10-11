@@ -135,44 +135,20 @@
   <data name="Daily" xml:space="preserve">
     <value>Dagligen</value>
   </data>
-  <data name="DailyShort" xml:space="preserve">
-    <value>Dagl</value>
-  </data>
-  <data name="DayNameCasing" xml:space="preserve">
-    <value>LOWER</value>
-  </data>
   <data name="Friday" xml:space="preserve">
     <value>Fredag</value>
-  </data>
-  <data name="FridayShort" xml:space="preserve">
-    <value>F</value>
   </data>
   <data name="Monday" xml:space="preserve">
     <value>Måndag</value>
   </data>
-  <data name="MondayShort" xml:space="preserve">
-    <value>M</value>
-  </data>
   <data name="OnDemand" xml:space="preserve">
     <value>På order</value>
-  </data>
-  <data name="OnDemandShort" xml:space="preserve">
-    <value>Order</value>
-  </data>
-  <data name="SaturdayShort" xml:space="preserve">
-    <value>L</value>
   </data>
   <data name="Sunday" xml:space="preserve">
     <value>Söndag</value>
   </data>
-  <data name="SundayShort" xml:space="preserve">
-    <value>S</value>
-  </data>
   <data name="Thursday" xml:space="preserve">
     <value>Torsdag</value>
-  </data>
-  <data name="ThursdayShort" xml:space="preserve">
-    <value>To</value>
   </data>
   <data name="To" xml:space="preserve">
     <value>Till</value>
@@ -180,11 +156,35 @@
   <data name="Tuesday" xml:space="preserve">
     <value>Tisdag</value>
   </data>
-  <data name="TuesdayShort" xml:space="preserve">
-    <value>Ti</value>
-  </data>
   <data name="Wednesday" xml:space="preserve">
     <value>Onsdag</value>
+  </data>
+  <data name="DailyShort" xml:space="preserve">
+    <value>Dagl</value>
+  </data>
+  <data name="DayNameCasing" xml:space="preserve">
+    <value>LOWER</value>
+  </data>
+  <data name="FridayShort" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="MondayShort" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="OnDemandShort" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="SaturdayShort" xml:space="preserve">
+    <value>L</value>
+  </data>
+  <data name="SundayShort" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ThursdayShort" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="TuesdayShort" xml:space="preserve">
+    <value>Ti</value>
   </data>
   <data name="WednesdayShort" xml:space="preserve">
     <value>O</value>
@@ -288,11 +288,11 @@
   <data name="GetLocoAtParkingOnDays" xml:space="preserve">
     <value>{1}: Hämta {0} från uppställning.</value>
   </data>
-  <data name="UseLocoAtDays" xml:space="preserve">
-    <value>{1}: Använd {0}.</value>
-  </data>
   <data name="UseLoco" xml:space="preserve">
     <value>Använd {0}.</value>
+  </data>
+  <data name="UseLocoAtDays" xml:space="preserve">
+    <value>{1}: Använd {0}.</value>
   </data>
   <data name="PutLocoAtParkingAtDays" xml:space="preserve">
     <value>{1}: Kör {0} till uppställningsplats.</value>
@@ -391,7 +391,7 @@
     <value>Godsomlopp</value>
   </data>
   <data name="Load" xml:space="preserve">
-    <value>Lasta {0}.</value>
+    <value>Lasta {0}</value>
   </data>
   <data name="Unload" xml:space="preserve">
     <value>Lasta av {0}.</value>

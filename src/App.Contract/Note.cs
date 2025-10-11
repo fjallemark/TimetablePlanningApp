@@ -144,14 +144,14 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
     }
     protected IEnumerable<Note> ToNotes(Func<Trainset, bool> criteria, byte dutyDays = OperationDays.AllDays, int displayOrder = 1000, bool compact = true)
     {
-        return Merge(Trainsets.Where(t => criteria(t) && IsAnyDay(t.OperationDaysFlag, dutyDays)))
+        return Merge(Trainsets.Where(trainset => criteria(trainset) && IsAnyDay(trainset.OperationDaysFlag, dutyDays)))
             .OrderBy(t => t.PositionInTrain).ThenBy(t => t.Number)
             .GroupBy(t => Days(t.OperationDaysFlag, dutyDays))
             .OrderByDescending(t => t.Key)
-            .Select(t => new Note
+            .Select(trainsetGroup => new Note
             {
                 DisplayOrder = displayOrder,
-                Text = Text(t.Key, dutyDays, t)
+                Text = Text(trainsetGroup.Key, dutyDays, trainsetGroup)
             });
     }
     protected static IEnumerable<Trainset> Merge(IEnumerable<Trainset> trainsets)
@@ -176,17 +176,28 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
             });
     }
     protected string Text(byte days, byte dutyDays, IEnumerable<Trainset> trainsets) =>
-         IsAllDays(days, dutyDays) ? Text(trainsets) : $"""<span style="font-weight: bold; background-color: white;">{days.OperationDays()}</span>: {Text(trainsets)}""";
+         IsAllDays(days, dutyDays) ? SpecificText(trainsets) :
+        $"""
+            <span style="font-weight: bold; background-color: white;">{days.OperationDays()}</span>: {SpecificText(trainsets)}
+        """;
 
-    protected abstract string Text(IEnumerable<Trainset> t);
+    protected abstract string SpecificText(IEnumerable<Trainset> trainsets);
 
     protected static string TrainsetTexts(IEnumerable<Trainset> trainsets) =>
         string.Join(" ", trainsets.Select(ts => TrainsetFormat(ts)));
 
     // TODO: Add final destination and note about exchange trainset under way.
     private static string TrainsetFormat(Trainset ts) =>
-        ts.Operator.HasValue() ? $"""|<span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{ts.Class}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i>|  """ :
-        $"""|<span style="font-weight: bold; background-color: white">{ts.Class}&nbsp;{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i>| """;
+        ts.Operator.HasValue() ? $"""
+        <span style="white-space: nowrap;">
+            <span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{ts.Class}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i> 
+        </span>
+        """ :
+        $"""
+        <span style="white-space: nowrap;">
+            <span style="font-weight: bold; background-color: white">{ts.Class}&nbsp;{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i> 
+        </span>
+        """;
 
     private static string TrainsetIdentity(Trainset t) =>
         t.MaxNumberOfWaggons == 1 && t.WagonNumbers.HasValue() ? t.WagonNumbers :
@@ -214,7 +225,7 @@ public class TrainsetsDepartureCallNote : TrainsetsCallNote
     public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) =>
         ToNotes(t => t.HasCoupleNote, dutyDays, DisplayOrder);
 
-    protected override string Text(IEnumerable<Trainset> trainsets) =>
+    protected override string SpecificText(IEnumerable<Trainset> trainsets) =>
         string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
 
     private string Action => IsCargoOnly ? Notes.Load : Notes.ConnectTrainset;
@@ -234,9 +245,10 @@ public class TrainsetsArrivalCallNote : TrainsetsCallNote
         IsDriverNote = Trainsets.Any(t => t.HasUncoupleNote);
     }
 
-    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) => ToNotes(t => t.HasUncoupleNote, dutyDays, DisplayOrder);
+    public override IEnumerable<Note> ToNotes(byte dutyDays = OperationDays.AllDays) =>
+        ToNotes(t => t.HasUncoupleNote, dutyDays, DisplayOrder);
 
-    protected override string Text(IEnumerable<Trainset> trainsets) =>
+    protected override string SpecificText(IEnumerable<Trainset> trainsets) =>
         string.Format(CultureInfo.CurrentCulture, Action, TrainsetTexts(trainsets));
     private string Action => IsCargoOnly ? Notes.Unload : Notes.DisconnectTrainset;
 
@@ -486,9 +498,8 @@ public class BlockDestinationsCallNote : TrainCallNote
     private string[] TransferOrigins => [.. BlockDestinations.Where(bd => bd.TransferOriginName.HasValue()).Select(bd => bd.TransferOriginName ?? string.Empty).Distinct()];
 
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
-        TransferOrigins.Length != 0 ? Note.SingleNote(DisplayOrder, $"{string.Format(Notes.BringsWaggonsFromOriginsToDestinations, BlockDestinations.DestinationText(true), string.Join(", ", TransferOrigins))} {Notes.BringsNoWagonsFromThisStation}"):
+        TransferOrigins.Length != 0 ? Note.SingleNote(DisplayOrder, $"{string.Format(Notes.BringsWaggonsFromOriginsToDestinations, BlockDestinations.DestinationText(true), string.Join(", ", TransferOrigins))} {Notes.BringsNoWagonsFromThisStation}") :
         Note.SingleNote(DisplayOrder, string.Format(CultureInfo.CurrentCulture, Notes.BringsWaggonsToDestinations, BlockDestinations.DestinationText(true)));
-
 }
 
 public class BlockArrivalCallNote : TrainCallNote
@@ -590,7 +601,7 @@ public class BlockDestinationDetailed : BlockDestination
     internal string FinalDestinationStationName => IsRegion ? StationName : string.IsNullOrWhiteSpace(TransferDestinationName) ? StationName : TransferDestinationName;
     internal string DestinationText => UseDestinationCountry ? string.Format(Notes.DestinationInCountry, FinalDestinationStationName, DestinationCountryName) : FinalDestinationStationName;
     internal string DestinationColourized =>
-        ForeColor == "#FFFFFF" && BackColor == "#777777" ? $"""<span style="font-weight: bold; padding: 0px 2px;">{DestinationText}</span>""" :
+         //ForeColor == "#FFFFFF" && BackColor == "#777777" ? $"""<span style="font-weight: bold; padding: 0px 2px;">{DestinationText}</span>""" :
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {ForeColor}; background-color: {BackColor}">{DestinationText}</span>""";
 
 
@@ -607,7 +618,7 @@ public static class BlockDestinationsExtensions
          $"""<span style="font-weight: bold; padding: 0px 2px; color: {destination.ForeColor}; background-color: {destination.BackColor}">{destination.StationName}</span>""";
 
     public static string DestinationText(this IEnumerable<BlockDestinationDetailed> me, bool useBrackets = false) =>
-        string.Join(", ", me.GroupText(useBrackets));
+        string.Join(" ", me.GroupText(useBrackets));
 
     public static IEnumerable<string> GroupText(this IEnumerable<BlockDestinationDetailed> me, bool useBrackets = false)
     {
@@ -620,20 +631,20 @@ public static class BlockDestinationsExtensions
             var text = new StringBuilder(200);
             var destinations = destinationGroup.OrderBy(dg => !dg.IsRegion).ThenBy(dg => dg.MaxNumberOfWagons).ToArray();
             var destinationTextsInGroup = destinations.Select(d => d.ToString()).Distinct();
-            if (useBrackets) text.Append('|');
             text.Append(string.Join(" ", destinationTextsInGroup));
-            //if (destinationGroup.First().AndLocalDestinations)
-            //{
-            //    text.Append(' ');
-            //    text.Append(Notes.LocalDestinations);
-            //}
-            if (useBrackets) text.Append('|');
             var maxNumberOfWagons = destinations.Sum(d => d.MaxNumberOfWagons);
+            text.Append("""<span style="color: white; background-color: black; padding: 0px 5px 0px 5px">""");
             if (maxNumberOfWagons > 0)
             {
                 text.Append('×');
                 text.Append(maxNumberOfWagons);
             }
+            else
+            {
+                text.Append('↔');
+
+            }
+            text.Append("</span>");
             result.Add(text.ToString());
         }
         return result;

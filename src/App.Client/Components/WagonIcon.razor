@@ -1,0 +1,11 @@
+﻿<span>
+    @for (var i = 0; i < Count; i++)
+    {
+        <img src="images/@Image" height="10px"/>
+    }
+</span>
+
+@code {
+    [Parameter] public string? Image { get; set; }
+    [Parameter] public int Count { get; set; }
+}

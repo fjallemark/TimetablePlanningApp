@@ -271,7 +271,7 @@
     <value>Lørdag</value>
   </data>
   <data name="ConnectTrainset" xml:space="preserve">
-    <value>Koble til {0}.</value>
+    <value>Koble til {0}</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
     <value>Koble fra {0}.</value>
@@ -391,7 +391,7 @@
     <value>Godsomløp</value>
   </data>
   <data name="Load" xml:space="preserve">
-    <value>Last {0}.</value>
+    <value>Last {0}</value>
   </data>
   <data name="Unload" xml:space="preserve">
     <value>Loss  {0}.</value>

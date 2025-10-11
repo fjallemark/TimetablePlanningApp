@@ -22,7 +22,6 @@ p {
 
 table {
     border-collapse: collapse;
-
 }
 
 .update {
@@ -39,9 +38,7 @@ table {
 
 
 @media print {
-    @page {
-        size: landscape;
-    }
+
 
     .no-print, .no-print * {
         display: none !important;
@@ -56,7 +53,10 @@ table {
         clear: both;
         page-break-after: always;
     }
-    
+
+    @page {
+        size: landscape;
+    }
 }
 
 .stationtrainorder {
