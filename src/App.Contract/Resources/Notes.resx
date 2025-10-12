@@ -274,7 +274,7 @@
     <value>Connect {0}</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
-    <value>Disconnect {0}.</value>
+    <value>Disconnect {0}</value>
   </data>
   <data name="ContinuesAsTrainToDestination" xml:space="preserve">
     <value>Continues as train {0} to {1}.</value>

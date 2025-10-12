@@ -128,7 +128,7 @@ public static class PaginationExtensions
     #region Station duty booklet
 
     public static double Height(this StationCallWithAction call) =>
-        1.1 + call.Notes.Count() * 1.1 + call.Notes.Where(n => n.TextLength > 80).Count() * 1.0;
+        3 + call.Notes.Count() * 1.1 + call.Notes.Sum(n => n.TextLength /80 -1 * 1.1);
 
     public static IEnumerable<StationDutyPage> GetAllStationDutyPagesInBookletOrder(this IEnumerable<StationDuty> me, IEnumerable<Instruction> instructions) =>
         [.. me.SelectMany(d => d.GetStationDutyPagesInBookletOrder(instructions))];

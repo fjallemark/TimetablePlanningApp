@@ -18,11 +18,10 @@ public class PrintedReportsService(IPrintedReportsStore store)
         var booklet = await Store.GetDriverDutyBookletAsync(layoutId).ConfigureAwait(false);
         if (booklet is null) return null;
         var notes = await Store.GetTrainCallNotesAsync(layoutId).ConfigureAwait(false);
-        var readNotesCount = notes.Count();
         var duties = await Store.GetDriverDutiesAsync(layoutId).ConfigureAwait(false);
         duties.MergeTrainPartsWithSameTrainNumber();
         var addedNotesCount = duties.AddTrainCallNotes(notes);
-        booklet.Duties = duties.OrderBy(d => d.DisplayOrder).ToArray();
+        booklet.Duties = [.. duties.OrderBy(d => d.DisplayOrder)];
         return booklet;
     }
 
@@ -40,14 +39,14 @@ public class PrintedReportsService(IPrintedReportsStore store)
     public Task<IEnumerable<ShuntingLoco>> GetShuntingLocosAsync(int layoutId) =>
          Store.GetShuntingLocosAsync(layoutId);
 
-    public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
-        await GetStationDutyBookletAsync(layoutId, false);
+    public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, string? countryCode) =>
+        await GetStationDutyBookletAsync(layoutId, countryCode, false);
 
-    public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, bool includeAllTrains = false)
+    public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, string? countryCode, bool includeAllTrains = false)
     {
         var booklet = await Store.GetStationDutyBookletAsync(layoutId).ConfigureAwait(false);
         if (booklet is null) return null;
-        var data = await Store.GetStationDutiesDataAsync(layoutId).ConfigureAwait(false);
+        var data = await Store.GetStationDutiesDataAsync(layoutId, countryCode).ConfigureAwait(false);
         var trains = await Store.GetTrainsAsync(layoutId).ConfigureAwait(false);
         var notes = await Store.GetTrainCallNotesAsync(layoutId, forStations: true).ConfigureAwait(false);
         var duties = data.AsStationDuties(trains, notes, includeAllTrains);

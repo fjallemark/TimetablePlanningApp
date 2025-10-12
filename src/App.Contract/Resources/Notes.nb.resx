@@ -274,7 +274,7 @@
     <value>Koble til {0}</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
-    <value>Koble fra {0}.</value>
+    <value>Koble fra {0}</value>
   </data>
   <data name="ContinuesAsTrainToDestination" xml:space="preserve">
     <value>Fortsettes som tog {0} til {1}.</value>

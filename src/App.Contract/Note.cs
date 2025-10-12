@@ -121,7 +121,7 @@ public sealed class PassengerInterchangeCallNote : TrainCallNote
         DisplayOrder = -12000;
         IsForArrival = true;
         IsDriverNote = true;
-        IsStationNote = true;
+        IsStationNote = false;
     }
     public override IEnumerable<Note> ToNotes(byte onlyDays = OperationDays.AllDays) =>
     Note.SingleNote(DisplayOrder, Notes.LeaveOffInterchangingPassengers, onlyDays);

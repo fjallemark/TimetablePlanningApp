@@ -7,7 +7,7 @@ namespace Tellurian.Trains.Planning.App.Client.Extensions;
 public static class GraphicScheduleExtensions
 {
     private const int TrainCategoryHeight = 30;
-    private const int TrainOperatorSignatureHeight = 50;
+    private const int TrainOperatorSignatureHeight = 60;
     private const int YCanvasBottomMargin = 20;
     private const int XCanvasRightMargin = 30;
     private const int TrackNumberXOffset = -16;
@@ -203,7 +203,7 @@ public record class GraphicScheduleOptions
 {
     public int Yoffset { get; set; } = 32;
     public int TrackHeight { get; set; } = 12;
-    public int MinDistanceBeweenStations { get; set; } = 52;
+    public int MinDistanceBeweenStations { get; set; } = 55;
     public int FirstHourOffset { get; set; } = 60;
     public int HourWidth { get; set; } = 240;
     public int DistanceFactor { get; set; } = 8;

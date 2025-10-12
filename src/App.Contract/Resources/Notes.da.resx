@@ -274,7 +274,7 @@
     <value>Tilkoble {0}</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
-    <value>Frakoble {0}.</value>
+    <value>Frakoble {0}</value>
   </data>
   <data name="ContinuesAsTrainToDestination" xml:space="preserve">
     <value>Fortsættes som tog {0} til {1}.</value>

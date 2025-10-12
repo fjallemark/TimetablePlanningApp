@@ -34,7 +34,7 @@ public class DataExport
              }); ;
         var store = new AccessPrintedReportsStore(options);
         var target = new PrintedReportsService(store);
-        var booklet = await target.GetStationDutyBookletAsync(LayoutId, includeAllTrains: true);
+        var booklet = await target.GetStationDutyBookletAsync(LayoutId, null, includeAllTrains: true);
 
         using var stream = new FileStream(OutputPath + "Station trains Cda.csv", FileMode.Create);
         using var output =

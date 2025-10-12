@@ -82,11 +82,11 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     public Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId) =>
         ReadDutyBooklet<StationDutyBooklet>(layoutId);
 
-    public Task<IEnumerable<StationDutyData>> GetStationDutiesDataAsync(int layoutId)
+    public Task<IEnumerable<StationDutyData>> GetStationDutiesDataAsync(int layoutId, string? countryCode = null)
     {
         var result = new List<StationDutyData>(30);
         using var connection = CreateConnection;
-        var sql = $"SELECT * FROM StationDutyBookletReport WHERE LayoutId = {layoutId}";
+        var sql = SQL(layoutId, countryCode);
         var reader = ExecuteReader(connection, sql);
         while (reader.Read())
         {
@@ -95,6 +95,11 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             result.Add(data);
         }
         return Task.FromResult(result.AsEnumerable());
+
+        static string SQL(int layoutId, string? countryCode) =>
+            countryCode.HasValue() ? 
+            $"SELECT * FROM StationDutyBookletReport WHERE LayoutId = {layoutId} AND Code='{countryCode}'" :
+            $"SELECT * FROM StationDutyBookletReport WHERE LayoutId = {layoutId}";
     }
 
     public Task<DriverDutyBooklet?> GetDriverDutyBookletAsync(int layoutId) =>

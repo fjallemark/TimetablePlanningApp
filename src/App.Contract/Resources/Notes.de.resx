@@ -274,7 +274,7 @@
     <value>An den Zug anhängen {0}</value>
   </data>
   <data name="DisconnectTrainset" xml:space="preserve">
-    <value>Abhängen{0}.</value>
+    <value>Abhängen{0}</value>
   </data>
   <data name="ContinuesAsTrainToDestination" xml:space="preserve">
     <value>Fährt als Zug {0} nach {1} weiter.</value>

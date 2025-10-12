@@ -58,6 +58,7 @@ else
     private int pageNumber;
     private bool IsLoaded;
     string? SelectedStationSignature { get; set; }
+    string? SelectedCountryCode { get; set; }
 
     override protected async Task OnInitializedAsync()
     {
@@ -66,7 +67,7 @@ else
         var layoutResult = await DataService.GetLayoutAsync();
         if (layoutResult.statusCode.IsSuccess())
         {
-            var result = await DataService.GetStationDutiesAsync(layoutResult.item!.Id);
+            var result = await DataService.GetStationDutiesAsync(layoutResult.item!.Id, SelectedCountryCode);
             if (result.statusCode.IsSuccess() && result.item != null)
             {
                 var duties = FilterDuties(result.item.Duties);
@@ -87,6 +88,7 @@ else
     {
         var q = Navigator.QueryString();
         SelectedStationSignature = q["station"];
+        SelectedCountryCode = q["country"];
     }
 
     private string PagebreakCss()

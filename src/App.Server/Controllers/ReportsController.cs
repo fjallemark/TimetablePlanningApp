@@ -26,7 +26,12 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     public async Task<IActionResult> GetShuntingLocos(int id) => await this.GetScheduleItems(id, Service.GetShuntingLocosAsync).ConfigureAwait(false);
 
     [HttpGet("stationduties")]
-    public async Task<IActionResult> GetStationDutyBooklet(int id) => await this.GetScheduleItem(id, Service.GetStationDutyBookletAsync).ConfigureAwait(false);
+    public async Task<IActionResult> GetStationDutyBooklet(int id, string? countryCode)
+    {
+       var result = await Service.GetStationDutyBookletAsync(id, countryCode).ConfigureAwait(false);
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
 
     [HttpGet("stationsinstructions")]
     public async Task<IActionResult> GetStationInstructions(int id) => await this.GetScheduleItem(id, Service.GetStationInstructionsAsync).ConfigureAwait(false);

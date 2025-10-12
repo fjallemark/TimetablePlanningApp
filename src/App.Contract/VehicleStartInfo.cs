@@ -49,7 +49,7 @@ public static class VehicleStartInfoExtensions
 
     public static string BookingId(this VehicleStartInfo info) =>
         info.IsOther() ? $"X{info.Id}" :
-        $"{info.Type.Substring(0, 1)}{info.Id}";
+        $"{info.Type[..1]}{info.Id}";
     public static string FirstOperationDay(this VehicleStartInfo info) =>
         info.DayFlags.FirstOperationDay(info.LayoutStartWeekday == 7).FullName;
     public static string DisplayedTime(this VehicleStartInfo info) =>

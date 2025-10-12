@@ -349,7 +349,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disconnect {0}..
+        ///   Looks up a localized string similar to Disconnect {0}.
         /// </summary>
         public static string DisconnectTrainset {
             get {

@@ -25,6 +25,7 @@ else
 @*                             <th align="left">@Localizer["Pos"]</th>
  *@                            <th align="left">@Localizer["Days"]</th>
                             <th align="center">@Localizer["Trainset"]</th>
+                            <th align="center">@Localizer["Class"]</th>
                             <th align="center">@Localizer["NumberOfWagons"]</th>
                             <th align="left">@Localizer["Notes"]</th>
                             <th class="borderleft" align="left">@Localizer["From"]</th>
@@ -41,6 +42,7 @@ else
 @*                                 <td>@trainset.OrderInTrain</td>
  *@                                <td>@trainset.OperationDaysFlags.OperationDays().ShortName</td>
                                 <td align="center">@trainset.Number</td>
+                                <td align="center">@trainset.Class</td>
                                 <td align="center"><WagonIcon Count="@trainset.MaxNumberOfUnits" Image="PassengerCar.png"/></td>
                                 <td>@trainset.Note</td>
                                 <td class="borderleft">@trainset.DepartureStationName</td>
