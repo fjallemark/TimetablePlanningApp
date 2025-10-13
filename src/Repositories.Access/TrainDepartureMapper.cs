@@ -12,6 +12,7 @@ internal static class TrainDepartureMapper
         new()
         {
             DepartureTime = new CallTime { IsStop = true, Time = me.GetTime("DepartureTime") },
+            CountryCode = me.GetString("CountryCode"),
             Loco = new TrainLoco
             {
                 Class = me.GetString("LocoClass"),

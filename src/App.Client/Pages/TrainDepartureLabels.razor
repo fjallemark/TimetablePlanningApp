@@ -25,6 +25,7 @@ else
 @code {
     private IEnumerable<TrainDeparture>? Data;
     private string? SelectedOperatorNames;
+    private string? SelectedCountryCodes;
 
     protected async override Task OnInitializedAsync()
     {
@@ -35,14 +36,18 @@ else
             var result = await DataService.GetTrainDeparturesAsync(layoutResult.item!.Id);
             if (result.statusCode.IsSuccess())
             {
-                Data = SelectedOperatorNames.HasValue() ? result.items.Where(i => i.Loco.OperatorName.EqualsAny(SelectedOperatorNames)): result.items;
+                Data = Filtered(result.items);
             }            
         }
     }
+
+	IEnumerable<TrainDeparture> Filtered(IEnumerable<TrainDeparture> items) => 
+        items.Where(i => (SelectedOperatorNames.IsEmpty() || i.Loco.OperatorName.EqualsAny(SelectedOperatorNames)) && (SelectedCountryCodes.IsEmpty() || i.CountryCode.EqualsAny(SelectedCountryCodes)));
 
     void SetQueryStringParameters()
     {
         var q = Navigator.QueryString();
         SelectedOperatorNames = q["operator"];
+		SelectedCountryCodes = q["country"];
     }
 }

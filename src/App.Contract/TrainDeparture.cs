@@ -7,4 +7,5 @@ public class TrainDeparture
     public TrainLoco Loco { get; set; } = new TrainLoco();
     public TrainInfo Train { get; set; } = new TrainInfo();
     public CallTime DepartureTime { get; set; } = new CallTime();
+    public string CountryCode { get; set; } = string.Empty;
 }
