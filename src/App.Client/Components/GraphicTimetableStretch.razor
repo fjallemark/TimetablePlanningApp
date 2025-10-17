@@ -41,7 +41,7 @@ else
                           d="M @Data.XStartTime(trainSection,BreakPart),@Data.YStartTime(trainSection) L @Data.XEndTime(trainSection, BreakPart), @Data.YEndTime(trainSection) " />
                     <text>
                         <text class="graphictimetable train" style="font-size: @trainSection.TrainLabel(OnlyDaysFlag).TrainNumberSize()pt" text-anchor="middle">
-                            <textPath href="#@Data.PathId(trainSection)" startOffset="40%">
+                            <textPath href="#@Data.PathId(trainSection)" startOffset="50%">
                                 @trainSection.TrainLabel(OnlyDaysFlag, Data.ShowTrainOperatorSignature, Data.ShowTrainCategory)
                             </textPath>
                         </text>

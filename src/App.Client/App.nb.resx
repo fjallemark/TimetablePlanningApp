@@ -241,7 +241,7 @@
     <value>Tog startetiketter</value>
   </data>
   <data name="GraphicTimetables" xml:space="preserve">
-    <value>Grafiske tidtabeller</value>
+    <value>Grafiske kjøreplaner</value>
   </data>
   <data name="BlockDestinations" xml:space="preserve">
     <value>Opprangering godstog</value>

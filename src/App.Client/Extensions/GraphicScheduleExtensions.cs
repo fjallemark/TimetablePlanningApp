@@ -194,7 +194,7 @@ public static class GraphicScheduleExtensions
     public static int TrainNumberSize(this string? value, int minSize = 9, int maxSize = 16) =>
         string.IsNullOrWhiteSpace(value) ? minSize :
         value.Length <= 4 ? maxSize :
-        Math.Max(maxSize + 4 - value.Length, minSize);
+        Math.Max(maxSize + 5 - value.Length, minSize);
 
     #endregion
 }
@@ -203,7 +203,7 @@ public record class GraphicScheduleOptions
 {
     public int Yoffset { get; set; } = 32;
     public int TrackHeight { get; set; } = 12;
-    public int MinDistanceBeweenStations { get; set; } = 55;
+    public int MinDistanceBeweenStations { get; set; } = 60;
     public int FirstHourOffset { get; set; } = 60;
     public int HourWidth { get; set; } = 240;
     public int DistanceFactor { get; set; } = 8;
