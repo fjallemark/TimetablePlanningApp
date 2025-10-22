@@ -2,8 +2,7 @@
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 
-[JsonSerializable(typeof(TrainComposition))]
-public class TrainComposition
+public class TrainComposition 
 {
     public required string OperatorName { get; init; }
     public required string  TrainCategoryResourceCode { get; init; }
@@ -15,7 +14,6 @@ public class TrainComposition
     public List<TrainsetInTrainComposition> Trainsets = [];
 }
 
-[JsonSerializable(typeof(List<TrainsetInTrainComposition>))]
 public class TrainsetInTrainComposition
 {
     public required string OperatorName { get; set; }
@@ -36,4 +34,36 @@ public static class TrainCompositionExtensions
 {
     public static string StartStationName(this TrainComposition train) =>
          train.Trainsets.Count > 0 ? train.Trainsets.OrderBy(ts => ts.DepartureTime).First().DepartureStationName : string.Empty;
+
+    public static TrainComposition MergeTrainsets(this TrainComposition composition)
+    {
+        var trainsets = new List<TrainsetInTrainComposition>(50);
+        var groups = composition.Trainsets.GroupBy(ts => $"{ts.Number}{ts.Class}{ts.MaxNumberOfUnits}{ts.Note}");
+        foreach (var group in groups) {
+            TrainsetInTrainComposition mergedTrainset = new()
+            {
+                ArrivalStationName = group.First().ArrivalStationName,
+                ArrivalTime = group.First().ArrivalTime,
+                DepartureStationName = group.First().DepartureStationName,
+                DepartureTime = group.First().DepartureTime,
+                Class = group.First().Class,
+                OperatorName = group.First().OperatorName,
+                FinalStationName = group.First().FinalStationName,
+                MaxNumberOfUnits = group.First().MaxNumberOfUnits,
+                Note= group.First().Note,
+                OrderInTrain = group.First().OrderInTrain,
+                Number=group.First().Number,
+                OperationDaysFlags = (byte)group.Sum(g => g.OperationDaysFlags),
+            };
+            trainsets.Add(mergedTrainset);
+        }
+        TrainComposition merged = new() { 
+            OperatorName=composition.OperatorName, 
+            TrainCategoryResourceCode=composition.TrainCategoryResourceCode, 
+            Prefix=composition.Prefix, 
+            TrainNumber=composition.TrainNumber,
+            Trainsets = trainsets,
+        };
+        return merged;
+    }
 }

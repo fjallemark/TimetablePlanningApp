@@ -28,7 +28,7 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     [HttpGet("stationduties")]
     public async Task<IActionResult> GetStationDutyBooklet(int id, string? countryCode)
     {
-       var result = await Service.GetStationDutyBookletAsync(id, countryCode).ConfigureAwait(false);
+        var result = await Service.GetStationDutyBookletAsync(id, countryCode).ConfigureAwait(false);
         if (result is null) return NotFound();
         return Ok(result);
     }
@@ -37,7 +37,12 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     public async Task<IActionResult> GetStationInstructions(int id) => await this.GetScheduleItem(id, Service.GetStationInstructionsAsync).ConfigureAwait(false);
 
     [HttpGet("stationstrainorders")]
-    public async Task<IActionResult> GetStationsTrainOrder(int id) => await this.GetScheduleItem(id, Service.GetStationsTrainOrder).ConfigureAwait(false);
+    public async Task<IActionResult> GetStationsTrainOrder(int id, string? countryCode) 
+    {
+        var result = await Service.GetStationsTrainOrder(id, countryCode).ConfigureAwait(false);
+        if (result is null) return NotFound();
+        return Ok(result);
+    }
 
     [HttpGet("timetablestretches")]
 

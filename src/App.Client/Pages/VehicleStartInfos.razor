@@ -65,6 +65,7 @@ else
                             {
                                 <th align="left">@Localizer["Station"]</th>
                                 <th align="center">@Localizer["FirstDay"]</th>
+                                <th align="center">@Localizer["LastDay"]</th>
                                 <th align="center">@Localizer["Track"]</th>
                                 <th align="center">@Localizer["Time"]</th>
                             }
@@ -108,7 +109,7 @@ else
                                 else if (IsPerStation)
                                 {
                                     <td>@info.StationName</td>
-                                    <td align="center">@info.DayFlags.OperationDays(info.LayoutStartWeekday == 7).ShortName</td>
+                                    <td align="center">@info.DayFlags.OperationDays().ShortName</td>
                                     <td align="center">@info.TrackLabel()</td>
                                     <td align="center">@info.DisplayedTime()</td>
 
@@ -117,6 +118,7 @@ else
                                 {
                                     <td>@info.StationName</td>
                                     <td align="center">@info.FirstOperationDay()</td>
+                                    <td align="center">@info.LastOperationDay()</td>
                                     <td align="center">@info.TrackLabel()</td>
                                     <td align="center">@info.DisplayedTime()</td>
                                 }
@@ -161,6 +163,8 @@ else
     IEnumerable<IGrouping<string?, VehicleStartInfo>>? StartInfos;
     bool HasBookings;
     TypeOfList ListVariant;
+    string? SelectedOwnerName;
+    string? SelectedStationName;
 
     private enum TypeOfList
     {
@@ -175,14 +179,23 @@ else
         var layoutResult = await DataService.GetLayoutAsync();
         if (layoutResult.statusCode.IsSuccess())
         {
+            SetQueryParameters();
             var result = await DataService.GetVehicleStartInfosAsync(layoutResult.item!.Id);
             if (result.statusCode.IsSuccess())
             {
                 ListVariant = GetListVariant;
                 HasBookings = result.items.Any(i => i.OwnerName.HasValue());
-                StartInfos = Grouped(result.items);
+                StartInfos = Grouped(result.items).ToList();
             }
         }
+    }
+
+    void SetQueryParameters()
+    {
+        var q = Navigator.QueryString();
+
+        SelectedOwnerName = q["owner"];
+        SelectedStationName = q["station"];
     }
 
     private TypeOfList GetListVariant =>
@@ -196,16 +209,16 @@ else
     bool IsAddresses => ListVariant == TypeOfList.Addresses;
     bool IsPerStation => ListVariant == TypeOfList.PerStation;
 
-    bool UriEndsWith(string text) => Navigator.Uri.EndsWith(text, StringComparison.OrdinalIgnoreCase);
+    bool UriEndsWith(string text) => Navigator.Uri.Contains(text, StringComparison.OrdinalIgnoreCase);
 
     IEnumerable<IGrouping<string?, VehicleStartInfo>> Grouped(IEnumerable<VehicleStartInfo> items) => ListVariant switch
     {
         TypeOfList.PerOwner => items
-            .Where(i => i.IsFirstDay && i.MaxNumberOfVehicles > 0)
+            .Where(i => i.OwnerName.AnyPartOf(SelectedOwnerName) && i.IsFirstDay && i.MaxNumberOfVehicles > 0)
             .OrderBy(i => i.OwnerName)
             .GroupBy(i => i.OwnerName),
         TypeOfList.PerStation => items
-            .Where(i => i.ReplaceOrder < 9)
+            .Where(i => i.StationName.AnyOf(SelectedStationName) && i.ReplaceOrder < 9)
             .GroupBy(i => i.StationName),
         TypeOfList.Addresses => items
             .Where(i => i.IsVehicleWithDccAddress() && i.IsFirstDay && i.MaxNumberOfVehicles > 0)
@@ -219,9 +232,9 @@ else
     IEnumerable<VehicleStartInfo> Sorted(IGrouping<string?, VehicleStartInfo> data) => ListVariant switch
     {
         TypeOfList.PerOwner => data
-             .OrderBy(g => g.StationName)
+             .OrderBy(g => g.DayFlags.FirstOperationDay().Flags)
+             .ThenBy(g => g.StationName)
              .ThenBy(g => g.TrackNumber)
-             .ThenBy(g => g.DayFlags.FirstOperationDay().Flags)
              .ThenBy(i => i.TurnusNumber)
              .ThenBy(i => i.ReplaceOrder),
         TypeOfList.PerStation => data

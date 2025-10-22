@@ -19,6 +19,7 @@ internal static class LayoutMapper
             TrainCategoryYear = me.GetInt("TrainCategoryYear"),
             StartWeekdayId = me.GetInt("StartWeekday"),
             PrintShuntingLocos = me.GetBool("PrintShuntingLocos"),
+            FirstOperationDayFlag = me.GetByte("FirstDayFlag"),
             FontFamily = me.GetString("FontFamily")
                 .OrElse("sans-serif")
         };

@@ -13,4 +13,5 @@ public class Layout
     public int TrainCategoryCountryId { get; set; }
     public int TrainCategoryYear { get; set; }
     public bool PrintShuntingLocos { get; set; }
+    public byte FirstOperationDayFlag { get; set; }
 }

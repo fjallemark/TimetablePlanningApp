@@ -1,16 +1,16 @@
 ﻿
 .schedule {
-    font-weight: 500;
+    font-weight: normal;
 }
 
     .schedule.header {
-        line-height: 17pt;
+        line-height: 14pt;
         font-size: 13pt;
     }
 
     .schedule.item {
-        line-height: 11pt;
-        font-size: 10pt;
+        line-height: 10pt;
+        font-size: 9pt;
     }
 
     .schedule.alert {
@@ -29,6 +29,6 @@ svg {
     stroke-width: 5;
     z-index: -2;
     position: absolute;
-    height: 90mm;
+    height: 92mm;
     width: 50mm;
 }

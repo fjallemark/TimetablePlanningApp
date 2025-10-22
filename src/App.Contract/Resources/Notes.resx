@@ -391,7 +391,7 @@
     <value>Cargo turnus</value>
   </data>
   <data name="Load" xml:space="preserve">
-    <value>Load {0}.</value>
+    <value>Load {0}</value>
   </data>
   <data name="Unload" xml:space="preserve">
     <value>Unload {0}.</value>

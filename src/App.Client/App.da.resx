@@ -438,4 +438,7 @@
   <data name="OtherFinalDestination" xml:space="preserve">
     <value>Anden endelig destination</value>
   </data>
+  <data name="LastDay" xml:space="preserve">
+    <value>Sidste dag</value>
+  </data>
 </root>

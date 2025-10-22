@@ -438,4 +438,7 @@
   <data name="OtherFinalDestination" xml:space="preserve">
     <value>Annan slutdestination</value>
   </data>
+  <data name="LastDay" xml:space="preserve">
+    <value>Sista dag</value>
+  </data>
 </root>

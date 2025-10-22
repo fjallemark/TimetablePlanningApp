@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
@@ -92,20 +91,18 @@ public static class OperationDaysExtensions
 
     public static OperationDays FirstOperationDay(this byte flags, bool sundayIsFirst = false)
     {
-
         var days = GetDays(flags);
-
         if (days.Length > 0)
         {
-            var dailyIndex = sundayIsFirst ? 7 : 1;
+            var firstDayIndex = sundayIsFirst ? 7 : 1;
             var otherDayIndex = sundayIsFirst && days[days.Length - 1].Number == 7 ? days.Length - 1 : 0;
             if (days[0].Number == 0)
             {
                 return new OperationDays
                 {
-                    Flags = Days[dailyIndex].Flag,
-                    FullName = Days[dailyIndex].FullName,
-                    ShortName = Days[dailyIndex].ShortName,
+                    Flags = Days[firstDayIndex].Flag,
+                    FullName = Days[firstDayIndex].FullName,
+                    ShortName = Days[firstDayIndex].ShortName,
                     IsDaily = false,
                     IsSingleDay = true,
                 };
@@ -130,8 +127,53 @@ public static class OperationDaysExtensions
             IsDaily = false,
             IsSingleDay = false,
         };
+    }
+
+    public static OperationDays LastOperationDay(this byte flags, bool sundayIsFirst = false)
+    {
+        var days = GetDays(flags);
+        if (days.Length > 0)
+        {
+            
+            int lastDayIndex = days.Max(d => d.Number);
+            if(lastDayIndex > 0)
+            {
+                return new OperationDays
+                {
+                    Flags = Days[lastDayIndex].Flag,
+                    FullName = Days[lastDayIndex].FullName,
+                    ShortName = Days[lastDayIndex].ShortName,
+                    IsDaily = false,
+                    IsSingleDay = true,
+                };
+
+            }
+            var flag = days[lastDayIndex].Flag;
+            lastDayIndex = sundayIsFirst ? 6 : 7;
+            if (flag == 0x7F)
+            {
+                return new OperationDays
+                {
+                    Flags = Days[lastDayIndex].Flag,
+                    FullName = Days[lastDayIndex].FullName,
+                    ShortName = Days[lastDayIndex].ShortName,
+                    IsDaily = false,
+                    IsSingleDay = true,
+                };
+            }
+        }
+        return new OperationDays
+        {
+            Flags = flags,
+            FullName = "",
+            ShortName = "",
+            IsDaily = false,
+            IsSingleDay = false,
+        };
 
     }
+
+
 
     public static OperationDays OperationDays(this byte flags, bool sundayIsFirst = false)
     {

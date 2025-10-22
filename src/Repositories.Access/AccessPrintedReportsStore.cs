@@ -34,7 +34,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     public Task<Layout?> GetLayout(int layoutId)
     {
         using var connection = CreateConnection;
-        var sql = layoutId == 0 ? "SELECT * FROM Layout WHERE IsCurrent <> 0" : $"SELECT * FROM Layout WHERE Id = {layoutId}";
+        var sql = layoutId == 0 ? "SELECT * FROM LayoutInfo WHERE IsCurrent <> 0" : $"SELECT * FROM LayoutInfo WHERE Id = {layoutId}";
         var reader = ExecuteReader(connection, sql);
         if (reader.Read())
         {
@@ -295,6 +295,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         {
             var info = reader.ToVehicleStartInfo();
             info.TrainPrefix = categories.Category(info.TrainCategoryId, TrainCountryId(info.OperatorName)).Prefix;
+            info.FirstLayoutDay = layout.FirstOperationDayFlag;
 
             result.Add(info);
         }
@@ -456,9 +457,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
 
     }
 
-    public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
+    public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId, string? countryCode = null)
     {
-        var sql = $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime, IsArrival";
+        var sql = SQL(layoutId, countryCode);
         var result = new List<StationTrainOrder>();
         var categories = await GetTrainCategoriesInternalAsync(layoutId);
         using var connection = CreateConnection;
@@ -480,6 +481,11 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         }
         if (item is not null) result.Add(item);
         return result.AsEnumerable();
+
+        static string SQL(int layoutId, string? countryCode) =>
+            countryCode.HasValue() ? 
+                $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} AND CountryCode = '{countryCode}' ORDER BY StationDisplayOrder, SortTime, IsArrival" :
+                $"SELECT * FROM StationTrainOrder WHERE LayoutId = {layoutId} ORDER BY StationDisplayOrder, SortTime, IsArrival";
     }
 
 

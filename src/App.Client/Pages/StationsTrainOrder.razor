@@ -2,6 +2,7 @@
 
 @layout PrintLayout
 @inject IStringLocalizer<App> Localizer
+@inject NavigationManager Navigator
 @inject PrintedReportsService DataService
 
 @if (Items is null)
@@ -92,6 +93,7 @@ else
 @code {
     private IEnumerable<StationTrainOrder>? Items;
     private Layout? Layout;
+    string? SelectedCountryCode;
 
     protected override async Task OnInitializedAsync()
     {
@@ -100,7 +102,8 @@ else
         if (layoutResult.statusCode.IsSuccess())
         {
             Layout = layoutResult.item;
-            var result = await DataService.GetStationsTrainOrderAsync(Layout!.Id);
+            SetQueryStringParameters();
+            var result = await DataService.GetStationsTrainOrderAsync(Layout!.Id, SelectedCountryCode);
                 Items = result.statusCode.IsSuccess() ? result.items : [];
         }
     }
@@ -108,5 +111,9 @@ else
     bool IsSundayFirstDay => Layout is null ? false : Layout.StartWeekdayId == 7;
     bool IsMondayFirstDay => !IsSundayFirstDay;
 
-
+    void SetQueryStringParameters()
+    {
+        var q = Navigator.QueryString();
+        SelectedCountryCode = q["country"];
+    }
 }

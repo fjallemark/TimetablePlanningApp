@@ -14,7 +14,7 @@ else if (Layout is not null)
     <RefreshButton OnClick="OnInitializedAsync" />
 
     var lastTurnusNumber = "";
-    @foreach (var itemsOnPage in Items.ItemsPerPage(14))
+    @foreach (var itemsOnPage in SortedItems(Items).ItemsPerPage(14))
     {
         <div class="pagebreak">
             <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading</span> <span style="display: block; font-size: 12pt">@Venue</span></div>
@@ -65,6 +65,12 @@ else if (Layout is not null)
         }
 
     }
+
+    IEnumerable<LocoSchedule> SortedItems(IEnumerable<LocoSchedule> items) =>
+        items
+            .OrderBy(i => i.OperatorName)
+            .ThenBy(i => i.TurnusNumber)
+            .ThenBy(i => i.OperationDaysFlags);
 
     void SetQueryStringParameters()
     {

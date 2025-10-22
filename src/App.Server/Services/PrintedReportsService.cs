@@ -89,9 +89,9 @@ public class PrintedReportsService(IPrintedReportsStore store)
         return await Store.UpdateTrainAsync(trainNumber, minutes);
     }
 
-    public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId)
+    public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId, string? countryCode)
     {
-        var items = await Store.GetStationsTrainOrder(layoutId);
+        var items = await Store.GetStationsTrainOrder(layoutId, countryCode );
         var notes = await Store.GetTrainCallNotesAsync(layoutId, forStations: true);
         return items.WithNotes(notes.ToArray());
     }
@@ -99,9 +99,11 @@ public class PrintedReportsService(IPrintedReportsStore store)
     public Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null) =>
         Store.GetTrainsAsync(layoutId, operatorSignature);
 
-    public Task<IEnumerable<TrainComposition>> GetTrainCompositionsAsync(int layoutId, string? operatorSignature = null) =>
-        Store.GetTrainCompositionsAsync(layoutId, operatorSignature);
-
+    public async Task<IEnumerable<TrainComposition>> GetTrainCompositionsAsync(int layoutId, string? operatorSignature = null)
+    {
+        var compositions= await Store.GetTrainCompositionsAsync(layoutId, operatorSignature);
+        return compositions.Select(c => c.MergeTrainsets());
+    }
 
     public Task<IEnumerable<TrainDeparture>> GetTrainDeparturesAsync(int layoutId) =>
         Store.GetTrainDeparturesAsync(layoutId);

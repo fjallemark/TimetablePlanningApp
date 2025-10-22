@@ -574,7 +574,7 @@ namespace Tellurian.Trains.Planning.App.Contracts.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load {0}..
+        ///   Looks up a localized string similar to Load {0}.
         /// </summary>
         public static string Load {
             get {

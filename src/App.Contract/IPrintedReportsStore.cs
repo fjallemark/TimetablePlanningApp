@@ -20,7 +20,7 @@ public interface IPrintedReportsStore
     Task<IEnumerable<TrainCallNote>> GetTrainCallNotesAsync(int layoutId, bool forStations = false);
     Task<Layout?> GetLayout(int layoutId);
     Task<IEnumerable<TrainCategory>> GetTrainCategoriesAsync(int layoutId);
-    Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId);
+    Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId, string? countryCode = null);
     IEnumerable<LayoutVehicle> GetLayoutVehicles(int layoutId);
     Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfosAsync(int layoutId);
     Task<IEnumerable<StationInstruction>> GetStationInstructionsAsync(int layoutId);

@@ -8,6 +8,7 @@ public class VehicleStartInfo
     public string? StationName { get; init; }
     public string? TrackNumber { get; init; }
     public bool IsFirstDay { get; init; }
+    public byte FirstLayoutDay { get; set; }
     public int LayoutStartWeekday { get; init; }
     public byte DayFlags { get; init; }
     public string? OperatorName { get; init; }
@@ -52,6 +53,9 @@ public static class VehicleStartInfoExtensions
         $"{info.Type[..1]}{info.Id}";
     public static string FirstOperationDay(this VehicleStartInfo info) =>
         info.DayFlags.FirstOperationDay(info.LayoutStartWeekday == 7).FullName;
+
+    public static string LastOperationDay(this VehicleStartInfo info) =>
+        info.DayFlags.LastOperationDay(info.LayoutStartWeekday == 7).FullName;
     public static string DisplayedTime(this VehicleStartInfo info) =>
         info.DepartureTime.HasValue() && info.DepartureTime.Length >= 5 ? info.DepartureTime[0..5] : "-";
 
@@ -97,6 +101,7 @@ public static class VehicleStartInfoExtensions
     private static bool IsSpare(this VehicleStartInfo info) => info.ReplaceOrder > 1 && info.ReplaceOrder < 9;
     private static bool IsOther(this VehicleStartInfo info) => info.ReplaceOrder == 9;
     private static bool IsCardRequired(this VehicleStartInfo info) => info.PrintCard == false;
+    private static bool IsFirstLayoutDay(this VehicleStartInfo info) => (info.DayFlags & info.FirstLayoutDay) > 0;
 
     public static bool IsVehicleWithDccAddress(this VehicleStartInfo info) =>
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]);
@@ -127,7 +132,7 @@ public static class VehicleStartInfoExtensions
     public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false, bool isOverview = false) =>
         isOverview ?
             info.ReplaceOrder <= 1 ? "white" : "gainsboro" :
-        isPerOwner && info.ReplaceOrder <= 1 ? "white" :
+        isPerOwner ? info.ReplaceOrder > 1 ? "gainsboro" : info.IsFirstLayoutDay() ? "white": "lightyellow":
         info.ReplaceOrder <= 1 ?
             info.DayFlags == 127 ? "white" : info.IsFirstDay ? "lightyellow" : "#e6f5ff" :
         "gainsboro";

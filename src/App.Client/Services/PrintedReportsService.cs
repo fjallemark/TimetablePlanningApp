@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Tellurian.Trains.Planning.App.Contracts;
@@ -35,8 +34,8 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
     public Task<(HttpStatusCode statusCode, IEnumerable<StationInstruction> items)> GetStationInstructionsAsync(int layoutId) =>
         GetItems<StationInstruction>($"api/layouts/{layoutId}/reports/stationsinstructions");
 
-    public Task<(HttpStatusCode statusCode, IEnumerable<StationTrainOrder> items)> GetStationsTrainOrderAsync(int layoutId) =>
-        GetItems<StationTrainOrder>($"api/layouts/{layoutId}/reports/stationstrainorders");
+    public Task<(HttpStatusCode statusCode, IEnumerable<StationTrainOrder> items)> GetStationsTrainOrderAsync(int layoutId, string? countryCode = null) =>
+        GetItems<StationTrainOrder>($"api/layouts/{layoutId}/reports/stationstrainorders?countrycode={countryCode}");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretchesAsync(int layoutId, string? line) =>
         GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches?line={line}");

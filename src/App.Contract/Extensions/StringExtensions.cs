@@ -10,9 +10,15 @@ public static partial class StringExtensions
 
     public static string OrElse(this string? value, string orElseValue) => string.IsNullOrWhiteSpace(value) ? orElseValue : value;
 
-    public static bool AnyOf(this string? value, string[] values) => 
-        value is null || values.Length == 0 ? false :
-        values.Contains(value);
+    public static bool AnyOf(this string? value, string? values) =>
+        values.IsEmpty() || value.IsEmpty() || value.AnyOf(values.Split(',', StringSplitOptions.TrimEntries));
+
+    public static bool AnyPartOf(this string? value, string? values) =>
+        values.IsEmpty() || value.IsEmpty() || values.Split(',',StringSplitOptions.TrimEntries).Any(v => value.Contains(v, StringComparison.OrdinalIgnoreCase));
+
+    public static bool AnyOf(this string? value, string[] values) =>
+        value.HasValue() && values.Contains(value, StringComparer.InvariantCultureIgnoreCase);
+   
 
     public static string WithHtmlRemoved(this string? withHtml) =>
         withHtml is null ? string.Empty :
