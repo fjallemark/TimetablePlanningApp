@@ -140,7 +140,7 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
     protected virtual void UpdateVisibility()
     {
         IsStationNote = Trainsets.Any(t => !t.IsCargo);
-        IsShuntingNote = Trainsets.Any(t => t.IsCargo);
+        IsShuntingNote = Trainsets.Any(t => t.HasCoupleNote);
     }
     protected IEnumerable<Note> ToNotes(Func<Trainset, bool> criteria, byte dutyDays = OperationDays.AllDays, int displayOrder = 1000, bool compact = true)
     {
@@ -167,7 +167,7 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
                 Operator = ts.First().Operator,
                 Number = ts.First().Number,
                 WagonTypes = ts.First().WagonTypes,
-                OperationDaysFlag = (byte)ts.First().OperationDaysFlag,
+                OperationDaysFlag = (byte)ts.Sum(ts => ts.OperationDaysFlag),
                 HasCoupleNote = ts.First().HasCoupleNote,
                 HasUncoupleNote = ts.First().HasUncoupleNote,
                 IsCargo = ts.First().IsCargo,

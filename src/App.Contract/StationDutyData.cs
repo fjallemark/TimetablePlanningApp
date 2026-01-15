@@ -2,7 +2,7 @@
 public class StationDutyData
 {
     public int StationId { get; set; }
-    public required string StationName { get; set; }    
+    public required string StationName { get; set; }
     public int DisplayOrder { get; set; }
     public string LayoutName { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
@@ -20,12 +20,19 @@ public class StationDutyData
 
 public static class StationDutyDataExtensions
 {
-    public static ICollection<StationDuty> AsStationDuties(this IEnumerable<StationDutyData> items, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false)
+    public static ICollection<StationDuty> AsStationDuties(this IEnumerable<StationDutyData> items, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false, bool shuntingOnly = true)
     {
         var duties = new List<StationDuty>(50);
         foreach (var item in items.OrderBy(i => i.DisplayOrder))
         {
-            if (item.HasCombinedInstructions)           
+            if (shuntingOnly)
+            {
+                var shuntingDuty = item.AsStationDuty(StationDutyType.Shunting, Resources.Notes.Shunting, item.StationInstructions, null);
+                shuntingDuty.Calls = shuntingDuty.AsStationCallsWithAction(trains, notes, shuntingOnly);
+                duties.Add(shuntingDuty);
+
+            }
+            else if (item.HasCombinedInstructions)
             {
                 var duty = item.AsStationDuty(
                     StationDutyType.Single,
@@ -42,9 +49,6 @@ public static class StationDutyDataExtensions
                 stationDuty.Calls = stationDuty.AsStationCallsWithAction(trains, notes, includeAllTrains);
                 duties.Add(stationDuty);
 
-                var shuntingDuty = item.AsStationDuty(StationDutyType.Shunting, Resources.Notes.Shunting, null, item.ShuntingInstructions);
-                shuntingDuty.Calls = shuntingDuty.AsStationCallsWithAction(trains, notes);
-                duties.Add(shuntingDuty);
             }
         }
         return duties;
@@ -54,7 +58,7 @@ public static class StationDutyDataExtensions
     {
         var result = new List<Instruction>();
         var perLanguage = instructions.GroupBy(x => x.Language).ToList();
-        foreach(var i in perLanguage)
+        foreach (var i in perLanguage)
         {
             var language = i.Key;
             var instruction = new Instruction() { Language = language, Markdown = string.Join("\r\n\n", i.Select(i => i.Markdown)) };
@@ -63,15 +67,15 @@ public static class StationDutyDataExtensions
         return [.. result];
     }
 
-    private static StationCallWithAction[] AsStationCallsWithAction(this StationDuty me, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false)
+    private static StationCallWithAction[] AsStationCallsWithAction(this StationDuty me, IEnumerable<Train> trains, IEnumerable<TrainCallNote> notes, bool includeAllTrains = false, bool shuntingOnly = true)
     {
         var result = new List<StationCallWithAction>();
         var trainsAtStation = trains.Where(t => t.Calls.Any(c => c.Station.Id == me.StationId)).ToList();
         foreach (var train in trainsAtStation)
         {
-            var calls = train.Calls.Where(c => c.Station.Id == me.StationId);
+            var calls = train.Calls.Where(c => c.Station.Id == me.StationId).ToList();
             var callNotes = notes
-                .Where(n => (n.IsStationNote || n.IsShuntingNote) && n is not TrainMeetCallNote && calls.Any(c => c.Id == n.CallId));
+                .Where(n => ((n.IsStationNote && !shuntingOnly) || n.IsShuntingNote) && n is not TrainMeetCallNote && calls.Any(c => c.Id == n.CallId)).ToList();
 
 
             foreach (var note in callNotes) note.TrainInfo = train;
@@ -80,21 +84,21 @@ public static class StationDutyDataExtensions
 
                 if (call.IsStop)
                 {
-                    if (call.HasArrivalTime() )
+                    if (call.HasArrivalTime())
                     {
                         var item = new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting);
                         item.Train.OverriddenOrigin = train.Origin;
                         item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
-                        result.Add(item);
+                        if (item.Notes.Any() )  result.Add(item);
                         ;
                     }
 
-                    if (call.HasDepartureTime() )
+                    if (call.HasDepartureTime())
                     {
                         var item = new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting);
                         item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
                         item.Train.OverriddenDestination = train.Destination;
-                        result.Add(item);
+                        if (item.Notes.Any()) result.Add(item);
                     }
                 }
                 else if (includeAllTrains)
@@ -106,7 +110,7 @@ public static class StationDutyDataExtensions
                     }
                     if (call.Departure is not null)
                     {
-                        var item =new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting);
+                        var item = new StationCallWithAction(train, call, false, me.StationDutyType == StationDutyType.Shunting);
                         item.Train.OverriddenDestination = train.Destination;
                     }
                 }
@@ -115,21 +119,21 @@ public static class StationDutyDataExtensions
         return result.Where(c => includeAllTrains || c.Notes.Any()).OrderBy(c => c.SortTime).ToArray();
     }
 
-     private static StationDuty AsStationDuty(this StationDutyData data, StationDutyType dutyType, string description, ICollection<Instruction>? stationInstructions, ICollection<Instruction>? shuntingInstructions) =>
-        new()
-        {
-            LayoutName = data.LayoutName,
-            StationId = data.StationId,
-            StationName = data.StationName,
-            Number = data.Signature,
-            ValidFromDate = data.ValidFromDate,
-            ValidToDate = data.ValidToDate,
-            Difficulty = data.Difficulty,
-            StartTime = $"{data.StartHour:00}:00",
-            EndTime = $"{data.EndHour:00}:00",
-            Description = description,
-            StationInstructions = stationInstructions,
-            ShuntingInstructions = shuntingInstructions,
-            StationDutyType = dutyType,
-        };
+    private static StationDuty AsStationDuty(this StationDutyData data, StationDutyType dutyType, string description, ICollection<Instruction>? stationInstructions, ICollection<Instruction>? shuntingInstructions) =>
+       new()
+       {
+           LayoutName = data.LayoutName,
+           StationId = data.StationId,
+           StationName = data.StationName,
+           Number = data.Signature,
+           ValidFromDate = data.ValidFromDate,
+           ValidToDate = data.ValidToDate,
+           Difficulty = data.Difficulty,
+           StartTime = $"{data.StartHour:00}:00",
+           EndTime = $"{data.EndHour:00}:00",
+           Description = description,
+           StationInstructions = stationInstructions,
+           ShuntingInstructions = shuntingInstructions,
+           StationDutyType = dutyType,
+       };
 }

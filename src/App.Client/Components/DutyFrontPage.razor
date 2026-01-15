@@ -53,16 +53,12 @@
             </div>
             @if (Item is DriverDuty d1)
             {
-                @if (d1.Operator.HasValue())
+                @if (d1.OperatorName.HasValue())
                 {
                     <div class="duty operator">
                         <span>@Localizer["Operator"]</span>:
-                        <span><strong>@d1.Operator</strong></span>
+                        <span><strong>@d1.OperatorNames()</strong></span>
                     </div>
-                    @if (d1.Operator == "OHJ")
-                    {
-                        <img src="images/logos/OHJ.jpg" />
-                    }
                 }
             }
             <hr />

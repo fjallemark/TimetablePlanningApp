@@ -45,12 +45,6 @@ public static class StationTrainExtensions
 
     public static string TrainCategory(this StationTrain? me)
     {
-        if (me is null) return string.Empty;
-        var rm = Notes.ResourceManager;
-        return rm.GetString(me.ProductResourcCode) ?? string.Empty;
+        return  me?.ToTrainInfo().CategoryName ?? string.Empty;
     }
-
-
-
-
 }

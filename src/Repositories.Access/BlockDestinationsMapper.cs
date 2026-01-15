@@ -28,14 +28,12 @@ internal static class BlockDestinationsMapper
             DepartureTime = new CallTime { IsStop = true, Time = me.GetTime("DepartureTime") },
             Train = new TrainInfo
             { 
-                CategoryResourceCode = me.GetString("TrainCategoryName"),
-                CategoryName = me.GetStringResource("TrainCategoryName", Notes),
+                CategoryId = me.GetInt("CategoryId"),
                 IsCargo = me.GetBool("IsCargo"),
                 IsPassenger = me.GetBool("IsPassenger"),
                 Number = me.GetInt("TrainNumber"),
                 OperatorName = me.GetString("TrainOperatorName"),
                 OperationDaysFlags = me.GetByte("TrainOperationDaysFlag"),
-                Prefix = me.GetString("TrainCategoryPrefix")
             },
             BlockDestinations = new List<BlockDestinationDetailed>(),
             IsScheduled = me.GetBool("IsScheduled"),

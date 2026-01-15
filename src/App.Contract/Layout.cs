@@ -10,8 +10,6 @@ public class Layout
     public string? FontFamily { get; set; }
     public int MaxLocoDriversCount { get; set; }
     public int StartWeekdayId { get; set; }
-    public int TrainCategoryCountryId { get; set; }
-    public int TrainCategoryYear { get; set; }
     public bool PrintShuntingLocos { get; set; }
     public byte FirstOperationDayFlag { get; set; }
 }

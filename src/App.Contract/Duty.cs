@@ -37,6 +37,8 @@ public static class DutyExtensions
         me.Parts.OrderBy(p => p.StartTime()).FirstOrDefault()?.StartStation().Name;
     public static string? EndStation(this DriverDuty me) =>
         me.Parts.OrderBy(p => p.StartTime()).LastOrDefault()?.EndStation().Name;
+    public static string OperatorNames(this DriverDuty me) =>
+        string.Join(", ", me.Parts.Select(p => p.Train.OperatorName).Distinct());
 
     public static string Description(this DriverDuty me) => $"{Notes.Duty} {me.Number} - {me.OperationDays.ShortName}"; 
 }
@@ -44,7 +46,7 @@ public static class DutyExtensions
 public class DriverDuty : Duty
 {
 
-    public string Operator { get; init; } = string.Empty;
+    public string OperatorName { get; set; } = string.Empty;
     public OperationDays OperationDays { get; init; } = new OperationDays();
     public int RemoveOrder { get; init; }
     public ICollection<DriverDutyPart> Parts { get; set; } = [];

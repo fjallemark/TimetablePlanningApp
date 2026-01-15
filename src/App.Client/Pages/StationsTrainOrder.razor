@@ -20,7 +20,7 @@ else
         {
             <A4LPage>
                 <div class="stationtrainorder">
-                    <h1>@station.Name @itemsPerPage.First().SortTime.AsTime() - @itemsPerPage.Last().SortTime.AsTime()</h1>
+                    <h1>@station.Name @itemsPerPage.First().SortTime.AsTime() - @itemsPerPage.Last().SortTime.AsTime()  <span style="font-size: 16pt">@AdjacentPhones(station)</span></h1>
                     <table cellpadding="3">
                         <thead>
                             <tr>
@@ -33,7 +33,7 @@ else
                                 <th class="col">@Localizer["To"]</th>
                                 @if (IsSundayFirstDay)
                                 {
-                                    <th class="day">@Localizer["SundayShort"]</th>                               
+                                    <th class="day">@Localizer["SundayShort"]</th>
                                 }
                                 <th class="day">@Localizer["MondayShort"]</th>
                                 <th class="day">@Localizer["TuesdayShort"]</th>
@@ -63,7 +63,7 @@ else
                                     {
                                         <td class="day" style="@item.DayFillColor(0x40)"></td>
                                     }
-                                    <td class="day" style="@item.DayFillColor(0x01)">@(item.Height().ToString("F2"))</td>
+                                    <td class="day" style="@item.DayFillColor(0x01)"></td>
                                     <td class="day" style="@item.DayFillColor(0x02)"></td>
                                     <td class="day" style="@item.DayFillColor(0x04)"></td>
                                     <td class="day" style="@item.DayFillColor(0x08)"></td>
@@ -104,7 +104,7 @@ else
             Layout = layoutResult.item;
             SetQueryStringParameters();
             var result = await DataService.GetStationsTrainOrderAsync(Layout!.Id, SelectedCountryCode);
-                Items = result.statusCode.IsSuccess() ? result.items : [];
+            Items = result.statusCode.IsSuccess() ? result.items : [];
         }
     }
 
@@ -116,4 +116,13 @@ else
         var q = Navigator.QueryString();
         SelectedCountryCode = q["country"];
     }
+
+    MarkupString AdjacentPhones(StationTrainOrder station) => new(
+         station.AdjacentDispatchPlaces is null ? string.Empty :
+         string.Join(", ", station.AdjacentDispatchPlaces.OrderBy(ap => ap.PhoneNumber).Select(ap => AdjacentPhone(ap)))
+    );
+
+    string AdjacentPhone(AdjacentDispatchPlace place) =>
+        $"""{place.Name} <img height="16" src="images/phone.jpg" />{place.PhoneNumber} {place.PhoneNote}""".Trim();
+
 }

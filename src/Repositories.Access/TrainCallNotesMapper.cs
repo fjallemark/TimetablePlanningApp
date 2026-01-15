@@ -93,8 +93,7 @@ internal static class TrainCallNotesMapper
             },
             TrainInfo = new TrainInfo
             {
-                CategoryName = me.GetStringResource("TrainCategory", Notes.ResourceManager),
-                Prefix = me.GetString("TrainNumberPrefix"),
+                CategoryId = me.GetInt("CategoryId"),
                 Number = me.GetInt("TrainNumber"),
                 OperationDaysFlags = me.GetByte("TrainOperationDaysFlag"),
                 OperatorName = me.GetString("DepartingLocoOperator")

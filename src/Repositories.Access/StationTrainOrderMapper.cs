@@ -7,6 +7,7 @@ internal static class StationTrainOrderMapper
     public static StationTrainOrder ToStationTrainOrder(this IDataRecord me) =>
         new()
         {
+            LayoutStationId = me.GetInt("LayoutStationId"),
             Designation = me.GetString("Signature"),
             Name = me.GetString("FullName"),
             Trains = new List<StationTrain>(100),
@@ -27,7 +28,6 @@ internal static class StationTrainOrderMapper
             OperatingDayFlag = me.GetByte("OperatingDayFlag"),
             OperatorName = me.GetString("Operator"),
             OriginName = me.GetString("Origin"),
-            ProductResourcCode = me.GetString("ProductResourceCode"),
             SortTime = me.GetTimeAsDouble("SortTime"),
             TrackNumber = me.GetString("Designation"),
             TrainNumber = me.GetInt("Number"),

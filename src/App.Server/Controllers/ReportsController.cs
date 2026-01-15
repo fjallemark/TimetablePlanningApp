@@ -11,6 +11,9 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
 {
     private readonly PrintedReportsService Service = service;
 
+    [HttpGet("adjacentphones")]
+    public async Task<IActionResult> GetAdjacentPhones(int id) => await this.GetScheduleItems(id, Service.GetAdjacentDispatchPlaceAsync).ConfigureAwait(false);
+    
     [HttpGet("blockdestinations")]
     public async Task<IActionResult> GetBlockDestinations(int id) => await this.GetScheduleItems(id, Service.GetBlockDestinationsAsync).ConfigureAwait(false);
 
@@ -81,7 +84,7 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     }
 
     [HttpGet("trainstartlabels")]
-    public async Task<IActionResult> GetTimetableDepartures(int id) => await this.GetScheduleItems(id, Service.GetTrainDeparturesAsync).ConfigureAwait(false);
+    public async Task<IActionResult> GetTrainStartLabels(int id) => await this.GetScheduleItems(id, Service.GetTrainStartLabelsAsync).ConfigureAwait(false);
 
     [HttpGet("trainsetschedules")]
     public async Task<IActionResult> GetLTrainsetSchedules(int id) => await this.GetScheduleItems(id, Service.GetTrainsetSchedulesAsync).ConfigureAwait(false);

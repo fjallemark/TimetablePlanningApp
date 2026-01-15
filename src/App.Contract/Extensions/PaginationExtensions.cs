@@ -84,8 +84,11 @@ public static class PaginationExtensions
     public static double Height(this DriverDutyPart dutyPart)
     {
         var calls = dutyPart.Train.Calls; // dutyPart.CallsInDutyPart();
-        return 7 + calls.Sum(c => c.CallTimes().Length * 1.5 + c.ArrivalAndDepartureNotesCount() * 1.3 + dutyPart.Train.Instruction.Length / 50);
+        return 6 + calls.Sum(c => c.CallTimesCount() * 1.2 + c.ArrivalAndDepartureNotesHeight() * 1.3 + dutyPart.Train.Instruction.Length / 50);
     }
+    public static int ArrivalAndDepartureNotesHeight(this StationCall me) =>
+        (me.IsArrival() ? me.Arrival!.Notes.Count +me.Arrival!.Notes.Sum(n => n.TextLength / 40) : 0) + (me.IsDeparture() ? me.Departure!.Notes.Count+ me.Departure!.Notes.Sum(n => n.TextLength/40) : 0);
+
 
     public static IEnumerable<DriverDutyPage> GetDriverDutyPages(this DriverDuty me, IEnumerable<Instruction> instructions)
     {
@@ -210,7 +213,7 @@ public static class PaginationExtensions
 
     private static IEnumerable<TDutyPage> BlankPagesToAppend<TDutyPage>(int afterPageNumber, int uptoPageNumber = 0) where TDutyPage : DutyPage
     {
-        var totalPages = afterPageNumber <= 4 - uptoPageNumber ? 4 - uptoPageNumber : afterPageNumber <= 8 - uptoPageNumber ? 8 - uptoPageNumber : 12 - uptoPageNumber;
+        var totalPages = afterPageNumber <= 4 - uptoPageNumber ? 4 - uptoPageNumber : afterPageNumber <= 8 - uptoPageNumber ? 8 - uptoPageNumber : afterPageNumber <= 12 ? 12 - uptoPageNumber : 16-uptoPageNumber;
         var blankPagesToAppend = totalPages - afterPageNumber;
         if (blankPagesToAppend == 0) return Array.Empty<TDutyPage>();
         return Enumerable.Range(1, blankPagesToAppend).Select(i => (TDutyPage)DutyPage.Blank<TDutyPage>(afterPageNumber + i));
@@ -222,11 +225,13 @@ public static class PaginationExtensions
             4 => FourPageOrder,
             8 => EightPageOrder,
             12 => TwelvePageOrder,
+            16 => SixteenPageOrder,
             _ => throw new ArgumentOutOfRangeException(nameof(numberOfPages))
         };
     private static int[] FourPageOrder => [4, 1, 2, 3];
     private static int[] EightPageOrder => [8, 1, 2, 7, 6, 3, 4, 5];
     private static int[] TwelvePageOrder => [12, 1, 2, 11, 10, 3, 4, 9, 8, 5, 6, 7];
+    private static int[] SixteenPageOrder => [16,1,2,15,14,3,4,13,12,5,6,11,10,7,8,9];
 
     #endregion
 }

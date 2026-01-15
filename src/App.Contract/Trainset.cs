@@ -20,3 +20,4 @@ public class Trainset
     public bool HasFinalDestination => FinalDestination.HasValue() && !FinalDestination.Equals(Destination, System.StringComparison.OrdinalIgnoreCase);
     public override string ToString() => $"{Operator} {Number} {WagonTypes}".TrimEnd();
 }
+

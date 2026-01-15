@@ -1,4 +1,6 @@
 ﻿using Markdig.Helpers;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data.Odbc;
@@ -33,7 +35,7 @@ public class DataExport
                  ConnectionString = ConnectionString
              }); ;
         var store = new AccessPrintedReportsStore(options);
-        var target = new PrintedReportsService(store);
+        var target = new PrintedReportsService(store, NullLogger<PrintedReportsService>.Instance);
         var booklet = await target.GetStationDutyBookletAsync(LayoutId, null, includeAllTrains: true);
 
         using var stream = new FileStream(OutputPath + "Station trains Cda.csv", FileMode.Create);

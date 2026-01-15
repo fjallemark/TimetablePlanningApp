@@ -14,6 +14,7 @@ builder.Services.AddControllersWithViews().AddJsonOptions(options =>
     options.JsonSerializerOptions.IgnoreReadOnlyProperties = true
 );
 builder.Services.AddRazorPages();
+builder.Services.AddLogging();
 
 var app = builder.Build();
 
@@ -40,6 +41,7 @@ app.UseRequestLocalization(options =>
 );
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
+app.MapStaticAssets();
 app.UseStaticFiles();
 
 app.UseRouting();

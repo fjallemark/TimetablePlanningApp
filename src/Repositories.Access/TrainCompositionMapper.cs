@@ -9,7 +9,7 @@ internal static class TrainCompositionMapper
         {
             OperatorName = record.GetString("TrainOperator"),
             TrainNumber = record.GetInt("TrainNumber"),
-            TrainCategoryResourceCode = record.GetString("TrainCategoryResourceCode"),
+            TrainCategoryId = record.GetInt("TrainCategoryId"),
             OperationDaysFlags = record.GetByte("TrainOperationDaysFlags"),
         };
 

@@ -30,7 +30,7 @@ public sealed class DriverDutyBooklet : DutyBooklet
         [
             new DriverDuty
             {
-                Operator = "Green Cargo",
+                OperatorName = "Green Cargo",
                 OperationDays = ((byte)31).OperationDays(),
                 Difficulty = 2,
                 Description = "Chemicals transport",

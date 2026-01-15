@@ -4,6 +4,7 @@ namespace Tellurian.Trains.Planning.App.Contracts;
 
 public interface IPrintedReportsService
 {
+    Task<(HttpStatusCode statusCode, IEnumerable<AdjacentDispatchPlace> items)> GetAdjacentPhonesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinationsAsync(int layoutId);
     Task<(HttpStatusCode statusCode, DriverDutyBooklet? item)> GetDriverDutiesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, Layout? item)> GetLayoutAsync(int layoutId);

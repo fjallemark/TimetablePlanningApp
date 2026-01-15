@@ -43,6 +43,12 @@ public static class OperationDaysExtensions
     public static int DisplayOrder(this byte flags) => ~flags;
 
     public static byte And(this byte flags, byte and) => flags == Contracts.OperationDays.OnDemand ? flags : (byte)(flags & and);
+    public static byte Aggregate(this byte[] flags)
+    {
+        byte result = 0x00;
+        foreach (byte b in flags) result |= b;
+        return result;
+    }
 
     public static bool IsAnyOtherDays(this byte it, byte other) => And(it, other) > 0;
     public static bool IsAllOtherDays(this byte it, byte other) => And(it, other) == it;

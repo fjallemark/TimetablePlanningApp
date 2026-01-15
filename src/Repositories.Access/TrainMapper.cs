@@ -13,11 +13,9 @@ internal static class TrainMapper
          {
              Id = me.GetInt("TrainId"),
              OperatorName = me.GetString("TrainOperator"),
-             Prefix = me.GetString("TrainNumberPrefix"),
              Number = me.GetInt("TrainNumber"),
              OperationDaysFlags = me.GetByte("TrainDays").And(me.GetByte("DutyDays")),
-             CategoryResourceCode = me.GetString("TrainCategoryName"),
-             CategoryName = me.GetStringResource("TrainCategoryName", Notes),
+             CategoryId = me.GetInt("CategoryId"),
              Instruction = me.GetString("TrainInstruction"),
              MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons", 0),
              MaxSpeed = me.GetInt("TrainMaxSpeed"),
@@ -69,16 +67,11 @@ internal static class TrainMapper
     public static TrainCategory ToTrainCategory(this IDataRecord me) =>
         new()
         {
-            Id = me.GetInt("TrainCategoryId"),
-            Name = me.GetString("Name"),
-            ResourceCode = me.GetString("ResourceCode"),
+            Id = me.GetInt("Id"),
+            Type = me.GetString("Type"),
             IsCargo = me.GetBool("IsCargo"),
             IsPassenger = me.GetBool("IsPassenger"),
             Prefix = me.GetString("Prefix"),
-            Suffix = me.GetString("Suffix"),
-            FromYear = me.GetIntOrNull("FromYear"),
-            ToYear = me.GetIntOrNull("UptoYear"),
-            CountryId = me.GetIntOrNull("CountryId"),          
         };
 
 }

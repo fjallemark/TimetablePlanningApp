@@ -38,18 +38,13 @@ public static class StationCallExtensions
 
     private static bool HasValue([NotNullWhen(true)] this CallTime? me) => me is not null;
 
-    public static CallTime[] CallTimes(this StationCall me)
+    public static int CallTimesCount(this StationCall me)
     {
-#pragma warning disable CS8604 // Possible null reference argument.
-        var result = new List<CallTime>();
-        if (me.IsArrival()) result.Add(me.Arrival);
-        if (me.IsDeparture()) result.Add(me.Departure);
-        return [.. result];
-#pragma warning restore CS8604 // Possible null reference argument.
+        int result = 0;
+        if (me.IsArrival()) result++;
+        if (me.IsDeparture()) result++;
+        return result;
     }
-
-    public static int ArrivalAndDepartureNotesCount(this StationCall me) =>
-        (me.IsArrival() ? me.Arrival!.Notes.Count : 0) + (me.IsDeparture() ? me.Departure!.Notes.Count : 0);
 
     public static void AddAutomaticNotes(this DutyStationCall me)
     {

@@ -1,39 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-  <PropertyGroup>
-    <AssemblyName>Tellurian.Trains.Planning.App.Client</AssemblyName>
-    <RootNamespace>Tellurian.Trains.Planning.App.Client</RootNamespace>
-    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Components\A5Page - Copy.razor.css" />
-    <None Remove="Components\A5Page.razor.css" />
-    <None Remove="Components\VehicleScheduleCard.razor.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Components\A5Page.razor.css" />
-    <Content Include="Components\VehicleScheduleCard.razor.css" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.41.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4" />
-    <PackageReference Include="System.Net.Http.Json" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.4" />
-    <PackageReference Include="System.Text.Json" Version="9.0.4" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<AssemblyName>Tellurian.Trains.Planning.App.Client</AssemblyName>
+		<RootNamespace>Tellurian.Trains.Planning.App.Client</RootNamespace>
+		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Components\A5Page - Copy.razor.css" />
+		<None Remove="Components\A5Page.razor.css" />
+		<None Remove="Components\VehicleScheduleCard.razor.css" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Components\A5Page.razor.css" />
+		<Content Include="Components\VehicleScheduleCard.razor.css" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.41.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\App.Contract\App.Contracts.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Properties\" />
+	</ItemGroup>
 </Project>

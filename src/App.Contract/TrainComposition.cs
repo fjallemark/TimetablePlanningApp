@@ -5,7 +5,7 @@ namespace Tellurian.Trains.Planning.App.Contracts;
 public class TrainComposition 
 {
     public required string OperatorName { get; init; }
-    public required string  TrainCategoryResourceCode { get; init; }
+    public required int  TrainCategoryId { get; init; }
     public string Prefix { get; set; } = string.Empty;
     public int TrainNumber { get; init; }
     public byte OperationDaysFlags { get; init; }
@@ -59,7 +59,7 @@ public static class TrainCompositionExtensions
         }
         TrainComposition merged = new() { 
             OperatorName=composition.OperatorName, 
-            TrainCategoryResourceCode=composition.TrainCategoryResourceCode, 
+            TrainCategoryId=composition.TrainCategoryId, 
             Prefix=composition.Prefix, 
             TrainNumber=composition.TrainNumber,
             Trainsets = trainsets,

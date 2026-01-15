@@ -4,15 +4,37 @@ public static class TrainInfoExtensions
 {
     public static OperationDays OperationDays(this TrainInfo me) => me.OperationDaysFlags.OperationDays();
     public static bool IsOnDemand(this TrainInfo? me) => me is not null && me.OperationDaysFlags.IsOnDemand();
+    public static bool IsSame(this TrainInfo? me, TrainInfo? other) =>
+        me is not null && other is not null && me.OperatorName.Equals(other.OperatorName) && me.Number == other.Number;
+
+    public static TrainInfo MergeDays(this IEnumerable<TrainInfo> trains)
+    {
+        if (trains == null || trains.Count() < 1) throw new ArgumentException("Is null or empty", nameof(trains));
+        if (trains.Count() == 1) return trains.First();
+        return new TrainInfo()
+        {
+            CategoryId = trains.First().CategoryId,
+            Category = trains.First().Category,
+            Color = trains.First().Color,
+            IsCargo = trains.First().IsCargo,
+            IsPassenger = trains.First().IsPassenger,
+            Number = trains.First().Number,
+            OperationDaysFlags = trains.Select(x => x.OperationDaysFlags).ToArray().Aggregate(),
+            OperatorName = trains.First().OperatorName,
+            OverriddenDestination = trains.First().OverriddenDestination,
+            OverriddenOrigin = trains.First().OverriddenOrigin,
+        };
+    }
 }
 public class TrainInfo
 {
     public int Id { get; set; }
-    public string Prefix { get; set; } = string.Empty;
+    public string Prefix => Category.Prefix;
+    public string CategoryName => Category.Type;
     public int Number { get; set; }
     public string OperatorName { get; set; } = string.Empty;
-    public string CategoryName { get; set; } = string.Empty;
-    public string CategoryResourceCode { get; set; } = string.Empty;
+    public int CategoryId { get; set; }
+    public TrainCategory Category { get; set; } = TrainCategory.Empty;
     public bool IsCargo { get; set; }
     public bool IsPassenger { get; set; }
     public byte OperationDaysFlags { get; set; }
@@ -23,8 +45,8 @@ public class TrainInfo
     public string? OverriddenDestination { get; set; }
     public string? OverriddenOrigin { get; set; }
     public override string ToString() => $"{OperatorName} {Prefix} {Number} {OperationDaysFlags.OperationDays().ShortName}";
-    public override bool Equals(object? obj) => obj is Train t && t.Number == Number && OperatorName.Equals(t.OperatorName, StringComparison.OrdinalIgnoreCase);
-    public override int GetHashCode() => HashCode.Combine(Number, OperatorName);
+    public override bool Equals(object? obj) => obj is Train t && t.Number == Number && t.OperationDaysFlags == OperationDaysFlags && OperatorName.Equals(t.OperatorName, StringComparison.OrdinalIgnoreCase);
+    public override int GetHashCode() => HashCode.Combine(Number, OperatorName, OperationDaysFlags);
 }
 
 
@@ -39,7 +61,7 @@ public class Train : TrainInfo
     public static Train Example => new()
     {
         OperatorName = "GC",
-        Prefix = "G",
+        Category = new() { Type = "Godståg", Prefix = "G" },
         Number = 51,
         Calls =
         [

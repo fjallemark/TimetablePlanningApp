@@ -27,7 +27,7 @@ public interface IPrintedReportsStore
     ValueTask RenumberDuties(int layoutId);
     Task<IEnumerable<VehicleSchedule>> GetTrainsetWagonCardsAsync(int layoutId);
     Task<IEnumerable<TrainComposition>> GetTrainCompositionsAsync(int layoutId, string? operatorSignature = null);
-
+    Task<IEnumerable<AdjacentDispatchPlace>> GetAdjacentDispatchPlacesAsync(int layoutId);
 }
 
 public class RepositoryOptions

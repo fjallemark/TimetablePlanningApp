@@ -34,7 +34,7 @@ internal static class DutyMapper
             LayoutName = me.GetString("LayoutName"),
             Description = me.GetString("DutyName"),
             Number = me.GetInt("DutyNumber").ToString(),
-            Operator = me.GetString("DutyOperator"),
+            OperatorName = me.GetString("DutyOperator"),
             RemoveOrder = me.GetInt("DutyRemoveOrder", 0),
             StartTime = me.GetTime("DutyStartsTime", ""),
             StaffingNumber = me.GetInt("Staffing"),

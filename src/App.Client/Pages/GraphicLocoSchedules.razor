@@ -14,10 +14,11 @@ else if (Layout is not null)
     <RefreshButton OnClick="OnInitializedAsync" />
 
     var lastTurnusNumber = "";
+    var pageNumber = 1;
     @foreach (var itemsOnPage in SortedItems(Items).ItemsPerPage(14))
     {
         <div class="pagebreak">
-            <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading</span> <span style="display: block; font-size: 12pt">@Venue</span></div>
+            <div style="padding: 3pt; font-size: 16pt"><span style="font-weight: bold; ">@Heading(pageNumber)</span> <span style="display: block; font-size: 12pt">@Venue</span></div>
             <div style="margin: 0px; padding: 0px">
                 <svg height="@Height" width="@Width">
                     @for (var hour = Layout.StartHour; hour <= Layout.EndHour; hour++)
@@ -38,20 +39,19 @@ else if (Layout is not null)
                     lastTurnusNumber = item.Turnus;
                 }
             </div>
-            <div style="width: 1100px; text-align:center">@PageNumbering</div>
+            <div style="width: 1100px; text-align:center">@PageNumbering(pageNumber)</div>
         </div>
+        pageNumber++;
     }
 }
 @code {
     string? SelectedOperatorNames { get; set; }
     private IEnumerable<LocoSchedule>? Items { get; set; }
     private Layout? Layout;
-    int PageNumber;
+
 
     protected override async Task OnInitializedAsync()
     {
-        PageNumber = 1;
-        SetQueryStringParameters();
         var layoutResult = await DataService.GetLayoutAsync();
         if (layoutResult.statusCode.IsSuccess())
         {
@@ -59,6 +59,7 @@ else if (Layout is not null)
             var schedulesResult = await DataService.GetLocoSchedulesAsync(Layout!.Id);
             if (schedulesResult.statusCode.IsSuccess())
             {
+                SetQueryStringParameters();
                 var items = schedulesResult.items.Where(i => i.ReplaceOrder == 0);
                 Items = SelectedOperatorNames.HasValue() ? items.Where(i => i.OperatorName.EqualsAny(SelectedOperatorNames)) : items;
             }
@@ -78,21 +79,15 @@ else if (Layout is not null)
         SelectedOperatorNames = q["operator"];
     }
 
-    int NextPage()
-    {
-        PageNumber++;
-        return PageNumber;
-    }
-
     bool IsNewTurnusNumber(string lastTurnusNumber, string currentTurnusNumber) =>
         !string.IsNullOrWhiteSpace(lastTurnusNumber) && lastTurnusNumber != currentTurnusNumber;
 
-    string Heading => PageNumber < 2 ?
+    string Heading(int pageNumber) => pageNumber == 1 ?
         $"{Localizer["LocoSchedules"]}" :
         $"{Localizer["LocoSchedules"]}, {Localizer["Continued"].ToLower()}";
     string Venue => $"{Layout?.Name} {ValidPeriod}";
     string ValidPeriod => $"{Layout?.ValidFrom:d}-{Layout?.ValidTo:d}";
-    string PageNumbering => $"{Localizer["Page"]} {PageNumber++}";
+    string PageNumbering(int pageNumber) => $"{Localizer["Page"]} {pageNumber}";
     int Height => 20;
     int Width => Items?.Any() == true ? Items.First().Width() + 10 : 0;
 

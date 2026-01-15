@@ -13,6 +13,9 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
         PropertyNameCaseInsensitive = true,
         IgnoreReadOnlyProperties = true
     };
+    public Task<(HttpStatusCode statusCode, IEnumerable<AdjacentDispatchPlace> items)> GetAdjacentPhonesAsync(int layoutId) =>
+          GetItems<AdjacentDispatchPlace>($"api/layouts/{layoutId}/reports/adjacentphones");
+
     public Task<(HttpStatusCode statusCode, IEnumerable<BlockDestinations> items)> GetBlockDestinationsAsync(int layoutId) =>
           GetItems<BlockDestinations>($"api/layouts/{layoutId}/reports/blockdestinations");
 

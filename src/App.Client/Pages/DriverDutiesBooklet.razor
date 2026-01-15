@@ -90,7 +90,7 @@ else
     private ICollection<DriverDuty> FilterDuties(ICollection<DriverDuty> duties)
     {
         if (SelectedDutyNumber.HasValue()) return duties.Where(d => d.Number.EqualsAny(SelectedDutyNumber)).ToArray();
-        if (SelectedOperatorName.HasValue()) return duties.Where(d => d.Operator.EqualsAny(SelectedOperatorName)).ToArray();
+        if (SelectedOperatorName.HasValue()) return duties.Where(d => d.OperatorName.EqualsAny(SelectedOperatorName)).ToArray();
         return duties;
     }
 

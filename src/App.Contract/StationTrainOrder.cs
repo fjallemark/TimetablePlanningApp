@@ -1,13 +1,19 @@
-﻿namespace Tellurian.Trains.Planning.App.Contracts;
+﻿using System.Text.Json.Serialization;
+
+namespace Tellurian.Trains.Planning.App.Contracts;
 
 #nullable disable
 public class StationTrainOrder
 {
+    public int LayoutStationId { get; init; }
     public string Name { get; init; }
     public string Designation { get; init; }
     public string Country { get; init; }
     public bool UseCompactTrainList { get; init; }
-    public List<StationTrain> Trains { get; init; }
+    [JsonInclude]
+    public List<StationTrain> Trains { get; init; } = [];
+    [JsonInclude]
+    public List<AdjacentDispatchPlace> AdjacentDispatchPlaces { get; set; } = [];
     public override string ToString() => Name;
 
 }
@@ -16,7 +22,6 @@ public record class StationTrain
 {
     public int CallId { get; init; }
     public double SortTime { get; init; }
-    public string ProductResourcCode { get; init; }
     public string OperatorName { get; init; }
     public string TrainPrefix { get; set; }
     public int TrainNumber { get; init; }
