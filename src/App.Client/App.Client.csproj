@@ -4,6 +4,7 @@
 		<RootNamespace>Tellurian.Trains.Planning.App.Client</RootNamespace>
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+		<OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Components\A5Page - Copy.razor.css" />
@@ -16,15 +17,15 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Markdig" Version="0.41.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.0" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
-		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\App.Contract\App.Contracts.csproj" />

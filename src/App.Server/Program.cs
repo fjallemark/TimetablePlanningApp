@@ -40,7 +40,6 @@ app.UseRequestLocalization(options =>
 }
 );
 app.UseHttpsRedirection();
-app.UseBlazorFrameworkFiles();
 app.MapStaticAssets();
 app.UseStaticFiles();
 

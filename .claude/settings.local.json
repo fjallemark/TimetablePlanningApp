@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "mcp__microsoft-learn__microsoft_docs_search",
+      "WebSearch",
+      "mcp__microsoft-learn__microsoft_docs_fetch",
+      "WebFetch(domain:github.com)",
+      "Bash(dotnet restore:*)"
     ]
   }
 }
