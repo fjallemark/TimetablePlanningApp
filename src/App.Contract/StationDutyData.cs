@@ -1,4 +1,5 @@
 ﻿namespace Tellurian.Trains.Planning.App.Contracts;
+
 public class StationDutyData
 {
     public int StationId { get; set; }
@@ -89,8 +90,7 @@ public static class StationDutyDataExtensions
                         var item = new StationCallWithAction(train, call, true, me.StationDutyType == StationDutyType.Shunting);
                         item.Train.OverriddenOrigin = train.Origin;
                         item.AddNotes(callNotes.OrderBy(n => n.DisplayOrder));
-                        if (item.Notes.Any() )  result.Add(item);
-                        ;
+                        if (train.Category.IsCargo || item.Notes.Any()) result.Add(item);
                     }
 
                     if (call.HasDepartureTime())
@@ -116,7 +116,7 @@ public static class StationDutyDataExtensions
                 }
             }
         }
-        return result.Where(c => includeAllTrains || c.Notes.Any()).OrderBy(c => c.SortTime).ToArray();
+        return [.. result.Where(c => includeAllTrains || c.Notes.Any()).OrderBy(c => c.SortTime)];
     }
 
     private static StationDuty AsStationDuty(this StationDutyData data, StationDutyType dutyType, string description, ICollection<Instruction>? stationInstructions, ICollection<Instruction>? shuntingInstructions) =>

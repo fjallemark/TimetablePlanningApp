@@ -2,10 +2,13 @@
 
 public static class TrainInfoExtensions
 {
-    public static OperationDays OperationDays(this TrainInfo me) => me.OperationDaysFlags.OperationDays();
-    public static bool IsOnDemand(this TrainInfo? me) => me is not null && me.OperationDaysFlags.IsOnDemand();
-    public static bool IsSame(this TrainInfo? me, TrainInfo? other) =>
-        me is not null && other is not null && me.OperatorName.Equals(other.OperatorName) && me.Number == other.Number;
+    extension(TrainInfo trainInfo)
+    {
+        public OperationDays OperationDays() => trainInfo.OperationDaysFlags.OperationDays();
+        public bool IsOnDemand() => trainInfo is not null && trainInfo.OperationDaysFlags.IsOnDemand();
+        public bool IsSame(TrainInfo? other) =>
+            trainInfo is not null && other is not null && trainInfo.OperatorName.Equals(other.OperatorName) && trainInfo.Number == other.Number;
+    }
 
     public static TrainInfo MergeDays(this IEnumerable<TrainInfo> trains)
     {

@@ -120,7 +120,8 @@ public class PrintedReportsService(IPrintedReportsStore store, ILogger<PrintedRe
     public async Task<IEnumerable<TrainDeparture>> GetTrainStartLabelsAsync(int layoutId)
     {
         var departures = await Store.GetTrainDeparturesAsync(layoutId);
-        return departures.MergedDays();
+        var merged = departures.MergedDays();
+        return merged.OrderBy(m => m.StationName).ThenBy(r => r.TrackNumber).ToList();
     }
 
     public async Task<IEnumerable<VehicleSchedule>> GetTrainsetSchedulesAsync(int layoutId)

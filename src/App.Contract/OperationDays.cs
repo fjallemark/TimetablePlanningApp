@@ -42,7 +42,7 @@ public static class OperationDaysExtensions
 
     public static int DisplayOrder(this byte flags) => ~flags;
 
-    public static byte And(this byte flags, byte and) => flags == Contracts.OperationDays.OnDemand ? flags : (byte)(flags & and);
+    public static byte And(this byte flags, byte andFlags) => flags == Contracts.OperationDays.OnDemand ? flags : (byte)(flags & andFlags);
     public static byte Aggregate(this byte[] flags)
     {
         byte result = 0x00;
@@ -140,9 +140,9 @@ public static class OperationDaysExtensions
         var days = GetDays(flags);
         if (days.Length > 0)
         {
-            
+
             int lastDayIndex = days.Max(d => d.Number);
-            if(lastDayIndex > 0)
+            if (lastDayIndex > 0)
             {
                 return new OperationDays
                 {

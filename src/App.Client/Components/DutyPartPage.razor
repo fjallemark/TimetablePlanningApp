@@ -19,13 +19,11 @@
 
 @code {
     [Parameter] public int PageNumber { get; set; }
-    [Parameter] public DriverDutyPart? Part1 { get; set; }
-    [Parameter] public DriverDutyPart? Part2 { get; set; }
     [Parameter] public required IEnumerable<DriverDutyPart> DriverDutyParts { get; set; }
     [Parameter] public DriverDuty? Duty { get; set; }
 
     DriverDutyPart? Last => DriverDutyParts.Any() ? DriverDutyParts.Last() : null;
 
-    public override string ToString() => $"Page {PageNumber} duty {Part1?.Train.Number}";
+    public override string ToString() => $"Page {PageNumber} duty {Last?.Train.Number}";
 
 }

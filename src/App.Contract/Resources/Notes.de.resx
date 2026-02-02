@@ -528,4 +528,7 @@
   <data name="BringsWaggonsFromOriginsToDestinations" xml:space="preserve">
     <value>Bringt Wagen von {1} nach {0}.</value>
   </data>
+  <data name="LocoDriverSortsWagonsAtArrival" xml:space="preserve">
+    <value>Der Lokführer sortiert die Waggons bei der Ankunft.</value>
+  </data>
 </root>

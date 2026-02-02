@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
 
@@ -16,6 +17,7 @@ public class DriverDutyPart
         if (loco != null) { Locos = [loco]; }
     }
     public Train Train { get; set; }
+    public string OperatorName => Train.OperatorName.HasValue() ? Train.OperatorName : Locos.Count != 0 ? string.Join(' ', Locos.Select(l => l.OperatorName)) : "";
     public ICollection<TrainLoco> Locos { get; set; } = Array.Empty<TrainLoco>();
     public bool IsLastPart { get; set; }
     public int FromCallId { get; set; }
@@ -99,7 +101,7 @@ public static class DutyPartExtensions
             .Where((c, i) => i >= me.FromCallIndex() && i <= me.ToCallIndex());
     }
 
-   
+
 }
 
 public class DutyStationCall : StationCall

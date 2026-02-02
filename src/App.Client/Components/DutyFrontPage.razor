@@ -53,7 +53,7 @@
             </div>
             @if (Item is DriverDuty d1)
             {
-                @if (d1.OperatorName.HasValue())
+                @if (d1.OperatorNames().HasValue())
                 {
                     <div class="duty operator">
                         <span>@Localizer["Operator"]</span>:

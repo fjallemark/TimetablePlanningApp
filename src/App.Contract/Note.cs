@@ -303,11 +303,25 @@ public class TrainMeetCallNote : TrainCallNote
         }
         else
         {
-            return Array.Empty<Note>();
+            return [];
         }
     }
 
     private IEnumerable<OtherTrainCall> ActualMeetingTrains(byte onlyDays) => MeetingTrains.Where(mt => (mt.OperationDayFlag & onlyDays & OperationDayFlag) > 0);
+}
+
+public class LocoDriverSortsWagonsAtArrivalNote : TrainCallNote
+{
+    public LocoDriverSortsWagonsAtArrivalNote(int callId) : base(callId)
+    {
+        IsStationNote = true;
+        IsDriverNote = true;
+        IsShuntingNote = true;
+        IsForArrival = true;
+    }
+
+    public override IEnumerable<Note> ToNotes(byte onlyDays = 127) =>
+        Note.SingleNote(1000, Notes.LocoDriverSortsWagonsAtArrival);
 }
 
 public class LocoTurnOrReverseCallNote : LocoArrivalCallNote
