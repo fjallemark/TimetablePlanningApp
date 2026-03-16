@@ -1,0 +1,20 @@
+﻿@inject IStringLocalizer<App> Localizer
+
+<div class="page">
+    <div class="content">
+        @ChildContent
+    </div>
+    @if (PageNumber > 0)
+    {
+        <div class="number">
+           @Footnote - <strong>@Localizer["Page"] @PageNumber</strong> - 
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int PageNumber { get; set; }
+    [Parameter] public string? Footnote { get; set; }
+
+}

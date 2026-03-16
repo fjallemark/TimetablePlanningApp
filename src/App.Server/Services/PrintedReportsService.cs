@@ -46,7 +46,7 @@ public class PrintedReportsService(IPrintedReportsStore store, ILogger<PrintedRe
     public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, string? countryCode) =>
         await GetStationDutyBookletAsync(layoutId, countryCode, false);
 
-    public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, string? countryCode, bool includeAllTrains = false)
+    public async Task<StationDutyBooklet?> GetStationDutyBookletAsync(int layoutId, string? countryCode, bool includeAllTrains = false, bool shuntingOnly = true)
     {
         var booklet = await Store.GetStationDutyBookletAsync(layoutId).ConfigureAwait(false);
         if (booklet is null) return null;

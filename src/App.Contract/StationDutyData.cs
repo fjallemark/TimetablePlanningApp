@@ -17,6 +17,8 @@ public class StationDutyData
 
     public ICollection<Instruction> StationInstructions { get; set; } = new List<Instruction>();
     public ICollection<Instruction> ShuntingInstructions { get; set; } = new List<Instruction>();
+
+    public override string ToString() => Signature;
 }
 
 public static class StationDutyDataExtensions

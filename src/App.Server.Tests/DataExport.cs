@@ -1,5 +1,4 @@
 ﻿using Markdig.Helpers;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,9 +18,9 @@ namespace Tellurian.Trains.Planning.App.Server.Tests;
 [TestClass]
 public class DataExport
 {
-    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2025\\2025-03 Grimslöv\\Trafik\\Timetable.accdb;Uid=Admin;Pwd=;";
-    const int LayoutId = 36;
-    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2025\\2025-03 Grimslöv\\Trafik\\";
+    const string ConnectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)};Dbq=C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2026\\2026-03 Pålsboda\\Trafikering\\Timetable.accdb;Uid=Admin;Pwd=;";
+    const int LayoutId = 2;
+    const string OutputPath = "C:\\Users\\Stefan\\OneDrive\\Modelljärnväg\\Träffar\\2026\\2026-03 Pålsboda\\Trafikering\\";
 
     //[Ignore("Use only for current plan.")]
     [TestMethod]
@@ -36,7 +35,7 @@ public class DataExport
              }); ;
         var store = new AccessPrintedReportsStore(options);
         var target = new PrintedReportsService(store, NullLogger<PrintedReportsService>.Instance);
-        var booklet = await target.GetStationDutyBookletAsync(LayoutId, null, includeAllTrains: true);
+        var booklet = await target.GetStationDutyBookletAsync(LayoutId, null, includeAllTrains: true, shuntingOnly: false);
 
         using var stream = new FileStream(OutputPath + "Station trains Cda.csv", FileMode.Create);
         using var output =
@@ -46,11 +45,11 @@ public class DataExport
         var stationCalls = new Dictionary<int, StationCallWithAction>(300);
         foreach (var duty in booklet!.Duties)
         {
-            foreach (var call in duty.Calls.Where(c => (c.Station.Signature == "Cda") && !c.IsShuntingOnly))
+            foreach (var call in duty.Calls.Where(c => (c.Station.Signature == "Cda")))
             {
                 stationCalls[call.Train.Number] = call;
             }
-            foreach (var call in duty.Calls.Where(c => (c.Station.Signature == "Cdr") && !c.IsShuntingOnly))
+            foreach (var call in duty.Calls.Where(c => (c.Station.Signature == "Cdr")))
             {
                 stationCalls.TryAdd(call.Train.Number, call);
             }
@@ -85,12 +84,11 @@ public class DataExport
         var items = store.GetLayoutVehicles(LayoutId);
 
         output.WriteLine($"\"Station\";\"Spår\";\"Avgångstid\";\"Omlopp\";\"Dagar\";\"Littera\";\"Notera\";\"Fordonsnr\";\"Adress\";\"Ägare\"");
-        foreach (var item in items)
+        foreach (var item in items.Where(i => i.IsFirstDay))
         {
-            for (var i = 0; i < NumberOfWagons(item); i++)
-            {
+            for (int i = 0; i < (item.PrintCard ? 1 : item.MaxNumberOfWagons); i++)
                 output.WriteLine($"\"{item.StartStationName}\";\"{item.StartTrack}\";\"{item.DepartureTime}\";\"{item.VehicleScheduleNumber}\";\"{item.OperatingDays}\";\"{item.OperatorSignature} {item.Class}\";\"{item.Note}\";\"{item.VehicleNumber}\";\"{LocoAddress(item)}\";\"{item.OwnerName}\"");
-            }
+
         }
     }
 
@@ -105,7 +103,8 @@ public class DataExport
         var command = new OdbcCommand(sql, connection);
         connection.Open();
         var reader = command.ExecuteReader();
-        while (reader.Read()) {
+        while (reader.Read())
+        {
             Result.Name = reader.GetString("Name");
             Result.InitialYear = (short)(reader.GetIntOrNull("FirstYear") ?? 1900);
             Result.FinalYear = (short)(reader.GetIntOrNull("LastYear") ?? DateTime.Now.Year);
@@ -119,7 +118,7 @@ public class DataExport
         }
 
         var json = Result.Serialize();
-        using var writer = new StreamWriter($"{OutputPath}{Result.Name}.json", System.Text.Encoding.Unicode, new FileStreamOptions() { Access = FileAccess.Write, Mode= FileMode.OpenOrCreate});
+        using var writer = new StreamWriter($"{OutputPath}{Result.Name}.json", System.Text.Encoding.Unicode, new FileStreamOptions() { Access = FileAccess.Write, Mode = FileMode.OpenOrCreate });
         writer.Write(json);
         writer.Close();
 

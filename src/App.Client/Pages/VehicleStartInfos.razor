@@ -19,7 +19,7 @@ else
     @foreach (var infoGroup in StartInfos)
     {
 
-        <A4LPage>
+        <A3LPage>
 
             @if (IsPerStation)
             {
@@ -55,7 +55,7 @@ else
                             }
                             else if (IsPerStation)
                             {
-                                <th align="left">@Localizer["Station"]</th>
+                                <th style="white-space: nowrap" align="left">@Localizer["Station"]</th>
                                 <th align="center">@Localizer["Days"]</th>
                                 <th align="center">@Localizer["Track"]</th>
                                 <th align="center">@Localizer["Time"]</th>
@@ -63,7 +63,7 @@ else
                             }
                             else
                             {
-                                <th align="left">@Localizer["Station"]</th>
+                                <th style="white-space: nowrap" align="left">@Localizer["Station"]</th>
                                 <th align="center">@Localizer["FirstDay"]</th>
                                 <th align="center">@Localizer["LastDay"]</th>
                                 <th align="center">@Localizer["Track"]</th>
@@ -153,7 +153,7 @@ else
             </div>
             <div style="text-align: center">Utskrivet @DateTime.Now.ToShortDateString() @DateTime.Now.ToShortTimeString()</div>
 
-        </A4LPage>
+        </A3LPage>
     }
 }
 

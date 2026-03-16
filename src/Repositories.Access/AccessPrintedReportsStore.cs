@@ -237,7 +237,9 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 LocoAddress = reader.GetIntOrNull("Address"),
                 MaxNumberOfWagons = reader.GetInt("MaxNumberOfWagons"),
                 Note = reader.GetString("Note"),
-                VehicleType = reader.GetString("Type")
+                VehicleType = reader.GetString("Type"),
+                IsFirstDay = reader.GetBool("IsFirstDay"),
+                PrintCard = reader.GetBool("PrintCard")
             };
         }
     }
