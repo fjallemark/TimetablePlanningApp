@@ -39,6 +39,17 @@ app.UseRequestLocalization(options =>
     options.FallBackToParentUICultures = true;
 }
 );
+
+app.Use(async (context, next) =>
+{
+    context.Response.OnStarting(() =>
+    {
+        context.Response.Headers.Append("Vary", "Accept-Language");
+        return Task.CompletedTask;
+    });
+    await next();
+});
+
 app.UseHttpsRedirection();
 app.MapStaticAssets();
 app.UseStaticFiles();

@@ -2,9 +2,9 @@
 
 public static class TrainInfoExtensions
 {
-    extension(TrainInfo trainInfo)
+    extension(TrainInfo? trainInfo)
     {
-        public OperationDays OperationDays() => trainInfo.OperationDaysFlags.OperationDays();
+        public OperationDays OperationDays() => trainInfo!.OperationDaysFlags.OperationDays();
         public bool IsOnDemand() => trainInfo is not null && trainInfo.OperationDaysFlags.IsOnDemand();
         public bool IsSame(TrainInfo? other) =>
             trainInfo is not null && other is not null && trainInfo.OperatorName.Equals(other.OperatorName) && trainInfo.Number == other.Number;

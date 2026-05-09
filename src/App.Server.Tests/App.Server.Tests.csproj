@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AssemblyName>Tellurian.Trains.Planning.App.Server.Tests</AssemblyName>
     <RootNamespace>Tellurian.Trains.Planning.App.Server.Tests</RootNamespace>
@@ -11,8 +11,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Data.Odbc" Version="9.0.4" />
-    <PackageReference Include="Tellurian.Trains.Timetables.Models" Version="0.1.0" />
+    <PackageReference Include="System.Data.Odbc" Version="10.0.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App.Contract\App.Contracts.csproj" />

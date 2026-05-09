@@ -1,6 +1,5 @@
 ﻿using Tellurian.Trains.Planning.App.Contracts;
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
-using Tellurian.Trains.Planning.App.Contracts.Resources;
 
 namespace Tellurian.Trains.Planning.App.Client.Extensions;
 
@@ -12,13 +11,13 @@ public static class StationTrainExtensions
         $"{me.TrainPrefix}{me.TrainNumber}";
 
     public static string Origin(this StationTrain me) =>
-         me.HideArrival  ? string.Empty : me.OriginName;
+         me.HideArrival ? string.Empty : me.OriginName;
     public static string Destination(this StationTrain me) =>
         me.HideDeparture || me.DepartureTime.IsEmpty() ? string.Empty : me.DestinationName;
 
     public static string DisplayedArrivalTime(this StationTrain me) =>
-        me is null || me.HideArrival ? string.Empty : 
-        me.IsStop  || me.ArrivalTime.HasValue() ? me.ArrivalTime : 
+        me is null || me.HideArrival ? string.Empty :
+        me.IsStop || me.ArrivalTime.HasValue() ? me.ArrivalTime :
         me.DepartureTime;
 
     public static string DisplayedDepartureTime(this StationTrain me) =>
@@ -28,23 +27,23 @@ public static class StationTrainExtensions
         me.IsDeparture ? "background-color: #ffffee" : "";
 
     public static string OriginCssClass(this StationTrain me) =>
-        me.IsNotArrival()  ? string.Empty : "bold";
+        me.IsNotArrival() ? string.Empty : "bold";
 
     public static string DestinationCssClass(this StationTrain me) =>
         me.IsNotDeparture() && me.ArrivalTime.HasValue() ? string.Empty : "bold";
 
-    public static bool IsNotDeparture( this StationTrain me) =>
+    public static bool IsNotDeparture(this StationTrain me) =>
         me.HideDeparture || !me.IsDeparture;
 
     public static bool IsNotArrival(this StationTrain me) =>
         me.HideArrival || !me.IsArrival;
 
- 
+
     public static string DayFillColor(this StationTrain me, byte weekdayFlag) =>
         (me.OperatingDayFlag & weekdayFlag) == 0 ? "background-color: lightgray" : "";
 
     public static string TrainCategory(this StationTrain? me)
     {
-        return  me?.ToTrainInfo().CategoryName ?? string.Empty;
+        return me?.ToTrainInfo().CategoryName ?? string.Empty;
     }
 }

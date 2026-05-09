@@ -190,12 +190,12 @@ public abstract class TrainsetsCallNote(int callId) : TrainCallNote(callId)
     private static string TrainsetFormat(Trainset ts) =>
         ts.Operator.HasValue() ? $"""
         <span style="white-space: nowrap;">
-            <span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{ts.Class}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i> 
+            <span style="font-weight: bold; background-color: white;">{ts.Operator}&nbsp;{WagonSetOrWagon(ts).ToLowerInvariant()}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp<i>{ts.WagonTypes}</i> 
         </span>
         """ :
         $"""
         <span style="white-space: nowrap;">
-            <span style="font-weight: bold; background-color: white">{ts.Class}&nbsp;{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i> 
+            <span style="font-weight: bold; background-color: white">{WagonSetOrWagon(ts)}&nbsp;{TrainsetIdentity(ts)}</span>:&nbsp;<i>{ts.WagonTypes}</i> 
         </span>
         """;
 

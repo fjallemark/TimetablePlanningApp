@@ -13,7 +13,7 @@ else
 {
     <RefreshButton OnClick="OnInitializedAsync" />
 
-    @foreach (var itemsOnPage in SortedLocos.ItemsPerPage(10))
+    @foreach (var itemsOnPage in Locos.ItemsPerPage(10))
     {
         <div class="pagebreak">
             @foreach (var item in itemsOnPage)

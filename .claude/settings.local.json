@@ -6,7 +6,8 @@
       "WebSearch",
       "mcp__microsoft-learn__microsoft_docs_fetch",
       "WebFetch(domain:github.com)",
-      "Bash(dotnet restore:*)"
+      "Bash(dotnet restore:*)",
+      "WebFetch(domain:www.firefox.com)"
     ]
   }
 }

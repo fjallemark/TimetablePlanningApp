@@ -513,7 +513,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
                 stationName = currentStationName;
             }
             var stationTrain = reader.ToStationTrain();
-            stationTrain.TrainPrefix = stationTrain.ToTrainInfo().Prefix;
+            stationTrain.TrainPrefix = categories.Category(stationTrain.CategoryId).Prefix;
             item?.Trains.Add(stationTrain);
         }
         if (item is not null) result.Add(item);

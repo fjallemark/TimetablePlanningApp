@@ -2,6 +2,7 @@
 using Tellurian.Trains.Planning.App.Contracts.Extensions;
 
 namespace Tellurian.Trains.Planning.App.Contracts;
+
 public class VehicleStartInfo
 {
     public int Id { get; set; }
@@ -118,7 +119,7 @@ public static class VehicleStartInfoExtensions
         info.Type.AnyOf(["Loco", "Shunter", "Railcar"]) && info.OwnerName.HasValue() ?
         info.HasIllegalDccAddress() ? Highlight($"{info.DccAddress}§") :
         info.DccAddress > 0 ? $"{info.DccAddress.Value}" :
-        info.DccAddress == -1 ? "FREMO":
+        info.DccAddress == -1 ? "FREMO" :
         Highlight(Resources.Notes.Missing) :
         "-";
 
@@ -126,13 +127,13 @@ public static class VehicleStartInfoExtensions
         info.IsVehicleWithDccAddress() && info.OwnerName.HasValue() ?
             info.VehicleNumber.HasValue() ? $"{info.VehicleNumber}" :
             Highlight(Resources.Notes.Missing) :
-        info.MaxNumberOfVehicles == 1 ? info.VehicleNumber ?? "-" : Resources.Notes.NotApplicable;
+        info.VehicleNumber.HasValue() ? info.VehicleNumber : Resources.Notes.NotApplicable;
 
 
     public static string BackColor(this VehicleStartInfo info, bool isPerOwner = false, bool isOverview = false) =>
         isOverview ?
             info.ReplaceOrder <= 1 ? "white" : "gainsboro" :
-        isPerOwner ? info.ReplaceOrder > 1 ? "gainsboro" : info.IsFirstLayoutDay() ? "white": "lightyellow":
+        isPerOwner ? info.ReplaceOrder > 1 ? "gainsboro" : info.IsFirstLayoutDay() ? "white" : "lightyellow" :
         info.ReplaceOrder <= 1 ?
             info.DayFlags == 127 ? "white" : info.IsFirstDay ? "lightyellow" : "#e6f5ff" :
         "gainsboro";

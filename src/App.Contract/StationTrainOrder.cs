@@ -25,6 +25,7 @@ public record class StationTrain
     public string OperatorName { get; init; }
     public string TrainPrefix { get; set; }
     public int TrainNumber { get; init; }
+    public int CategoryId { get; init; }
     public string TrackNumber { get; init; }
     public bool IsArrival { get; init; }
     public string ArrivalTime { get; init; }
@@ -40,7 +41,7 @@ public record class StationTrain
     public string Time => $"{ArrivalTime}{DepartureTime}";
     public List<string> Notes { get; init; } = [];
     public override string ToString() => $"{OperatorName} {TrainPrefix} {TrainNumber} {ArrivalTime} {DepartureTime}".Trim();
-    public TrainInfo ToTrainInfo() => new ()
+    public TrainInfo ToTrainInfo() => new()
     {
         OperationDaysFlags = OperatingDayFlag,
     };

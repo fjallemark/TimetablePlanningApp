@@ -2,6 +2,7 @@
 using Tellurian.Trains.Planning.App.Contracts;
 
 namespace Tellurian.Trains.Planning.Repositories.Access;
+
 internal static class StationTrainOrderMapper
 {
     public static StationTrainOrder ToStationTrainOrder(this IDataRecord me) =>
@@ -18,6 +19,7 @@ internal static class StationTrainOrderMapper
         new()
         {
             CallId = me.GetInt("CallId"),
+            CategoryId = me.GetInt("CategoryId"),
             IsArrival = me.GetBool("IsArrival"),
             ArrivalTime = me.GetString("ArrivalTime"),
             IsDeparture = me.GetBool("IsDeparture"),

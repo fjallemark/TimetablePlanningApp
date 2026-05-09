@@ -59,7 +59,6 @@ else
                                 <th align="center">@Localizer["Days"]</th>
                                 <th align="center">@Localizer["Track"]</th>
                                 <th align="center">@Localizer["Time"]</th>
-
                             }
                             else
                             {
@@ -78,8 +77,11 @@ else
                             <th align="center">@Localizer["Class"]</th>
                             <th align="center">@Localizer["Number"]</th>
                             <th align="center">@Localizer["Card"]</th>
-                            <th align="center">DCC</th>
-                            <th align="center">FRED?</th>
+                            @if (!IsPerStation)
+                            {
+                                <th align="center">DCC</th>
+                                <th align="center">FRED?</th>
+                            }
                             <th align="left">@Localizer["Notes"]</th>
                             @if (IsOverview || IsAddresses)
                             {
@@ -130,8 +132,11 @@ else
                                 <td align="center">@((MarkupString)info.VehicleClassLabel())</td>
                                 <td align="center">@((MarkupString)info.LocoNumberOrMissingOrWagonNumber())</td>
                                 <td align="center">@info.CardYesNo()</td>
-                                <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
-                                <td align="center">@((MarkupString)info.FredYesNo())</td>
+                                @if (!IsPerStation)
+                                {
+                                    <td align="center">@((MarkupString)info.DccAddressOrMissingOrNotApplicable())</td>
+                                    <td align="center">@((MarkupString)info.FredYesNo())</td>
+                                }
                                 <td align="left">@info.Notes()</td>
                                 @if (IsOverview || IsAddresses)
                                 {

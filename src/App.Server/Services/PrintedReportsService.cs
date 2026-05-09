@@ -136,7 +136,8 @@ public class PrintedReportsService(IPrintedReportsStore store, ILogger<PrintedRe
         return schedules.SchedulesToPrint();
     }
 
-    public Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfoAsync(int layoutId) => Store.GetVehicleStartInfosAsync(layoutId);
+    public Task<IEnumerable<VehicleStartInfo>> GetVehicleStartInfoAsync(int layoutId) =>
+        Store.GetVehicleStartInfosAsync(layoutId);
 }
 
 internal static class TrainDepartureExtensions
