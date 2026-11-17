@@ -10,7 +10,7 @@ public class CallTime
     public IList<Note> Notes { get; set; } = new List<Note>();
 
     public static CallTime Create(string time, params string[] notes) =>
-        new () { Time = time, IsStop = true, IsHidden = false, Notes = notes.Select(n => new Note { Text = n }).ToArray() };
+        new() { Time = time, IsStop = true, IsHidden = false, Notes = notes.Select(n => new Note { Text = n }).ToArray() };
     public static CallTime Create(string time, bool isStop = true, bool isHidden = false, params string[] notes) =>
         new()
         { Time = time, IsStop = isStop, IsHidden = isHidden, Notes = notes.Select(n => new Note { Text = n }).ToArray() };
@@ -35,4 +35,12 @@ public static class CallTimeExtensions
 
     public static CallTime FromTimeSpan(this TimeSpan value, bool isStop, bool isHidden, params string[] notes) =>
         CallTime.Create($"{value.Hours}:{value.Minutes}", isStop, isHidden, notes);
+
+    public static CallTime AddMinutes(this CallTime time, int minutes) =>
+        FromTimeSpan(time.AsTimeSpan().Add(TimeSpan.FromMinutes(minutes)), time.IsStop, time.IsHidden, [.. time.Notes.Select(n => n.Text)]);
+
+    extension(CallTime? callTime)
+    {
+        public DateTime? ToAccessTime => callTime is not null ? new DateTime(1899, 12, 30).Add(callTime.AsTimeSpan()) : null;
+    }
 }

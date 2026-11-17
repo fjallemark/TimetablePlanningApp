@@ -9,6 +9,7 @@ public class StationTrainOrder
     public string Name { get; init; }
     public string Designation { get; init; }
     public string Country { get; init; }
+    public int? PartOfAnotherStation { get; init; }
     public bool UseCompactTrainList { get; init; }
     [JsonInclude]
     public List<StationTrain> Trains { get; init; } = [];

@@ -12,17 +12,21 @@ internal static class TrainMapper
          new()
          {
              Id = me.GetInt("TrainId"),
+             LayoutId = me.GetInt("LayoutId"),
              OperatorName = me.GetString("TrainOperator"),
              Number = me.GetInt("TrainNumber"),
              OperationDaysFlags = me.GetByte("TrainDays").And(me.GetByte("DutyDays")),
+             OperatingDaysId = me.GetInt("OperatingDaysId", 8),
              CategoryId = me.GetInt("CategoryId"),
              Instruction = me.GetString("TrainInstruction"),
-             MaxNumberOfWaggons = me.GetInt("TrainMaxNumberOfWaggons", 0),
+             MaxNumberOfWaggons = me.GetIntOrNull("TrainMaxNumberOfWaggons", null),
              MaxSpeed = me.GetInt("TrainMaxSpeed"),
+             MaxLength = me.GetIntOrNull("MaxLength"),
+             MaxAxles = me.GetIntOrNull("MaxAxles", null),
              IsCargo = me.GetBool("IsCargo"),
              IsPassenger = me.GetBool("IsPassenger"),
              Color = me.GetString("Color"),
-             Calls = new List<StationCall>()
+             Calls = []
          };
 
     public static StationCall ToStationCall(this IDataRecord me, int sequenceNumber)

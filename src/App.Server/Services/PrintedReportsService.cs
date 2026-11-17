@@ -9,6 +9,19 @@ public class PrintedReportsService(IPrintedReportsStore store, ILogger<PrintedRe
     private readonly IPrintedReportsStore Store = store;
     private readonly ILogger Logger = logger;
 
+    public async Task<IEnumerable<TimetableStretch>> UpdateTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? selectedStretch = null)
+    {
+        await Store.UpdateTrainTimesAsync(trainId, minutes);
+        return await GetTimetableStretchesAsync(layoutId, selectedStretch);
+    }
+
+    public async Task<IEnumerable<TimetableStretch>> CloneTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? selectedStretch = null)
+    {
+        await Store.CloneTrainAsync(trainId, minutes);
+        return await GetTimetableStretchesAsync(layoutId, selectedStretch);
+    }
+
+
     public Task<IEnumerable<AdjacentDispatchPlace>> GetAdjacentDispatchPlaceAsync(int layoutId) =>
         Store.GetAdjacentDispatchPlacesAsync(layoutId);
 
@@ -68,14 +81,22 @@ public class PrintedReportsService(IPrintedReportsStore store, ILogger<PrintedRe
             {
                 foreach (var stretch in stretches)
                 {
-                    if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) &&
-                        stretch.Stations.Any(s => s.Station.Id == trainSection.ToStationId))
+                    var stations = stretch.Stations.Select(s => s.Station.Id).ToArray();
+                    var fromStationIndex = Array.IndexOf(stations, trainSection.FromStationId);
+                    var toStationIndex = Array.IndexOf(stations, trainSection.ToStationId);
+                    if (fromStationIndex >= 0 && toStationIndex >= 0 && (stretch.ShowOnlyTrainsPassingEachStation == false ||
+                        (stretch.ShowOnlyTrainsPassingEachStation && (fromStationIndex == toStationIndex || fromStationIndex == toStationIndex - 1 || toStationIndex == fromStationIndex - 1))))
                     {
                         trainSection.TryHideTrainLabel = train.Number % 2 == 0 ?
                                 stretch.Stations.First(x => x.Station.Id == trainSection.FromStationId).TryHideTrainLabel :
                                 stretch.Stations.First(x => x.Station.Id == trainSection.ToStationId).TryHideTrainLabel;
                         if (trainSection.TrainNumber != train.Number) Debugger.Break();
                         stretch.TrainSections.Add(trainSection);
+
+                    }
+                    if (stretch.Stations.Any(s => s.Station.Id == trainSection.FromStationId) &&
+                        stretch.Stations.Any(s => s.Station.Id == trainSection.ToStationId))
+                    {
                     }
                 }
             }
@@ -88,10 +109,16 @@ public class PrintedReportsService(IPrintedReportsStore store, ILogger<PrintedRe
         return stretches;
     }
 
-    public async Task<int> UpdateTrainAsync(int trainNumber, int minutes)
+    public async Task<int> UpdateTrainTimesAsync(int trainId, int minutes)
     {
-        return await Store.UpdateTrainAsync(trainNumber, minutes);
+        return await Store.UpdateTrainTimesAsync(trainId, minutes);
     }
+
+    public async Task<int> CloneTrainAsync(int trainId, int minutes)
+    {
+        return await Store.CloneTrainAsync(trainId, minutes);
+    }
+
 
     public async Task<IEnumerable<StationTrainOrder>> GetStationsTrainOrder(int layoutId, string? countryCode)
     {

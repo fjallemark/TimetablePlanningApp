@@ -21,6 +21,9 @@ public interface IPrintedReportsService
     Task<(HttpStatusCode statusCode, IEnumerable<TrainsetSchedule> items)> GetTrainsetSchedulesAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<VehicleStartInfo> items)> GetVehicleStartInfosAsync(int layoutId);
     Task<(HttpStatusCode statusCode, IEnumerable<TrainComposition> items)> GetTrainCompositionsAsync(int layoutId, string? operatorName);
-    Task<HttpStatusCode> RenumberDuties(int layouyId, string? operatorSignature = null);
+    Task<HttpStatusCode> RenumberDuties(int layoutId, string? operatorSignature = null);
+    Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> CloneTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? selectedStretch = null);
+    Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> UpdateTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? selectedStretch = null);
+
 
 }

@@ -13,13 +13,15 @@ else
     <RefreshButton OnClick="OnInitializedAsync" />
     <div class="no-print" style="font-size:18pt;">
         <InputSelect class="form-select update" @bind-Value="selectedTrainId">
-            @foreach( var item in TrainItems.OrderBy(i=>i.TrainNumber))
+            @foreach (var item in TrainItems.OrderBy(i => i.TrainNumber))
             {
                 <option style="font-size: 18pt" value="@item.Id">@item.TrainNumber</option>
             }
         </InputSelect>
-        <InputText class="update" DisplayName="Minutes" @bind-Value="selectedMinutes"></InputText> 
+        <InputText class="update" DisplayName="Minutes" @bind-Value="selectedMinutes"></InputText>
         <button class="update" type="button" @onclick="Update">Update</button>
+        <button class="update" type="button" @onclick="Clone">Clone</button>
+
     </div>
     @if (TimetableStretches.Any(ts => ts.BreakHour.HasValue))
     {
@@ -76,9 +78,9 @@ else
     private IEnumerable<ListboxItem> GetTrainItems(IEnumerable<TimetableStretch> stretches)
     {
         var result = new List<ListboxItem>(100);
-        foreach(var stretch in stretches)
+        foreach (var stretch in stretches)
         {
-            foreach(var train in stretch.TrainSections.OrderBy(ts => ts.TrainNumber))
+            foreach (var train in stretch.TrainSections.OrderBy(ts => ts.TrainNumber))
             {
                 if (train.TrainId > 0 && !result.Any(r => r.Id == train.TrainId))
                 {
@@ -96,12 +98,28 @@ else
         SelectedDays = q["days"];
     }
 
+    int? GetSelectedMinutes => int.TryParse(selectedMinutes, out int minutes) ? minutes = minutes < 0 ? -minutes + 1000 : minutes : null;
+
     async Task Update()
     {
-        if (int.TryParse(selectedMinutes, out int minutes))
+        var minutes = GetSelectedMinutes;
+        if (minutes.HasValue)
         {
-            minutes = minutes < 0 ? -minutes + 1000 : minutes;
-            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, minutes, SelectedStretch);
+            var result = await DataService.UpdateTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, minutes.Value, SelectedStretch);
+            if (result.statusCode.IsSuccess())
+            {
+                TimetableStretches = result.items.ToArray();
+                TrainItems = GetTrainItems(result.items);
+            }
+        }
+    }
+
+    async Task Clone()
+    {
+        var minutes = GetSelectedMinutes;
+        if (minutes.HasValue)
+        {
+            var result = await DataService.CloneTrainAndGetTimetableStretchesAsync(Layout!.Id, selectedTrainId, minutes.Value, SelectedStretch);
             if (result.statusCode.IsSuccess())
             {
                 TimetableStretches = result.items.ToArray();

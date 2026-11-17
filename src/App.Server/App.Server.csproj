@@ -4,9 +4,9 @@
     <RootNamespace>Tellurian.Trains.Planning.App.Server</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.Odbc" Version="10.0.7" />
+    <PackageReference Include="System.Data.Odbc" Version="11.0.0" />
     <PackageReference Include="System.Linq.Async" Version="7.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="11.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\App.Client\App.Client.csproj" />

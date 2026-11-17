@@ -13,7 +13,7 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
 
     [HttpGet("adjacentphones")]
     public async Task<IActionResult> GetAdjacentPhones(int id) => await this.GetScheduleItems(id, Service.GetAdjacentDispatchPlaceAsync).ConfigureAwait(false);
-    
+
     [HttpGet("blockdestinations")]
     public async Task<IActionResult> GetBlockDestinations(int id) => await this.GetScheduleItems(id, Service.GetBlockDestinationsAsync).ConfigureAwait(false);
 
@@ -40,7 +40,7 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     public async Task<IActionResult> GetStationInstructions(int id) => await this.GetScheduleItem(id, Service.GetStationInstructionsAsync).ConfigureAwait(false);
 
     [HttpGet("stationstrainorders")]
-    public async Task<IActionResult> GetStationsTrainOrder(int id, string? countryCode) 
+    public async Task<IActionResult> GetStationsTrainOrder(int id, string? countryCode)
     {
         var result = await Service.GetStationsTrainOrder(id, countryCode).ConfigureAwait(false);
         if (result is null) return NotFound();
@@ -61,8 +61,17 @@ public class ReportsController(PrintedReportsService service) : ControllerBase
     {
         if (minutes > 1000) minutes -= (minutes - 1000) * 2 + 1000;
 
-        var count = await Service.UpdateTrainAsync(trainId, minutes);
+        var count = await Service.UpdateTrainTimesAsync(trainId, minutes);
         return await GetTimetableStretches(id, line);
+    }
+
+    [HttpGet("clonetrain")]
+    public async Task<IActionResult> CloneTrainAndGetTimetableStretchesAsync(int id, int trainId, int minutes, string? selectedStretch)
+    {
+        if (minutes > 1000) minutes -= (minutes - 1000) * 2 + 1000;
+
+        var count = await Service.CloneTrainAsync(trainId, minutes);
+        return await GetTimetableStretches(id, selectedStretch);
     }
 
     [HttpGet("trains")]

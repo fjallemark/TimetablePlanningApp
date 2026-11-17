@@ -11,6 +11,7 @@ public class TimetableStretch
     public int? EndHour { get; set; }
     public bool ShowTrainOperatorSignature { get; set; }
     public bool ShowTrainCategory { get; set; }
+    public bool ShowOnlyTrainsPassingEachStation { get; set; }
     public override string ToString() => $"{Number} {Name}";
 }
 
@@ -40,7 +41,7 @@ public class TimetableStretchStation
     public override bool Equals(object? obj) => obj is TimetableStretchStation other && other.Station.Equals(Station);
     public override int GetHashCode() => Station.GetHashCode();
     public override string ToString() => Station.Signature;
-    public bool TryHideTrainLabel {  get; set; }
+    public bool TryHideTrainLabel { get; set; }
 }
 
 public class TimetableTrainSection

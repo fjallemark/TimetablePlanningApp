@@ -32,6 +32,7 @@ public static class TrainInfoExtensions
 public class TrainInfo
 {
     public int Id { get; set; }
+    public int LayoutId { get; set; }
     public string Prefix => Category.Prefix;
     public string CategoryName => Category.Type;
     public int Number { get; set; }
@@ -40,6 +41,8 @@ public class TrainInfo
     public TrainCategory Category { get; set; } = TrainCategory.Empty;
     public bool IsCargo { get; set; }
     public bool IsPassenger { get; set; }
+    public bool ShowComposition { get; set; }
+    public int OperatingDaysId { get; set; }
     public byte OperationDaysFlags { get; set; }
     public string Color { get; set; } = string.Empty;
 
@@ -56,8 +59,10 @@ public class TrainInfo
 
 public class Train : TrainInfo
 {
-    public int MaxSpeed { get; set; }
-    public int MaxNumberOfWaggons { get; set; }
+    public int? MaxSpeed { get; set; }
+    public int? MaxNumberOfWaggons { get; set; }
+    public int? MaxAxles { get; set; }
+    public int? MaxLength { get; set; }
     public string Instruction { get; set; } = string.Empty;
     public IList<StationCall> Calls { get; set; } = [];
     public override string ToString() => $"{base.ToString()} {Calls.Count} calls";

@@ -5,7 +5,7 @@
     {
 
         <h1>
-            <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.OperatorName, $"{Item.Train.Prefix} {Item.Train.Number}" )</span>
+            <span>@string.Format(CultureInfo.CurrentCulture, Localizer["ServiceInTrain"].Value, Item.OperatorName, $"{Item.Train.Prefix} {Item.Train.Number}")</span>
             <span>@Duty.TrainOperatingDay(Item.Train)</span>
         </h1>
         <div style="border-bottom: 1px solid black;">
@@ -63,58 +63,71 @@
 
                 @foreach (var call in Item.Calls())
                 {
-                    @if ((call.ShowArrival && !Item.IsReinforcement) || call.IsStop && call.IsArrivalInDuty)
-                    {
-                        <tr class="@call.ArrivalCssClass">
-                            <td>
-                                @if (call.IsStop)
-                                {
-                                    @Localizer["Arr"]
-                                }
-                            </td>
-                            <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
-                             <td align="center"><strong>@call.TrackNumber</strong></td>                           
-                             <td align="center"><strong>@call.Arrival?.Time</strong></td>
-                            <td>
-                                @if (call.Arrival != null)
-                                {
-                                    foreach (var note in call.Arrival.Notes.OrderBy(n => n.DisplayOrder))
-                                    {
-                                        <span class="@note.CssClass()">@((MarkupString)note.ToString()) </span>
-                                    }
-                                }
-                            </td>
-                        </tr>
-                    }
-                    @if ((call.ShowDeparture && !Item.IsReinforcement) || call.IsDepartureInDuty)
+                    @if (call.BothArrivalAndDepartureIsHidden && call.IsStop && call.IsArrivalInDuty)
                     {
                         <tr class="@call.DepartureCssClass">
-                            <td>
-                                @if (call.IsStop)
-                                {
-                                    @Localizer["Dep"]
-                                }
-                            </td>
+                            <td></td>
                             <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
-                            <td align="center"><strong>@call.TrackNumber</strong></td>
-                            <td align="center"><strong>@call.Departure?.Time</strong></td>
-                            <td>
-                                @if (call.Departure is not null)
-                                {
-                                    if (TryGetShortFirstNote(call.Departure, out var firstNote))
-                                    {
-                                        <span class="@firstNote.CssClass()">@((MarkupString)(firstNote.ToString())) </span>
-
-                                    }
-                                    foreach (var note in GetNotes(call.Departure))
-                                    {
-                                        <span class="@note.CssClass()">@((MarkupString)(note.ToString())) </span>
-                                    }
-
-                                }
-                            </td>
+                            <td align="center"><strong></strong></td>
+                            <td align="center"><strong>X</strong></td>
+                            <td></td>
                         </tr>
-                      }
+                    }
+                    else
+                    {
+                        @if ((call.ShowArrival && !Item.IsReinforcement) || call.IsStop && call.IsArrivalInDuty)
+                        {
+                            <tr class="@call.ArrivalCssClass">
+                                <td>
+                                    @if (call.IsStop)
+                                    {
+                                        @Localizer["Arr"]
+                                    }
+                                </td>
+                                <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
+                                <td align="center"><strong>@call.TrackNumber</strong></td>
+                                <td align="center"><strong>@call.Arrival?.Time</strong></td>
+                                <td>
+                                    @if (call.Arrival != null)
+                                    {
+                                        foreach (var note in call.Arrival.Notes.OrderBy(n => n.DisplayOrder))
+                                        {
+                                            <span class="@note.CssClass()">@((MarkupString)note.ToString()) </span>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        @if ((call.ShowDeparture && !Item.IsReinforcement) || call.IsDepartureInDuty)
+                        {
+                            <tr class="@call.DepartureCssClass">
+                                <td>
+                                    @if (call.IsStop)
+                                    {
+                                        @Localizer["Dep"]
+                                    }
+                                </td>
+                                <td style="white-space: nowrap"><strong>@call.Station.Name</strong></td>
+                                <td align="center"><strong>@call.TrackNumber</strong></td>
+                                <td align="center"><strong>@call.Departure?.Time</strong></td>
+                                <td>
+                                    @if (call.Departure is not null)
+                                    {
+                                        if (TryGetShortFirstNote(call.Departure, out var firstNote))
+                                        {
+                                            <span class="@firstNote.CssClass()">@((MarkupString)(firstNote.ToString())) </span>
+
+                                        }
+                                        foreach (var note in GetNotes(call.Departure))
+                                        {
+                                            <span class="@note.CssClass()">@((MarkupString)(note.ToString())) </span>
+                                        }
+
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
                 }
             </tbody>
         </table>

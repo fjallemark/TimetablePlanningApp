@@ -42,8 +42,12 @@ public class PrintedReportsService(HttpClient http) : IPrintedReportsService
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> GetTimetableStretchesAsync(int layoutId, string? line) =>
         GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/timetablestretches?line={line}");
-    public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> UpdateTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? line) =>
+
+    public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> UpdateTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? selectedStretch) =>
         GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/updatetrain?trainId={trainId}&minutes={minutes}");
+
+    public Task<(HttpStatusCode statusCode, IEnumerable<TimetableStretch> items)> CloneTrainAndGetTimetableStretchesAsync(int layoutId, int trainId, int minutes, string? line) =>
+        GetItems<TimetableStretch>($"api/layouts/{layoutId}/reports/clonetrain?trainId={trainId}&minutes={minutes}");
 
     public Task<(HttpStatusCode statusCode, IEnumerable<TimetableTrainSection> items)> GetTimetableTrainsAsync(int layoutId) =>
         GetItems<TimetableTrainSection>($"api/layouts/{layoutId}/reports/timetabletrains");

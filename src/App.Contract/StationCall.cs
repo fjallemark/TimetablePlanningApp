@@ -18,15 +18,25 @@ public class StationCall
     public override int GetHashCode() => Id.GetHashCode();
 }
 
+
 public static class StationCallExtensions
 {
-    public static TimeSpan SortTime(this StationCall call) => call.Departure.AsTimeSpan();
-    public static CallAction AsArrival(this StationCall call) => CallAction.ArrivalCallAction(call);
+    extension(StationCall call)
+    {
+        public bool IsArrivalHidden => call.Arrival?.IsHidden ?? false;
+        public bool IsDepartureHidden => call.Departure?.IsHidden ?? false;
+        public TimeSpan SortTime => call.Departure.AsTimeSpan();
 
-    public static CallAction AsDeparture(this StationCall call) => CallAction.DepartureCallAction(call);
+        public bool HasSameArrivalAndDepartureTime =>
+            call.Arrival?.Time == call.Departure?.Time;
+
+        public bool BothArrivalAndDepartureIsHidden =>
+            call.IsArrivalHidden && call.IsDepartureHidden;
+    }
 
     public static bool IsArrival([NotNullWhen(true)] this StationCall call) =>
         call.IsStop && call.Arrival.HasValue();
+
     public static bool HasArrivalTime([NotNullWhen(true)] this StationCall call) =>
         call.IsArrival() && call.Arrival!.IsStop && !call.Arrival.IsHidden && call.Arrival!.Time.HasValue();
 

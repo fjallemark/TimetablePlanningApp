@@ -1,0 +1,28 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="global.json" />
+    <File Path="Readme.md" />
+  </Folder>
+  <Project Path="src/App.Client.Tests/App.Client.Tests.csproj" />
+  <Project Path="src/App.Client/App.Client.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="src/App.Contract/App.Contracts.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="src/App.Contracts.Test/App.Contracts.Test.csproj" />
+  <Project Path="src/App.Server.Tests/App.Server.Tests.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="src/App.Server/App.Server.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="src/Repositories.Access/Repositories.Access.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>

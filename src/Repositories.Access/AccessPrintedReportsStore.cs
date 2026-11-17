@@ -17,7 +17,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
     private readonly RepositoryOptions Options = options.Value;
     private OdbcConnection CreateConnection => new(Options.ConnectionString);
 
-    public async Task<int> UpdateTrainAsync(int trainId, int minutes)
+    public async Task<int> UpdateTrainTimesAsync(int trainId, int minutes)
     {
         using var connection = CreateConnection;
         var sql = $"UPDATE TrainStationCall SET ArrivalTime = DATEADD(\'n\', {minutes}, [ArrivalTime]), DepartureTime = DATEADD(\'n\', {minutes}, [DepartureTime]) WHERE IsTrain = {trainId}";
@@ -29,6 +29,106 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var command = new OdbcCommand(sql, connection);
         connection.Open();
         return await command.ExecuteNonQueryAsync();
+    }
+
+    public async Task<int> CloneTrainAsync(int trainId, int minutes)
+    {
+        using var connection = CreateConnection;
+        var trains = await GetTrainsAsync(0, id: trainId);
+        if (trains.Count() != 1) return 0;
+        var train = trains.First();
+        train.Number = train.Number + 2;
+        train.Id = 0;
+        foreach (var call in train.Calls)
+        {
+            if (call.Arrival is not null) call.Arrival = call.Arrival.AddMinutes(minutes);
+            if (call.Departure is not null) call.Departure = call.Departure.AddMinutes(minutes);
+        }
+        return await CreateOrUpdateTrainAsync(train, connection);
+    }
+
+    private static async Task<int> CreateOrUpdateTrainAsync(Train train, IDbConnection connection)
+    {
+        var trainSql = @"
+            INSERT INTO [Train] ([Layout], [Operator], [Number], [OperatingDays], [Category],
+                     [MaxSpeed], [Instruction], [ShowComposition], [MaxNumberOfWaggons], [MaxAxles], [MaxLength])
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+
+        var callSql = @"
+            INSERT INTO [TrainStationCall] ([IsTrain], [IsStationTrack], [IsStop], [ArrivalTime], [DepartureTime], [HideMeets], [HideArrival], [HideDeparture] )
+            VALUES (?,?,?,?,?,?,?,?)";
+
+        if (train.Id == 0)
+        {
+            try
+            {
+                var command = connection.CreateCommand();
+
+                command.CommandText = trainSql;
+                AddTrainParameters(command, train);
+
+                connection.Open();
+                var result = command.ExecuteNonQuery();
+                if (result != 1) return result;
+
+                command.CommandText = $"SELECT Id FROM Train WHERE Number = {train.Number}";
+                var trainId = (int?)command.ExecuteScalar();
+                train.Id = trainId ?? 0;
+
+                foreach (var stationCall in train.Calls)
+                {
+                    var call = stationCall;
+                    call.Id = 0;
+                    command = connection.CreateCommand();
+                    command.CommandText = callSql;
+                    AddCallParameters(command, train, call);
+                    result = command.ExecuteNonQuery();
+                    if (result != 1) return result;
+                }
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                Debugger.Break();
+            }
+            finally { connection.Close(); }
+
+        }
+        else if (train.Id > 0)
+        {
+            throw new NotImplementedException();
+        }
+        return 0;
+
+    }
+
+    private static void AddTrainParameters(IDbCommand command, Train train)
+    {
+        var p = command.CreateParameter(); p.Value = train.LayoutId; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.String; p.Value = string.IsNullOrEmpty(train.OperatorName) ? DBNull.Value : train.OperatorName; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.Number; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.OperatingDaysId; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.CategoryId; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.MaxSpeed.HasValue ? train.MaxSpeed.Value : DBNull.Value; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.String; p.Value = string.IsNullOrEmpty(train.Instruction) ? DBNull.Value : train.Instruction; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.Boolean; p.Value = train.ShowComposition ? -1 : 0; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.MaxNumberOfWaggons.HasValue ? train.MaxNumberOfWaggons.Value : DBNull.Value; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.MaxAxles.HasValue ? train.MaxAxles.Value : DBNull.Value; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = train.MaxLength.HasValue ? train.MaxLength.Value : DBNull.Value; command.Parameters.Add(p);
+    }
+
+    private static void AddCallParameters(IDbCommand command, Train train, StationCall call)
+    {
+        var p = command.CreateParameter(); p.Value = train.Id; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.Value = call.TrackId; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.Boolean; p.Value = call.IsStop ? -1 : 0; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.DateTime; p.Value = call.Arrival.ToAccessTime; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.DateTime; p.Value = call.Departure.ToAccessTime; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.Boolean; p.Value = 0; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.Boolean; p.Value = call.IsArrivalHidden ? -1 : 0; command.Parameters.Add(p);
+        p = command.CreateParameter(); p.DbType = DbType.Boolean; p.Value = call.IsDepartureHidden ? -1 : 0; command.Parameters.Add(p);
+
     }
 
     public Task<Layout?> GetLayout(int layoutId)
@@ -432,7 +532,7 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
             $"SELECT * FROM TimetableStretchesReport WHERE LayoutId = {layoutId} AND TimetableNumber = '{stretchNumber}' ORDER BY SortOrder, StationDisplayOrder, TrackDisplayOrder";
     }
 
-    public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null)
+    public async Task<IEnumerable<Train>> GetTrainsAsync(int layoutId, string? operatorSignature = null, int? id = null)
     {
         var result = new List<Train>(100);
         var categories = await GetTrainCategoriesInternalAsync(layoutId);
@@ -440,8 +540,10 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var lastTrainNumber = string.Empty;
         var sequenceNumber = 0;
         using var connection = CreateConnection;
-        var sql = operatorSignature.HasValue() ?
-            $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND TrainOperator = '{operatorSignature}' AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime" :
+        var sql = id.HasValue ?
+                $"SELECT * FROM TrainsReport WHERE TrainId = {id.Value} AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime" :
+            operatorSignature.HasValue() ?
+                $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND TrainOperator = '{operatorSignature}' AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime" :
             $"SELECT * FROM TrainsReport WHERE LayoutId = {layoutId} AND DepartureTime IS NOT NULL ORDER BY TrainOperator, TrainNumber, DepartureTime";
 
         var reader = ExecuteReader(connection, sql);
@@ -498,7 +600,6 @@ public class AccessPrintedReportsStore(IOptions<RepositoryOptions> options) : IP
         var sql = SQL(layoutId, countryCode);
         var result = new List<StationTrainOrder>();
         var categories = await GetTrainCategoriesInternalAsync(layoutId);
-        var adjacentPhones = GetAdjacentDispatchPlacesAsync(layoutId);
         using var connection = CreateConnection;
         var reader = ExecuteReader(connection, sql);
         var stationName = "";
